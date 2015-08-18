@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBcidade.carregarCidades}" type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Cadastro de Clientes" />
+
+		</h:panelGrid>
+
+		<h:form id="frmNovoCliente">
+			<p:tabView>
+				<p:tab title="Dados">
+					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
+
+						<h:outputText value="Nome: *" />
+						<p:inputText id="nome" required="true" size="90" maxlength="45"
+							requiredMessage="Favor informar a Nome do cliente. Campo de preencimento obrigatório" />
+
+						<h:outputText value="Data Nascimento: *" />
+						<p:inputText id="dataNascimento" required="true" size="10" 
+							requiredMessage="Favor informar a Data de Nascimento do cliente. Campo de preencimento obrigatório" />
+
+						<h:outputText value="Nome da Mãe: " maxlength="45"/>
+						<p:inputText id="nomeMae" size="90" />
+
+						<h:outputText value="RG: " maxlength="20"/>
+						<p:inputText id="rg" size="20" />
+
+						<h:outputText value="CPF: *" maxlength="11"/>
+						<p:inputText id="cpf" required="true" size="20"
+							requiredMessage="Favor informar a CPF do cliente. Campo de preencimento obrigatório" />
+
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Contato">
+					<h:panelGrid id="pnlClienteContato" columns="2" cellpadding="10">
+
+						<h:outputText value="Telefone: *" maxlength="15"/>
+						<p:inputText required="true" size="15" id="telefone"
+							requiredMessage="Favor informar a Telefone do cliente. Campo de preencimento obrigatório" />
+
+						<h:outputText value="Email: " maxlength="45"/>
+						<p:inputText id="email" size="20" />
+
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Endereço">
+					<h:panelGrid id="pnlClienteEndereco" columns="2" cellpadding="10">
+
+						<h:outputText value="Endereço: *" maxlength="45"/>
+						<p:inputText id="endereco" size="50" autocomplete="true" maxlength=""/>
+
+						<h:outputText value="Cidade: *"/>
+						<p:selectOneMenu id="cidades" value="#{MBCliente.listaClientes}"
+							required="true" 
+							requiredMessage="Favor informar a Telefone do cliente. Campo de preencimento obrigatório"
+							panelStyle="width:180px" effect="fade" var="cidade" 
+							style="width:160px" filter="true" filterMatchMode="startsWith">
+
+							<f:selectItems value="#{MBcidade.listaCidades}" var="cidade"
+								itemLabel="#{cidade.nome}" itemValue="#{cidade}" itemDescription="Clique para Selecionar"/>
+
+							<p:column style="width:25%" >
+								<h:outputText value="#{cidade.nome}" />
+							</p:column>
+
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml"/>
+	</ui:define>
+
+</ui:composition>

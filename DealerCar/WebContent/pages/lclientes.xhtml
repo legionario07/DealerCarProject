@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+	
+		<f:event listener="#{MBCliente.carregarListagem}" type="preRenderView"/>
+		
+		<h:form id="frmClientesListagem">
+			<p:dataTable id="tblClientes" 
+				 	value="#{MBCliente.listaClientes}" var="itemCliente" 
+				 	emptyMessage="Nenhum Registro foi encontrado"
+				 	paginator="true" rows="10" >
+
+				<f:facet name="header">
+					<h:outputText value="Clientes - Listagem"/>
+				</f:facet>
+
+				<p:column headerText="Id" width="80" style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.id}">
+					<h:outputText value="#{itemCliente.id}"/>
+				</p:column>
+
+				<p:column headerText="Nome" style="font-size:11px"
+						sortBy="#{itemCliente.nome}">
+					<h:outputText value="#{itemCliente.nome}"/>
+				</p:column>
+
+				<p:column headerText="Dt Nasc" width="60" style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.dataNasc}">
+					<h:outputText value="#{itemCliente.dataNasc}"/>
+				</p:column>
+				
+				<p:column headerText="CPF" width="80" style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.CPF}">
+					<h:outputText value="#{itemCliente.CPF}"/>
+				</p:column>
+				
+				<p:column headerText="Telefone" width="80"  style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.telefone}">
+					<h:outputText value="#{itemCliente.telefone}"/>
+				</p:column>
+				
+				<p:column headerText="Email" style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.email}">
+					<h:outputText value="#{itemCliente.email}"/>
+				</p:column>
+				
+				<p:column headerText="Cidade" width="140" style="font-size:11px; text-align:center"
+						sortBy="#{itemCliente.cidade.nome}">
+					<h:outputText value="#{itemCliente.cidade.nome}"/>
+				</p:column>
+
+				<f:facet name="footer">
+					<h:outputText value="Exitem "/>
+					<h:outputText value="#{MBCliente.totalClientes}"/>
+					<h:outputText value=" clientes cadastrados."/>
+				</f:facet>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+	
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml"/>
+	</ui:define>
+	
+</ui:composition>
