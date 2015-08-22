@@ -21,6 +21,6 @@
   
   <context-param>
   	<param-name>primefaces.Theme</param-name>
-  	<param-value>blitzer</param-value>
+  	<param-value>bootstrap</param-value>
   </context-param>
 </web-app>

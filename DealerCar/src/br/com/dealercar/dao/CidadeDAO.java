@@ -20,8 +20,8 @@ public class CidadeDAO {
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cidade.getNome());
-			ps.setString(2, cidade.getUf());
+			ps.setString(1, cidade.getNome().toUpperCase());
+			ps.setString(2, cidade.getUf().toUpperCase());
 
 			ps.executeUpdate();
 
@@ -56,8 +56,8 @@ public class CidadeDAO {
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cidade.getNome());
-			ps.setString(2, cidade.getUf());
+			ps.setString(1, cidade.getNome().toUpperCase());
+			ps.setString(2, cidade.getUf().toUpperCase());
 			ps.setInt(3, cidade.getId());
 
 			ps.executeUpdate();
@@ -106,7 +106,7 @@ public class CidadeDAO {
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "%" + cidade.getNome() + "%");
+			ps.setString(1, "%" + cidade.getNome().toUpperCase() + "%");
 
 			ResultSet rSet = ps.executeQuery();
 

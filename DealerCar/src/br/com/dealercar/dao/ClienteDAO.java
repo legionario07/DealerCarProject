@@ -23,7 +23,7 @@ public class ClienteDAO {
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cliente.getNome());
+			ps.setString(1, cliente.getNome().toUpperCase());
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
@@ -33,14 +33,14 @@ public class ClienteDAO {
 			String ano = dNasc[2];
 			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
 
-			ps.setString(2, cliente.getDataNasc());
-			ps.setString(3, cliente.getNomeMae());
-			ps.setString(4, cliente.getTelefone());
-			ps.setString(5, cliente.getRG());
-			ps.setString(6, cliente.getCPF());
-			ps.setString(7, cliente.getEmail());
-			ps.setString(8, cliente.getEndereco());
-			ps.setInt(9, cliente.getCidade().getId());
+			ps.setString(2, cliente.getDataNasc().toUpperCase());
+			ps.setString(3, cliente.getNomeMae().toUpperCase());
+			ps.setString(4, cliente.getTelefone().toUpperCase());
+			ps.setString(5, cliente.getRG().toUpperCase());
+			ps.setString(6, cliente.getCPF().toUpperCase());
+			ps.setString(7, cliente.getEmail().toUpperCase());
+			ps.setString(8, cliente.getEndereco().toUpperCase());
+			ps.setInt(9, cidade.getId());
 
 			ps.executeUpdate();
 
@@ -49,6 +49,7 @@ public class ClienteDAO {
 		}
 	}
 
+	
 	public void editar(Cliente cliente, Cidade cidade) {
 
 		String sql = "update clientes set nome = ?, data_nasc = ?, nome_mae = ?, "
@@ -59,7 +60,7 @@ public class ClienteDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 
-			ps.setString(1, cliente.getNome());
+			ps.setString(1, cliente.getNome().toUpperCase());
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
@@ -69,13 +70,13 @@ public class ClienteDAO {
 			String ano = dNasc[2];
 			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
 
-			ps.setString(2, cliente.getDataNasc());
-			ps.setString(3, cliente.getNomeMae());
-			ps.setString(4, cliente.getTelefone());
-			ps.setString(5, cliente.getRG());
-			ps.setString(6, cliente.getCPF());
-			ps.setString(7, cliente.getEmail());
-			ps.setString(8, cliente.getEndereco());
+			ps.setString(2, cliente.getDataNasc().toUpperCase());
+			ps.setString(3, cliente.getNomeMae().toUpperCase());
+			ps.setString(4, cliente.getTelefone().toUpperCase());
+			ps.setString(5, cliente.getRG().toUpperCase());
+			ps.setString(6, cliente.getCPF().toUpperCase());
+			ps.setString(7, cliente.getEmail().toUpperCase());
+			ps.setString(8, cliente.getEndereco().toUpperCase());
 			ps.setInt(9, cidade.getId());
 			ps.setInt(10, cliente.getId());
 
@@ -222,7 +223,7 @@ public class ClienteDAO {
 		try {
 			
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "%" + clientes.getNome() + "%");
+			ps.setString(1, "%" + clientes.getNome().toUpperCase() + "%");
 			
 			ResultSet rSet = ps.executeQuery();
 			

@@ -10,7 +10,7 @@ public abstract class Pessoa {
 	private Cidade cidade;
 	
 	public Pessoa(){
-		
+	
 	}
 	
 

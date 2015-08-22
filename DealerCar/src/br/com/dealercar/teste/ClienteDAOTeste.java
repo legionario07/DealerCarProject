@@ -19,43 +19,44 @@ public class ClienteDAOTeste {
 		dao.cadastrar(cliente, cidade);
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void editar() {
-		Cidade cidade =  new Cidade();
+		Cidade cidade = new Cidade();
 		cidade.setId(1);
-				
+
 		Cliente cliente = new Cliente("Teste", "01-01-1981", "Mae teste", "98882823", "82777", "9192834",
 				"teste@teste.com", "Rua do Teste", cidade);
 		cliente.setId(3);
-		
-		ClienteDAO dao =  new ClienteDAO();
+
+		ClienteDAO dao = new ClienteDAO();
 		dao.editar(cliente, cidade);
-				
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void listarTodos() {
-		
-		ClienteDAO dao =  new ClienteDAO();
+
+		ClienteDAO dao = new ClienteDAO();
 		List<Cliente> clientes = dao.listarTodos();
-		
-		for(Cliente c : clientes ) {
+
+		for (Cliente c : clientes) {
 			System.out.println(c);
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void pesquisarPorID() {
 		Cliente cliente = new Cliente();
 		cliente.setId(2);
-		
+
 		ClienteDAO dao = new ClienteDAO();
 		Cliente clienteRetorno = dao.pesquisarPorID(cliente);
-		
+
 		System.out.println(clienteRetorno);
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void pesquisarPorNome() {
 		
 		Cliente cliente = new Cliente();
@@ -67,16 +68,18 @@ public class ClienteDAOTeste {
 		for(Cliente cli : lista) {
 			System.out.println(cli);
 		}
-		
 	}
+		
+		
+
 
 	public static void main(String[] args) {
 
-		//cadastrar();
-		//editar();
-		//listarTodos();
-		//pesquisarPorID();
-		pesquisarPorNome();
+		// cadastrar();
+		// editar();
+		// listarTodos();
+		// pesquisarPorID();
+		//pesquisarPorNome();
 		
 	}
 

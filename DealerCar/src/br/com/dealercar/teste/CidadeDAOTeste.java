@@ -11,7 +11,7 @@ public class CidadeDAOTeste {
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
 		Cidade cidade = new Cidade();
-		cidade.setNome("São Paulo");
+		cidade.setNome("IlhaBela");
 		cidade.setUf("SP");
 
 		CidadeDAO cDao = new CidadeDAO();
@@ -22,49 +22,49 @@ public class CidadeDAOTeste {
 	@SuppressWarnings("unused")
 	private static void excluir() {
 		Cidade cidade = new Cidade();
-		cidade.setId(3);
-		
+		cidade.setId(11);
+
 		CidadeDAO cDAo = new CidadeDAO();
 		cDAo.excluir(cidade);
-		
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void editar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(1);
 		cidade.setNome("Suzano");
 		cidade.setUf("SP");
-		
+
 		CidadeDAO cDao = new CidadeDAO();
 		cDao.editar(cidade);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void procurarPorId() {
-		Cidade cidade =  new Cidade();
+		Cidade cidade = new Cidade();
 		cidade.setId(5);
 		Cidade cRetorno = new Cidade();
-		
+
 		CidadeDAO cDao = new CidadeDAO();
 		cRetorno = cDao.pequisarPorId(cidade);
-		
+
 		System.out.println("Id: " + cRetorno.getId());
 		System.out.println("Nome: " + cRetorno.getNome());
 		System.out.println("UF: " + cRetorno.getUf());
-		
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void pesquisarPorNome() {
 		Cidade cidade = new Cidade();
 		cidade.setNome("Suzano");
-		
+
 		CidadeDAO cDao = new CidadeDAO();
-		List<Cidade> cidades = new ArrayList<Cidade> ();
+		List<Cidade> cidades = new ArrayList<Cidade>();
 		cidades = cDao.pesquisarPorNome(cidade);
-		
-		for(Cidade c : cidades) {
+
+		for (Cidade c : cidades) {
 			System.out.println(c);
 		}
 	}
@@ -73,22 +73,23 @@ public class CidadeDAOTeste {
 	private static void listarTodos() {
 		CidadeDAO cDao = new CidadeDAO();
 		List<Cidade> cidades = new ArrayList<Cidade>();
-		
-		cidades=cDao.listarTodos();
-		
-		for(Cidade c : cidades) {
+
+		cidades = cDao.listarTodos();
+
+		for (Cidade c : cidades) {
 			System.out.println(c);
 		}
-		
+
 	}
+
 	public static void main(String[] args) {
 
-		//cadastrar();
+		// cadastrar();
 		//excluir();
-		//editar();
-		//procurarPorId();
-		//pesquisarPorNome();
-		//listarTodos();
+		// editar();
+		// procurarPorId();
+		// pesquisarPorNome();
+		// listarTodos();
 
 	}
 
