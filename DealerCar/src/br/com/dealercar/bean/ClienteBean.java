@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBCliente")
 @ViewScoped
@@ -91,14 +92,53 @@ public class ClienteBean implements Serializable {
 		CidadeBean cidBean = new CidadeBean();
 		listaCidades = cidBean.listaCidades;
 		cliente.cadastrar(cliente, cidade);
+
+		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
+
 		cliente = new Cliente();
 		cidade = new Cidade();
 	}
 
 	public void pesquisarPorID() {
-		cliente.setId(2);
-		setClienteRetorno(cliente.pesquisarPorID(cliente));
-		
+		boolean ehIgual = false;
+
+		for (Cliente cli : listaClientes) {
+			if (clienteRetorno.getId() == cli.getId()) {
+				ehIgual = true;
+				break;
+			}
+		}
+
+		if (ehIgual == false) {
+			clienteRetorno = new Cliente();
+			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Localizado.");
+			return;
+		}
+		setClienteRetorno(cliente.pesquisarPorID(clienteRetorno));
+	}
+
+	public void editar() {
+		for (Cidade cid : listaCidades) {
+			if (cid.getNome().equals(clienteRetorno.getCidade().getNome())) {
+				setCidade(cid);
+				clienteRetorno.setCidade(cidade);
+				break;
+			}
+
+		}
+		clienteRetorno.editar(clienteRetorno, cidade);
+
+		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
+	}
+
+	public void excluir() {
+		clienteRetorno.excluir(clienteRetorno);
+		clienteRetorno = new Cliente();
+		JSFUtil.adicionarMensagemNaoLocalizado("Cliente excluido com Sucesso.");
+	}
+	
+	public void limparPesquisa() {
+		clienteRetorno = new Cliente();
 	}
 
 }

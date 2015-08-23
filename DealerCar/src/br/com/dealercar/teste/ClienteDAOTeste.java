@@ -12,8 +12,8 @@ public class ClienteDAOTeste {
 	private static void cadastrar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(5);
-		Cliente cliente = new Cliente("Teste", "01-01-1981", "Mae teste", "98882823", "82777", "9192834",
-				"teste@teste.com", "Rua do Teste", cidade);
+		Cliente cliente = new Cliente("Luiza da Silva", "01-01-1961", "Luiza da Costa", "FEMININO", "96442823", "22345828", "8277357", "39192834",
+				"luiza@teste.com", "Rua do Luiza", cidade);
 
 		ClienteDAO dao = new ClienteDAO();
 		dao.cadastrar(cliente, cidade);
@@ -25,7 +25,7 @@ public class ClienteDAOTeste {
 		Cidade cidade = new Cidade();
 		cidade.setId(1);
 
-		Cliente cliente = new Cliente("Teste", "01-01-1981", "Mae teste", "98882823", "82777", "9192834",
+		Cliente cliente = new Cliente("Teste", "01-01-1981", "Mae teste", "MASCULINO", "98882823", "828838382", "82777", "9192834",
 				"teste@teste.com", "Rua do Teste", cidade);
 		cliente.setId(3);
 
@@ -48,7 +48,7 @@ public class ClienteDAOTeste {
 	@SuppressWarnings("unused")
 	private static void pesquisarPorID() {
 		Cliente cliente = new Cliente();
-		cliente.setId(2);
+		cliente.setId(16);
 
 		ClienteDAO dao = new ClienteDAO();
 		Cliente clienteRetorno = dao.pesquisarPorID(cliente);
@@ -75,7 +75,7 @@ public class ClienteDAOTeste {
 
 	public static void main(String[] args) {
 
-		// cadastrar();
+		//cadastrar();
 		// editar();
 		// listarTodos();
 		// pesquisarPorID();

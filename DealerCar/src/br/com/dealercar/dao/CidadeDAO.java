@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.JSFUtil;
 
 public class CidadeDAO {
 
@@ -27,6 +28,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 	}
@@ -44,6 +46,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 	}
@@ -64,6 +67,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 	}
@@ -90,6 +94,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 		return cidadeRetorno;
@@ -122,6 +127,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 		return cidades;
@@ -151,6 +157,7 @@ public class CidadeDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 		return cidades;

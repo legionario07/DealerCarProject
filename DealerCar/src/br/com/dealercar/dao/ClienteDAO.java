@@ -10,13 +10,14 @@ import java.util.List;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.JSFUtil;
 
 public class ClienteDAO {
 
 	public void cadastrar(Cliente cliente, Cidade cidade) {
 
-		String sql = "insert into clientes " + "(nome, data_nasc, nome_mae," + " telefone, rg, " + "cpf, email, "
-				+ "endereco, id_cidade) " + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into clientes (nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, "
+				+ "endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		Connection con = Conexao.getConnection();
 
@@ -27,7 +28,7 @@ public class ClienteDAO {
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
-			String[] dNasc = cliente.getDataNasc().split("-|//");
+			String[] dNasc = cliente.getDataNasc().split("-|/");
 			String dia = dNasc[0];
 			String mes = dNasc[1];
 			String ano = dNasc[2];
@@ -35,25 +36,27 @@ public class ClienteDAO {
 
 			ps.setString(2, cliente.getDataNasc().toUpperCase());
 			ps.setString(3, cliente.getNomeMae().toUpperCase());
-			ps.setString(4, cliente.getTelefone().toUpperCase());
-			ps.setString(5, cliente.getRG().toUpperCase());
-			ps.setString(6, cliente.getCPF().toUpperCase());
-			ps.setString(7, cliente.getEmail().toUpperCase());
-			ps.setString(8, cliente.getEndereco().toUpperCase());
-			ps.setInt(9, cidade.getId());
+			ps.setString(4, cliente.getSexo().toUpperCase());
+			ps.setString(5, cliente.getTelefone().toUpperCase());
+			ps.setString(6, cliente.getCelular().toUpperCase());
+			ps.setString(7, cliente.getRG().toUpperCase());
+			ps.setString(8, cliente.getCPF().toUpperCase());
+			ps.setString(9, cliente.getEmail().toUpperCase());
+			ps.setString(10, cliente.getEndereco().toUpperCase());
+			ps.setInt(11, cidade.getId());
 
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
 
-	
 	public void editar(Cliente cliente, Cidade cidade) {
 
-		String sql = "update clientes set nome = ?, data_nasc = ?, nome_mae = ?, "
-				+ "telefone = ?, rg = ?, cpf = ?, email=?, endereco = ?, id_cidade = ? where id=?";
+		String sql = "update clientes set nome = ?, data_nasc = ?, nome_mae = ?, sexo = ?, "
+				+ "telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, id_cidade = ? where id=?";
 		Connection con = Conexao.getConnection();
 
 		try {
@@ -64,7 +67,7 @@ public class ClienteDAO {
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
-			String[] dNasc = cliente.getDataNasc().split("-|//");
+			String[] dNasc = cliente.getDataNasc().split("-|/");
 			String dia = dNasc[0];
 			String mes = dNasc[1];
 			String ano = dNasc[2];
@@ -72,13 +75,15 @@ public class ClienteDAO {
 
 			ps.setString(2, cliente.getDataNasc().toUpperCase());
 			ps.setString(3, cliente.getNomeMae().toUpperCase());
-			ps.setString(4, cliente.getTelefone().toUpperCase());
-			ps.setString(5, cliente.getRG().toUpperCase());
-			ps.setString(6, cliente.getCPF().toUpperCase());
-			ps.setString(7, cliente.getEmail().toUpperCase());
-			ps.setString(8, cliente.getEndereco().toUpperCase());
-			ps.setInt(9, cidade.getId());
-			ps.setInt(10, cliente.getId());
+			ps.setString(4, cliente.getSexo().toUpperCase());
+			ps.setString(5, cliente.getTelefone().toUpperCase());
+			ps.setString(6, cliente.getCelular().toUpperCase());
+			ps.setString(7, cliente.getRG().toUpperCase());
+			ps.setString(8, cliente.getCPF().toUpperCase());
+			ps.setString(9, cliente.getEmail().toUpperCase());
+			ps.setString(10, cliente.getEndereco().toUpperCase());
+			ps.setInt(11, cidade.getId());
+			ps.setInt(12, cliente.getId());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -101,6 +106,7 @@ public class ClienteDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 	}
@@ -108,9 +114,8 @@ public class ClienteDAO {
 	public List<Cliente> listarTodos() {
 
 		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.telefone, " + "clientes.rg, clientes.cpf, clientes.email, "
-				+ "clientes.endereco, cidades.id, cidades.nome, cidades.uf " 
-				+ "from clientes inner join cidades"
+				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
+				+ "clientes.endereco, cidades.id, cidades.nome, cidades.uf " + "from clientes inner join cidades"
 				+ " where cidades.id = clientes.id_cidade";
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
@@ -131,15 +136,17 @@ public class ClienteDAO {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				
-				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|//");
+
+				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
 				String dia = dNasc[2];
 				String mes = dNasc[1];
 				String ano = dNasc[0];
-						
+
 				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
+				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
 				clienteRetorno.setRG(rSet.getString("clientes.rg"));
 				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
@@ -151,6 +158,7 @@ public class ClienteDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 		return clientes;
@@ -158,16 +166,14 @@ public class ClienteDAO {
 	}
 
 	public Cliente pesquisarPorID(Cliente cliente) {
-		
+
 		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.telefone, " 
-				+ "clientes.rg, clientes.cpf, clientes.email, "
+				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
 				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf "
-				+ "from clientes inner join cidades"
-				+ " where clientes.id = ?";
-		
+				+ "from clientes inner join cidades where clientes.id = ?";
+
 		Cliente clienteRetorno = null;
-		
+
 		Connection con = Conexao.getConnection();
 
 		try {
@@ -178,85 +184,95 @@ public class ClienteDAO {
 
 			while (rSet.next()) {
 				clienteRetorno = new Cliente();
-				
+
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
+				
+				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
+				String dia = dNasc[2];
+				String mes = dNasc[1];
+				String ano = dNasc[0];
+				
+				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
 				clienteRetorno.setRG(rSet.getString("clientes.rg"));
 				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
+				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
 				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
-				
+
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
-				
+
 				clienteRetorno.setCidade(cidade);
-				
+
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
 		return clienteRetorno;
 
 	}
-	
-	public List<Cliente> pesquisarPorNome(Cliente clientes ) {
-		
+
+	public List<Cliente> pesquisarPorNome(Cliente clientes) {
+
 		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.telefone, " 
-				+ "clientes.rg, clientes.cpf, clientes.email, "
+				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
 				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf, MAX(clientes.id) "
-				+ "from clientes inner join cidades"
-				+ " where clientes.nome like ? order by clientes.nome asc";
-		
+				+ "from clientes inner join cidades" + " where clientes.nome like ? order by clientes.nome asc";
+
 		List<Cliente> lista = new ArrayList<Cliente>();
-		
-		Connection con =  Conexao.getConnection();
-		
+
+		Connection con = Conexao.getConnection();
+
 		try {
-			
+
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, "%" + clientes.getNome().toUpperCase() + "%");
-			
+
 			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
-				
+
+			while (rSet.next()) {
+
 				Cliente clienteRetorno = new Cliente();
-				
+
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
 				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
+				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
 				clienteRetorno.setRG(rSet.getString("clientes.rg"));
 				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
 				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
-				
+
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
-				
+
 				clienteRetorno.setCidade(cidade);
-				
+
 				lista.add(clienteRetorno);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 		return lista;
 	}
 

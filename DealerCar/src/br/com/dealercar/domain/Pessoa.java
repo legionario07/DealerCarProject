@@ -5,9 +5,11 @@ public abstract class Pessoa {
 	private int id;
 	private String nome;
 	private String dataNasc;
+	private String celular;
 	private String telefone;
 	private String endereco;
 	private Cidade cidade;
+	private String sexo;
 	
 	public Pessoa(){
 	
@@ -38,6 +40,14 @@ public abstract class Pessoa {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
 	public String getEndereco() {
 		return endereco;
 	}
@@ -49,6 +59,16 @@ public abstract class Pessoa {
 	}
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+
+
+	public String getSexo() {
+		return sexo;
+	}
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 	
 	

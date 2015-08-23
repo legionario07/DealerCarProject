@@ -32,29 +32,39 @@
 						<h:outputText value="Nome: *" />
 						<p:inputText required="true" size="90" maxlength="45"
 							value="#{MBCliente.cliente.nome}"
-							requiredMessage="Favor informar a Nome do cliente. Campo de preencimento obrigatório" />
+							requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
 						<h:outputText value="Data Nascimento: *" />
-						<p:inputText required="true" size="10"
-							value="#{MBCliente.cliente.dataNasc}"
-							requiredMessage="Favor informar a Data de Nascimento do cliente. Campo de preencimento obrigatório" />
+						<p:inputMask value="#{MBCliente.cliente.dataNasc}" size="10"
+							mask="99/99/9999" required="true"
+							requiredMessage="Favor informar a Data de Nascimento do cliente. Campo de preenchimento obrigatório" />
 
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
 						<p:inputText size="90" value="#{MBCliente.cliente.nomeMae}" />
+
+						<h:outputText value="Sexo: " maxlength="45" />
+						<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true" >
+							<f:selectItem itemValue="Masculino" itemLabel="Masculino"/>
+							<f:selectItem itemValue="Feminino" itemLabel="Feminino"/>
+						</p:selectOneMenu>
 
 						<h:outputText value="RG: " maxlength="20" />
 						<p:inputText size="20" value="#{MBCliente.cliente.RG}" />
 
 						<h:outputText value="CPF: *" maxlength="11" />
-						<p:inputText size="20"
-							value="#{MBCliente.cliente.CPF}"
-							required="true"
-							requiredMessage="Favor informar a CPF do cliente. Campo de preencimento obrigatório" />
+						<p:inputMask size="20" value="#{MBCliente.cliente.CPF}"
+							required="true" mask="999.999.999-99"
+							requiredMessage="Favor informar a CPF do cliente. Campo de preenchimento obrigatório" />
 
 						<h:outputText value="Telefone: *" maxlength="15" />
-						<p:inputText required="true" size="15"
-							value="#{MBCliente.cliente.telefone}"
-							requiredMessage="Favor informar a Telefone do cliente. Campo de preencimento obrigatório" />
+						<p:inputMask required="true" size="15"
+							value="#{MBCliente.cliente.telefone}" mask="(99)9999-9999"
+							requiredMessage="Favor informar a Telefone do cliente. Campo de preenchimento obrigatório" />
+
+
+						<h:outputText value="Celular: " maxlength="15" />
+						<p:inputMask size="15" value="#{MBCliente.cliente.celular}"
+							mask="(99)99999-9999" />
 
 						<h:outputText value="Email: " maxlength="65" />
 						<p:inputText size="50" value="#{MBCliente.cliente.email}" />
@@ -62,27 +72,28 @@
 						<h:outputText value="Endereço: *" maxlength="45" />
 						<p:inputText size="50" value="#{MBCliente.cliente.endereco}"
 							required="true"
-							requiredMessage="Favor informar o Endereço do cliente. Campo de preencimento obrigatório"
+							requiredMessage="Favor informar o Endereço do cliente. Campo de preenchimento obrigatório"
 							maxlength="65" />
 
 						<h:outputText value="Cidade: *" />
 						<p:selectOneMenu id="cidades" value="#{MBCliente.cidade.id}"
 							required="true"
-							requiredMessage="Favor informar a Cidade do cliente. Campo de preencimento obrigatório"
+							requiredMessage="Favor informar a Cidade do cliente. Campo de preenchimento obrigatório"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
 
 							<f:selectItem itemLabel="Selecione uma Cidade"
-								noSelectionOption=" true " />
+								noSelectionOption="true" />
 							<f:selectItems value="#{MBCliente.listaCidades}" var="cidade"
 								itemLabel="#{cidade.nome}" itemValue="#{cidade.id}" />
 
 						</p:selectOneMenu>
 
 
-						<p:commandButton action="#{MBCliente.cadastrar}" value="Cadastrar"
+						<p:commandButton actionListener="#{MBCliente.cadastrar}"
+							value="Cadastrar"
 							oncomplete=":frmNovoCliente:pnlClienteDados.clearFilters();"
-							update="frmNovoCliente:pnlClienteDados" />
+							update="frmNovoCliente:pnlClienteDados :msgGlobal" />
 
 
 					</h:panelGrid>

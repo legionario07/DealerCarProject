@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBcidade")
 @ViewScoped
@@ -59,6 +60,7 @@ public class CidadeBean {
 
 	public void excluir() {
 		cidade.excluir(cidade);
+		JSFUtil.adicionarMensagemSucesso("Cidade excluida com Sucesso.");
 	}
 
 	public void cadastrando() {
@@ -66,6 +68,7 @@ public class CidadeBean {
 		this.cidade.setUf(this.cidade.getUf().toUpperCase());
 
 		cidade.cadastrar(cidade);
+		JSFUtil.adicionarMensagemSucesso("Cidade cadastrada com Sucesso.");
 		cidade = new Cidade();
 	}
 
