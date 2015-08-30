@@ -51,13 +51,21 @@ public class Categoria {
 	
 	@Override
 	public String toString() {
-		String retorno;
-		retorno = "Id: " + this.getId() + "\n";
-		retorno += "Nome: " + this.getNome() + "\n";
-		retorno += "Descricao: " + this.getDescricao() + "\n";
-		retorno += "Valor Diária: " + this.getValorDiaria() + "\n\n";
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("Id: ");
+		retorno.append(this.getId());
+		retorno.append("\n");
+		retorno.append("Nome: ");
+		retorno.append(this.getNome());
+		retorno.append("\n");
+		retorno.append("Descricao: ");
+		retorno.append(this.getDescricao());
+		retorno.append("\n");
+		retorno.append("Valor Diária: ");
+		retorno.append(this.getValorDiaria());
+		retorno.append("\n\n");
 
-		return retorno;
+		return retorno.toString();
 	}
 
 }

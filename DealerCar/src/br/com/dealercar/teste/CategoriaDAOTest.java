@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.dealercar.dao.CategoriaDAO;
 import br.com.dealercar.domain.Categoria;
 
-public class CategoriaDAOTeste {
+public class CategoriaDAOTest {
 
 	@SuppressWarnings("unused")
 	private static void cadastrar() {

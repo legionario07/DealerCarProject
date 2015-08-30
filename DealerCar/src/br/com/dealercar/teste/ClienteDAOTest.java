@@ -6,7 +6,7 @@ import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 
-public class ClienteDAOTeste {
+public class ClienteDAOTest {
 
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
