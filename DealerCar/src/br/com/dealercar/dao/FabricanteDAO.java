@@ -20,7 +20,7 @@ public class FabricanteDAO {
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, fabricante.getNome());
+			ps.setString(1, fabricante.getNome().toUpperCase());
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -31,14 +31,15 @@ public class FabricanteDAO {
 	}
 	
 	public void editar(Fabricante fabricante) {
-		String sql = "update set fabricantes nome=? where id = ?";
+		String sql = "update fabricantes set nome = ? where id = ?";
 		
 		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, fabricante.getId());
-			ps.setString(2, fabricante.getNome());
+			ps.setString(1, fabricante.getNome().toUpperCase());
+			ps.setInt(2, fabricante.getId());
+		
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {

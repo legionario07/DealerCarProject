@@ -116,7 +116,7 @@ public class ClienteDAO {
 		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
 				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
 				+ "clientes.endereco, cidades.id, cidades.nome, cidades.uf " + "from clientes inner join cidades"
-				+ " where cidades.id = clientes.id_cidade";
+				+ " where cidades.id = clientes.id_cidade order by clientes.id asc";
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 

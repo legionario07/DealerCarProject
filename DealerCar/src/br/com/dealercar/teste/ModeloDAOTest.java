@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.FabricanteDAO;
+import br.com.dealercar.dao.ModeloDAO;
 import br.com.dealercar.domain.Fabricante;
+import br.com.dealercar.domain.Modelo;
 
-public class FabricanteDAOTest {
-
+public class ModeloDAOTest {
+	
+	/*
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
-		Fabricante fabricante = new Fabricante("Teste");
+		Modelo modelo = new Modelo();
+		Fabricante fabricante = new Fabricante();
 		
-		FabricanteDAO fDao = new FabricanteDAO();
-		fDao.cadastrar(fabricante);
+		ModeloDAO mDao = new ModeloDAO();
+		mDao.cadastrar(modelo, fabricante);
 	}
+	
 	
 	@SuppressWarnings("unused")
 	private static void listarTodos() {
@@ -57,12 +62,10 @@ public class FabricanteDAOTest {
 		FabricanteDAO fDao =  new FabricanteDAO();
 		System.out.println(fDao.pesquisarPorID(fabricante));
 	}
+	*/
+	
 	public static void main(String[] args) {
-		//cadastrar();
-		//listarTodos();
-		//editar();
-		//excluir();
-		//pesquisarPorID();
+
 		
 	}
 
