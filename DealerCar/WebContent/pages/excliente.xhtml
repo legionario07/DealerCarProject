@@ -96,11 +96,11 @@
 
 
 					<h:panelGrid id="pnlComandos" columns="4" cellpadding="10">
-						<p:commandButton action="#{MBCliente.pesquisarPorID}"
+						<p:commandButton actionListener="#{MBCliente.pesquisarPorID}"
 							value="Pesquisar"
 							update="frmConsultaCliente: frmConsultaCliente:pnlComandos" />
 
-						<p:commandButton value="Excluir" action="#{MBCliente.excluir}"
+						<p:commandButton value="Excluir" actionListener="#{MBCliente.excluir}"
 							rendered="#{MBCliente.clienteRetorno.id > 0}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados">
 							<p:confirm header="Confirmação"
@@ -116,7 +116,7 @@
 						</p:confirmDialog>
 
 						<p:commandButton value="Limpar Pesquisa"
-							action="#{MBCliente.limparPesquisa}"
+							actionListener="#{MBCliente.limparPesquisa}"
 							rendered="#{MBCliente.clienteRetorno.id > 0}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados" />
 

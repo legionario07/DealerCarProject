@@ -221,6 +221,63 @@ public class ClienteDAO {
 		return clienteRetorno;
 
 	}
+	
+	public Cliente pesquisarPorCPF(Cliente cliente) {
+
+		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
+				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
+				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf "
+				+ "from clientes inner join cidades where clientes.cpf = ?";
+
+		Cliente clienteRetorno = null;
+
+		Connection con = Conexao.getConnection();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, cliente.getCPF());
+
+			ResultSet rSet = ps.executeQuery();
+
+			while (rSet.next()) {
+				clienteRetorno = new Cliente();
+
+				clienteRetorno.setId(rSet.getInt("clientes.id"));
+				clienteRetorno.setNome(rSet.getString("clientes.nome"));
+				
+				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
+				String dia = dNasc[2];
+				String mes = dNasc[1];
+				String ano = dNasc[0];
+				
+				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
+				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
+				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
+				clienteRetorno.setRG(rSet.getString("clientes.rg"));
+				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
+				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
+				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
+				clienteRetorno.setEmail(rSet.getString("clientes.email"));
+				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
+
+				Cidade cidade = new Cidade();
+				cidade.setId(rSet.getInt("clientes.id_cidade"));
+				cidade.setNome(rSet.getString("cidades.nome"));
+				cidade.setUf(rSet.getString("cidades.uf"));
+
+				clienteRetorno.setCidade(cidade);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return clienteRetorno;
+
+	}
 
 	public List<Cliente> pesquisarPorNome(Cliente clientes) {
 

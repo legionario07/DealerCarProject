@@ -43,9 +43,9 @@
 						<p:inputText size="90" value="#{MBCliente.cliente.nomeMae}" />
 
 						<h:outputText value="Sexo: " maxlength="45" />
-						<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true" >
-							<f:selectItem itemValue="Masculino" itemLabel="Masculino"/>
-							<f:selectItem itemValue="Feminino" itemLabel="Feminino"/>
+						<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true">
+							<f:selectItem itemValue="Masculino" itemLabel="Masculino" />
+							<f:selectItem itemValue="Feminino" itemLabel="Feminino" />
 						</p:selectOneMenu>
 
 						<h:outputText value="RG: " maxlength="20" />
@@ -54,7 +54,9 @@
 						<h:outputText value="CPF: *" maxlength="11" />
 						<p:inputMask size="20" value="#{MBCliente.cliente.CPF}"
 							required="true" mask="999.999.999-99"
-							requiredMessage="Favor informar a CPF do cliente. Campo de preenchimento obrigatório" />
+							requiredMessage="Favor informar a CPF do cliente. Campo de preenchimento obrigatório">
+							<f:validateLength minimum="14" maximum="14" />
+						</p:inputMask>
 
 						<h:outputText value="Telefone: *" maxlength="15" />
 						<p:inputMask required="true" size="15"
@@ -90,8 +92,8 @@
 						</p:selectOneMenu>
 
 
-						<p:commandButton actionListener="#{MBCliente.cadastrar}"
-							value="Cadastrar"
+						<p:commandButton action="/pages/ccliente.xhtml"
+							actionListener="#{MBCliente.cadastrar}" value="Cadastrar"
 							oncomplete=":frmNovoCliente:pnlClienteDados.clearFilters();"
 							update="frmNovoCliente:pnlClienteDados :msgGlobal" />
 

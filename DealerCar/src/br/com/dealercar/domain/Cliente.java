@@ -1,10 +1,5 @@
 package br.com.dealercar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.dealercar.dao.ClienteDAO;
-
 public class Cliente extends Pessoa {
 
 	private String nomeMae;
@@ -76,50 +71,6 @@ public class Cliente extends Pessoa {
 		this.email = email;
 	}
 
-	// Método que cadastra o Cliente e sua respectiva cidade no Banco de Dados
-	public void cadastrar(Cliente cliente, Cidade cidade) {
-		ClienteDAO cliDao = new ClienteDAO();
-		cliDao.cadastrar(cliente, cidade);
-	}
-
-	// Método que edita o Cliente e sua respectiva cidade no Banco de Dados
-	public void editar(Cliente cliente, Cidade cidade) {
-		ClienteDAO cliDao = new ClienteDAO();
-		cliDao.editar(cliente, cidade);
-	}
-
-	// Método que exlui o cliente no Banco de Dados
-	public void excluir(Cliente cliente) {
-		ClienteDAO cliDao = new ClienteDAO();
-		cliDao.excluir(cliente);
-	}
-
-	// Método que retorna uma Lista de Todos os Clientes do Banco de Dados
-	public List<Cliente> listarTodos() {
-		List<Cliente> listaRetorno = new ArrayList<Cliente>();
-		ClienteDAO cliDao = new ClienteDAO();
-		listaRetorno = cliDao.listarTodos();
-
-		return listaRetorno;
-	}
-
-	// Método que retorna um Cliente de acordo com seu Id
-	public Cliente pesquisarPorID(Cliente cliente) {
-		Cliente clienteRetorno = new Cliente();
-		ClienteDAO cliDao = new ClienteDAO();
-		clienteRetorno = cliDao.pesquisarPorID(cliente);
-
-		return clienteRetorno;
-	}
-
-	// Método que retorna um Cliente pesquisando por seu nome
-	public List<Cliente> pesquisarPorNome(Cliente cliente) {
-		List<Cliente> listaRetorno = new ArrayList<Cliente>();
-		ClienteDAO cliDao = new ClienteDAO();
-		listaRetorno = cliDao.pesquisarPorNome(cliente);
-
-		return listaRetorno;
-	}
 
 	@Override
 	public String toString() {

@@ -32,15 +32,16 @@
 					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
 
 
-						<h:outputLabel value="Digite o Id para Localizar"
+						<h:outputLabel value="Digite o CPF para Localizar"
 							rendered="#{MBCliente.clienteRetorno.nome == null}" />
-						<p:inputText value="#{MBCliente.clienteRetorno.id}" size="10"
+						<p:inputMask mask="999.999.999-99"
+							value="#{MBCliente.clienteRetorno.CPF}"
 							rendered="#{MBCliente.clienteRetorno.nome == null}" />
 
 					</h:panelGrid>
 
 					<h:panelGrid id="pnlClienteDados2" columns="2"
-						rendered="#{MBCliente.clienteRetorno.nome != null}">
+						rendered="#{MBCliente.ehCadastrado == true}">
 
 						<h:outputLabel value="Id: " />
 						<p:inputText value="#{MBCliente.clienteRetorno.id}"
@@ -57,7 +58,7 @@
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
 						<p:inputText size="90" value="#{MBCliente.clienteRetorno.nomeMae}"
 							readonly="true" />
-							
+
 						<h:outputText value="Sexo: " maxlength="45" />
 						<p:inputText size="90" value="#{MBCliente.clienteRetorno.sexo}"
 							readonly="true" />
@@ -95,19 +96,39 @@
 					<br></br>
 
 
-					<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
-						<p:commandButton action="#{MBCliente.pesquisarPorID}"
-							value="Pesquisar"
-							update="frmConsultaCliente: frmConsultaCliente:pnlComandos" />
+					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
+							value="Pesquisar" update="frmConsultaCliente :msgGlobal" />
+
+						<p:commandButton value="Novo"
+							rendered="#{MBCliente.jaPesquisei == true}"
+							action="/pages/ncliente.xhtml"
+							update="frmClienteEditar:pnlClienteEditar" />
+
 
 						<p:commandButton value="Editar"
-							rendered="#{MBCliente.clienteRetorno.id > 0}"
+							rendered="#{MBCliente.ehCadastrado == true}"
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmClienteEditar:pnlClienteEditar" />
 
+						<p:commandButton value="Excluir" actionListener="#{MBCliente.excluir}"
+							rendered="#{MBCliente.ehCadastrado == true}"
+							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados :msgGlobal">
+							<p:confirm header="Confirmação"
+								message="Tem certeza que deseja excluir?" icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+								update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados :msgGlobal" />
+						</p:confirmDialog>
+
 						<p:commandButton value="Limpar Pesquisa"
-							action="#{MBCliente.limparPesquisa}"
-							rendered="#{MBCliente.clienteRetorno.id > 0}"
+							actionListener="#{MBCliente.limparPesquisa}"
+							rendered="#{MBCliente.ehCadastrado == true}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados" />
 
 					</h:panelGrid>
@@ -154,7 +175,9 @@
 					<p:outputLabel value="CPF: *" />
 					<p:inputMask value="#{MBCliente.clienteRetorno.CPF}" size="20"
 						mask="999.999.999-99" required="true"
-						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório" />
+						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório">
+						<f:validateLength minimum="14" maximum="14" />
+					</p:inputMask>
 
 					<p:outputLabel value="Telefone: *" />
 					<p:inputMask value="#{MBCliente.clienteRetorno.telefone}" size="15"

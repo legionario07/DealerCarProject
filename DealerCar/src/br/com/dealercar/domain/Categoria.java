@@ -48,6 +48,7 @@ public class Categoria {
 		this.valorDiaria = valorDiaria;
 	}
 
+	
 	@Override
 	public String toString() {
 		String retorno;

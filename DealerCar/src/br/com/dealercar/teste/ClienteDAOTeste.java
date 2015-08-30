@@ -56,6 +56,17 @@ public class ClienteDAOTeste {
 		System.out.println(clienteRetorno);
 	}
 
+	//@SuppressWarnings("unused")
+	private static void pesquisarPorCPF() {
+		Cliente cliente = new Cliente();
+		cliente.setCPF("369.429.508-90");
+
+		ClienteDAO dao = new ClienteDAO();
+		Cliente clienteRetorno = dao.pesquisarPorCPF(cliente);
+
+		System.out.println(clienteRetorno);
+	}
+	
 	@SuppressWarnings("unused")
 	private static void pesquisarPorNome() {
 		
@@ -80,6 +91,7 @@ public class ClienteDAOTeste {
 		// listarTodos();
 		// pesquisarPorID();
 		//pesquisarPorNome();
+		pesquisarPorCPF();
 		
 	}
 

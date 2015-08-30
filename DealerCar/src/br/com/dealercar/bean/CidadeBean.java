@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.util.JSFUtil;
 
@@ -45,7 +46,8 @@ public class CidadeBean {
 	}
 
 	public void carregarCidades() {
-		listaCidades = cidade.listarTodos();
+		CidadeDAO cidDao = new CidadeDAO(); 
+		listaCidades = cidDao.listarTodos();
 	}
 
 	public void prepararNovo() {
@@ -54,20 +56,23 @@ public class CidadeBean {
 	}
 
 	public void novo() {
-		cidade.cadastrar(cidade);
+		CidadeDAO cidDao = new CidadeDAO(); 
+		cidDao.cadastrar(cidade);
 
 	}
 
 	public void excluir() {
-		cidade.excluir(cidade);
+		CidadeDAO cidDao = new CidadeDAO(); 
+		cidDao.excluir(cidade);
 		JSFUtil.adicionarMensagemSucesso("Cidade excluida com Sucesso.");
 	}
 
 	public void cadastrando() {
+		CidadeDAO cidDao = new CidadeDAO(); 
 		this.cidade.setNome(this.cidade.getNome().toUpperCase());
 		this.cidade.setUf(this.cidade.getUf().toUpperCase());
 
-		cidade.cadastrar(cidade);
+		cidDao.cadastrar(cidade);
 		JSFUtil.adicionarMensagemSucesso("Cidade cadastrada com Sucesso.");
 		cidade = new Cidade();
 	}

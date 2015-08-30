@@ -14,10 +14,181 @@
 
 	<ui:define name="conteudo">
 
+		<f:event listener="#{MBCategoria.carregarListagemCategoria}"
+			type="preRenderView" />
 
+		<h:form id="frmListaCategoria">
+			<p:dataTable id="tblListaCategoria"
+				value="#{MBCategoria.listaCategoria}" widgetVar="tabelaListagem"
+				var="itemCategoria" emptyMessage="Nenhum Registro foi encontrado"
+				paginator="true" rows="10">
+		
+				<f:facet name="header">
+					<h:outputText value="Categoria - Listagem" style="font-size:14px" />
+				</f:facet>
+
+				<p:column headerText="Id" width="5"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemCategoria.id}">
+					<h:outputText value="#{itemCategoria.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" width="10" style="font-size:11px"
+					sortBy="#{itemCategoria.nome}">
+					<h:outputText value="#{itemCategoria.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição" width="65"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemCategoria.descricao}">
+					<h:outputText value="#{itemCategoria.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor Diária" width="10"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemCategoria.valorDiaria}">
+					<h:outputText value="#{itemCategoria.valorDiaria}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Opções" width="10" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgCategoriaEditar').show();"
+						update=":frmCategoriaEditar:pnlCategoriaEditar :frmListaCategoria:tblListaCategoria">
+						<f:setPropertyActionListener value="#{itemCategoria}"
+							target="#{MBCategoria.categoria}" />
+					</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgCategoriaExcluir').show();"
+						update=":frmExcluirCategoria:pnlCategoriaExcluir :frmListaCategoria:tblListaCategoria">
+						<f:setPropertyActionListener value="#{itemCategoria}"
+							target="#{MBCategoria.categoria}" />
+					</p:commandButton>
+				</p:column>
+
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Novo"
+							onclick="PF('dlgCategoriaNova').show();"
+							update=":frmNovaCategoria:pnlNovaCategoria" />
+					</h:panelGrid>
+
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBCategoria.totalCategoria}" />
+					<p:outputLabel value=" categorias cadastradas." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+		<!-- Caixa de Dialogo Cadastrar Categoria -->
+		<p:dialog widgetVar="dlgCategoriaNova" closable="false" width="600"
+			id="dlgNovo" height="250" draggable="false" resizable="false"
+			appendTo="@(body)" modal="true" header="Categoria - Cadastrar">
+			<h:form id="frmNovaCategoria">
+				<h:panelGrid id="pnlNovaCategoria" columns="2">
+
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBCategoria.categoria.nome}" />
+
+					<h:outputText value="Descricao: " />
+					<p:inputTextarea addLine="2" cols="30"
+						value="#{MBCategoria.categoria.descricao}" />
+
+					<h:outputText value="Valor Diária: " />
+					<p:inputText value="#{MBCategoria.categoria.valorDiaria}" />
+
+
+					<p:commandButton value="Salvar"
+						actionListener="#{MBCategoria.cadastrar}"
+						oncomplete="PF('dlgCategoriaNova').hide();"
+						update="frmListaCategoria:tblListaCategoria :msgGlobal" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgCategoriaNova').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	<!-- Caixa de Dialogo Confimar Exclusão da Categoria -->
+	<p:dialog widgetVar="dlgCategoriaExcluir" closable="false" modal="true"
+		id="dlgExcluirCategoria" draggable="false" resizable="false" appendTo="@(body)"
+		header="Categoria - Excluir">
+
+		<h:form id="frmExcluirCategoria">
+			<h:panelGrid id="pnlCategoriaExcluir" columns="2">
+
+				<p:outputLabel value="Id: " />
+				<h:outputText value="#{MBCategoria.categoria.id}" />
+
+				<p:outputLabel value="Nome: " />
+				<h:outputText value="#{MBCategoria.categoria.nome}" />
+
+				<p:outputLabel value="Descricão: " />
+				<h:outputText value="#{MBCategoria.categoria.descricao}" />
+
+				<p:outputLabel value="Valor Diária: " />
+				<h:outputText value="#{MBCategoria.categoria.valorDiaria}">
+					<f:convertNumber type="currency" />
+				</h:outputText>
+
+
+				<p:commandButton value="Excluir"
+					actionListener="#{MBCategoria.excluir}"
+					update="frmListaCategoria:tblListaCategoria :msgGlobal"
+					oncomplete="PF('dlgCategoriaExcluir').hide();" />
+
+				<p:commandButton value="Cancelar"
+					oncomplete="PF('dlgCategoriaExcluir').hide();" />
+
+			</h:panelGrid>
+
+		</h:form>
+	</p:dialog>
+
+	<!-- Caixa de Dialogo Confimar Editar da Categoria -->
+	<p:dialog widgetVar="dlgCategoriaEditar" closable="false" 
+		draggable="false" resizable="false" modal="true" appendTo="@(body)"
+		header="Categoria - Editar">
+
+		<h:form id="frmCategoriaEditar">
+			<h:panelGrid id="pnlCategoriaEditar" columns="2">
+
+
+				<h:outputText value="Nome: " />
+				<p:inputText value="#{MBCategoria.categoria.nome}" />
+
+				<h:outputText value="Descricao: " />
+				<p:inputTextarea addLine="2" cols="30"
+					value="#{MBCategoria.categoria.descricao}" />
+
+
+				<h:outputText value="Valor Diária: " />
+				<p:inputText value="#{MBCategoria.categoria.valorDiaria}" />
+
+				<p:commandButton value="Salvar"
+					actionListener="#{MBCategoria.editar}"
+					update=":frmListaCategoria:tblListaCategoria :msgGlobal" 
+					oncomplete="PF('dlgCategoriaEditar').hide();"/>
+
+
+				<p:commandButton value="Cancelar"
+					onclick="PF('dlgCategoriaEditar').hide();" />
+
+			</h:panelGrid>
+
+		</h:form>
+	</p:dialog>
+			
 	</ui:define>
-
-
+	
 	<ui:define name="rodapePagina">
 		<ui:include src="/includes/rodape.xhtml" />
 	</ui:define>
