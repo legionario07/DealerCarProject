@@ -67,14 +67,17 @@ public class ModeloDAO {
 	}
 	
 	public Modelo pesquisarPorID(Modelo modelo) {
-		String sql = "select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.id, fabricantes.nome"
-				+ " from modelos inner join fabricantes where modelos.id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select  modelos.id, modelos.nome, modelos.id_fabricante, ");
+		sql.append("fabricantes.id, fabricantes.nome ");
+		sql.append("from modelos inner join fabricantes where modelos.id = ?");
+		
 		Modelo modeloRetorno = null;
 		
 		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, modelo.getId());
 			
 			ResultSet rSet = ps.executeQuery();

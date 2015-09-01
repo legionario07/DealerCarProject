@@ -10,6 +10,10 @@ public class ImagemCarro {
 	public ImagemCarro() {
 	}
 	
+	public ImagemCarro(int id) {
+		this.setId(id);
+	}
+	
 	public ImagemCarro(String caminho, String descricao) {
 		this.setDescricao(descricao);
 		this.setCaminho(caminho);

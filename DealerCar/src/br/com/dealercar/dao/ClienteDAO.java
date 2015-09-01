@@ -16,14 +16,16 @@ public class ClienteDAO {
 
 	public void cadastrar(Cliente cliente, Cidade cidade) {
 
-		String sql = "insert into clientes (nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, "
-				+ "endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into clientes ");
+		sql.append("nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
+		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, cliente.getNome().toUpperCase());
 
 			// Alterando o formato de armazenamento da data para o Banco de
@@ -55,13 +57,16 @@ public class ClienteDAO {
 
 	public void editar(Cliente cliente, Cidade cidade) {
 
-		String sql = "update clientes set nome = ?, data_nasc = ?, nome_mae = ?, sexo = ?, "
-				+ "telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, id_cidade = ? where id=?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("update clientes set nome = ?, data_nasc = ?, nome_mae = ?, sexo = ?, ");
+		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, ");
+		sql.append("id_cidade = ? where id=?");
+		
 		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 
 			ps.setString(1, cliente.getNome().toUpperCase());
 
@@ -113,17 +118,20 @@ public class ClienteDAO {
 
 	public List<Cliente> listarTodos() {
 
-		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
-				+ "clientes.endereco, cidades.id, cidades.nome, cidades.uf " + "from clientes inner join cidades"
-				+ " where cidades.id = clientes.id_cidade order by clientes.id asc";
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
+		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
+		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
+		sql.append("clientes.endereco, cidades.id, cidades.nome, cidades.uf ");
+		sql.append("from clientes inner join cidades ");
+		sql.append("where cidades.id = clientes.id_cidade order by clientes.id asc");
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 
 		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ResultSet rSet = ps.executeQuery();
 
 			while (rSet.next()) {
@@ -167,17 +175,19 @@ public class ClienteDAO {
 
 	public Cliente pesquisarPorID(Cliente cliente) {
 
-		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
-				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf "
-				+ "from clientes inner join cidades where clientes.id = ?";
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
+		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
+		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
+		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
+		sql.append("from clientes inner join cidades where clientes.id = ?");
 
 		Cliente clienteRetorno = null;
 
 		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, cliente.getId());
 
 			ResultSet rSet = ps.executeQuery();
@@ -224,17 +234,19 @@ public class ClienteDAO {
 	
 	public Cliente pesquisarPorCPF(Cliente cliente) {
 
-		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
-				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf "
-				+ "from clientes inner join cidades where clientes.cpf = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
+		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, ");
+		sql.append("clientes.rg, clientes.cpf, clientes.email, ");
+		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
+		sql.append("from clientes inner join cidades where clientes.cpf = ?");
 
 		Cliente clienteRetorno = null;
 
 		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, cliente.getCPF());
 
 			ResultSet rSet = ps.executeQuery();
@@ -281,10 +293,13 @@ public class ClienteDAO {
 
 	public List<Cliente> pesquisarPorNome(Cliente clientes) {
 
-		String sql = "select clientes.id, clientes.nome, clientes.data_nasc, "
-				+ "clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, clientes.rg, clientes.cpf, clientes.email, "
-				+ "clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf, MAX(clientes.id) "
-				+ "from clientes inner join cidades" + " where clientes.nome like ? order by clientes.nome asc";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
+		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
+		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
+		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf, MAX(clientes.id) ");
+		sql.append("from clientes inner join cidades ");
+		sql.append("where clientes.nome like ? order by clientes.nome asc");
 
 		List<Cliente> lista = new ArrayList<Cliente>();
 
@@ -292,7 +307,7 @@ public class ClienteDAO {
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, "%" + clientes.getNome().toUpperCase() + "%");
 
 			ResultSet rSet = ps.executeQuery();

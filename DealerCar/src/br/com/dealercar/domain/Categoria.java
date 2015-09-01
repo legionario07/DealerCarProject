@@ -11,6 +11,10 @@ public class Categoria {
 
 	}
 
+	public Categoria(int id) {
+		this.setId(id);
+	}
+	
 	public Categoria(String nome, Double valorDiaria) {
 		this.setNome(nome);
 		this.setValorDiaria(valorDiaria);

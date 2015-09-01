@@ -9,6 +9,10 @@ public class Fabricante {
 		
 	}
 	
+	public Fabricante(int id) {
+		this.setId(id);
+	}
+	
 	public Fabricante(String nome){
 		this.setNome(nome);
 	}

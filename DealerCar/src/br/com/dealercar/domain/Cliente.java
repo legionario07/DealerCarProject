@@ -10,6 +10,10 @@ public class Cliente extends Pessoa {
 	public Cliente() {
 
 	}
+	
+	public Cliente (int id) {
+		this.setId(id);
+	}
 
 	public Cliente(String nome, String dataNasc, String nomeMae, String sexo, String telefone, String celular, String RG, String CPF,
 			String email, String endereco, Cidade cidade) {

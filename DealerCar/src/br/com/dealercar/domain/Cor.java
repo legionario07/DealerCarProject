@@ -9,6 +9,10 @@ public class Cor {
 		
 	}
 	
+	public Cor(int id) {
+		this.setId(id);
+	}
+	
 	public Cor(String cor){
 		this.setNome(cor);
 	}

@@ -10,6 +10,10 @@ public class Modelo {
 
 	}
 	
+	public Modelo(int id) {
+		this.setId(id);
+	}
+	
 	public Modelo(String nome, Fabricante fabricante) {
 		this.setNome(nome);
 		this.setFabricante(fabricante);

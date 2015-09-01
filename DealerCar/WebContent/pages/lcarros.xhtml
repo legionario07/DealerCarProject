@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBCarro.carregarListagemCarros}"
+			type="preRenderView" />
+
+
+		<h:form id="frmListagemCarros">
+			<p:dataTable id="tblListagemCarros" paginator="true" rows="10"
+				value="#{MBCarro.listaCarros}" var="itemCarro" widgetVar="tblCarros"
+				emptyMessage="Nenhum Registro foi encontrado">
+
+				<f:facet name="header">
+					<h:outputText value="Carro - Listagem" style="font-size:14px" />
+				</f:facet>
+
+				<p:column headerText="Placa" style="font-size:11px"
+					filterBy="#{itemCarro.placa}" sortBy="#{itemCarro.placa}">
+					<h:outputText value="#{itemCarro.placa}" />
+				</p:column>
+
+				<p:column headerText="Modelo" style="font-size:11px"
+					filterBy="#{itemCarro.modelo.nome}" sortBy="#{itemCarro.modelo.nome}">
+					<h:outputText value="#{itemCarro.modelo.nome}" />
+				</p:column>
+				
+				<p:column headerText="Ano" style="font-size:11px"
+					sortBy="#{itemCarro.ano}" >
+					<h:outputText value="#{itemCarro.ano}" />
+				</p:column>
+				
+				<p:column headerText="Qtde Portas" style="font-size:11px"
+					sortBy="#{itemCarro.qtdePortas}">
+					<h:outputText value="#{itemCarro.qtdePortas}" />
+				</p:column>
+				
+				<p:column headerText="Bagagem (Malas)" style="font-size:11px" 
+						sortBy="#{itemCarro.qtdeMalasSuportadas}">
+					<h:outputText value="#{itemCarro.qtdeMalasSuportadas}" />
+				</p:column>
+				
+				<p:column headerText="Cor" style="font-size:11px"
+					filterBy="#{itemCarro.cor.nome}" sortBy="#{itemCarro.cor.nome}">
+					<h:outputText value="#{itemCarro.cor.nome}" />
+				</p:column>
+				
+				<p:column headerText="Categoria" style="font-size:11px"
+					filterBy="#{itemCarro.categoria.nome}" sortBy="#{itemCarro.categoria.nome}">
+					<h:outputText value="#{itemCarro.categoria.nome}" />
+				</p:column>
+				
+				<p:column headerText="Situação" style="font-size:11px"
+					filterBy="#{itemCarro.situacao.descricao}" sortBy="#{itemCarro.situacao.descricao}">
+					<h:outputText value="#{itemCarro.situacao.descricao}" />
+				</p:column>
+
+				<f:facet name="footer">
+					<h:outputText value="Exitem " />
+					<h:outputText value="#{MBCarro.totalCarros}" />
+					<h:outputText value=" carros cadastrados." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

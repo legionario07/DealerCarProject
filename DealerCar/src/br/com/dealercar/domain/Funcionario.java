@@ -8,6 +8,10 @@ public class Funcionario extends Pessoa {
 		
 	}
 	
+	public Funcionario(int id) {
+		this.setId(id);
+	}
+	
 	public Funcionario(String nome, String dataNasc, String sexo, String telefone, 
 			String celular, String cargo, Double salario, String endereco, Cidade cidade) {
 		
