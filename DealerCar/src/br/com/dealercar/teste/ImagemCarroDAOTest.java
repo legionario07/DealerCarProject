@@ -15,7 +15,6 @@ public class ImagemCarroDAOTest {
 		ImagemCarroDAO dao = new ImagemCarroDAO();
 		dao.cadastrar(carroUrl);
 	}
-	
 	@SuppressWarnings("unused")
 	private static void pesquisarPorID() {
 		ImagemCarro carroUrl = new ImagemCarro();
@@ -25,7 +24,7 @@ public class ImagemCarroDAOTest {
 		System.out.println(carroUrlDao.pesquisarPorID(carroUrl));
 	}
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private static void listarTodos() {
 		List<ImagemCarro> lista = new ArrayList<ImagemCarro>();
 		
@@ -63,7 +62,7 @@ public class ImagemCarroDAOTest {
 		//editar();
 		//cadastrar();
 		//excluir();
-		//listarTodos();
+		listarTodos();
 		
 		
 	}

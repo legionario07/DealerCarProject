@@ -1,5 +1,7 @@
 package br.com.dealercar.domain;
 
+import java.util.List;
+
 public class Cor {
 	
 	private int id;
@@ -31,6 +33,19 @@ public class Cor {
 		this.nome = nome;
 	}
 
+	public Cor validaCor(String cor, List<Cor> lista) {
+		Cor corRetorno = new Cor(cor);
+
+		for(Cor c : lista) {
+			if(corRetorno.getNome().equals(c.getNome())){
+				corRetorno.setId(c.getId());
+			}
+		}
+		
+		return corRetorno;
+	}
+	
+	
 	@Override
 	public String toString() {
 		

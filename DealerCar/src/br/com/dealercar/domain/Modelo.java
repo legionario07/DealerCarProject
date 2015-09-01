@@ -1,5 +1,7 @@
 package br.com.dealercar.domain;
 
+import java.util.List;
+
 public class Modelo {
 	
 	private int id;
@@ -12,6 +14,10 @@ public class Modelo {
 	
 	public Modelo(int id) {
 		this.setId(id);
+	}
+	
+	public Modelo(String nome) {
+		this.setNome(nome);
 	}
 	
 	public Modelo(String nome, Fabricante fabricante) {
@@ -36,6 +42,19 @@ public class Modelo {
 	}
 	public void setFabricante(Fabricante fabricante) {
 		this.fabricante = fabricante;
+	}
+	
+	public Modelo validaModelo(String modelo, List<Modelo> lista) {
+		Modelo rModelo = new Modelo(modelo);
+		
+		for(Modelo m : lista) {
+			if(rModelo.getNome().equals(m.getNome())){
+				rModelo.setId(m.getId());
+				rModelo.setFabricante(m.getFabricante());
+			}
+		}
+		
+		return rModelo;
 	}
 	
 	@Override

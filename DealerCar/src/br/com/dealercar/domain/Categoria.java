@@ -1,5 +1,7 @@
 package br.com.dealercar.domain;
 
+import java.util.List;
+
 public class Categoria {
 
 	private int id;
@@ -9,6 +11,10 @@ public class Categoria {
 
 	public Categoria() {
 
+	}
+	
+	public Categoria(String nome) {
+		this.setNome(nome);
 	}
 
 	public Categoria(int id) {
@@ -52,6 +58,19 @@ public class Categoria {
 		this.valorDiaria = valorDiaria;
 	}
 
+	public Categoria validaCategoria(String categoria, List<Categoria> lista) {
+		Categoria rCategoria = new Categoria(categoria);
+		
+		for(Categoria c : lista) {
+			if(rCategoria.getNome().equals(c.getNome())){
+				rCategoria.setId(c.getId());
+				rCategoria.setDescricao(c.getDescricao());
+				rCategoria.setValorDiaria(c.getValorDiaria());
+			}
+		}
+		
+		return rCategoria;
+	}
 	
 	@Override
 	public String toString() {

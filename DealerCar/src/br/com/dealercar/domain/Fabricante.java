@@ -1,5 +1,7 @@
 package br.com.dealercar.domain;
 
+import br.com.dealercar.dao.FabricanteDAO;
+
 public class Fabricante {
 	
 	private int id;
@@ -28,6 +30,15 @@ public class Fabricante {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public Fabricante validaFabricante(int fabricante) {
+		Fabricante rFabricante = new Fabricante(fabricante);
+		
+		FabricanteDAO fDao = new FabricanteDAO();
+		rFabricante = fDao.pesquisarPorID(rFabricante);
+		
+		return rFabricante;
 	}
 
 	@Override

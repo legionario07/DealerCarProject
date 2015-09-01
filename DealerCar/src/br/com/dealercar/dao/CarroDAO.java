@@ -30,7 +30,7 @@ public class CarroDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i=0;
-			ps.setString(++i, carro.getPlaca());
+			ps.setString(++i, carro.getPlaca().toUpperCase());
 			ps.setString(++i, carro.getAno());
 			ps.setInt(++i, carro.getQtdePortas());
 			ps.setInt(++i, carro.getQtdeMalasSuportadas());
@@ -184,5 +184,32 @@ public class CarroDAO {
 		return lista;
 	}
 	
-	
+	public void editar(Carro carro) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("update carros set ano = ?, ");
+		sql.append("numero_portas = ?, qtde_malas_suportadas = ?, ");
+		sql.append("id_cor = ?, id_modelo = ?, id_categoria = ?, ");
+		sql.append("id_images = ?, situacao = ? where placa=?");
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			int i=0;
+			ps.setString(++i, carro.getAno());
+			ps.setInt(++i, carro.getQtdePortas());
+			ps.setInt(++i, carro.getQtdeMalasSuportadas());
+			ps.setInt(++i, carro.getCor().getId());
+			ps.setInt(++i, carro.getModelo().getId());
+			ps.setInt(++i, carro.getCategoria().getId());
+			ps.setInt(++i, carro.getCarroUrl().getId());
+			ps.setString(++i, carro.getSituacao().getDescricao());
+			ps.setString(++i, carro.getPlaca());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+	}
 }

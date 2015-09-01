@@ -1,7 +1,14 @@
 package br.com.dealercar.domain;
 
-public class Carro {
+import java.io.Serializable;
+
+public class Carro implements Serializable{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 319718927662886570L;
 	private String placa;
 	private String ano;
 	private SituacaoType situacao;
@@ -54,7 +61,7 @@ public class Carro {
 		return placa;
 	}
 	public void setPlaca(String placa) {
-		this.placa = placa;
+		this.placa = placa.toUpperCase();
 	}
 	public String getAno() {
 		return ano;
