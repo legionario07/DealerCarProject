@@ -11,7 +11,7 @@ import br.com.dealercar.domain.Cor;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CoresDAO {
+public class CorDAO {
 
 	public List<Cor> listarTodos() {
 		String sql = "select * from cores";
@@ -39,5 +39,31 @@ public class CoresDAO {
 		}
 		
 		return listaCores;
+	}
+	
+	public Cor pesquisarPorID(Cor cor) {
+		String sql = "select * from cores where id = ?";
+		Cor corRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, cor.getId());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				corRetorno = new Cor();
+				corRetorno.setId(rSet.getInt("id"));
+				corRetorno.setNome(rSet.getString("nome"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return corRetorno;
 	}
 }

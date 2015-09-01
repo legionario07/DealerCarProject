@@ -3,18 +3,22 @@ package br.com.dealercar.teste;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.FabricanteDAO;
 import br.com.dealercar.dao.ModeloDAO;
 import br.com.dealercar.domain.Fabricante;
 import br.com.dealercar.domain.Modelo;
 
 public class ModeloDAOTest {
 	
-	/*
+	
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
 		Modelo modelo = new Modelo();
+		modelo.setNome("Teste");
+		
 		Fabricante fabricante = new Fabricante();
+		fabricante.setId(4);
+		
+		modelo.setFabricante(fabricante);
 		
 		ModeloDAO mDao = new ModeloDAO();
 		mDao.cadastrar(modelo, fabricante);
@@ -23,49 +27,62 @@ public class ModeloDAOTest {
 	
 	@SuppressWarnings("unused")
 	private static void listarTodos() {
-		List<Fabricante> lista = new ArrayList<Fabricante>();
+		List<Modelo> lista = new ArrayList<Modelo>();
 		
-		FabricanteDAO fDao = new FabricanteDAO();
+		ModeloDAO mDao = new ModeloDAO();
 		
-		lista = fDao.listarTodos();
+		lista = mDao.listarTodos();
 		
-		for(Fabricante f : lista) {
-			System.out.println(f);
+		for(Modelo m : lista) {
+			System.out.println(m);
 		}
 	}
+	
 	
 	@SuppressWarnings("unused")
 	private static void editar() {
 		Fabricante fabricante = new Fabricante();
-		fabricante.setId(26);
-		fabricante.setNome("teste24");
+		fabricante.setId(4);
+
+		Modelo modelo = new Modelo();
+		modelo.setId(1);
+		modelo.setNome("Teste 474");
 		
-		FabricanteDAO fDao = new FabricanteDAO();
-		fDao.editar(fabricante);
+		ModeloDAO mDao = new ModeloDAO();
+		mDao.editar(modelo, fabricante);
 		
 	}
 	
 	@SuppressWarnings("unused")
 	private static void excluir() {
-		Fabricante fabricante = new Fabricante();
-		fabricante.setId(25);
+		Modelo modelo = new Modelo();
+		modelo.setId(1);
 		
-		FabricanteDAO fDao = new FabricanteDAO();
-		fDao.excluir(fabricante);
+		ModeloDAO mDao = new ModeloDAO();
+		mDao.excluir(modelo);
 	}
+	
 	
 	@SuppressWarnings("unused")
 	private static void pesquisarPorID() {
-		Fabricante fabricante = new Fabricante();
-		fabricante.setId(25);
 		
-		FabricanteDAO fDao =  new FabricanteDAO();
-		System.out.println(fDao.pesquisarPorID(fabricante));
+		Modelo modelo = new Modelo();
+		modelo.setId(2);
+		
+		
+		ModeloDAO mDao = new ModeloDAO();
+		System.out.println(mDao.pesquisarPorID(modelo));
+		
 	}
-	*/
+	
 	
 	public static void main(String[] args) {
-
+		
+		//cadastrar();
+		//listarTodos();
+		//editar();
+		//excluir();
+		//pesquisarPorID();
 		
 	}
 
