@@ -2,6 +2,8 @@ package br.com.dealercar.domain;
 
 import java.io.Serializable;
 
+import br.com.dealercar.util.JSFUtil;
+
 public class Carro implements Serializable{
 	
 	
@@ -67,7 +69,7 @@ public class Carro implements Serializable{
 		return ano;
 	}
 	public void setAno(String ano) {
-		this.ano = ano;
+			this.ano = ano;
 	}
 	public SituacaoType getSituacao() {
 		return situacao;

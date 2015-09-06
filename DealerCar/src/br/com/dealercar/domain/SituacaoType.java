@@ -13,11 +13,11 @@ public enum SituacaoType {
 
 
 	public String getDescricao() {
-		return descricao;
+		return descricao.toUpperCase();
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 	
 	

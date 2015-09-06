@@ -105,7 +105,7 @@ public class ModeloDAO {
 	
 	public List<Modelo> listarTodos() {
 		
-		String sql = "select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.id, fabricantes.nome"
+		String sql = "select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.nome"
 				+ " from modelos inner join fabricantes where modelos.id_fabricante = fabricantes.id";
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
@@ -121,10 +121,9 @@ public class ModeloDAO {
 				Modelo modelo = new Modelo();
 				modelo.setId(rSet.getInt("modelos.id"));
 				modelo.setNome(rSet.getString("modelos.nome"));
-				modelo.setId(rSet.getInt("modelos.id_fabricante"));
 				
 				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("fabricantes.id"));
+				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
 				fabricante.setNome(rSet.getString("fabricantes.nome"));
 				
 				modelo.setFabricante(fabricante);

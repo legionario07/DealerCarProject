@@ -29,7 +29,7 @@ public class Fabricante {
 		return nome;
 	}
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 	
 	public Fabricante validaFabricante(int fabricante) {

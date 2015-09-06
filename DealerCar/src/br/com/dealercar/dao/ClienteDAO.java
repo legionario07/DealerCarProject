@@ -180,7 +180,7 @@ public class ClienteDAO {
 		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
 		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
 		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades where clientes.id = ?");
+		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.id = ?");
 
 		Cliente clienteRetorno = null;
 
@@ -239,7 +239,7 @@ public class ClienteDAO {
 		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, ");
 		sql.append("clientes.rg, clientes.cpf, clientes.email, ");
 		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades where clientes.cpf = ?");
+		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.cpf = ?");
 
 		Cliente clienteRetorno = null;
 

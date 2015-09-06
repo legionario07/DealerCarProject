@@ -16,8 +16,8 @@ public class CarroDAOTest {
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
 
-		Carro carro = new Carro("Dgx8587", "2009", 4, 3, new Cor(5), new Modelo(2), new Categoria(6),
-				new ImagemCarro(1), SituacaoType.Disponivel);
+		Carro carro = new Carro("Dgx-9999", "2010", 4, 3, new Cor(7), new Modelo(3), new Categoria(6),
+				new ImagemCarro(2), SituacaoType.Locado);
 
 		CarroDAO carDao = new CarroDAO();
 		carDao.cadastrar(carro);
@@ -28,13 +28,14 @@ public class CarroDAOTest {
 
 	@SuppressWarnings("unused")
 	private static void pesquisarPorPlaca() {
-		Carro carro = new Carro("Dgx8587");
+		Carro carro = new Carro("TTT-9999");
 
 		CarroDAO carDao = new CarroDAO();
 		System.out.println(carDao.pesquisarPorPlaca(carro));
 
 	}
 	
+	@SuppressWarnings("unused")
 	private static void listarTodos() {
 		List<Carro> lista = new ArrayList<Carro>();
 		
@@ -45,12 +46,34 @@ public class CarroDAOTest {
 			System.out.println(c);
 		}
 	}
+	
+	@SuppressWarnings("unused")
+	private static void excluir(){
+		Carro carro = new Carro("Dgx-9999");
+		
+		CarroDAO carroDao = new CarroDAO();
+		carroDao.excluir(carro);
+	}
+	
+	@SuppressWarnings("unused")
+	private static void editar() {
+		Carro carro = new Carro("DGX-9999", "2011", 4, 3, new Cor(7), new Modelo(3), new Categoria(6),
+				new ImagemCarro(2), SituacaoType.Locado);
+		
+		CarroDAO carroDao = new CarroDAO();
+		
+		carroDao.editar(carro);
+		
+	}
 
 	public static void main(String[] args) {
 
-		// cadastrar();
+		//cadastrar();
+		//excluir();
+		//editar();
 		//pesquisarPorPlaca();
-		listarTodos();
+		//listarTodos();
+		
 	}
 
 }

@@ -36,7 +36,7 @@ public class ImagemCarro implements Serializable {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 	public String getCaminho() {
 		return caminho.toLowerCase();
@@ -44,6 +44,7 @@ public class ImagemCarro implements Serializable {
 	public void setCaminho(String caminho) {
 		this.caminho = caminho.toLowerCase();
 	}
+
 	
 	public ImagemCarro validaImagemCarro(int modelo, List<Modelo> lista, List<ImagemCarro> listaImagens) {
 		ImagemCarro carroUrl = new ImagemCarro();
@@ -52,7 +53,6 @@ public class ImagemCarro implements Serializable {
 		for(Modelo m : lista) {
 			if(m.getId()==modeloCarro.getId()) {
 				carroUrl.setDescricao(m.getNome());
-				break;
 			}
 		}
 		

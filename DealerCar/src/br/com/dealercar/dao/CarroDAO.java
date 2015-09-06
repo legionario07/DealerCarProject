@@ -55,8 +55,11 @@ public class CarroDAO {
 		sql.append("carros.id_categoria, categorias.nome, ");
 		sql.append("categorias.descricao, categorias.vlr_diaria, ");
 		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao, carros.situacao ");
-		sql.append("from carros inner join cores inner join modelos inner join categorias inner join carros_images");
-		sql.append(" where carros.placa = ?");
+		sql.append("from carros inner join cores on carros.id_cor = cores.id ");
+		sql.append("inner join modelos on carros.id_modelo = modelos.id ");
+		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
+		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
+		sql.append("where carros.placa = ?");
 		
 		Carro carroRetorno = null;
 
@@ -186,16 +189,17 @@ public class CarroDAO {
 	
 	public void editar(Carro carro) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("update carros set ano = ?, ");
+		sql.append("update carros set placa = ?, ano = ?, ");
 		sql.append("numero_portas = ?, qtde_malas_suportadas = ?, ");
 		sql.append("id_cor = ?, id_modelo = ?, id_categoria = ?, ");
-		sql.append("id_images = ?, situacao = ? where placa=?");
+		sql.append("id_images = ?, situacao = ? where placa = ?");
 		
 		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i=0;
+			ps.setString(++i, carro.getPlaca());
 			ps.setString(++i, carro.getAno());
 			ps.setInt(++i, carro.getQtdePortas());
 			ps.setInt(++i, carro.getQtdeMalasSuportadas());
@@ -206,10 +210,31 @@ public class CarroDAO {
 			ps.setString(++i, carro.getSituacao().getDescricao());
 			ps.setString(++i, carro.getPlaca());
 			
+			ps.executeUpdate();
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
+		
+	}
+	
+	public void excluir(Carro carro) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from carros where placa = ?");
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setString(1, carro.getPlaca());
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
 		
 	}
 }
