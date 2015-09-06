@@ -18,7 +18,7 @@ import br.com.dealercar.domain.Categoria;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.ImagemCarro;
 import br.com.dealercar.domain.Modelo;
-import br.com.dealercar.domain.SituacaoType;
+import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name="MBCarro")

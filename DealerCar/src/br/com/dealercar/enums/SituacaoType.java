@@ -1,4 +1,4 @@
-package br.com.dealercar.domain;
+package br.com.dealercar.enums;
 
 public enum SituacaoType {
 	Locado ("Locado")
