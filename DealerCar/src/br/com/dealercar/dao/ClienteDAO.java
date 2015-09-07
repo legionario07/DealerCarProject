@@ -12,8 +12,14 @@ import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+
 public class ClienteDAO {
 
+	/**
+	 * 
+	 * @param cliente Recebe um cliente e uma Cidade e cadastra no Banco de Dados
+	 * @param cidade
+	 */
 	public void cadastrar(Cliente cliente, Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
@@ -55,6 +61,11 @@ public class ClienteDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * @param cliente Recebe um Ciente e uma Cidade e edita seus dados do Banco de Dados
+	 * @param cidade
+	 */
 	public void editar(Cliente cliente, Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
@@ -96,6 +107,11 @@ public class ClienteDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * @param cliente Recebe um Cliente e exclui do Banco de dados
+	 *  localizando pelo seu Id
+	 */
 	public void excluir(Cliente cliente) {
 
 		String sql = "delete from clientes where id = ?";
@@ -116,6 +132,10 @@ public class ClienteDAO {
 
 	}
 
+	/**
+	 * 
+	 * @return Retorna todos os clientes do Banco de dados em forma de List<CLiente>
+	 */
 	public List<Cliente> listarTodos() {
 
 		StringBuffer sql = new StringBuffer(); 
@@ -173,6 +193,11 @@ public class ClienteDAO {
 
 	}
 
+	/**
+	 * 
+	 * @param cliente Recebe um cliente e localiza pelo Id no Banco de Dados
+	 * @return Retorna um Objeto de Cliente
+	 */
 	public Cliente pesquisarPorID(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer(); 
@@ -232,6 +257,12 @@ public class ClienteDAO {
 
 	}
 	
+	/**
+	 * 
+	 * @param cliente Recebe um objeto de Cliente e localiza no Banco de Dadoos
+	 *  pelo seu CPF
+	 * @return Retorna um Objeto Cliente
+	 */
 	public Cliente pesquisarPorCPF(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
@@ -291,6 +322,11 @@ public class ClienteDAO {
 
 	}
 
+	/**
+	 * 
+	 * @param clientes Recebe um objeto do Tipo Cliente e localiza no Banco pelo nome
+	 * @return Retorna um Objeto do tipo Cliente
+	 */
 	public List<Cliente> pesquisarPorNome(Cliente clientes) {
 
 		StringBuffer sql = new StringBuffer();

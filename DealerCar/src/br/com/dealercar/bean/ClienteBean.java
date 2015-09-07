@@ -18,9 +18,14 @@ import br.com.dealercar.util.JSFUtil;
 public class ClienteBean implements Serializable {
 
 	/**
-	 * 
+	 * Controlando a evolução dos objetos serialidos.... 
+	 * Ex.: Salva um objeto em um arquivo, meses depois em que adicionar um método e ou atributo na sua classe. 
+	 * Quando tentar deserializar o objeto naão é permitido mais. 
+	 * Mantendo o serialVersionUID este erro não ocorre.
+	 * Assim é permitido deserializar objetos que foram modificados.
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Cliente cliente = new Cliente();
 	private Cliente clienteRetorno = new Cliente();
 	private List<Cliente> listaClientes = new ArrayList<Cliente> ();
@@ -103,7 +108,11 @@ public class ClienteBean implements Serializable {
 		listaCidades = cidDao.listarTodos();
 	}
 
-	// carrega a lista
+	/**
+	 * carrega a listagem de todos os objetos de Clientes ao iniciar a tela
+	 * e calcula a quantidade existente e coloca na variavel totalClientes
+	 */
+	
 	public void carregarListagem() {
 		ClienteDAO cliDao = new ClienteDAO();
 		listaClientes = cliDao.listarTodos();
@@ -111,6 +120,10 @@ public class ClienteBean implements Serializable {
 
 	}
 
+	/**
+	 * Cadastra um novo Objeto de Cliente passando como parametro os dados
+	 * do Cliente e da Cidade que o usuário digitou na Tela
+	 */
 	public void cadastrar() {
 		ClienteDAO cliDao = new ClienteDAO();
 		CidadeDAO cidDao = new CidadeDAO();
@@ -124,6 +137,10 @@ public class ClienteBean implements Serializable {
 		cidade = new Cidade();
 	}
 
+	/**
+	 * Pesquisa um cliente no BD de acordo com o ID digitado pelo 
+	 * Usuário na Tela
+	 */
 	public void pesquisarPorID() {
 		this.setEhCadastrado(false);
 		ClienteDAO cliDao = new ClienteDAO();
@@ -143,6 +160,10 @@ public class ClienteBean implements Serializable {
 		clienteRetorno = cliDao.pesquisarPorID(clienteRetorno);
 	}
 
+	/**
+	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo
+	 * Usuário na TEla
+	 */
 	public void pesquisarPorCPF() {
 		
 		ClienteDAO cliDao = new ClienteDAO();
@@ -167,6 +188,9 @@ public class ClienteBean implements Serializable {
 		
 	}
 	
+	/**
+	 * Edita o Cliente desejado pelo Usuário apos realizado a pesquisa pelo CPF na tela
+	 */
 	public void editar() {
 		ClienteDAO cliDao = new ClienteDAO();
 		
@@ -183,6 +207,10 @@ public class ClienteBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
+	/**
+	 * Exclui um objeto de CLiente desejado pelo usuario
+	 * e solicita a confirmação na tela
+	 */
 	public void excluir() {
 		ClienteDAO cliDao = new ClienteDAO();
 		
@@ -194,6 +222,10 @@ public class ClienteBean implements Serializable {
 		
 	}
 	
+	/**
+	 * limpa a tela de pesquisa de Cliente do Usuario
+	 * Deixando pronto para uma nova Pesquisa
+	 */
 	public void limparPesquisa() {
 		clienteRetorno = new Cliente();
 		this.ehCadastrado = false;

@@ -13,6 +13,10 @@ import br.com.dealercar.util.JSFUtil;
 
 public class CorDAO {
 
+	/**
+	 * 
+	 * @return Retorna todas as cores Cadastradas no BD em forma de List<Cor>
+	 */
 	public List<Cor> listarTodos() {
 		String sql = "select * from cores";
 		List<Cor> listaCores = new ArrayList<Cor>();
@@ -41,6 +45,11 @@ public class CorDAO {
 		return listaCores;
 	}
 	
+	/**
+	 * 
+	 * @param cor Recebe uma Cor e pesquisa no BD por seu Id
+	 * @return Retorna um objeto de Cor
+	 */
 	public Cor pesquisarPorID(Cor cor) {
 		String sql = "select * from cores where id = ?";
 		Cor corRetorno = null;

@@ -45,29 +45,36 @@ public class CidadeBean {
 		this.listaCidades = listaCidades;
 	}
 
+	/**
+	 * carrega a lista de Cidades na pagina assim que inica
+	 */
 	public void carregarCidades() {
 		CidadeDAO cidDao = new CidadeDAO(); 
 		listaCidades = cidDao.listarTodos();
 	}
-
-	public void prepararNovo() {
-
-		cidade = new Cidade();
-	}
-
+	
+	/**
+	 *  Cria uma nova instancia de Cidade para se cadastrar no Banco de Dados
+	 */
 	public void novo() {
 		CidadeDAO cidDao = new CidadeDAO(); 
 		cidDao.cadastrar(cidade);
-
 	}
 
+	/**
+	 * excluir um objeto de Cidade do BD
+	 */
 	public void excluir() {
 		CidadeDAO cidDao = new CidadeDAO(); 
 		cidDao.excluir(cidade);
 		JSFUtil.adicionarMensagemSucesso("Cidade excluida com Sucesso.");
 	}
 
-	public void cadastrando() {
+	/**
+	 * Cadastra um novo objeto de Cidade no Banco de Dados e 
+	 * em seguida instancia um novo Objeto
+	 */
+	public void cadastrar() {
 		CidadeDAO cidDao = new CidadeDAO(); 
 		this.cidade.setNome(this.cidade.getNome().toUpperCase());
 		this.cidade.setUf(this.cidade.getUf().toUpperCase());
