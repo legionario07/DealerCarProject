@@ -79,30 +79,15 @@ public class Cliente extends Pessoa {
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Id: ");
-		retorno.append(this.getId());
-		retorno.append(" - Nome: ");
-		retorno.append(this.getNome());
-		retorno.append(" - Data de Nascimento: ");
-		retorno.append(this.getDataNasc());
+		retorno.append(super.toString());
 		retorno.append(" - Nome da Mãe: ");
 		retorno.append(this.getNomeMae());
-		retorno.append(" - Sexo: ");
-		retorno.append(this.getSexo());
-		retorno.append(" - Telefone: ");
-		retorno.append(this.getTelefone());
-		retorno.append(" - Celular: ");
-		retorno.append(this.getCelular());
 		retorno.append(" - Rg: ");
 		retorno.append(this.getRG());
 		retorno.append(" - Cpf: ");
 		retorno.append(this.getCPF());
 		retorno.append(" - Email: ");
 		retorno.append(this.getEmail());
-		retorno.append(" - Endereço: ");
-		retorno.append(this.getEndereco());
-		retorno.append(" - Cidade: ");
-		retorno.append(this.getCidade().getNome());
 		retorno.append("\n");
 
 		return retorno.toString();

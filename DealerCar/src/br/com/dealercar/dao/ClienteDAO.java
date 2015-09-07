@@ -327,7 +327,7 @@ public class ClienteDAO {
 	 * @param clientes Recebe um objeto do Tipo Cliente e localiza no Banco pelo nome
 	 * @return Retorna um Objeto do tipo Cliente
 	 */
-	public List<Cliente> pesquisarPorNome(Cliente clientes) {
+	public List<Cliente> pesquisarPorNome(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
@@ -344,7 +344,7 @@ public class ClienteDAO {
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, "%" + clientes.getNome().toUpperCase() + "%");
+			ps.setString(1, "%" + cliente.getNome().toUpperCase() + "%");
 
 			ResultSet rSet = ps.executeQuery();
 

@@ -52,7 +52,7 @@ public abstract class Pessoa {
 		return endereco;
 	}
 	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+		this.endereco = endereco.toUpperCase();
 	}
 	public Cidade getCidade() {
 		return cidade;
@@ -71,6 +71,29 @@ public abstract class Pessoa {
 		this.sexo = sexo;
 	}
 	
-	
+	@Override
+	public String toString() {
+		
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("Id: ");
+		retorno.append(this.getId());
+		retorno.append(" - Nome: ");
+		retorno.append(this.getNome());
+		retorno.append(" - Data de Nascimento: ");
+		retorno.append(this.getDataNasc());
+		retorno.append(" - Sexo: ");
+		retorno.append(this.getSexo());
+		retorno.append(" - Telefone: ");
+		retorno.append(this.getTelefone());
+		retorno.append(" - Celular: ");
+		retorno.append(this.getCelular());
+		retorno.append(" - Endereço: ");
+		retorno.append(this.getEndereco());
+		retorno.append(" - Cidade: ");
+		retorno.append(this.getCidade().getNome());
+
+		return retorno.toString();
+	}
+
 
 }
