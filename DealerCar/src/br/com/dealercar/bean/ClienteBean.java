@@ -11,6 +11,7 @@ import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBCliente")
@@ -28,6 +29,7 @@ public class ClienteBean implements Serializable {
 	
 	private Cliente cliente = new Cliente();
 	private Cliente clienteRetorno = new Cliente();
+	private Endereco endereco = new Endereco();
 	private List<Cliente> listaClientes = new ArrayList<Cliente> ();
 	private List<Cidade> listaCidades =  new ArrayList<Cidade>();
 	private int totalClientes;
@@ -103,6 +105,14 @@ public class ClienteBean implements Serializable {
 		this.jaPesquisei = jaPesquisei;
 	}
 
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 	public void carregarListagemCidades() {
 		CidadeDAO cidDao = new CidadeDAO();
 		listaCidades = cidDao.listarTodos();
@@ -127,9 +137,10 @@ public class ClienteBean implements Serializable {
 	public void cadastrar() {
 		ClienteDAO cliDao = new ClienteDAO();
 		CidadeDAO cidDao = new CidadeDAO();
+		cliente.setEndereco(endereco);
 		
 		listaCidades = cidDao.listarTodos();
-		cliDao.cadastrar(cliente, cidade);
+		cliDao.cadastrar(cliente);
 
 		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
 
@@ -194,6 +205,8 @@ public class ClienteBean implements Serializable {
 	public void editar() {
 		ClienteDAO cliDao = new ClienteDAO();
 		
+		//Verifica a cidade escolhida para ser adicionado ao Cliente que esta sendo editado
+		
 		for (Cidade cid : listaCidades) {
 			if (cid.getNome().equals(clienteRetorno.getCidade().getNome())) {
 				setCidade(cid);
@@ -201,8 +214,9 @@ public class ClienteBean implements Serializable {
 				break;
 			}
 
-		}
-		cliDao.editar(clienteRetorno, cidade);
+		} 
+		clienteRetorno.setEndereco(endereco);
+		cliDao.editar(clienteRetorno);
 
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}

@@ -19,10 +19,23 @@ public class Reserva {
 		
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 */
 	public Reserva(int id) {
 		this.setId(id);
 	}
 	
+	/**
+	 * 
+	 * @param situacao
+	 * @param dataInicio
+	 * @param dataFim
+	 * @param modelo
+	 * @param cliente
+	 * @param funcionario
+	 */
 	public Reserva(SituacaoReserva situacao, Date dataInicio, Date dataFim,
 				Modelo modelo, Cliente cliente, Funcionario funcionario) {
 		

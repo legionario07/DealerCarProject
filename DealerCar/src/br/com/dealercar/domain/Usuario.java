@@ -34,7 +34,7 @@ public class Usuario {
 		return login;
 	}
 	public void setLogin(String login) {
-		this.login = login.toUpperCase();
+		this.login = login;
 	}
 	public String getSenha() {
 		return senha;

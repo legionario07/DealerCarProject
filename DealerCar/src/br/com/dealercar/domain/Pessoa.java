@@ -7,7 +7,7 @@ public abstract class Pessoa {
 	private String dataNasc;
 	private String celular;
 	private String telefone;
-	private String endereco;
+	private Endereco endereco;
 	private Cidade cidade;
 	private String sexo;
 	
@@ -32,7 +32,7 @@ public abstract class Pessoa {
 		return dataNasc;
 	}
 	public void setDataNasc(String dataNasc) {
-		this.dataNasc=dataNasc;
+		this.dataNasc = dataNasc;
 	}
 	public String getTelefone() {
 		return telefone;
@@ -48,15 +48,21 @@ public abstract class Pessoa {
 		this.celular = celular;
 	}
 
-	public String getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco.toUpperCase();
+
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
+
+
 	public Cidade getCidade() {
 		return cidade;
 	}
+
+
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}

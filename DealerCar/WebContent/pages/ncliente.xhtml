@@ -30,17 +30,19 @@
 					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
 
 						<h:outputText value="Nome: *" />
-						<p:inputText required="true" size="90" maxlength="45"
+						<p:inputText required="true" size="50" maxlength="45"
 							value="#{MBCliente.cliente.nome}"
-							requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
+							requiredMessage="Favor informar o Nome do cliente. 
+							Campo de preenchimento obrigatório" />
 
 						<h:outputText value="Data Nascimento: *" />
 						<p:inputMask value="#{MBCliente.cliente.dataNasc}" size="10"
 							mask="99/99/9999" required="true"
-							requiredMessage="Favor informar a Data de Nascimento do cliente. Campo de preenchimento obrigatório" />
+							requiredMessage="Favor informar a Data de Nascimento do cliente. 
+							Campo de preenchimento obrigatório" />
 
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
-						<p:inputText size="90" value="#{MBCliente.cliente.nomeMae}" />
+						<p:inputText size="50" value="#{MBCliente.cliente.nomeMae}" />
 
 						<h:outputText value="Sexo: " maxlength="45" />
 						<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true">
@@ -54,14 +56,16 @@
 						<h:outputText value="CPF: *" maxlength="11" />
 						<p:inputMask size="20" value="#{MBCliente.cliente.CPF}"
 							required="true" mask="999.999.999-99"
-							requiredMessage="Favor informar a CPF do cliente. Campo de preenchimento obrigatório">
+							requiredMessage="Favor informar a CPF do cliente. 
+							Campo de preenchimento obrigatório">
 							<f:validateLength minimum="14" maximum="14" />
 						</p:inputMask>
 
 						<h:outputText value="Telefone: *" maxlength="15" />
 						<p:inputMask required="true" size="15"
 							value="#{MBCliente.cliente.telefone}" mask="(99)9999-9999"
-							requiredMessage="Favor informar a Telefone do cliente. Campo de preenchimento obrigatório" />
+							requiredMessage="Favor informar a Telefone do cliente. 
+							Campo de preenchimento obrigatório" />
 
 
 						<h:outputText value="Celular: " maxlength="15" />
@@ -71,17 +75,39 @@
 						<h:outputText value="Email: " maxlength="65" />
 						<p:inputText size="50" value="#{MBCliente.cliente.email}" />
 
-						<h:outputText value="Endereço: *" maxlength="45" />
-						<p:inputText size="50" value="#{MBCliente.cliente.endereco}"
+						<h:outputText value="Rua *" maxlength="50" />
+						<p:inputText size="50" value="#{MBCliente.endereco.rua}"
 							required="true"
-							requiredMessage="Favor informar o Endereço do cliente. Campo de preenchimento obrigatório"
-							maxlength="65" />
+							requiredMessage="Favor informar o Rua do cliente. 
+							Campo de preenchimento obrigatório"
+							maxlength="50" />
+
+						<h:outputText value="Número: *" maxlength="10" />
+						<p:inputText size="10"
+							value="#{MBCliente.endereco.numero}" required="true"
+							requiredMessage="Favor informar o Número do cliente. 
+							Campo de preenchimento obrigatório"
+							maxlength="10" />
+
+						<h:outputText value="Complemento: " maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBCliente.endereco.complemento}"
+							maxlength="50" />
+
+						<h:outputText value="Bairro: *" maxlength="20" />
+						<p:inputText size="20"
+						
+							value="#{MBCliente.endereco.bairro}" required="true"
+							requiredMessage="Favor informar o Bairro do cliente. 
+							Campo de preenchimento obrigatório"
+							maxlength="20" />
 
 						<h:outputText value="Cidade: *" />
 						<p:selectOneMenu id="cidades" value="#{MBCliente.cidade.id}"
 							required="true"
-							requiredMessage="Favor informar a Cidade do cliente. Campo de preenchimento obrigatório"
-							panelStyle="width:180px" effect="fade" style="width:160px"
+							requiredMessage="Favor informar a Cidade do cliente. 
+							Campo de preenchimento obrigatório"
+							panelStyle="width:180px" effect="fade" style="width:180px"
 							filter="true" filterMatchMode="startsWith">
 
 							<f:selectItem itemLabel="Selecione uma Cidade"

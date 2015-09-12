@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
@@ -17,14 +18,14 @@ public class ClienteDAO {
 
 	/**
 	 * 
-	 * @param cliente Recebe um cliente e uma Cidade e cadastra no Banco de Dados
-	 * @param cidade
+	 * @param cliente Recebe um cliente  e cadastra no Banco de Dados
+	 * @param 
 	 */
-	public void cadastrar(Cliente cliente, Cidade cidade) {
+	public void cadastrar(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into clientes ");
-		sql.append("nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
+		sql.append("(nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
 		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		Connection con = Conexao.getConnection();
@@ -32,7 +33,8 @@ public class ClienteDAO {
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, cliente.getNome().toUpperCase());
+			int i = 0;
+			ps.setString(++i, cliente.getNome().toUpperCase());
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
@@ -42,16 +44,27 @@ public class ClienteDAO {
 			String ano = dNasc[2];
 			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
 
-			ps.setString(2, cliente.getDataNasc().toUpperCase());
-			ps.setString(3, cliente.getNomeMae().toUpperCase());
-			ps.setString(4, cliente.getSexo().toUpperCase());
-			ps.setString(5, cliente.getTelefone().toUpperCase());
-			ps.setString(6, cliente.getCelular().toUpperCase());
-			ps.setString(7, cliente.getRG().toUpperCase());
-			ps.setString(8, cliente.getCPF().toUpperCase());
-			ps.setString(9, cliente.getEmail().toUpperCase());
-			ps.setString(10, cliente.getEndereco().toUpperCase());
-			ps.setInt(11, cidade.getId());
+			ps.setString(++i, cliente.getDataNasc().toUpperCase());
+			ps.setString(++i, cliente.getNomeMae().toUpperCase());
+			ps.setString(++i, cliente.getSexo().toUpperCase());
+			ps.setString(++i, cliente.getTelefone().toUpperCase());
+			ps.setString(++i, cliente.getCelular().toUpperCase());
+			ps.setString(++i, cliente.getRG().toUpperCase());
+			ps.setString(++i, cliente.getCPF().toUpperCase());
+			ps.setString(++i, cliente.getEmail().toUpperCase());
+
+			StringBuffer endereco = new StringBuffer();
+			
+			//Concatenando o endereço para add no BD
+			endereco.append(cliente.getEndereco().getRua() + ", ");
+			endereco.append(cliente.getEndereco().getNumero() + ", ");
+			if(cliente.getEndereco().getComplemento() != null){
+				endereco.append(cliente.getEndereco().getComplemento() + ", ");
+			}
+			endereco.append(cliente.getEndereco().getBairro());
+			
+			ps.setString(++i, endereco.toString());
+			ps.setInt(++i, cliente.getCidade().getId());
 
 			ps.executeUpdate();
 
@@ -63,10 +76,10 @@ public class ClienteDAO {
 
 	/**
 	 * 
-	 * @param cliente Recebe um Ciente e uma Cidade e edita seus dados do Banco de Dados
+	 * @param cliente Recebe um Ciente e  edita seus dados do Banco de Dados
 	 * @param cidade
 	 */
-	public void editar(Cliente cliente, Cidade cidade) {
+	public void editar(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("update clientes set nome = ?, data_nasc = ?, nome_mae = ?, sexo = ?, ");
@@ -79,7 +92,9 @@ public class ClienteDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 
-			ps.setString(1, cliente.getNome().toUpperCase());
+			int i = 0;
+			
+			ps.setString(++i, cliente.getNome().toUpperCase());
 
 			// Alterando o formato de armazenamento da data para o Banco de
 			// Dados Aceitar
@@ -89,17 +104,29 @@ public class ClienteDAO {
 			String ano = dNasc[2];
 			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
 
-			ps.setString(2, cliente.getDataNasc().toUpperCase());
-			ps.setString(3, cliente.getNomeMae().toUpperCase());
-			ps.setString(4, cliente.getSexo().toUpperCase());
-			ps.setString(5, cliente.getTelefone().toUpperCase());
-			ps.setString(6, cliente.getCelular().toUpperCase());
-			ps.setString(7, cliente.getRG().toUpperCase());
-			ps.setString(8, cliente.getCPF().toUpperCase());
-			ps.setString(9, cliente.getEmail().toUpperCase());
-			ps.setString(10, cliente.getEndereco().toUpperCase());
-			ps.setInt(11, cidade.getId());
-			ps.setInt(12, cliente.getId());
+			ps.setString(++i, cliente.getDataNasc().toUpperCase());
+			ps.setString(++i, cliente.getNomeMae().toUpperCase());
+			ps.setString(++i, cliente.getSexo().toUpperCase());
+			ps.setString(++i, cliente.getTelefone().toUpperCase());
+			ps.setString(++i, cliente.getCelular().toUpperCase());
+			ps.setString(++i, cliente.getRG().toUpperCase());
+			ps.setString(++i, cliente.getCPF().toUpperCase());
+			ps.setString(++i, cliente.getEmail().toUpperCase());
+			
+			StringBuffer endereco = new StringBuffer();
+			
+			//Concatenando o endereço para add no BD
+			endereco.append(cliente.getEndereco().getRua() + ", ");
+			endereco.append(cliente.getEndereco().getNumero() + ", ");
+			if(cliente.getEndereco().getComplemento() != null){
+				endereco.append(cliente.getEndereco().getComplemento() + ", ");
+			}
+			endereco.append(cliente.getEndereco().getBairro());
+			
+			ps.setString(++i, endereco.toString());
+			
+			ps.setInt(++i, cliente.getCidade().getId());
+			ps.setInt(++i, cliente.getId());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -178,7 +205,26 @@ public class ClienteDAO {
 				clienteRetorno.setRG(rSet.getString("clientes.rg"));
 				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
+				
+				Endereco end = new Endereco();
+
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				
+					if(endereco.length == 4) {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setComplemento(endereco[2].trim());
+						end.setBairro(" - " + endereco[3].trim());
+					} else {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setBairro(" - " + endereco[2].trim());
+					}
+				
+				clienteRetorno.setEndereco(end);				
+				
 				clienteRetorno.setCidade(cidadeRetorno);
 
 				clientes.add(clienteRetorno);
@@ -237,8 +283,26 @@ public class ClienteDAO {
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
 				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
 
+				Endereco end = new Endereco();
+
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				
+					if(endereco.length == 4) {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setComplemento(endereco[2].trim());
+						end.setBairro(endereco[3].trim());
+					} else {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setBairro(endereco[2].trim());
+					}
+				
+				clienteRetorno.setEndereco(end);				
+				
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
@@ -302,7 +366,25 @@ public class ClienteDAO {
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
 				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
+
+				Endereco end = new Endereco();
+
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				
+					if(endereco.length == 4) {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setComplemento(endereco[2].trim());
+						end.setBairro(endereco[3].trim());
+					} else {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setBairro(endereco[2].trim());
+					}
+				
+				clienteRetorno.setEndereco(end);				
 
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
@@ -330,11 +412,11 @@ public class ClienteDAO {
 	public List<Cliente> pesquisarPorNome(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
+		sql.append("select distinct clientes.id, clientes.nome, clientes.data_nasc, ");
 		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
 		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
-		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf, MAX(clientes.id) ");
-		sql.append("from clientes inner join cidades ");
+		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
+		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id ");
 		sql.append("where clientes.nome like ? order by clientes.nome asc");
 
 		List<Cliente> lista = new ArrayList<Cliente>();
@@ -363,8 +445,27 @@ public class ClienteDAO {
 				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-				clienteRetorno.setEndereco(rSet.getString("clientes.endereco"));
 
+				Endereco end = new Endereco();
+
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				
+					if(endereco.length == 4) {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setComplemento(endereco[2].trim());
+						end.setBairro(endereco[3].trim());
+					} else {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setBairro(endereco[2].trim());
+					}
+				
+				clienteRetorno.setEndereco(end);				
+
+				
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));

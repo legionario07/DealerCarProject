@@ -15,8 +15,22 @@ public class Cliente extends Pessoa {
 		this.setId(id);
 	}
 
-	public Cliente(String nome, String dataNasc, String nomeMae, String sexo, String telefone, String celular, String RG, String CPF,
-			String email, String endereco, Cidade cidade) {
+	/**
+	 * 
+	 * @param nome
+	 * @param dataNasc
+	 * @param nomeMae
+	 * @param sexo
+	 * @param telefone
+	 * @param celular
+	 * @param RG
+	 * @param CPF
+	 * @param email
+	 * @param endereco
+	 * @param cidade
+	 */
+	public Cliente(String nome, String dataNasc, String nomeMae, String sexo, String telefone, 
+			String celular, String RG, String CPF, String email, Endereco endereco, Cidade cidade) {
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);
 		this.setNomeMae(nomeMae);
@@ -30,8 +44,20 @@ public class Cliente extends Pessoa {
 		this.setCidade(cidade);
 	}
 
-	public Cliente(String nome, String dataNasc,  String sexo, String telefone, String celular, String RG, String CPF,
-			String endereco, Cidade cidade) {
+	/**
+	 * 
+	 * @param nome
+	 * @param dataNasc
+	 * @param sexo
+	 * @param telefone
+	 * @param celular
+	 * @param RG
+	 * @param CPF
+	 * @param endereco
+	 * @param cidade
+	 */
+	public Cliente(String nome, String dataNasc,  String sexo, String telefone, String celular, 
+			String RG, String CPF, Endereco endereco, Cidade cidade) {
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);
 		this.setSexo(sexo);

@@ -14,22 +14,20 @@ public class Funcionario extends Pessoa {
 		this.setId(id);
 	}
 	
+	/**
+	 * 
+	 * @param nome
+	 * @param dataNasc
+	 * @param sexo
+	 * @param telefone
+	 * @param endereco
+	 * @param cidade
+	 * @param cargo
+	 * @param salario
+	 * @param usuario
+	 */
 	public Funcionario(String nome, String dataNasc, String sexo, String telefone, 
-			String cargo, Double salario,  Cidade cidade, Usuario usuario) {
-		
-		this.setNome(nome);
-		this.setDataNasc(dataNasc);
-		this.setSexo(sexo);
-		this.setTelefone(telefone);
-		this.setCidade(cidade);
-		this.setCargo(cargo);
-		this.setSalario(salario);
-		this.setUsuario(usuario);
-		
-	}
-	
-	public Funcionario(String nome, String dataNasc, String sexo, String telefone, 
-			 String endereco, String cargo, Double salario, Cidade cidade, Usuario usuario) {
+			 Endereco endereco, Cidade cidade, String cargo, Double salario, Usuario usuario) {
 		
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);
@@ -43,9 +41,21 @@ public class Funcionario extends Pessoa {
 		
 	}
 	
-	
-	public Funcionario(String nome, String dataNasc, String sexo, String telefone, 
-			String celular, String cargo, Double salario, String endereco, Cidade cidade, Usuario usuario) {
+	/**
+	 * 
+	 * @param nome
+	 * @param dataNasc
+	 * @param sexo
+	 * @param telefone
+	 * @param celular
+	 * @param endereco
+	 * @param cidade
+	 * @param cargo
+	 * @param salario
+	 * @param usuario
+	 */
+	public Funcionario(String nome, String dataNasc, String sexo, String telefone,
+			Endereco endereco, Cidade cidade, String celular, String cargo, Double salario,  Usuario usuario) {
 		
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);
@@ -61,7 +71,7 @@ public class Funcionario extends Pessoa {
 	}
 
 	public String getCargo() {
-		return cargo;
+		return cargo.toUpperCase();
 	}
 
 	public Usuario getUsuario() {
@@ -73,7 +83,12 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setCargo(String cargo) {
-		this.cargo = cargo.toUpperCase();
+		//verificando se o banco retorna null para o campo cargo
+		if(cargo != null){
+			this.cargo = cargo.toUpperCase();
+		} else {
+			this.cargo = cargo;
+		}
 	}
 
 	public Double getSalario() {

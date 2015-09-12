@@ -38,6 +38,31 @@ public class UsuarioDAO {
 
 	/**
 	 * 
+	 * @param usuario Recebe um Usuario como parametro e edita seus dados no BD
+	 */
+	public void editar(Usuario usuario) {
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("update usuarios set login = ?, senha = md5( ? ) where login = ?");
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			int i = 0;
+			ps.setString(++i, usuario.getLogin());
+			ps.setString(++i, usuario.getSenha());
+			ps.setString(++i, usuario.getLogin());
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+	}
+
+	/**
+	 * 
 	 * @param usuario Recebe um objeto usuario e retorna um usuarios valido
 	 * @return
 	 */
@@ -72,7 +97,33 @@ public class UsuarioDAO {
 	
 	/**
 	 * 
-	 * @param usuario recebe um objeto Usuario e retorna um Usuario localizado pelo Login
+	 * @param usuario recebe um objeto Usuario e excluir do Banco de Dados pelo Id
+	 * @return
+	 */
+	
+	public void excluir(Usuario usuario) {
+
+		String sql = "delete from usuarios where id = ?";
+
+		Connection con = Conexao.getConnection();
+
+		try {
+
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, usuario.getId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @param usuario recebe um objeto Usuario e pesquisa pelo login no Banco de Dados
 	 * @return
 	 */
 	public Usuario pesquisarPorLogin(Usuario usuario) {

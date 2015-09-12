@@ -5,37 +5,37 @@ import java.util.List;
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.Endereco;
 
 public class ClienteDAOTest {
 
-	@SuppressWarnings("unused")
-	private static void cadastrar() {
+	public static void cadastrar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(5);
-		Cliente cliente = new Cliente("Luiza da Silva", "01-01-1961", "Luiza da Costa", "FEMININO", "96442823", "22345828", "8277357", "39192834",
-				"luiza@teste.com", "Rua do Luiza", cidade);
+		Cliente cliente = new Cliente("Luiza da Silva", "01-01-1961", "Luiza da Costa", "FEMININO", 
+									"96442823", "22345828", "8277357", "391428634",
+									"luiza@teste.com", new Endereco("Rua do Luiza", "11", "casa 2", "centro"), cidade);
 
 		ClienteDAO dao = new ClienteDAO();
-		dao.cadastrar(cliente, cidade);
+		dao.cadastrar(cliente);
 
 	}
 
-	@SuppressWarnings("unused")
-	private static void editar() {
+	public static void editar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(1);
 
-		Cliente cliente = new Cliente("Teste", "01-01-1981", "Mae teste", "MASCULINO", "98882823", "828838382", "82777", "9192834",
-				"teste@teste.com", "Rua do Teste", cidade);
+		Cliente cliente = new Cliente("Luiza da Silva", "01-01-1961", "Luiza da Costa", "FEMININO", 
+				"96442823", "22345828", "8277357", "39192834",
+				"luiza@teste.com", new Endereco("Rua do Luiza", "11", "casa 2", "centro"), cidade);
 		cliente.setId(3);
 
 		ClienteDAO dao = new ClienteDAO();
-		dao.editar(cliente, cidade);
+		dao.editar(cliente);
 
 	}
 
-	@SuppressWarnings("unused")
-	private static void listarTodos() {
+	public static void listarTodos() {
 
 		ClienteDAO dao = new ClienteDAO();
 		List<Cliente> clientes = dao.listarTodos();
@@ -45,8 +45,7 @@ public class ClienteDAOTest {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private static void pesquisarPorID() {
+	public static void pesquisarPorID() {
 		Cliente cliente = new Cliente();
 		cliente.setId(16);
 
@@ -56,8 +55,7 @@ public class ClienteDAOTest {
 		System.out.println(clienteRetorno);
 	}
 
-	@SuppressWarnings("unused")
-	private static void pesquisarPorCPF() {
+	public static void pesquisarPorCPF() {
 		Cliente cliente = new Cliente();
 		cliente.setCPF("369.429.508-90");
 
@@ -67,11 +65,10 @@ public class ClienteDAOTest {
 		System.out.println(clienteRetorno);
 	}
 	
-	@SuppressWarnings("unused")
-	private static void pesquisarPorNome() {
+	public static void pesquisarPorNome() {
 		
 		Cliente cliente = new Cliente();
-		cliente.setNome("paulo");
+		cliente.setNome("silva");
 		
 		ClienteDAO dao = new ClienteDAO();
 		List<Cliente> lista = dao.pesquisarPorNome(cliente);
@@ -87,8 +84,8 @@ public class ClienteDAOTest {
 	public static void main(String[] args) {
 
 		//cadastrar();
-		// editar();
-		// listarTodos();
+		 //editar();
+		//listarTodos();
 		// pesquisarPorID();
 		//pesquisarPorNome();
 		//pesquisarPorCPF();

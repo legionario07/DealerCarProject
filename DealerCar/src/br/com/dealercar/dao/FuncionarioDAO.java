@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
@@ -45,12 +46,23 @@ public class FuncionarioDAO {
 
 			ps.setString(++i, funcionario.getDataNasc());
 			ps.setString(++i, funcionario.getSexo());
-			ps.setString(++i, funcionario.getEndereco());
+
+			StringBuffer endereco = new StringBuffer();
+			
+			//Concatenando o endereço para add no BD
+			endereco.append(funcionario.getEndereco().getRua() + ", ");
+			endereco.append(funcionario.getEndereco().getNumero() + ", ");
+			if(funcionario.getEndereco().getComplemento() != null){
+				endereco.append(funcionario.getEndereco().getComplemento() + ", ");
+			}
+			endereco.append(funcionario.getEndereco().getBairro());
+			
+			ps.setString(++i, endereco.toString());
 			ps.setString(++i, funcionario.getTelefone());
 			ps.setString(++i, funcionario.getCelular());
 			ps.setInt(++i, funcionario.getCidade().getId());
 			ps.setInt(++i, funcionario.getUsuario().getId());
-			ps.setString(++i, funcionario.getCargo().toUpperCase());
+			ps.setString(++i, funcionario.getCargo());
 			ps.setDouble(++i, funcionario.getSalario());
 
 			ps.executeUpdate();
@@ -69,7 +81,7 @@ public class FuncionarioDAO {
 	public void editar(Funcionario funcionario) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("update funcionario set ");
+		sql.append("update funcionarios set ");
 		sql.append("nome = ?, data_nasc = ?, sexo = ?, endereco = ?, telefone = ?, ");
 		sql.append("celular = ?, cargo = ?, salario = ?, ");
 		sql.append("id_cidade = ?, id_usuario = ? where id = ?");
@@ -92,7 +104,18 @@ public class FuncionarioDAO {
 			
 			ps.setString(++i, funcionario.getDataNasc());
 			ps.setString(++i, funcionario.getSexo());
-			ps.setString(++i, funcionario.getEndereco());
+
+			StringBuffer endereco = new StringBuffer();
+			
+			//Concatenando o endereço para add no BD
+			endereco.append(funcionario.getEndereco().getRua() + ", ");
+			endereco.append(funcionario.getEndereco().getNumero() + ", ");
+			if(funcionario.getEndereco().getComplemento() != null){
+				endereco.append(funcionario.getEndereco().getComplemento() + ", ");
+			}
+			endereco.append(funcionario.getEndereco().getBairro());
+			
+			ps.setString(++i, endereco.toString());
 			ps.setString(++i, funcionario.getTelefone());
 			ps.setString(++i, funcionario.getCelular());
 			ps.setString(++i, funcionario.getCargo().toUpperCase());
@@ -140,9 +163,9 @@ public class FuncionarioDAO {
 	public List<Funcionario> listarTodos() {
 
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc ");
-		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf ");
-		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionario.salario, ");
+		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc, ");
+		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf, ");
+		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionarios.salario, ");
 		sql.append("funcionarios.id_usuario, usuarios.id, usuarios.login, usuarios.senha ");
 		sql.append("from funcionarios inner join cidades on funcionarios.id_cidade = cidades.id ");
 		sql.append("inner join usuarios on funcionarios.id_usuario = usuarios.id ");
@@ -179,15 +202,33 @@ public class FuncionarioDAO {
 				
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
-				funcionarioRetorno.setEndereco(rSet.getString("funcionarios.endereco"));
+				
+				Endereco end = new Endereco();
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("funcionarios.endereco").split(",");
+				
+				if(endereco.length == 4) {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setComplemento(endereco[2].trim());
+					end.setBairro(endereco[3].trim());
+				} else {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setBairro(endereco[2].trim());
+				}
+				
+				funcionarioRetorno.setEndereco(end);				
+				
 				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
 				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
 				
 				Usuario usuario = new Usuario();
 				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
-				usuario.setLogin("usuarios.login");
-				usuario.setSenha("usuarios.senha");
+				usuario.setLogin(rSet.getString("usuarios.login"));
+				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
 				funcionarioRetorno.setCidade(cidadeRetorno);
 				funcionarioRetorno.setUsuario(usuario);
@@ -212,13 +253,13 @@ public class FuncionarioDAO {
 	public Funcionario pesquisarPorID(Funcionario funcionario) {
 
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc ");
-		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf ");
-		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionario.salario, ");
+		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc, ");
+		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf, ");
+		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionarios.salario, ");
 		sql.append("funcionarios.id_usuario, usuarios.id, usuarios.login, usuarios.senha ");
 		sql.append("from funcionarios inner join cidades on funcionarios.id_cidade = cidades.id ");
 		sql.append("inner join usuarios on funcionarios.id_usuario = usuarios.id ");
-		sql.append("where funcionario.id = ?");
+		sql.append("where funcionarios.id = ?");
 
 		Funcionario funcionarioRetorno = null;
 
@@ -247,7 +288,25 @@ public class FuncionarioDAO {
 				
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
-				funcionarioRetorno.setEndereco(rSet.getString("funcionarios.endereco"));
+				
+				Endereco end = new Endereco();
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("funcionarios.endereco").split(",");
+				
+				if(endereco.length == 4) {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setComplemento(endereco[2].trim());
+					end.setBairro(endereco[3].trim());
+				} else {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setBairro(endereco[2].trim());
+				}
+				
+				funcionarioRetorno.setEndereco(end);				
+
 				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
 				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
@@ -259,8 +318,8 @@ public class FuncionarioDAO {
 
 				Usuario usuario = new Usuario();
 				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
-				usuario.setLogin("usuarios.login");
-				usuario.setSenha("usuarios.senha");
+				usuario.setLogin(rSet.getString("usuarios.login"));
+				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
 				funcionarioRetorno.setCidade(cidade);
 				funcionarioRetorno.setUsuario(usuario);
@@ -285,13 +344,13 @@ public class FuncionarioDAO {
 	public List<Funcionario> pesquisarPorNome(Funcionario funcionario) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc ");
-		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf ");
-		sql.append("funcionarios.celular, funcionario.sexo, funcionarios.cargo, funcionario.salario, ");
-		sql.append("funcionarios.id_usuario, usuarios.id, usuarios.login, usuarios.senha, MAX(funcionarios.id) ");
+		sql.append("select distinct funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc, ");
+		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf, ");
+		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionarios.salario, ");
+		sql.append("funcionarios.id_usuario, usuarios.id, usuarios.login, usuarios.senha ");
 		sql.append("from funcionarios inner join cidades on funcionarios.id_cidade = cidades.id ");
 		sql.append("inner join usuarios on funcionarios.id_usuario = usuarios.id ");
-		sql.append("where funcionario.id = ?");
+		sql.append("where funcionarios.nome like ? order by funcionarios.nome asc");
 
 		List<Funcionario> lista = new ArrayList<Funcionario>();
 
@@ -322,7 +381,25 @@ public class FuncionarioDAO {
 				
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
-				funcionarioRetorno.setEndereco(rSet.getString("funcionarios.endereco"));
+				
+				Endereco end = new Endereco();
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("funcionarios.endereco").split(",");
+				
+					if(endereco.length == 4) {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setComplemento(endereco[2].trim());
+						end.setBairro(endereco[3].trim());
+					} else {
+						end.setRua(endereco[0].trim());
+						end.setNumero(endereco[1].trim());
+						end.setBairro(endereco[2].trim());
+					}
+				
+				funcionarioRetorno.setEndereco(end);				
+
 				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
 				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
@@ -334,8 +411,8 @@ public class FuncionarioDAO {
 
 				Usuario usuario = new Usuario();
 				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
-				usuario.setLogin("usuarios.login");
-				usuario.setSenha("usuarios.senha");
+				usuario.setLogin(rSet.getString("usuarios.login"));
+				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
 				funcionarioRetorno.setCidade(cidade);
 				funcionarioRetorno.setUsuario(usuario);

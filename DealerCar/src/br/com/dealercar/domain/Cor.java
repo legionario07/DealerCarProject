@@ -2,7 +2,7 @@ package br.com.dealercar.domain;
 
 import java.util.List;
 
-public class Cor {
+public class Cor extends EntidadeDominio {
 	
 	private int id;
 	private String nome;

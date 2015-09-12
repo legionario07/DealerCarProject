@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Usuario;
 
@@ -12,8 +13,8 @@ public class FuncionarioDAOTest {
 
 	public static void cadastrar() {
 
-		Funcionario funcionario = new Funcionario("Paulo Sergio", "31/07/1988", "Masculino", "971986033",
-				"Administrador", 3000.00D, new Cidade(5), new Usuario(1));
+		Funcionario funcionario = new Funcionario("Paulo Silva", "31/07/1988", "Masculino", "971986033",
+				new Endereco("Rua xv de NOvembro", "13", "Centro"), new Cidade(5),	"Administrador", 3000.00D, new Usuario(2));
 
 		FuncionarioDAO funDao = new FuncionarioDAO();
 		funDao.cadastrar(funcionario);
@@ -21,8 +22,9 @@ public class FuncionarioDAOTest {
 	}
 
 	public static void editar() {
-		Funcionario funcionario = new Funcionario("Paulo Sergio", "31/07/1988", "Masculino", "47986737", "971986033",
-				"Administrador", 3000.00D, new Cidade(5), new Usuario(1));
+		Funcionario funcionario = new Funcionario("Paulo Sergio", "31/07/1988", "Masculino", "47986737",
+				new Endereco("Rua xv de NOvembro", "13", "Centro"), new Cidade(5),  "971986033", 
+				"Administrador", 3000.00D, new Usuario(1));
 
 		funcionario.setId(1);
 
@@ -33,7 +35,7 @@ public class FuncionarioDAOTest {
 
 	public static void excluir() {
 
-		Funcionario funcionario = new Funcionario(2);
+		Funcionario funcionario = new Funcionario(4);
 
 		FuncionarioDAO funDao = new FuncionarioDAO();
 		funDao.excluir(funcionario);
@@ -76,7 +78,13 @@ public class FuncionarioDAOTest {
 	
 	public static void main(String[] args) {
 
-		cadastrar();
+		//cadastrar();
+		//editar();
+		//pesquisarPorNome();
+		//excluir();
+		//pesquisarPorID();
+		//pesquisarPorNome();
+		listarTodos();
 	}
 
 }

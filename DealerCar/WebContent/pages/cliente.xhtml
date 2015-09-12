@@ -83,10 +83,25 @@
 						<p:inputText size="50" value="#{MBCliente.clienteRetorno.email}"
 							readonly="true" />
 
-						<h:outputText value="Endereço: " maxlength="45" />
+						<h:outputText value="Rua " maxlength="50" />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.endereco}" readonly="true"
-							maxlength="65" />
+							value="#{MBCliente.clienteRetorno.endereco.rua}" readonly="true"
+							maxlength="50" />
+
+						<h:outputText value="Número: " maxlength="10" />
+						<p:inputText size="10"
+							value="#{MBCliente.clienteRetorno.endereco.numero}"
+							readonly="true" maxlength="10" />
+
+						<h:outputText value="Complemento: " maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBCliente.clienteRetorno.endereco.complemento}"
+							readonly="true" maxlength="50" />
+
+						<h:outputText value="Bairro: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBCliente.clienteRetorno.endereco.bairro}"
+							readonly="true" maxlength="20" />
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
@@ -111,7 +126,8 @@
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmClienteEditar:pnlClienteEditar" />
 
-						<p:commandButton value="Excluir" actionListener="#{MBCliente.excluir}"
+						<p:commandButton value="Excluir"
+							actionListener="#{MBCliente.excluir}"
 							rendered="#{MBCliente.ehCadastrado == true}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados :msgGlobal">
 							<p:confirm header="Confirmação"
@@ -188,13 +204,35 @@
 					<p:inputMask value="#{MBCliente.clienteRetorno.celular}" size="15"
 						mask="(99)99999-9999" />
 
-					<p:outputLabel value="Email: *" />
+					<p:outputLabel value="Email: " />
 					<p:inputText value="#{MBCliente.clienteRetorno.email}" size="55" />
 
-					<p:outputLabel value="Endereço: *" />
-					<p:inputText value="#{MBCliente.clienteRetorno.endereco}" size="70" />
+					<p:outputLabel value="Rua *" maxlength="50" />
+					<p:inputText size="50" value="#{MBCliente.clienteRetorno.endereco.rua}"
+						required="true"
+						requiredMessage="Favor informar o Rua do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="50" />
 
-					<h:outputText value="Cidade: *" />
+					<p:outputLabel value="Número: *" maxlength="10" />
+					<p:inputText size="10" value="#{MBCliente.clienteRetorno.endereco.numero}"
+						required="true"
+						requiredMessage="Favor informar o Número do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="10" />
+
+					<p:outputLabel value="Complemento: " maxlength="50" />
+					<p:inputText size="50" value="#{MBCliente.clienteRetorno.endereco.complemento}"
+						maxlength="50" />
+
+					<p:outputLabel value="Bairro: *" maxlength="20" />
+					<p:inputText size="20" value="#{MBCliente.clienteRetorno.endereco.bairro}"
+						required="true"
+						requiredMessage="Favor informar o Bairro do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidades"
 						value="#{MBCliente.clienteRetorno.cidade.nome}" required="true"
