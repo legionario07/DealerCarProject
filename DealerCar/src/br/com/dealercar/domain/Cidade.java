@@ -1,6 +1,6 @@
 package br.com.dealercar.domain;
 
-public class Cidade {
+public class Cidade extends EntidadeDominio{
 
 	private int id;
 	private String nome;

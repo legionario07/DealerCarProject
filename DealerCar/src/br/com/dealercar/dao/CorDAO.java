@@ -11,7 +11,85 @@ import br.com.dealercar.domain.Cor;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CorDAO extends AbstractDAO<Cor> {
+public class CorDAO implements IDAO<Cor> {
+
+
+	/**
+	 * 
+	 * @param usuario Recebe um objeto Cor e cadastra no Banco de Dados pelo Id
+	 * @return
+	 */
+	@Override
+	public void cadastrar(Cor cor) {
+		String sql = "insert into cores (nome) values (?)";
+
+		Connection con = Conexao.getConnection();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, cor.getNome());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+	}
+
+	/**
+	 * 
+	 * @param usuario
+	 *            recebe um objeto Cor e excluir do Banco de Dados pelo Id
+	 * @return
+	 */
+
+	public void excluir(Cor cor) {
+
+		String sql = "delete from cores where id = ?";
+
+		Connection con = Conexao.getConnection();
+
+		try {
+
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, cor.getId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param cor
+	 *            Recebe um objeto Cor e edita seus dados no Banco de DAdos
+	 */
+	@Override
+	public void editar(Cor cor) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("update cores set id = ?, nome = ? where id = ?");
+
+		Connection con = Conexao.getConnection();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			int i = 0;
+			ps.setInt(++i, cor.getId());
+			ps.setString(++i, cor.getNome());
+			ps.setInt(++i, cor.getId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+	}
 
 	/**
 	 * 
@@ -37,6 +115,7 @@ public class CorDAO extends AbstractDAO<Cor> {
 				listaCores.add(cor);
 
 			}
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,6 +150,7 @@ public class CorDAO extends AbstractDAO<Cor> {
 				corRetorno.setNome(rSet.getString("nome"));
 			}
 
+			rSet.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -78,65 +158,5 @@ public class CorDAO extends AbstractDAO<Cor> {
 
 		return corRetorno;
 	}
-
-	@Override
-	public void cadastrar(Cor entidade) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * 
-	 * @param usuario recebe um objeto Cor e excluir do Banco de Dados pelo Id
-	 * @return
-	 */
-	
-	public void excluir(Cor cor) {
-
-		String sql = "delete from cores where id = ?";
-
-		Connection con = Conexao.getConnection();
-
-		try {
-
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cor.getId());
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-
-	}
-	
-	/**
-	 * 
-	 * @param cor Recebe um objeto Cor e edita seus dados no Banco de DAdos
-	 */
-	@Override
-	public void editar(Cor cor) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("update cores set id = ?, nome = ? where id = ?");
-
-		Connection con = Conexao.getConnection();
-
-		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			int i = 0;
-			ps.setInt(++i, cor.getId());
-			ps.setString(++i, cor.getNome());
-			ps.setInt(++i, cor.getId());
-			
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-	}
-
-
 
 }
