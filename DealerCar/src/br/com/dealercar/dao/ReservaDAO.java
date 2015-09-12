@@ -14,7 +14,7 @@ import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class ReservaDAO {
+public class ReservaDAO implements IDAO<Reserva> {
 
 
 	/**

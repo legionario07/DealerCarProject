@@ -1,5 +1,8 @@
 package br.com.dealercar.teste.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.dealercar.dao.UsuarioDAO;
 import br.com.dealercar.domain.Usuario;
 
@@ -40,6 +43,23 @@ public class UsuarioDAOTest {
 		System.out.println(usuarioDao.pesquisarPorLogin(usuario));
 
 	}
+	
+	public static void listarTodos() {
+
+		List<Usuario> lista = new ArrayList<Usuario>();
+		
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		
+		lista = usuarioDao.listarTodos();
+		
+		for(Usuario u : lista){
+			
+			System.out.println(u);
+		}
+		
+
+	}
+
 
 	public static void main(String[] args) {
 
@@ -47,6 +67,7 @@ public class UsuarioDAOTest {
 		//pesquisarPorID();
 		//pesquisarPorLogin();
 		//editar();
+		//listarTodos();
 	}
 
 }

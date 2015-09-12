@@ -47,7 +47,7 @@ public class CidadeDAOTest {
 		Cidade cRetorno = new Cidade();
 
 		CidadeDAO cDao = new CidadeDAO();
-		cRetorno = cDao.pequisarPorId(cidade);
+		cRetorno = cDao.pesquisarPorID(cidade);
 
 		System.out.println("Id: " + cRetorno.getId());
 		System.out.println("Nome: " + cRetorno.getNome());
@@ -85,11 +85,11 @@ public class CidadeDAOTest {
 	public static void main(String[] args) {
 
 		// cadastrar();
-		//excluir();
+		// excluir();
 		// editar();
 		// procurarPorId();
-		// pesquisarPorNome();
-		// listarTodos();
+		//pesquisarPorNome();
+		//listarTodos();
 
 	}
 

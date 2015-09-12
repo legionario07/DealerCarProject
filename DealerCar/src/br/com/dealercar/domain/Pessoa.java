@@ -1,6 +1,6 @@
 package br.com.dealercar.domain;
 
-public abstract class Pessoa {
+public abstract class Pessoa extends EntidadeDominio{
 	
 	private int id;
 	private String nome;

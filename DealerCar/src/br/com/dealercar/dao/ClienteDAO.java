@@ -14,7 +14,7 @@ import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 
-public class ClienteDAO {
+public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 	/**
 	 * 

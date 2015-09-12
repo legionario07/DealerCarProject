@@ -5,7 +5,7 @@ package br.com.dealercar.domain;
  * @author Paulinho
  * Classe que possui os usuários e senhas do sistema
  */
-public class Usuario {
+public class Usuario extends EntidadeDominio {
 	
 	private int id;
 	private String login;

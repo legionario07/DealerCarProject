@@ -14,7 +14,7 @@ import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class FuncionarioDAO {
+public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 	
 	/**
 	 * 

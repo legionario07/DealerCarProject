@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class UsuarioDAO {
+public class UsuarioDAO implements IDAO<Usuario>{
 	
 	/**
 	 * 
@@ -154,5 +156,42 @@ public class UsuarioDAO {
 		
 		return usuarioRetorno;
 	}
+	
+	/**
+	 * 
+	 * @return Retorna um array de Usuario
+	 */
+	@Override
+	public List<Usuario> listarTodos() {
+
+		String sql = "select * from usuarios";
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+
+		Connection con = Conexao.getConnection();
+
+		try {
+
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rSet = ps.executeQuery();
+
+			while (rSet.next()) {
+				Usuario usuarioRetorno = new Usuario();
+				usuarioRetorno.setId(rSet.getInt("id"));
+				usuarioRetorno.setLogin(rSet.getString("login"));
+				usuarioRetorno.setSenha(rSet.getString("senha"));
+
+				usuarios.add(usuarioRetorno);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return usuarios;
+
+	}
 }
+
 

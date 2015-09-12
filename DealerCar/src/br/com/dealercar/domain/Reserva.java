@@ -5,7 +5,7 @@ import java.util.Date;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
 
-public class Reserva {
+public class Reserva extends EntidadeDominio{
 
 	private int id;
 	private SituacaoReserva situacao;
