@@ -156,7 +156,7 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
-			onShow="" height="380" draggable="false" resizable="false"
+			onShow="" height="450" draggable="false" resizable="false"
 			header="Cliente - Editar">
 
 			<h:form id="frmClienteEditar">
@@ -180,7 +180,12 @@
 
 					<h:outputText value="Sexo: " maxlength="45" />
 					<p:selectOneMenu value="#{MBCliente.clienteRetorno.sexo}"
-						rendered="true">
+						rendered="true" required="true"
+						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemLabel="Selecione o Sexo"
+							noSelectionOption="true" />
+							
 						<f:selectItem itemValue="Masculino" itemLabel="Masculino" />
 						<f:selectItem itemValue="Feminino" itemLabel="Feminino" />
 					</p:selectOneMenu>
@@ -208,25 +213,28 @@
 					<p:inputText value="#{MBCliente.clienteRetorno.email}" size="55" />
 
 					<p:outputLabel value="Rua *" maxlength="50" />
-					<p:inputText size="50" value="#{MBCliente.clienteRetorno.endereco.rua}"
-						required="true"
+					<p:inputText size="50"
+						value="#{MBCliente.clienteRetorno.endereco.rua}" required="true"
 						requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="50" />
 
 					<p:outputLabel value="Número: *" maxlength="10" />
-					<p:inputText size="10" value="#{MBCliente.clienteRetorno.endereco.numero}"
+					<p:inputText size="10"
+						value="#{MBCliente.clienteRetorno.endereco.numero}"
 						required="true"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="10" />
 
 					<p:outputLabel value="Complemento: " maxlength="50" />
-					<p:inputText size="50" value="#{MBCliente.clienteRetorno.endereco.complemento}"
+					<p:inputText size="50"
+						value="#{MBCliente.clienteRetorno.endereco.complemento}"
 						maxlength="50" />
 
 					<p:outputLabel value="Bairro: *" maxlength="20" />
-					<p:inputText size="20" value="#{MBCliente.clienteRetorno.endereco.bairro}"
+					<p:inputText size="20"
+						value="#{MBCliente.clienteRetorno.endereco.bairro}"
 						required="true"
 						requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"

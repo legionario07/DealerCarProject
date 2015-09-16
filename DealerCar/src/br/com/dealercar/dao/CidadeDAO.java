@@ -114,6 +114,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> {
 				cidadeRetorno.setUf(rSet.getString("uf"));
 
 			}
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,6 +154,8 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> {
 
 				cidades.add(cidadeRetorno);
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,6 +191,8 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> {
 				cidades.add(cidadeRetorno);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

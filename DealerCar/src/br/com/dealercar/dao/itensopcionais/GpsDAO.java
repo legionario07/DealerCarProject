@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.itensopcionais.Gps;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class GpsDAO {
+public class GpsDAO implements IDAO<Gps>{
 
 
 	/**
@@ -158,6 +159,42 @@ public class GpsDAO {
 				gpsRetorno.setIdioma(rSet.getString("idioma"));
 				
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return gpsRetorno;
+	}
+
+	/**
+	 * 
+	 * @param Gps Recebe um Objeto Gps e localiza no Banco de Dados
+	 * pelo Codigo
+	 * @return Retorna um objeto de Gps
+	 */
+	public Gps pesquisarPorID(Gps gps) {
+	
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from gps where codigo = ?");
+		
+		Gps gpsRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, gps.getCodigo());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				gpsRetorno = new Gps();
+				gpsRetorno.setCodigo(rSet.getInt("codigo"));
+				gpsRetorno.setDescricao(rSet.getString("descricao"));
+				gpsRetorno.setValor(rSet.getDouble("valor"));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

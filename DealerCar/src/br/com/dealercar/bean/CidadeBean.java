@@ -13,7 +13,8 @@ import br.com.dealercar.util.JSFUtil;
 @ViewScoped
 public class CidadeBean {
 
-	List<Cidade> listaCidades;
+	private List<Cidade> listaCidades;
+	private CidadeDAO cidDao = new CidadeDAO(); 
 	private Cidade cidade = new Cidade();
 	private Cidade cidadeRetorno = new Cidade();
 
@@ -49,7 +50,6 @@ public class CidadeBean {
 	 * carrega a lista de Cidades na pagina assim que inica
 	 */
 	public void carregarCidades() {
-		CidadeDAO cidDao = new CidadeDAO(); 
 		listaCidades = cidDao.listarTodos();
 	}
 	
@@ -57,7 +57,6 @@ public class CidadeBean {
 	 *  Cria uma nova instancia de Cidade para se cadastrar no Banco de Dados
 	 */
 	public void novo() {
-		CidadeDAO cidDao = new CidadeDAO(); 
 		cidDao.cadastrar(cidade);
 	}
 
@@ -65,7 +64,7 @@ public class CidadeBean {
 	 * excluir um objeto de Cidade do BD
 	 */
 	public void excluir() {
-		CidadeDAO cidDao = new CidadeDAO(); 
+
 		cidDao.excluir(cidade);
 		JSFUtil.adicionarMensagemSucesso("Cidade excluida com Sucesso.");
 	}
@@ -75,7 +74,7 @@ public class CidadeBean {
 	 * em seguida instancia um novo Objeto
 	 */
 	public void cadastrar() {
-		CidadeDAO cidDao = new CidadeDAO(); 
+
 		this.cidade.setNome(this.cidade.getNome().toUpperCase());
 		this.cidade.setUf(this.cidade.getUf().toUpperCase());
 

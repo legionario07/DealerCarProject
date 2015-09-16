@@ -29,11 +29,16 @@ public class ClienteBean implements Serializable {
 	
 	private Cliente cliente = new Cliente();
 	private Cliente clienteRetorno = new Cliente();
+	private Cidade cidade = new Cidade();
 	private Endereco endereco = new Endereco();
+	
+	private ClienteDAO cliDao = new ClienteDAO();
+	private CidadeDAO cidDao = new CidadeDAO();
+	
 	private List<Cliente> listaClientes = new ArrayList<Cliente> ();
 	private List<Cidade> listaCidades =  new ArrayList<Cidade>();
 	private int totalClientes;
-	private Cidade cidade = new Cidade();
+	
 	private boolean ehCadastrado = false;
 	private boolean jaPesquisei = false;
 	
@@ -113,8 +118,10 @@ public class ClienteBean implements Serializable {
 		this.endereco = endereco;
 	}
 
+	/**
+	 * Carrega a listagem de cidades assim que inicia a pagina XHTML
+	 */
 	public void carregarListagemCidades() {
-		CidadeDAO cidDao = new CidadeDAO();
 		listaCidades = cidDao.listarTodos();
 	}
 
@@ -124,7 +131,7 @@ public class ClienteBean implements Serializable {
 	 */
 	
 	public void carregarListagem() {
-		ClienteDAO cliDao = new ClienteDAO();
+		
 		listaClientes = cliDao.listarTodos();
 		setTotalClientes(listaClientes.size());
 
@@ -135,8 +142,7 @@ public class ClienteBean implements Serializable {
 	 * do Cliente e da Cidade que o usuário digitou na Tela
 	 */
 	public void cadastrar() {
-		ClienteDAO cliDao = new ClienteDAO();
-		CidadeDAO cidDao = new CidadeDAO();
+
 		cliente.setEndereco(endereco);
 		
 		listaCidades = cidDao.listarTodos();
@@ -154,7 +160,6 @@ public class ClienteBean implements Serializable {
 	 */
 	public void pesquisarPorID() {
 		this.setEhCadastrado(false);
-		ClienteDAO cliDao = new ClienteDAO();
 		
 		for (Cliente cli : listaClientes) {
 			if (clienteRetorno.getId() == cli.getId()) {
@@ -176,8 +181,6 @@ public class ClienteBean implements Serializable {
 	 * Usuário na TEla
 	 */
 	public void pesquisarPorCPF() {
-		
-		ClienteDAO cliDao = new ClienteDAO();
 		
 		this.ehCadastrado = false;
 		this.jaPesquisei = true;
@@ -203,7 +206,7 @@ public class ClienteBean implements Serializable {
 	 * Edita o Cliente desejado pelo Usuário apos realizado a pesquisa pelo CPF na tela
 	 */
 	public void editar() {
-		ClienteDAO cliDao = new ClienteDAO();
+		
 		
 		//Verifica a cidade escolhida para ser adicionado ao Cliente que esta sendo editado
 		
@@ -215,7 +218,8 @@ public class ClienteBean implements Serializable {
 			}
 
 		} 
-		clienteRetorno.setEndereco(endereco);
+	
+		
 		cliDao.editar(clienteRetorno);
 
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
@@ -226,7 +230,6 @@ public class ClienteBean implements Serializable {
 	 * e solicita a confirmação na tela
 	 */
 	public void excluir() {
-		ClienteDAO cliDao = new ClienteDAO();
 		
 		cliDao.excluir(clienteRetorno);
 		JSFUtil.adicionarMensagemSucesso("Cliente excluido com Sucesso.");

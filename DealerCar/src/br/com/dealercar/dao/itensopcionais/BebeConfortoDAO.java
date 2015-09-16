@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class BebeConfortoDAO {
+public class BebeConfortoDAO implements IDAO<BebeConforto>{
 
 
 	/**
@@ -165,4 +166,41 @@ public class BebeConfortoDAO {
 		
 		return bebeConfortoRetorno;
 	}
+
+	/**
+	 * 
+	 * @param BebeConforto Recebe um Objeto BebeConforto e localiza no Banco de Dados
+	 * pelo Codigo
+	 * @return Retorna um objeto de BebeConforto
+	 */
+	public BebeConforto pesquisarPorID(BebeConforto bebeConforto) {
+	
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from bebe_confortos where codigo = ?");
+		
+		BebeConforto bConfortoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, bebeConforto.getCodigo());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				bConfortoRetorno = new BebeConforto();
+				bConfortoRetorno.setCodigo(rSet.getInt("codigo"));
+				bConfortoRetorno.setDescricao(rSet.getString("descricao"));
+				bConfortoRetorno.setValor(rSet.getDouble("valor"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return bConfortoRetorno;
+	}
+	
 }

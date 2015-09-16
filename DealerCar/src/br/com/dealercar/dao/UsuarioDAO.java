@@ -89,6 +89,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				usuarioRetorno.setSenha(rSet.getString("senha"));
 			}
 			
+			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -149,6 +151,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				usuarioRetorno.setSenha(rSet.getString("senha"));
 			}
 			
+			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -183,6 +187,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				usuarios.add(usuarioRetorno);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

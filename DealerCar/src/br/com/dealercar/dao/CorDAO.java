@@ -151,6 +151,7 @@ public class CorDAO implements IDAO<Cor> {
 			}
 
 			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

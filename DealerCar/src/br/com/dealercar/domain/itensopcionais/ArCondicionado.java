@@ -2,7 +2,7 @@ package br.com.dealercar.domain.itensopcionais;
 
 public class ArCondicionado extends Opcional{
 
-	public ArCondicionado() {
+	public ArCondicionado(){
 
 	}
 	

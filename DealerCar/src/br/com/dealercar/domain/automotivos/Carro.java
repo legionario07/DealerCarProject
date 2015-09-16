@@ -3,9 +3,10 @@ package br.com.dealercar.domain.automotivos;
 import java.io.Serializable;
 
 import br.com.dealercar.domain.Cor;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.enums.SituacaoType;
 
-public class Carro implements Serializable {
+public class Carro extends EntidadeDominio implements Serializable {
 
 	/**
 	 * Controlando a evolução dos objetos serialidos.... Ex.: Salva um objeto em

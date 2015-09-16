@@ -18,6 +18,7 @@
 		<h:form id="frmClientesListagem">
 			<p:dataTable id="tblClientes" value="#{MBCliente.listaClientes}"
 				var="itemCliente" emptyMessage="Nenhum Registro foi encontrado"
+				sortBy="#{itemCliente.nome}"
 				paginator="true" rows="10">
 
 				<f:facet name="header">
@@ -31,7 +32,7 @@
 				</p:column>
 
 				<p:column headerText="Nome" width="25%" style="font-size:11px"
-					sortBy="#{itemCliente.nome}">
+					sortBy="#{itemCliente.nome}" filterBy="#{itemCliente.nome}">
 					<h:outputText value="#{itemCliente.nome}" />
 				</p:column>
 

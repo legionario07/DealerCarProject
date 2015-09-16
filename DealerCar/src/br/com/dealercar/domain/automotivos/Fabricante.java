@@ -1,8 +1,9 @@
 package br.com.dealercar.domain.automotivos;
 
 import br.com.dealercar.dao.automotivos.FabricanteDAO;
+import br.com.dealercar.domain.EntidadeDominio;
 
-public class Fabricante {
+public class Fabricante extends EntidadeDominio {
 	
 	private int id;
 	private String nome;

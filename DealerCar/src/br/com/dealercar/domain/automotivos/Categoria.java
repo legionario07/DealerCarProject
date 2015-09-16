@@ -2,7 +2,9 @@ package br.com.dealercar.domain.automotivos;
 
 import java.util.List;
 
-public class Categoria {
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class Categoria extends EntidadeDominio {
 
 	private int id;
 	private String nome;

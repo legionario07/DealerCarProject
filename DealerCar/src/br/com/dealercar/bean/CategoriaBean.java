@@ -1,4 +1,4 @@
-package br.com.dealercar.bean.automotivos;
+package br.com.dealercar.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ public class CategoriaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Categoria categoria = new Categoria();
+	private CategoriaDAO catDao = new CategoriaDAO();
 	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
 	private int totalCategoria;
 	
@@ -56,7 +57,6 @@ public class CategoriaBean implements Serializable {
 	 * coloca o valor de total de Categoria existente na variavel totalCategoria
 	 */
 	public void carregarListagemCategoria() {
-		CategoriaDAO catDao = new CategoriaDAO();
 		listaCategoria = catDao.listarTodos(); 
 		
 		this.setTotalCategoria(listaCategoria.size());
@@ -74,7 +74,7 @@ public class CategoriaBean implements Serializable {
 				return;
 			}
 		}
-		CategoriaDAO catDao = new CategoriaDAO();
+		
 		catDao.cadastrar(categoria);
 		JSFUtil.adicionarMensagemSucesso("Categoria Cadastrada com Sucesso.");
 		
@@ -87,7 +87,7 @@ public class CategoriaBean implements Serializable {
 	 * disponivel na tela. Será solicitado uma confirmação
 	 */
 	public void excluir() {
-		CategoriaDAO catDao = new CategoriaDAO();
+
 		catDao.excluir(categoria);
 		
 		listaCategoria = catDao.listarTodos();
@@ -101,7 +101,6 @@ public class CategoriaBean implements Serializable {
 	 * Será aberta uma nova caixa de dialogo para ser feitas as alterações
 	 */
 	public void editar() {
-		CategoriaDAO catDao = new CategoriaDAO();
 		catDao.editar(categoria);
 		listaCategoria = catDao.listarTodos();
 		

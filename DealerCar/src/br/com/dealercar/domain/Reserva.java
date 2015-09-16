@@ -1,7 +1,5 @@
 package br.com.dealercar.domain;
 
-import java.util.Date;
-
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
 
@@ -9,8 +7,8 @@ public class Reserva extends EntidadeDominio{
 
 	private int id;
 	private SituacaoReserva situacao;
-	private Date dataInicio;
-	private Date dataFim;
+	private String dataCadastroReserva;
+	private String dataFim;
 	private Modelo modelo;
 	private Cliente cliente;
 	private Funcionario funcionario;
@@ -29,23 +27,21 @@ public class Reserva extends EntidadeDominio{
 	
 	/**
 	 * 
-	 * @param situacao
-	 * @param dataInicio
+	 * @param dataCadastroReserva
 	 * @param dataFim
 	 * @param modelo
 	 * @param cliente
 	 * @param funcionario
 	 */
-	public Reserva(SituacaoReserva situacao, Date dataInicio, Date dataFim,
-				Modelo modelo, Cliente cliente, Funcionario funcionario) {
+	public Reserva(Modelo modelo, Cliente cliente, Funcionario funcionario) {
 		
-		this.setSituacao(situacao);
-		this.setDataInicio(dataInicio);
-		this.setDataFim(dataFim);
+		
+		
 		this.setModelo(modelo);
 		this.setCliente(cliente);
 		this.setFuncionario(funcionario);
 	}
+	
 	
 	public int getId() {
 		return id;
@@ -59,16 +55,18 @@ public class Reserva extends EntidadeDominio{
 	public void setSituacao(SituacaoReserva situacao) {
 		this.situacao = situacao;
 	}
-	public Date getDataInicio() {
-		return dataInicio;
+	public String getDataCadastroReserva() {
+		return dataCadastroReserva;
 	}
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setDataCadastroReserva(String dataCadastroReserva) {
+		
+		this.dataCadastroReserva = dataCadastroReserva;
+		
 	}
-	public Date getDataFim() {
+	public String getDataFim() {
 		return dataFim;
 	}
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(String dataFim) {
 		this.dataFim = dataFim;
 	}
 	public Modelo getModelo() {
@@ -97,15 +95,22 @@ public class Reserva extends EntidadeDominio{
 		retorno.append("Id: ");
 		retorno.append(this.getId());
 		retorno.append("\nData Inicio: ");
-		retorno.append(this.getDataInicio());
+		retorno.append(this.getDataCadastroReserva());
 		retorno.append("\nData Fim: ");
 		retorno.append(this.getDataFim());
 		retorno.append("\nModelo: ");
 		retorno.append(this.getModelo().getNome());
 		retorno.append("\nCliente: ");
 		retorno.append(this.getCliente().getNome());
-		retorno.append("\nFuncionário Responvel pela Reserva: ");
+		retorno.append("\nTelefone Cliente: ");
+		retorno.append(this.getCliente().getTelefone());
+		retorno.append("\nEmail Cliente: ");
+		retorno.append(this.getCliente().getEmail());
+		retorno.append(this.getCliente().getEndereco());
+		retorno.append("\nFuncionário Responsável pela Reserva: ");
 		retorno.append(this.getFuncionario().getNome());
+		retorno.append("\nSituação da Reserva: ");
+		retorno.append(this.getSituacao().getDescricao());
 		retorno.append("\n\n");
 		
 		return retorno.toString();

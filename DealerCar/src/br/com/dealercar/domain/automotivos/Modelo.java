@@ -2,7 +2,9 @@ package br.com.dealercar.domain.automotivos;
 
 import java.util.List;
 
-public class Modelo {
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class Modelo extends EntidadeDominio {
 	
 	private int id;
 	private String nome;
@@ -21,6 +23,12 @@ public class Modelo {
 	}
 	
 	public Modelo(String nome, Fabricante fabricante) {
+		this.setNome(nome);
+		this.setFabricante(fabricante);
+	}
+	
+	public Modelo(int id, String nome, Fabricante fabricante) {
+		this.setId(id);
 		this.setNome(nome);
 		this.setFabricante(fabricante);
 	}

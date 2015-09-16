@@ -1,4 +1,4 @@
-package br.com.dealercar.bean.automotivos;
+package br.com.dealercar.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,17 +35,26 @@ public class CarroBean implements Serializable{
 	private static final long serialVersionUID = -3692960075593703235L;
 	
 	private Carro carro = new Carro();
-	private List<Carro> listaCarros = new ArrayList<Carro>();
 	private int totalCarros;
 	private Modelo modelo = new Modelo();
 	private Cor cor = new Cor();
+	
+	private CorDAO corDao = new CorDAO();
+	private CarroDAO carDao = new CarroDAO();
+	private ModeloDAO modDao = new ModeloDAO();
+	private CategoriaDAO catDao = new CategoriaDAO();
+	private ImagemCarroDAO imDao = new ImagemCarroDAO();
+	
+	
 	private Categoria categoria = new Categoria();
 	private ImagemCarro carroUrl = new ImagemCarro();
+	private List<Carro> listaCarros = new ArrayList<Carro>();
 	private List<Cor> listaCores = new ArrayList<Cor>();
 	private List<Modelo> listaModelos = new ArrayList<Modelo>();
 	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
 	private List<ImagemCarro> listaImagens = new ArrayList<ImagemCarro>();
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
+	
 	private boolean ehCadastrado = false;
 	private boolean jaPesquisei = false;
 	
@@ -167,19 +176,14 @@ public class CarroBean implements Serializable{
 	 * 																			
 	 */
 	public void carregarListagemCarros() {
-		CarroDAO carDao = new CarroDAO();
 		listaCarros = carDao.listarTodos();
 		
-		CategoriaDAO catDao = new CategoriaDAO();
 		listaCategoria = catDao.listarTodos();
 		
-		ModeloDAO modDao = new ModeloDAO();
 		listaModelos = modDao.listarTodos();
 		
-		CorDAO corDao = new CorDAO();
 		listaCores = corDao.listarTodos();
 		
-		ImagemCarroDAO imDao = new ImagemCarroDAO();
 		listaImagens = imDao.listarTodos();
 		
 		listaSituacao = Arrays.asList(SituacaoType.values());
@@ -195,13 +199,12 @@ public class CarroBean implements Serializable{
 	public void pesquisarPorPlaca() {
 		this.ehCadastrado =  false;
 		this.jaPesquisei = true;
-		CarroDAO carroDao = new CarroDAO();
 		
 		for (Carro c : listaCarros) {
 			if (carro.getPlaca().equals(c.getPlaca())) {
 				this.ehCadastrado = true;
 				this.jaPesquisei = false;
-				carro=carroDao.pesquisarPorPlaca(c);
+				carro=carDao.pesquisarPorPlaca(c);
 				return;
 			}
 		}
@@ -219,18 +222,16 @@ public class CarroBean implements Serializable{
 	 */
 	public void cadastrar() {
 
-		ModeloDAO modeloDao = new ModeloDAO();
 		
 		carro.setModelo(modelo);
 		
-		listaModelos = modeloDao.listarTodos();
+		listaModelos = modDao.listarTodos();
 		
 		carro.setCategoria(categoria);
 		carro.setCor(cor);
 		carro.setCarroUrl(carroUrl.validaImagemCarro(modelo.getId(), listaModelos, listaImagens));
 		
-		CarroDAO carroDao = new CarroDAO();
-		carroDao.cadastrar(carro);
+		carDao.cadastrar(carro);
 		
 		JSFUtil.adicionarMensagemSucesso("Carro Cadastrado com Sucesso.");
 		
@@ -251,9 +252,9 @@ public class CarroBean implements Serializable{
 	 * Exclui o Objeto Carro localizado pelo Usuario 
 	 */
 	public void excluir() {
-		CarroDAO carroDao = new CarroDAO();
 		
-		carroDao.excluir(carro);
+		carDao.excluir(carro);
+		
 		JSFUtil.adicionarMensagemSucesso("Carro excluido com Sucesso.");
 		carro = new Carro();
 		this.jaPesquisei = false;
@@ -271,8 +272,7 @@ public class CarroBean implements Serializable{
 		carro.setModelo(new Modelo().validaModelo(carro.getModelo().getNome(), listaModelos));
 		carro.setCarroUrl(new ImagemCarro().validaImagemCarro(carro.getModelo().getId(), listaModelos, listaImagens));
 		
-		CarroDAO carroDao = new CarroDAO();
-		carroDao.editar(carro);
+		carDao.editar(carro);
 		
 		JSFUtil.adicionarMensagemSucesso("Carro Alterado com Sucesso.");
 		

@@ -12,16 +12,10 @@ public class ModeloDAOTest {
 	
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
-		Modelo modelo = new Modelo();
-		modelo.setNome("Teste");
-		
-		Fabricante fabricante = new Fabricante();
-		fabricante.setId(4);
-		
-		modelo.setFabricante(fabricante);
+		Modelo modelo = new Modelo("Teste", new Fabricante(2));
 		
 		ModeloDAO mDao = new ModeloDAO();
-		mDao.cadastrar(modelo, fabricante);
+		mDao.cadastrar(modelo);
 	}
 	
 	
@@ -41,22 +35,16 @@ public class ModeloDAOTest {
 	
 	@SuppressWarnings("unused")
 	private static void editar() {
-		Fabricante fabricante = new Fabricante();
-		fabricante.setId(4);
+		Modelo modelo = new Modelo(26, "Teste2", new Fabricante(5));
 
-		Modelo modelo = new Modelo();
-		modelo.setId(1);
-		modelo.setNome("Teste 474");
-		
 		ModeloDAO mDao = new ModeloDAO();
-		mDao.editar(modelo, fabricante);
+		mDao.editar(modelo);
 		
 	}
 	
 	@SuppressWarnings("unused")
 	private static void excluir() {
-		Modelo modelo = new Modelo();
-		modelo.setId(1);
+		Modelo modelo = new Modelo(26);
 		
 		ModeloDAO mDao = new ModeloDAO();
 		mDao.excluir(modelo);

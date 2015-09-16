@@ -35,22 +35,13 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, cliente.getNome().toUpperCase());
-
-			// Alterando o formato de armazenamento da data para o Banco de
-			// Dados Aceitar
-			String[] dNasc = cliente.getDataNasc().split("-|/");
-			String dia = dNasc[0];
-			String mes = dNasc[1];
-			String ano = dNasc[2];
-			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
-
-			ps.setString(++i, cliente.getDataNasc().toUpperCase());
+			ps.setString(++i, cliente.getDataNasc());
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
 			ps.setString(++i, cliente.getSexo().toUpperCase());
-			ps.setString(++i, cliente.getTelefone().toUpperCase());
-			ps.setString(++i, cliente.getCelular().toUpperCase());
+			ps.setString(++i, cliente.getTelefone());
+			ps.setString(++i, cliente.getCelular());
 			ps.setString(++i, cliente.getRG().toUpperCase());
-			ps.setString(++i, cliente.getCPF().toUpperCase());
+			ps.setString(++i, cliente.getCPF());
 			ps.setString(++i, cliente.getEmail().toUpperCase());
 
 			StringBuffer endereco = new StringBuffer();
@@ -95,22 +86,13 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			int i = 0;
 			
 			ps.setString(++i, cliente.getNome().toUpperCase());
-
-			// Alterando o formato de armazenamento da data para o Banco de
-			// Dados Aceitar
-			String[] dNasc = cliente.getDataNasc().split("-|/");
-			String dia = dNasc[0];
-			String mes = dNasc[1];
-			String ano = dNasc[2];
-			cliente.setDataNasc(ano + "-" + mes + "-" + dia);
-
-			ps.setString(++i, cliente.getDataNasc().toUpperCase());
+			ps.setString(++i, cliente.getDataNasc());
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
 			ps.setString(++i, cliente.getSexo().toUpperCase());
-			ps.setString(++i, cliente.getTelefone().toUpperCase());
-			ps.setString(++i, cliente.getCelular().toUpperCase());
+			ps.setString(++i, cliente.getTelefone());
+			ps.setString(++i, cliente.getCelular());
 			ps.setString(++i, cliente.getRG().toUpperCase());
-			ps.setString(++i, cliente.getCPF().toUpperCase());
+			ps.setString(++i, cliente.getCPF());
 			ps.setString(++i, cliente.getEmail().toUpperCase());
 			
 			StringBuffer endereco = new StringBuffer();
@@ -191,13 +173,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-
-				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-
-				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
+				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -207,9 +183,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
 				
 				Endereco end = new Endereco();
-
-				// Alterando o formato de armazenamento da endereço para o Banco de
-				// Dados Aceitar
+				/**
+				 * Alterando o formato de armazenamento da endereço para o Banco de
+				 * Dados Aceitar
+				 * Quando encontra a virgula a String é separada.
+				 * Assim A rua, O numero, o complemento é armezanado adequadamente
+				 */
 				String[] endereco = rSet.getString("clientes.endereco").split(",");
 				
 					if(endereco.length == 4) {
@@ -229,6 +208,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clientes.add(clienteRetorno);
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -268,13 +249,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				
-				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-				
-				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
+				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -285,9 +260,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
 
 				Endereco end = new Endereco();
-
-				// Alterando o formato de armazenamento da endereço para o Banco de
-				// Dados Aceitar
+				/**
+				 * Alterando o formato de armazenamento da endereço para o Banco de
+				 * Dados Aceitar
+				 * Quando encontra a virgula a String é separada.
+				 * Assim A rua, O numero, o complemento é armezanado adequadamente
+				 */
 				String[] endereco = rSet.getString("clientes.endereco").split(",");
 				
 					if(endereco.length == 4) {
@@ -311,6 +289,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				clienteRetorno.setCidade(cidade);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -351,13 +331,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				
-				String[] dNasc = rSet.getString("clientes.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-				
-				clienteRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
+				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -369,8 +343,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				Endereco end = new Endereco();
 
-				// Alterando o formato de armazenamento da endereço para o Banco de
-				// Dados Aceitar
+				/**
+				 * Alterando o formato de armazenamento da endereço para o Banco de
+				 * Dados Aceitar
+				 * Quando encontra a virgula a String é separada.
+				 * Assim A rua, O numero, o complemento é armezanado adequadamente
+				 */
 				String[] endereco = rSet.getString("clientes.endereco").split(",");
 				
 					if(endereco.length == 4) {
@@ -394,6 +372,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				clienteRetorno.setCidade(cidade);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -447,9 +427,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				clienteRetorno.setEmail(rSet.getString("clientes.email"));
 
 				Endereco end = new Endereco();
-
-				// Alterando o formato de armazenamento da endereço para o Banco de
-				// Dados Aceitar
+				/**
+				 * Alterando o formato de armazenamento da endereço para o Banco de
+				 * Dados Aceitar
+				 * Quando encontra a virgula a String é separada.
+				 * Assim A rua, O numero, o complemento é armezanado adequadamente
+				 */
 				String[] endereco = rSet.getString("clientes.endereco").split(",");
 				
 					if(endereco.length == 4) {
@@ -476,6 +459,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 				lista.add(clienteRetorno);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

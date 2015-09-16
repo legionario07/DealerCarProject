@@ -13,8 +13,8 @@ public class FuncionarioDAOTest {
 
 	public static void cadastrar() {
 
-		Funcionario funcionario = new Funcionario("Paulo Silva", "31/07/1988", "Masculino", "971986033",
-				new Endereco("Rua xv de NOvembro", "13", "Centro"), new Cidade(5),	"Administrador", 3000.00D, new Usuario(2));
+		Funcionario funcionario = new Funcionario("Luis Gustavo", "31/07/1988", "Masculino", "971986033",
+				new Endereco("Rua xv de NOvembro", "13", "Centro"), new Cidade(5),	"Administrador", 4000.00D, new Usuario(2));
 
 		FuncionarioDAO funDao = new FuncionarioDAO();
 		funDao.cadastrar(funcionario);
@@ -84,7 +84,8 @@ public class FuncionarioDAOTest {
 		//excluir();
 		//pesquisarPorID();
 		//pesquisarPorNome();
-		listarTodos();
+		//listarTodos();
+		
 	}
 
 }

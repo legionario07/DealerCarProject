@@ -1,8 +1,9 @@
 package br.com.dealercar.domain.itensopcionais;
 
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.enums.SeguroType;
 
-public class TipoSeguro {
+public class TipoSeguro extends EntidadeDominio{
 	
 	private int id;
 	private SeguroType nome;

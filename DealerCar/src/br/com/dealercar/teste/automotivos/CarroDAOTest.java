@@ -34,46 +34,60 @@ public class CarroDAOTest {
 		System.out.println(carDao.pesquisarPorPlaca(carro));
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void listarTodos() {
 		List<Carro> lista = new ArrayList<Carro>();
-		
+
 		CarroDAO carDao = new CarroDAO();
 		lista = carDao.listarTodos();
-		
-		for(Carro c : lista) {
+
+		for (Carro c : lista) {
 			System.out.println(c);
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
-	private static void excluir(){
+	private static void excluir() {
 		Carro carro = new Carro("Dgx-9999");
-		
+
 		CarroDAO carroDao = new CarroDAO();
 		carroDao.excluir(carro);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void editar() {
 		Carro carro = new Carro("DGX-9999", "2011", 4, 3, new Cor(7), new Modelo(3), new Categoria(6),
 				new ImagemCarro(2), SituacaoType.Locado);
-		
+
 		CarroDAO carroDao = new CarroDAO();
-		
+
 		carroDao.editar(carro);
+
+	}
+
+	public static void pesquisarCarrosDisponiveis() {
+		
+		List<Carro> lista = new ArrayList<Carro>();
+
+		CarroDAO carDao = new CarroDAO(); 
+		lista = carDao.listarApenasDisponiveis();
+
+		for (Carro c : lista) {
+			System.out.println(c.getModelo().getNome());
+		}
 		
 	}
 
 	public static void main(String[] args) {
 
-		//cadastrar();
-		//excluir();
-		//editar();
-		//pesquisarPorPlaca();
-		//listarTodos();
-		
+		// cadastrar();
+		// excluir();
+		// editar();
+		// pesquisarPorPlaca();
+		// listarTodos();
+		pesquisarCarrosDisponiveis();
+
 	}
 
 }

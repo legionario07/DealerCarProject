@@ -3,7 +3,9 @@ package br.com.dealercar.domain.automotivos;
 import java.io.Serializable;
 import java.util.List;
 
-public class ImagemCarro implements Serializable {
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class ImagemCarro extends EntidadeDominio implements Serializable {
 	
 	/**
 	 * 

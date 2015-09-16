@@ -35,15 +35,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, funcionario.getNome().toUpperCase());
-
-			// Alterando o formato de armazenamento da data para o Banco de
-			// Dados Aceitar
-			String[] dNasc = funcionario.getDataNasc().split("-|/");
-			String dia = dNasc[0];
-			String mes = dNasc[1];
-			String ano = dNasc[2];
-			funcionario.setDataNasc(ano + "-" + mes + "-" + dia);
-
 			ps.setString(++i, funcionario.getDataNasc());
 			ps.setString(++i, funcionario.getSexo());
 
@@ -93,15 +84,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, funcionario.getNome().toUpperCase());
-
-			// Alterando o formato de armazenamento da data para o Banco de
-			// Dados Aceitar
-			String[] dNasc = funcionario.getDataNasc().split("-|/");
-			String dia = dNasc[0];
-			String mes = dNasc[1];
-			String ano = dNasc[2];
-			funcionario.setDataNasc(ano + "-" + mes + "-" + dia);
-			
 			ps.setString(++i, funcionario.getDataNasc());
 			ps.setString(++i, funcionario.getSexo());
 
@@ -191,14 +173,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 				funcionarioRetorno.setId(rSet.getInt("funcionarios.id"));
 				funcionarioRetorno.setNome(rSet.getString("funcionarios.nome"));
 
-				// Alterando o formato de armazenamento da data para o Banco de
-				// Dados Aceitar
-				String[] dNasc = rSet.getString("funcionarios.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-
-				funcionarioRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
+				funcionarioRetorno.setDataNasc(rSet.getString("funcionarios.data_nasc"));
 				
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
@@ -235,6 +210,8 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 				funcionarios.add(funcionarioRetorno);
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -276,16 +253,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 				funcionarioRetorno.setId(rSet.getInt("funcionarios.id"));
 				funcionarioRetorno.setNome(rSet.getString("funcionarios.nome"));
-				
-				// Alterando o formato de armazenamento da data para o Banco de
-				// Dados Aceitar
-				String[] dNasc = rSet.getString("funcionarios.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-				
-				funcionarioRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
-				
+				funcionarioRetorno.setDataNasc(rSet.getString("funcionarios.data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
 				
@@ -325,6 +293,8 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 				funcionarioRetorno.setUsuario(usuario);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -369,16 +339,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 				funcionarioRetorno.setId(rSet.getInt("funcionarios.id"));
 				funcionarioRetorno.setNome(rSet.getString("funcionarios.nome"));
-				
-				// Alterando o formato de armazenamento da data para o Banco de
-				// Dados Aceitar
-				String[] dNasc = rSet.getString("funcionarios.data_nasc").split("-|/");
-				String dia = dNasc[2];
-				String mes = dNasc[1];
-				String ano = dNasc[0];
-				
-				funcionarioRetorno.setDataNasc(dia + "-" + mes + "-" + ano);
-				
+				funcionarioRetorno.setDataNasc(rSet.getString("funcionarios.data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
 				
@@ -420,6 +381,8 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 				lista.add(funcionarioRetorno);
 
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

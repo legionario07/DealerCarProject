@@ -7,19 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class ModeloDAO {
+public class ModeloDAO implements IDAO<Modelo>{
 	
 	/**
 	 * 
-	 * @param modelo Recebe um objeto de Modelo e de Fabricante e cadastra no BD 
+	 * @param modelo Recebe um objeto de Modelo e cadastra no BD 
 	 * @param fabricante
 	 */
-	public void cadastrar(Modelo modelo, Fabricante fabricante) {
+	public void cadastrar(Modelo modelo) {
 		String sql = "insert into modelos (nome, id_fabricante) values (?, ?)";
 		
 		Connection con = Conexao.getConnection();
@@ -27,7 +28,7 @@ public class ModeloDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, modelo.getNome().toUpperCase());
-			ps.setInt(2, fabricante.getId());
+			ps.setInt(2, modelo.getFabricante().getId());
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -38,10 +39,10 @@ public class ModeloDAO {
 	
 	/**
 	 * 
-	 * @param modelo Recebe um objeto de Modelo e de Fabricante e edita no BD seus dados 
+	 * @param modelo Recebe um objeto de Modelo e edita no BD seus dados 
 	 * @param fabricante
 	 */
-	public void editar(Modelo modelo, Fabricante fabricante) {
+	public void editar(Modelo modelo) {
 		String sql = "update modelos set nome = ?, id_fabricante = ? where id = ?";
 		
 		Connection con = Conexao.getConnection();
@@ -49,7 +50,7 @@ public class ModeloDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, modelo.getNome().toUpperCase());
-			ps.setInt(2, fabricante.getId());
+			ps.setInt(2, modelo.getFabricante().getId());
 			ps.setLong(3, modelo.getId());
 			ps.executeUpdate();
 			
@@ -116,6 +117,8 @@ public class ModeloDAO {
 				
 			}
 			
+			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -155,6 +158,8 @@ public class ModeloDAO {
 				
 				listaRetorno.add(modelo);
 			}
+			
+			rSet.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

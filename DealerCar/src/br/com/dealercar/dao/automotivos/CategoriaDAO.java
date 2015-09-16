@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Categoria;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CategoriaDAO {
+public class CategoriaDAO implements IDAO<Categoria>{
 
 	/**
 	 * 
@@ -109,6 +110,8 @@ public class CategoriaDAO {
 				categoriaRetorno.setDescricao(rSet.getString("descricao"));
 				categoriaRetorno.setValorDiaria(rSet.getDouble("vlr_diaria"));
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -144,6 +147,8 @@ public class CategoriaDAO {
 				listaRetorno.add(categoriaRetorno);
 				
 			}
+			
+			rSet.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class FabricanteDAO {
+public class FabricanteDAO implements IDAO<Fabricante> {
 
 	/**
 	 * 
@@ -102,6 +103,8 @@ public class FabricanteDAO {
 				listaFabricantes.add(fRetorno);
 			}
 			
+			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -133,6 +136,8 @@ public class FabricanteDAO {
 				fRetorno.setId(rSet.getInt("id"));
 				fRetorno.setNome(rSet.getString("nome"));
 			}
+			
+			rSet.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

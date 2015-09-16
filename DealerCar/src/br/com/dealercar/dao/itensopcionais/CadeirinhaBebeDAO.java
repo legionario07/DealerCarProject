@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CadeirinhaBebeDAO {
+public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
 
 
 	/**
@@ -158,6 +159,42 @@ public class CadeirinhaBebeDAO {
 				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
 				
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return cadeirinhaRetorno;
+	}
+
+	/**
+	 * 
+	 * @param CadeirinhaBebe Recebe um Objeto CadeirinhaBebe e localiza no Banco de Dados
+	 * pelo Codigo
+	 * @return Retorna um objeto de CadeirinhaBebe
+	 */
+	public CadeirinhaBebe pesquisarPorID(CadeirinhaBebe cadeirinhaBebe) {
+	
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cadeirinhas_bebe where codigo = ?");
+		
+		CadeirinhaBebe cadeirinhaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, cadeirinhaBebe.getCodigo());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				cadeirinhaRetorno = new CadeirinhaBebe();
+				cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
+				cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
+				cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

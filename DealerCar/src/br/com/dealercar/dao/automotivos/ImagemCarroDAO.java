@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class ImagemCarroDAO {
+public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 
 	/**
 	 * 
@@ -60,6 +61,28 @@ public class ImagemCarroDAO {
 	
 	/**
 	 * 
+	 * @param carroUrl Recebe um objeto de ImagemCarro
+	 * e exclui do BD localiando por seu ID
+	 */
+	public void excluir(ImagemCarro carroUrl) {
+		String sql = "delete from carros_images where id = ?";
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, carroUrl.getId());
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+	}
+	
+	/**
+	 * 
 	 * @param carroUrl Recebe um objeto de ImagemCarro e pesquisa no BD
 	 * de acordo com seu ID
 	 * @return Retorna um objeto de ImagemCarro
@@ -83,6 +106,8 @@ public class ImagemCarroDAO {
 				carroUrlRetorno.setDescricao(rSet.getString("descricao"));
 				
 			}
+			
+			rSet.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,6 +142,8 @@ public class ImagemCarroDAO {
 				
 			}
 			
+			rSet.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -125,25 +152,4 @@ public class ImagemCarroDAO {
 		return lista;
 	}
 	
-	/**
-	 * 
-	 * @param carroUrl Recebe um objeto de ImagemCarro
-	 * e exclui do BD localiando por seu ID
-	 */
-	public void excluir(ImagemCarro carroUrl) {
-		String sql = "delete from carros_images where id = ?";
-		
-		Connection con = Conexao.getConnection();
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, carroUrl.getId());
-			ps.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-				
-	}
 }

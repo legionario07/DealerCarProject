@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class RadioPlayerDAO {
+public class RadioPlayerDAO implements IDAO<RadioPlayer>{
 
 	/**
 	 * 
@@ -163,6 +164,42 @@ public class RadioPlayerDAO {
 		}
 		
 		return radioRetorno;
+	}
+
+	/**
+	 * 
+	 * @param RadioPlayer Recebe um Objeto RadioPlayer e localiza no Banco de Dados
+	 * pelo Codigo
+	 * @return Retorna um objeto de RadioPlayer
+	 */
+	public RadioPlayer pesquisarPorID(RadioPlayer radioPlayer) {
+	
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from radio_player where codigo = ?");
+		
+		RadioPlayer radioPlayerRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, radioPlayer.getCodigo());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				radioPlayerRetorno = new RadioPlayer();
+				radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
+				radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
+				radioPlayerRetorno.setValor(rSet.getDouble("valor"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return radioPlayerRetorno;
 	}
 	
 	

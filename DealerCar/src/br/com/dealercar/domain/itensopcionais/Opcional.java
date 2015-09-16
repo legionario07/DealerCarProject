@@ -1,6 +1,8 @@
 package br.com.dealercar.domain.itensopcionais;
 
-public class Opcional {
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class Opcional extends EntidadeDominio{
 	
 	private int codigo;
 	private String descricao;
