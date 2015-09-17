@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.render.FacesRenderer;
+import javax.persistence.PersistenceProperty;
 
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.dao.FuncionarioDAO;
@@ -184,6 +187,7 @@ public class ReservaBean implements Serializable{
 	public void cadastrar() {
 
 		
+		//encontrando o Modelo pelo nome
 		for(Carro m : listaModelosDisponiveis) {
 			if(m.getModelo().getId() == modelo.getId()){
 				
@@ -197,6 +201,7 @@ public class ReservaBean implements Serializable{
 			}
 		}
 		
+		//encontrando o Funcionario pelo nome
 		for(Funcionario f : listaFuncionarios) {
 			if(f.getId() == funcionario.getId()){
 				funcionario = funDao.pesquisarPorID(f);
@@ -205,8 +210,23 @@ public class ReservaBean implements Serializable{
 				break;
 			}
 		}
+
+		//recebendo a data atual do sistema
+		reserva.setDataCadastroReserva(reserva.setarDataDeCadastro());
+		
+		//Verifica se a data digitada para Reserva é válida
+		int i = reserva.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
+		
+		if(i!=1){
+			reserva.setDataFim(null);
+			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. Deve ser maior que "
+					+ reserva.getDataCadastroReserva());
+			return;
+		}
 		
 		reservaDao.cadastrar(reserva);
+
+		reserva = new Reserva();
 		
 		modelo = new Modelo();
 		funcionario = new Funcionario();
@@ -224,6 +244,7 @@ public class ReservaBean implements Serializable{
 	 */
 	public void editar() {
 		
+		//Encontrando o modelo pelo nome
 		for(Carro m : listaModelosDisponiveis) {
 			if(m.getModelo().getNome().equals(reserva.getModelo().getNome())){
 				
@@ -238,6 +259,7 @@ public class ReservaBean implements Serializable{
 			}
 		}
 		
+		//Encontrando o Funcionário pelo nome
 		for(Funcionario f : listaFuncionarios) {
 			if(f.getNome().equals(reserva.getFuncionario().getNome())){
 				reserva.setFuncionario(f);
@@ -246,7 +268,19 @@ public class ReservaBean implements Serializable{
 			}
 		}
 		
+		
+		//Verifica se a data digitada para Reserva é válida		
+		int i = reserva.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
+		
+		if(i!=1){
+			reserva.setDataFim(null);
+			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. Deve ser maior que "
+					+ reserva.getDataCadastroReserva());
+			return;
+		}
+				
 		reservaDao.editar(reserva);
+		reserva = new Reserva();
 		
 		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
 		

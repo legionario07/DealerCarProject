@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
@@ -45,24 +42,8 @@ public class ReservaDAO implements IDAO<Reserva> {
 		
 			reserva.setSituacao(SituacaoReserva.ATIVO);//iniciando a Situação da Reserva como Ativo
 			
-			//Setando a Data inicio como a data do Cadastro
-			Date data = Calendar.getInstance().getTime();
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String dataInicio = stf.format(data);
-			
-			reserva.setDataCadastroReserva(dataInicio);
-			
-			//Setando a Data Fim com 15 dias partir de Hoje 
-			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_WEEK, 15);
-			Date dataExpira = c.getTime();
-			
-			String dataFim = stf.format(dataExpira);
-			
-			reserva.setDataFim(dataFim);
-			
 			ps.setString(++i, reserva.getSituacao().getDescricao());
-			ps.setString(++i, reserva.getDataCadastroReserva());
+			ps.setString(++i, reserva.setarDataDeCadastro());
 			ps.setString(++i, reserva.getDataFim());
 			ps.setInt(++i, reserva.getModelo().getId());
 			ps.setInt(++i, reserva.getCliente().getId());
@@ -163,7 +144,7 @@ public class ReservaDAO implements IDAO<Reserva> {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ResultSet rSet = ps.executeQuery();
-
+ 
 			while (rSet.next()) {
 
 				Reserva reservaRetorno = new Reserva();

@@ -63,7 +63,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Data Fim" width="7%"
+				<p:column headerText="Data Reserva" width="7%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemReserva.dataFim}">
 					<h:outputText value="#{itemReserva.dataFim}">
@@ -144,6 +144,11 @@
 							itemLabel="#{carro.modelo.nome}" itemValue="#{carro.modelo.id}" />
 					</p:selectOneMenu>
 
+					<h:outputText value="Data da Reserva: "/>
+					<p:inputMask mask="99/99/9999" value="#{MBReserva.reserva.dataFim}"
+						required="true" requiredMessage="A data para retirar o Carro é invalida.
+										Deve ser digitada uma data maior que a data de Cadastro"/>
+					
 					<h:outputText value="Funcionario *" />
 					<p:selectOneMenu id="Funcionario"
 						value="#{MBReserva.funcionario.id}" required="true"
@@ -238,8 +243,10 @@
 					<p:inputText value="#{MBReserva.reserva.cliente.telefone}"
 						readonly="true" />
 
-					<h:outputText value="Data Fim: " />
-					<p:inputText value="#{MBReserva.reserva.dataFim}" readonly="true" />
+					<h:outputText value="Data da Reserva: " />
+					<p:inputMask mask="99/99/9999" value="#{MBReserva.reserva.dataFim}"
+						required="true" requiredMessage="A data para retirar o Carro é invalida.
+										Deve ser digitada uma data maior que a data de Cadastro"/>
 
 					<h:outputText value="Modelo: *" />
 					<p:selectOneMenu id="Modelo"

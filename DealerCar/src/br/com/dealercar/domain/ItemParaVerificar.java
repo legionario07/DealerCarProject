@@ -1,6 +1,6 @@
 package br.com.dealercar.domain;
 
-public class ItemParaVerificar {
+public abstract class ItemParaVerificar {
 	
 	private int id;
 	private String descricao;
