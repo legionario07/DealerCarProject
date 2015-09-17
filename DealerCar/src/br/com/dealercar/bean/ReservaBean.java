@@ -211,7 +211,7 @@ public class ReservaBean implements Serializable{
 			}
 		}
 
-		//recebendo a data atual do sistema
+		//recebendo a data atual do sistema 
 		reserva.setDataCadastroReserva(reserva.setarDataDeCadastro());
 		
 		//Verifica se a data digitada para Reserva é válida
