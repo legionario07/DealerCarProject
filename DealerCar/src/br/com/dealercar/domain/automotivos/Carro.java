@@ -137,27 +137,31 @@ public class Carro extends EntidadeDominio implements Serializable {
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Modelo: ");
-		retorno.append(this.getModelo().getNome());
-		retorno.append("\nPlaca: ");
-		retorno.append(this.getPlaca());
-		retorno.append("\nAno: ");
-		retorno.append(this.getAno());
-		retorno.append("\nNúmero de Portas: ");
-		retorno.append(this.getQtdePortas());
-		retorno.append("\nQtde Malas Suportadas: ");
-		retorno.append(this.getQtdeMalasSuportadas());
-		retorno.append("\nCor: ");
-		retorno.append(this.getCor().getNome());
+		try {
+			retorno.append("Modelo: ");
+			retorno.append(this.getModelo().getNome());
+			retorno.append("\nPlaca: ");
+			retorno.append(this.getPlaca());
+			retorno.append("\nAno: ");
+			retorno.append(this.getAno());
+			retorno.append("\nNúmero de Portas: ");
+			retorno.append(this.getQtdePortas());
+			retorno.append("\nQtde Malas Suportadas: ");
+			retorno.append(this.getQtdeMalasSuportadas());
+			retorno.append("\nCor: ");
+			retorno.append(this.getCor().getNome());
 
-		retorno.append("\nCategoria: ");
-		retorno.append(this.getCategoria().getNome());
-		retorno.append("\nUrl Imagem: ");
-		retorno.append(this.getCarroUrl().getCaminho());
-		retorno.append("\nSituação: ");
-		retorno.append(this.getSituacao().getDescricao());
-		retorno.append("\n\n");
-
+			retorno.append("\nCategoria: ");
+			retorno.append(this.getCategoria().getNome());
+			retorno.append("\nUrl Imagem: ");
+			retorno.append(this.getCarroUrl().getCaminho());
+			retorno.append("\nSituação: ");
+			retorno.append(this.getSituacao().getDescricao());
+			retorno.append("\n\n");
+		} catch (Exception e) {
+			System.out.println("\nNão foi possivel localizar o Carro");
+			return null;
+		}
 		return retorno.toString();
 	}
 

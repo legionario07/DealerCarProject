@@ -19,6 +19,12 @@ import br.com.dealercar.domain.automotivos.Categoria;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
+import br.com.dealercar.strategy.valida.IValidacaoStrategy;
+import br.com.dealercar.strategy.valida.ValidaCarro;
+import br.com.dealercar.strategy.valida.ValidaCategoria;
+import br.com.dealercar.strategy.valida.ValidaCor;
+import br.com.dealercar.strategy.valida.ValidaImagemCarro;
+import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name="MBCarro")
@@ -45,6 +51,7 @@ public class CarroBean implements Serializable{
 	private CategoriaDAO catDao = new CategoriaDAO();
 	private ImagemCarroDAO imDao = new ImagemCarroDAO();
 	
+	private IValidacaoStrategy valida = null;
 	
 	private Categoria categoria = new Categoria();
 	private ImagemCarro carroUrl = new ImagemCarro();
@@ -176,6 +183,7 @@ public class CarroBean implements Serializable{
 	 * 																			
 	 */
 	public void carregarListagemCarros() {
+		
 		listaCarros = carDao.listarTodos();
 		
 		listaCategoria = catDao.listarTodos();
@@ -200,13 +208,16 @@ public class CarroBean implements Serializable{
 		this.ehCadastrado =  false;
 		this.jaPesquisei = true;
 		
-		for (Carro c : listaCarros) {
-			if (carro.getPlaca().equals(c.getPlaca())) {
-				this.ehCadastrado = true;
-				this.jaPesquisei = false;
-				carro=carDao.pesquisarPorPlaca(c);
-				return;
-			}
+		valida = new ValidaCarro();
+		
+		carro = (Carro) valida.validar(carro);
+		
+		if(carro != null) {
+
+			this.ehCadastrado = true;
+			this.jaPesquisei = false;
+			return;
+
 		}
 
 		if (this.ehCadastrado == false) {
@@ -222,14 +233,25 @@ public class CarroBean implements Serializable{
 	 */
 	public void cadastrar() {
 
-		
 		carro.setModelo(modelo);
+		
+		
 		
 		listaModelos = modDao.listarTodos();
 		
 		carro.setCategoria(categoria);
 		carro.setCor(cor);
-		carro.setCarroUrl(carroUrl.validaImagemCarro(modelo.getId(), listaModelos, listaImagens));
+		
+
+		for(Modelo m : listaModelos) {
+			if(m.getId()==carro.getModelo().getId()) {
+				carroUrl.setDescricao(m.getNome());
+			}
+		}
+		
+		
+		valida = new ValidaImagemCarro();
+		carro.setCarroUrl((ImagemCarro)valida.validar(carroUrl));
 		
 		carDao.cadastrar(carro);
 		
@@ -267,10 +289,19 @@ public class CarroBean implements Serializable{
 	 */
 	public void editar() {
 		
-		carro.setCategoria(new Categoria().validaCategoria(carro.getCategoria().getNome(), listaCategoria));
-		carro.setCor(new Cor().validaCor(carro.getCor().getNome(), listaCores));
-		carro.setModelo(new Modelo().validaModelo(carro.getModelo().getNome(), listaModelos));
-		carro.setCarroUrl(new ImagemCarro().validaImagemCarro(carro.getModelo().getId(), listaModelos, listaImagens));
+		valida = new ValidaCategoria();
+		carro.setCategoria((Categoria)valida.validar(categoria) );
+		
+		valida = new ValidaCor();
+		carro.setCor((Cor) valida.validar(cor));
+		
+		valida = new ValidaModelo();
+		carro.setModelo((Modelo) valida.validar(modelo));
+		
+		carroUrl.setDescricao(carro.getModelo().getNome());
+		
+		valida = new ValidaImagemCarro();
+		carro.setCarroUrl((ImagemCarro)valida.validar(carroUrl));
 		
 		carDao.editar(carro);
 		
