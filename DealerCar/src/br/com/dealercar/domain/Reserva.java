@@ -136,7 +136,7 @@ public class Reserva extends EntidadeDominio {
 	 */
 	public int compararDatas(String dataCadastro, String dataReserva) {
 
-
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		Date dtCadastro = null; 

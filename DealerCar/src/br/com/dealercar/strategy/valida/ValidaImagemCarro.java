@@ -12,7 +12,7 @@ public class ValidaImagemCarro implements IValidacaoStrategy {
 
 	/**
 	 * 
-	 * @param recebe um objeto ImagemCarro
+	 * @param recebe um objeto ImagemCarro e faz a Validação pela Descrição
 	 * @return Retorna um objeto ImagemCarro do BD válido ou Null se não for encontrado
 	 */
 	public EntidadeDominio validar(EntidadeDominio entDominio) {

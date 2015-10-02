@@ -43,9 +43,6 @@ public class ClienteBean implements Serializable {
 	private boolean jaPesquisei = false;
 	
 
-	public ClienteBean() {
-	}
-
 	public List<Cliente> getListaClientes() {
 		return listaClientes;
 	}

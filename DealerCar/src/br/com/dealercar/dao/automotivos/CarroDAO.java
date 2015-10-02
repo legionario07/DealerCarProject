@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,13 @@ import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CarroDAO implements IDAO<Carro>{
+public class CarroDAO implements IDAO<Carro>, Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	/**
 	 * 

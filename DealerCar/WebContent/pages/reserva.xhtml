@@ -134,14 +134,14 @@
 
 					<h:outputText value="Modelo: *" />
 					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.modelo.id}" required="true"
+						value="#{MBReserva.reserva.modelo.nome}" required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}" var="carro"
-							itemLabel="#{carro.modelo.nome}" itemValue="#{carro.modelo.id}" />
+							itemLabel="#{carro.modelo.nome}" itemValue="#{carro.modelo.nome}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Data da Reserva: "/>
@@ -262,7 +262,7 @@
 
 					<h:outputText value="Funcionario *" />
 					<p:selectOneMenu id="Funcionario"
-						value="#{MBReserva.reserva.funcionario.nome}" required="true"
+						value="#{MBReserva.funcionario.id}" required="true"
 						requiredMessage="Favor informar o Funcionario. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -270,7 +270,7 @@
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaFuncionarios}"
 							var="funcionario" itemLabel="#{funcionario.nome}"
-							itemValue="#{funcionario.nome}" />
+							itemValue="#{funcionario.id}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Situação: *" maxlength="15" />

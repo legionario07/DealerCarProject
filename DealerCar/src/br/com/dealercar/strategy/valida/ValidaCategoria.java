@@ -11,7 +11,7 @@ public class ValidaCategoria implements IValidacaoStrategy {
 
 	/**
 	 * 
-	 * @param recebe um objeto Categoria
+	 * @param recebe um objeto Categoria e faz a Validação pelo Nome
 	 * @return Retorna um objeto Categoria do BD válido ou Null se não for encontrado
 	 */
 	public EntidadeDominio validar(EntidadeDominio entDominio) {

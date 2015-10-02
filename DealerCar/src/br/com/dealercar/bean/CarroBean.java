@@ -27,7 +27,7 @@ import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.JSFUtil;
 
-@ManagedBean(name="MBCarro")
+@ManagedBean(name = "MBCarro")
 @ViewScoped
 public class CarroBean implements Serializable{
 
@@ -51,7 +51,7 @@ public class CarroBean implements Serializable{
 	private CategoriaDAO catDao = new CategoriaDAO();
 	private ImagemCarroDAO imDao = new ImagemCarroDAO();
 	
-	private IValidacaoStrategy valida = null;
+	private IValidacaoStrategy validaStrategy = null;
 	
 	private Categoria categoria = new Categoria();
 	private ImagemCarro carroUrl = new ImagemCarro();
@@ -208,12 +208,19 @@ public class CarroBean implements Serializable{
 		this.ehCadastrado =  false;
 		this.jaPesquisei = true;
 		
-		valida = new ValidaCarro();
+		validaStrategy = new ValidaCarro();
 		
-		carro = (Carro) valida.validar(carro);
+		carro = (Carro) validaStrategy.validar(carro);
 		
 		if(carro != null) {
-
+			
+			/**
+			 * Retornando dados do Carro Localizado
+			 * Categoria, Cor, Modelo, ImagemCarro
+			 */
+			carro = carDao.pesquisarPorPlaca(carro);
+			consultarDadosCarroLocalizado(carro);
+			
 			this.ehCadastrado = true;
 			this.jaPesquisei = false;
 			return;
@@ -235,8 +242,6 @@ public class CarroBean implements Serializable{
 
 		carro.setModelo(modelo);
 		
-		
-		
 		listaModelos = modDao.listarTodos();
 		
 		carro.setCategoria(categoria);
@@ -250,14 +255,13 @@ public class CarroBean implements Serializable{
 		}
 		
 		
-		valida = new ValidaImagemCarro();
-		carro.setCarroUrl((ImagemCarro)valida.validar(carroUrl));
+		validaStrategy = new ValidaImagemCarro();
+		carro.setCarroUrl((ImagemCarro)validaStrategy.validar(carroUrl));
 		
 		carDao.cadastrar(carro);
 		
 		JSFUtil.adicionarMensagemSucesso("Carro Cadastrado com Sucesso.");
 		
-		carro = new Carro();
 		ehCadastrado = false;
 		jaPesquisei = false;
 	}
@@ -289,19 +293,13 @@ public class CarroBean implements Serializable{
 	 */
 	public void editar() {
 		
-		valida = new ValidaCategoria();
-		carro.setCategoria((Categoria)valida.validar(categoria) );
+		consultarDadosCarroLocalizado(carro);
 		
-		valida = new ValidaCor();
-		carro.setCor((Cor) valida.validar(cor));
-		
-		valida = new ValidaModelo();
-		carro.setModelo((Modelo) valida.validar(modelo));
-		
-		carroUrl.setDescricao(carro.getModelo().getNome());
-		
-		valida = new ValidaImagemCarro();
-		carro.setCarroUrl((ImagemCarro)valida.validar(carroUrl));
+		carro.setCor(cor);
+		carro.setCategoria(categoria);
+		carro.setModelo(modelo);
+		carro.setCarroUrl(carroUrl);
+	
 		
 		carDao.editar(carro);
 		
@@ -310,6 +308,32 @@ public class CarroBean implements Serializable{
 		carro = new Carro();
 		ehCadastrado = false;
 		jaPesquisei = false;
+	}
+	
+	/**
+	 * 
+	 * @param carro recebe o carro localizado
+	 * e Busca no Strategy Consulta dos outros dados do Carro Localizado
+	 * Como: Categoria, ImagemCarro, Cor, Modelo
+	 */
+	public void consultarDadosCarroLocalizado(Carro carro) {
+		
+		validaStrategy = new ValidaCor();
+		cor.setNome(carro.getCor().getNome());
+		cor = (Cor) validaStrategy.validar(cor);
+		
+		validaStrategy = new ValidaCategoria();
+		categoria.setNome(carro.getCategoria().getNome());
+		categoria = (Categoria) validaStrategy.validar(categoria);
+		
+		validaStrategy = new ValidaModelo();
+		modelo.setNome(carro.getModelo().getNome());
+		modelo = (Modelo) validaStrategy.validar(modelo);
+		
+		validaStrategy = new ValidaImagemCarro();
+		carroUrl.setDescricao(modelo.getNome());
+		carroUrl = (ImagemCarro) validaStrategy.validar(carroUrl);
+		
 	}
 	
 }

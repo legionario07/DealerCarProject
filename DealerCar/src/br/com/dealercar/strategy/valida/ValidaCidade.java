@@ -11,7 +11,7 @@ public class ValidaCidade implements IValidacaoStrategy{
 
 	/**
 	 * 
-	 * @param recebe um objeto Cidade
+	 * @param recebe um objeto Cidade e faz a Validação pelo Nome
 	 * @return Retorna um objeto Cidade do BD válido ou Null se não for encontrado
 	 */
 	public EntidadeDominio validar(EntidadeDominio entDominio) {

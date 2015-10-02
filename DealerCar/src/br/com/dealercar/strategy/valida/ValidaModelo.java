@@ -21,7 +21,6 @@ public class ValidaModelo implements IValidacaoStrategy{
 		if (entDominio instanceof Modelo) {
 
 			Modelo retorno = (Modelo) entDominio;
-			
 			ModeloDAO dao = new ModeloDAO();
 
 			List<Modelo> lista = new ArrayList<Modelo>();

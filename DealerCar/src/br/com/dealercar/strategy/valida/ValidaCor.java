@@ -11,7 +11,7 @@ public class ValidaCor implements IValidacaoStrategy {
 
 	/**
 	 * 
-	 * @param recebe um objeto Cor
+	 * @param recebe um objeto Cor e faz a Validação pelo Nome
 	 * @return Retorna um objeto Cor do BD válido ou Null se não for encontrado
 	 */
 	public EntidadeDominio validar(EntidadeDominio entDominio) {
@@ -30,7 +30,6 @@ public class ValidaCor implements IValidacaoStrategy {
 
 			for (Cor c : lista) {
 				if (retorno.getNome().toUpperCase().equals(c.getNome())) {
-					
 					rCor = c;
 
 				}
