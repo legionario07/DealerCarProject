@@ -1,50 +1,79 @@
 package br.com.dealercar.domain.itensopcionais;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.dealercar.domain.EntidadeDominio;
 
-public abstract class Opcional extends EntidadeDominio{
+public class Opcional extends EntidadeDominio{
 	
-	private int codigo;
-	private String descricao;
-	private double valor;
+	private int id;
+	private List<Itens> itens = new ArrayList<Itens>();
+	private ArCondicionado arCondicionado;
+	private Seguro seguro;
 	
 	public Opcional() {
 	}
 	
-	public Opcional(String descricao, double valor) {
-		this.setDescricao(descricao.toUpperCase());
-		this.setValor(valor);
+	public Opcional(int id) {
+		this.setId(id);
 	}
 	
-	public int getCodigo() {
-		return codigo;
+	public ArCondicionado getArCondicionado() {
+		return arCondicionado;
 	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+
+
+	public void setArCondicionado(ArCondicionado arCondicionado) {
+		this.arCondicionado = arCondicionado;
 	}
-	public String getDescricao() {
-		return descricao.toUpperCase();
+
+
+	public Seguro getSeguro() {
+		return seguro;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+
+
+	public void setSeguro(Seguro seguro) {
+		this.seguro = seguro;
 	}
-	public double getValor() {
-		return valor;
+
+
+	public int getId() {
+		return id;
 	}
-	public void setValor(double valor) {
-		this.valor = valor;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	
+
+		
+	public List<Itens> getItens() {
+		return itens;
+	}
+
+
+	public void setItens(List<Itens> itens) {
+		this.itens = itens;
+	}
+
+
 	@Override
 	public String toString() {
 		
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("Id: ");
-		retorno.append(getCodigo());
-		retorno.append(" \nDescricao: ");
-		retorno.append(getDescricao());
-		retorno.append(" \nValor: ");
-		retorno.append(getValor());
+		retorno.append(this.getId());
+		retorno.append("\n");
+		retorno.append(this.getArCondicionado().toString());
+		retorno.append("\n");
+		retorno.append(this.getSeguro().toString());
+		retorno.append("\n");
+		for(Itens i : itens){
+			if(i.getCodigo()!=99){
+				retorno.append(i.toString());
+			}
+		}
 				
 		return retorno.toString();
 	}

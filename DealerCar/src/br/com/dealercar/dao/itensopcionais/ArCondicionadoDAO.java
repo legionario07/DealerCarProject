@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.IDAO;
+import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class ArCondionadoDAO implements IDAO<ArCondicionado>{
+public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicionado>{
 	
 	
 	/**
@@ -128,7 +128,8 @@ public class ArCondionadoDAO implements IDAO<ArCondicionado>{
 	 * pelo Codigo
 	 * @return Retorna um objeto de ArCondicionado
 	 */
-	public ArCondicionado pesquisarPorID(ArCondicionado ar) {
+	@Override
+	public ArCondicionado pesquisarPorCodigo(ArCondicionado ar) {
 	
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from arcondicionados where codigo = ?");
@@ -157,6 +158,13 @@ public class ArCondionadoDAO implements IDAO<ArCondicionado>{
 		
 		return arRetorno;
 	}
+
+	@Override
+	public ArCondicionado pesquisarPorID(ArCondicionado entidade) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

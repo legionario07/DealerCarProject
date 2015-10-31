@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.IDAO;
+import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.enums.SeguroType;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class SeguroDAO implements IDAO<Seguro> {
+public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
@@ -142,6 +142,7 @@ public class SeguroDAO implements IDAO<Seguro> {
 	 *            pelo Codigo
 	 * @return Retorna um objeto de Seguro
 	 */
+	@Override
 	public Seguro pesquisarPorCodigo(Seguro seguro) {
 
 		StringBuffer sql = new StringBuffer();
@@ -184,41 +185,13 @@ public class SeguroDAO implements IDAO<Seguro> {
 		return seguroRetorno;
 	}
 
-	/**
-	 * 
-	 * @param Seguro Recebe um Objeto Seguro e localiza no Banco de Dados
-	 * pelo Codigo
-	 * @return Retorna um objeto de Seguro
-	 */
-	public Seguro pesquisarPorID(Seguro seguro) {
-	
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from radio_player where codigo = ?");
-		
-		Seguro seguroRetorno = null;
-		
-		Connection con = Conexao.getConnection();
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, seguro.getCodigo());
-			
-			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
-				seguroRetorno = new Seguro();
-				seguroRetorno.setCodigo(rSet.getInt("codigo"));
-				seguroRetorno.setDescricao(rSet.getString("descricao"));
-				seguroRetorno.setValor(rSet.getDouble("valor"));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-		
-		return seguroRetorno;
+	@Override
+	public Seguro pesquisarPorID(Seguro entidade) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
 	
 
 }

@@ -1,7 +1,12 @@
 package br.com.dealercar.domain.itensopcionais;
 
-public class Seguro extends Opcional{
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class Seguro extends EntidadeDominio{
 	
+	private int codigo;
+	private String descricao;
+	private double valor;
 	private TipoSeguro tipoSeguro;
 	
 	public Seguro() {
@@ -19,6 +24,30 @@ public class Seguro extends Opcional{
 	}
 
 
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
 	public TipoSeguro getTipoSeguro() {
 		return tipoSeguro;
 	}
@@ -31,7 +60,13 @@ public class Seguro extends Opcional{
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append(super.toString());
+		retorno.append("Codigo: ");
+		retorno.append(this.getCodigo());
+		retorno.append("\nDescricao: ");
+		retorno.append(this.getDescricao());
+		retorno.append("\nValor: ");
+		retorno.append(this.getValor());
+		
 		retorno.append("\nTipo Seguro: ");
 		retorno.append(this.tipoSeguro.getNome().getDescricao());
 		retorno.append("\nValor acrescido: ");

@@ -8,8 +8,14 @@ public class RadioPlayer extends Itens{
 
 	}
 	
-	public RadioPlayer(String descricao, double valor, String modelo) {
-		super();
+	public RadioPlayer(int codigo){
+		super(codigo);
+	}
+	
+	public RadioPlayer(String descricao, double valor, String marca, String numeroPatrimonio, String modelo) {
+		
+		super(descricao, valor, marca, numeroPatrimonio);
+		
 		this.setModelo(modelo);
 	}
 
@@ -25,18 +31,9 @@ public class RadioPlayer extends Itens{
 	public String toString() {
 
 		StringBuffer retorno = new StringBuffer();
-		super.toString();
 		
-		/*retorno.append("Código: ");
-		retorno.append(this.getCodigo());
-		retorno.append("\nDescrição: ");
-		retorno.append(this.getDescricao());
-		retorno.append("\nValor:: ");
-		retorno.append(this.getValor());
-		retorno.append("\nMarca: ");
-		retorno.append(this.getMarca());
-		retorno.append("\nNumeroPatrimônio: ");
-		retorno.append(this.getNumeroPatrimonio());*/
+		retorno.append(super.toString());
+		
 		retorno.append("\nModelo: ");
 		retorno.append(this.getModelo());
 		retorno.append("\n\n");

@@ -5,14 +5,19 @@ public class Gps extends Itens{
 	private String idioma;
 	
 	public Gps() {
-		
+
 	}
 	
-	public Gps(String descricao, double valor, String idioma) {
-		super();
+	public Gps(int codigo){
+		super(codigo);
+	}
+	
+	public Gps(String descricao, double valor, String marca, String numeroPatrimonio, String idioma) {
+		
+		super(descricao, valor, marca, numeroPatrimonio);
+		
 		this.setIdioma(idioma);
 	}
-
 	public String getIdioma() {
 		return idioma.toUpperCase();
 	}
@@ -25,13 +30,9 @@ public class Gps extends Itens{
 	public String toString() {
 		
 		StringBuffer retorno = new StringBuffer();
-		super.toString();
-		/*retorno.append("Código: ");
-		retorno.append(this.getCodigo());
-		retorno.append("\nDescrição: ");
-		retorno.append(this.getDescricao());
-		retorno.append("\nValor:: ");
-		retorno.append(this.getValor());*/
+		
+		retorno.append(super.toString());
+		
 		retorno.append("\nIdioma: ");
 		retorno.append(this.getIdioma());
 		retorno.append("\n\n");

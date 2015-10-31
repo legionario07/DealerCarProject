@@ -141,6 +141,7 @@ public class ClienteBean implements Serializable {
 	public void cadastrar() {
 
 		cliente.setEndereco(endereco);
+		cliente.setCidade(cidade);
 		
 		listaCidades = cidDao.listarTodos();
 		cliDao.cadastrar(cliente);

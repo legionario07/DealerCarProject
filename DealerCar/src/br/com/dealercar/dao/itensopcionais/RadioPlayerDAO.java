@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.IDAO;
+import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class RadioPlayerDAO implements IDAO<RadioPlayer>{
+public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 
 	/**
 	 * 
@@ -128,43 +128,6 @@ public class RadioPlayerDAO implements IDAO<RadioPlayer>{
 			
 	}
 	
-	/**
-	 * 
-	 * @param RadioPlayer Recebe um Objeto RadioPlayer e localiza no Banco pelo Codigo
-	 * @return Retorno um objeto RadioPlayer
-	 */
-	public RadioPlayer pesquisarPorCodigo(RadioPlayer radio) {
-		
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from radio_player where codigo = ?");
-		
-		RadioPlayer radioRetorno = null;
-		
-		Connection con = Conexao.getConnection();
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, radio.getCodigo());
-			
-			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
-				radioRetorno = new RadioPlayer();
-				radioRetorno.setCodigo(rSet.getInt("codigo"));
-				radioRetorno.setDescricao(rSet.getString("descricao"));
-				radioRetorno.setValor(rSet.getDouble("valor"));
-				radioRetorno.setMarca(rSet.getString("marca"));
-				radioRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				radioRetorno.setModelo(rSet.getString("modelo"));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-		
-		return radioRetorno;
-	}
 
 	/**
 	 * 
@@ -172,7 +135,7 @@ public class RadioPlayerDAO implements IDAO<RadioPlayer>{
 	 * pelo Codigo
 	 * @return Retorna um objeto de RadioPlayer
 	 */
-	public RadioPlayer pesquisarPorID(RadioPlayer radioPlayer) {
+	public RadioPlayer pesquisarPorCodigo(RadioPlayer radioPlayer) {
 	
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from radio_player where codigo = ?");
@@ -188,10 +151,14 @@ public class RadioPlayerDAO implements IDAO<RadioPlayer>{
 			ResultSet rSet = ps.executeQuery();
 			
 			while(rSet.next()) {
+				
 				radioPlayerRetorno = new RadioPlayer();
 				radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
 				radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
 				radioPlayerRetorno.setValor(rSet.getDouble("valor"));
+				radioPlayerRetorno.setMarca(rSet.getString("marca"));
+				radioPlayerRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+				radioPlayerRetorno.setModelo(rSet.getString("modelo"));
 			}
 			
 		} catch (SQLException e) {
@@ -200,6 +167,12 @@ public class RadioPlayerDAO implements IDAO<RadioPlayer>{
 		}
 		
 		return radioPlayerRetorno;
+	}
+
+	@Override
+	public RadioPlayer pesquisarPorID(RadioPlayer entidade) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

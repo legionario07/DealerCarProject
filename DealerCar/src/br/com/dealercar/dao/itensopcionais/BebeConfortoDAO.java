@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.IDAO;
+import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class BebeConfortoDAO implements IDAO<BebeConforto>{
+public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto>{
 
 
 	/**
@@ -193,6 +193,10 @@ public class BebeConfortoDAO implements IDAO<BebeConforto>{
 				bConfortoRetorno.setCodigo(rSet.getInt("codigo"));
 				bConfortoRetorno.setDescricao(rSet.getString("descricao"));
 				bConfortoRetorno.setValor(rSet.getDouble("valor"));
+				bConfortoRetorno.setMarca(rSet.getString("marca"));
+				bConfortoRetorno.setMesesBebe(rSet.getInt("meses_bebe"));
+				bConfortoRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+				
 			}
 			
 		} catch (SQLException e) {

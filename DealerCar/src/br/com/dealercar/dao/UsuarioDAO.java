@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
@@ -20,7 +21,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	public void cadastrar(Usuario usuario) {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("insert into usuarios (login, senha) values ( ?, md5(?))");
+		sql.append("insert into usuarios (login, senha, id_permissao, ativo) values ( ?, md5(?), ?, ?)");
 		
 		Connection con = Conexao.getConnection();
 		
@@ -29,6 +30,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 			int i = 0;
 			ps.setString(++i, usuario.getLogin());
 			ps.setString(++i, usuario.getSenha());
+			ps.setInt(++i, usuario.getPermissao().getId());
+			ps.setString(++i, usuario.getAtivo());
 			
 			ps.executeUpdate();
 			
@@ -45,16 +48,20 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	public void editar(Usuario usuario) {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("update usuarios set login = ?, senha = md5( ? ) where login = ?");
+		sql.append("update usuarios set login = ?, senha = md5( ? ), id_permissao = ?, ativo = ? where login = ?");
 		
 		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
+			
 			ps.setString(++i, usuario.getLogin());
 			ps.setString(++i, usuario.getSenha());
+			ps.setInt(++i, usuario.getPermissao().getId());
+			ps.setString(++i, usuario.getAtivo());
 			ps.setString(++i, usuario.getLogin());
+			
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -70,7 +77,10 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	 */
 	public Usuario pesquisarPorID(Usuario usuario) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from usuarios where id = ? ");
+		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
+		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
+		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
+		sql.append("where usuarios.id = ? ");
 		
 		Usuario usuarioRetorno = null;
 		
@@ -84,9 +94,18 @@ public class UsuarioDAO implements IDAO<Usuario>{
 			
 			while(rSet.next()) {
 				usuarioRetorno = new Usuario();
-				usuarioRetorno.setId(rSet.getInt("id"));
-				usuarioRetorno.setLogin(rSet.getString("login"));
-				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
+				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
+				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
+				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				
+				Permissao permissao = new Permissao();
+				permissao.setId(rSet.getInt("usuarios.id_permissao"));
+				permissao.setNivel(rSet.getString("permissao.nivel"));
+				
+				usuarioRetorno.setPermissao(permissao);
+				
+				
 			}
 			
 			rSet.close();
@@ -132,7 +151,11 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	 */
 	public Usuario pesquisarPorLogin(Usuario usuario) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from usuarios where login = ? ");
+		
+		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
+		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
+		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
+		sql.append("where usuarios.login = ? ");
 		
 		Usuario usuarioRetorno = null;
 		
@@ -146,9 +169,17 @@ public class UsuarioDAO implements IDAO<Usuario>{
 			
 			while(rSet.next()) {
 				usuarioRetorno = new Usuario();
-				usuarioRetorno.setId(rSet.getInt("id"));
-				usuarioRetorno.setLogin(rSet.getString("login"));
-				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
+				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
+				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
+				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				
+				Permissao permissao = new Permissao();
+				permissao.setId(rSet.getInt("usuarios.id_permissao"));
+				permissao.setNivel(rSet.getString("permissao.nivel"));
+				
+				usuarioRetorno.setPermissao(permissao);
+				
 			}
 			
 			rSet.close();
@@ -168,22 +199,35 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	@Override
 	public List<Usuario> listarTodos() {
 
-		String sql = "select * from usuarios";
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
+		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
+		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
+		sql.append("order by usuarios.id asc ");
+		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
 		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ResultSet rSet = ps.executeQuery();
 
 			while (rSet.next()) {
 				Usuario usuarioRetorno = new Usuario();
-				usuarioRetorno.setId(rSet.getInt("id"));
-				usuarioRetorno.setLogin(rSet.getString("login"));
-				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
+				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
+				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
+				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				
+				Permissao permissao = new Permissao();
+				permissao.setId(rSet.getInt("usuarios.id_permissao"));
+				permissao.setNivel(rSet.getString("permissao.nivel"));
 
+				usuarioRetorno.setPermissao(permissao);
+				
 				usuarios.add(usuarioRetorno);
 
 			}

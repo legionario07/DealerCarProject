@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.UsuarioDAO;
+import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
 
 public class UsuarioDAOTest {
 
 	public static void cadastrar() {
 
-		Usuario usuario = new Usuario("Felipe", "123felipe");
+		Usuario usuario = new Usuario("Teste", "teste", new Permissao(1), "SIM");
 
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		usuarioDao.cadastrar(usuario);
@@ -19,7 +20,7 @@ public class UsuarioDAOTest {
 	
 	public static void editar() {
 		
-		Usuario usuario = new Usuario("legionario" , "admin");
+		Usuario usuario = new Usuario("felipe" , "admin" , new Permissao(1) , "SIM" );
 		
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		usuarioDao.editar(usuario);
@@ -67,7 +68,7 @@ public class UsuarioDAOTest {
 		//pesquisarPorID();
 		//pesquisarPorLogin();
 		//editar();
-		//listarTodos();
+		listarTodos();
 	}
 
 }

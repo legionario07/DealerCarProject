@@ -2,22 +2,28 @@ package br.com.dealercar.domain.itensopcionais;
 
 public class CadeirinhaBebe extends Itens{
 	
-	private float pesoBebe;
+	private int pesoBebe;
 	
 	public CadeirinhaBebe() {
 
 	}
 	
-	public CadeirinhaBebe(String descricao, double valor, float pesoBebe) {
-		super();
+	public CadeirinhaBebe(int codigo){
+		super(codigo);
+	}
+	
+	public CadeirinhaBebe(String descricao, double valor, String marca, String numeroPatrimonio, int pesoBebe) {
+		
+		super(descricao, valor, marca, numeroPatrimonio);
+		
 		this.setPesoBebe(pesoBebe);
 	}
 
-	public float getPesoBebe() {
+	public int getPesoBebe() {
 		return pesoBebe;
 	}
 
-	public void setPesoBebe(float pesoBebe) {
+	public void setPesoBebe(int pesoBebe) {
 		this.pesoBebe = pesoBebe;
 	}
 	
@@ -25,7 +31,7 @@ public class CadeirinhaBebe extends Itens{
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		
-		super.toString();
+		retorno.append(super.toString());
 		retorno.append("\nPeso do Bebê: ");
 		retorno.append(this.getPesoBebe());
 		retorno.append("\n\n");

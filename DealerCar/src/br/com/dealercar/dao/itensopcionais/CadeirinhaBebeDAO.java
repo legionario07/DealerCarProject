@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.IDAO;
+import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
+public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<CadeirinhaBebe> {
 
 
 	/**
@@ -129,43 +129,7 @@ public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
 			
 	}
 	
-	/**
-	 * 
-	 * @param CadeirinhaBebe Recebe um Objeto CadeirinhaBebe e localiza no Banco pelo Codigo
-	 * @return Retorno um objeto CadeirinhaBebe
-	 */
-	public CadeirinhaBebe pesquisarPorCodigo(CadeirinhaBebe cadeirinha) {
-		
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cadeirinhas_bebe where codigo = ?");
-		
-		CadeirinhaBebe cadeirinhaRetorno = null;
-		
-		Connection con = Conexao.getConnection();
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, cadeirinha.getCodigo());
-			
-			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
-				cadeirinhaRetorno = new CadeirinhaBebe();
-				cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
-				cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
-				cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
-				cadeirinhaRetorno.setMarca(rSet.getString("marca"));
-				cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-		
-		return cadeirinhaRetorno;
-	}
+
 
 	/**
 	 * 
@@ -173,7 +137,8 @@ public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
 	 * pelo Codigo
 	 * @return Retorna um objeto de CadeirinhaBebe
 	 */
-	public CadeirinhaBebe pesquisarPorID(CadeirinhaBebe cadeirinhaBebe) {
+	@Override
+	public CadeirinhaBebe pesquisarPorCodigo(CadeirinhaBebe cadeirinhaBebe) {
 	
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from cadeirinhas_bebe where codigo = ?");
@@ -193,6 +158,9 @@ public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
 				cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
 				cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
 				cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
+				cadeirinhaRetorno.setMarca(rSet.getString("marca"));
+				cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
 			}
 			
 		} catch (SQLException e) {
@@ -202,4 +170,11 @@ public class CadeirinhaBebeDAO implements IDAO<CadeirinhaBebe> {
 		
 		return cadeirinhaRetorno;
 	}
+
+	@Override
+	public CadeirinhaBebe pesquisarPorID(CadeirinhaBebe entidade) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
