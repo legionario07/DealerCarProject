@@ -112,7 +112,13 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 				ar.setDescricao(rSet.getString("descricao"));
 				ar.setValor(rSet.getDouble("valor"));
 				
-				listaRetorno.add(ar);
+				if(ar.getCodigo()!=99){
+					listaRetorno.add(ar);	
+				}else{
+					rSet.next();
+				}
+				
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -146,9 +152,18 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 			
 			while(rSet.next()) {
 				arRetorno = new ArCondicionado();
-				arRetorno.setCodigo(rSet.getInt("codigo"));
-				arRetorno.setDescricao(rSet.getString("descricao"));
-				arRetorno.setValor(rSet.getDouble("valor"));
+				
+				if(ar.getCodigo()!=99){
+				
+					arRetorno.setCodigo(rSet.getInt("codigo"));
+					arRetorno.setDescricao(rSet.getString("descricao"));
+					arRetorno.setValor(rSet.getDouble("valor"));
+					
+				}else{
+					rSet.next();
+				}
+				
+				
 			}
 			
 		} catch (SQLException e) {

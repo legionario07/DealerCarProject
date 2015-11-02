@@ -161,6 +161,87 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	
 	/**
 	 * 
+	 * @param carro Recebe um objeto de Modelo e localiza no BD por sua placa
+	 * @return Retorna um objeto de Carro
+	 */
+	public List<Carro> pesquisarPorModelo(Modelo modelo) {
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
+		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
+		sql.append("carros.id_modelo, modelos.nome, modelos.id_fabricante, ");
+		sql.append("carros.id_categoria, categorias.nome, ");
+		sql.append("categorias.descricao, categorias.vlr_diaria, ");
+		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao, carros.situacao ");
+		sql.append("from carros inner join cores on carros.id_cor = cores.id ");
+		sql.append("inner join modelos on carros.id_modelo = modelos.id ");
+		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
+		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
+		sql.append("where carros.id_modelo = ?");
+		
+		List<Carro> carros = new ArrayList<Carro>();
+		
+
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, modelo.getId());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				
+				Carro carroRetorno = new Carro();
+				carroRetorno.setPlaca(rSet.getString("carros.placa"));
+				carroRetorno.setAno(rSet.getString("carros.ano"));
+				carroRetorno.setQtdePortas(rSet.getInt("carros.numero_portas"));
+				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("carros.qtde_malas_suportadas"));
+				
+				Cor cor = new Cor();
+				cor.setId(rSet.getInt("carros.id_cor"));
+				cor.setNome(rSet.getString("cores.nome"));
+				carroRetorno.setCor(cor);
+				
+				Modelo mod = new Modelo();
+				mod.setId(rSet.getInt("carros.id_modelo"));
+				mod.setNome(rSet.getString("modelos.nome"));
+				
+				Fabricante fabricante = new Fabricante();
+				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
+				modelo.setFabricante(fabricante);
+				carroRetorno.setModelo(mod);
+				
+				Categoria categoria = new Categoria();
+				categoria.setId(rSet.getInt("carros.id_categoria"));
+				categoria.setNome(rSet.getString("categorias.nome"));
+				categoria.setDescricao(rSet.getString("categorias.descricao"));
+				categoria.setValorDiaria(rSet.getDouble("categorias.vlr_diaria"));
+				carroRetorno.setCategoria(categoria);
+				
+				ImagemCarro carroUrl = new ImagemCarro();
+				carroUrl.setId(rSet.getInt("carros.id_images"));
+				carroUrl.setCaminho(rSet.getString("carros_images.caminho"));
+				carroUrl.setDescricao(rSet.getString("carros_images.descricao"));
+				carroRetorno.setCarroUrl(carroUrl);
+				
+				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
+				
+				carros.add(carroRetorno);
+			
+			}
+			
+			rSet.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return carros;
+	}
+	
+	/**
+	 * 
 	 * @param carro Recebe um objeto Carro e edita todos os seus dados no BD
 	 */
 	public void editar(Carro carro) {
@@ -194,6 +275,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		}
 		
 	}
+	
+	
 	
 	/**
 	 * 

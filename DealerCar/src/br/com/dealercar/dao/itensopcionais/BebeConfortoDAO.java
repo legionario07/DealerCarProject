@@ -117,7 +117,12 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 				bebeConforto.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				bebeConforto.setMesesBebe(rSet.getInt("meses_bebe"));
 				
-				listaRetorno.add(bebeConforto);
+				if(bebeConforto.getCodigo()!=99){
+					listaRetorno.add(bebeConforto);	
+				}else{
+					rSet.next();
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -151,12 +156,20 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 			
 			while(rSet.next()) {
 				bebeConfortoRetorno = new BebeConforto();
-				bebeConfortoRetorno.setCodigo(rSet.getInt("codigo"));
-				bebeConfortoRetorno.setDescricao(rSet.getString("descricao"));
-				bebeConfortoRetorno.setValor(rSet.getDouble("valor"));
-				bebeConfortoRetorno.setMarca(rSet.getString("marca"));
-				bebeConfortoRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				bebeConfortoRetorno.setMesesBebe(rSet.getInt("meses_bebe"));
+				
+				if(bebeConforto.getCodigo()!=99){
+					
+					bebeConfortoRetorno.setCodigo(rSet.getInt("codigo"));
+					bebeConfortoRetorno.setDescricao(rSet.getString("descricao"));
+					bebeConfortoRetorno.setValor(rSet.getDouble("valor"));
+					bebeConfortoRetorno.setMarca(rSet.getString("marca"));
+					bebeConfortoRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+					bebeConfortoRetorno.setMesesBebe(rSet.getInt("meses_bebe"));
+					
+				}else{
+					rSet.next();
+				}
+				
 				
 			}
 		} catch (SQLException e) {

@@ -30,6 +30,10 @@ public class Reserva extends EntidadeDominio {
 	public Reserva(int id) {
 		this.setId(id);
 	}
+	
+	public Reserva(Cliente cliente){
+		this.setCliente(cliente);
+	}
 
 	/**
 	 * 

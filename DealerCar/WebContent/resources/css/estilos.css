@@ -14,4 +14,18 @@
 .ui-widget, .ui-widget .ui-widget {
 	font-size: 12px !important;
 }
-
+.coluna1{
+	 width: 100px;
+ 	 _width: 495px;
+}
+.coluna2{
+	width: 12px;
+	text-align: left;
+}
+.coluna3{
+	width: 12px;
+	text-align: left;
+}
+.destaque{
+	font-weight: bold;
+}

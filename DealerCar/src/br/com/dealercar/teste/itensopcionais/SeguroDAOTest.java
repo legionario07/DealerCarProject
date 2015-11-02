@@ -65,6 +65,17 @@ public class SeguroDAOTest {
 		System.out.println(seguroDao.pesquisarPorCodigo(seguro));
 	}
 
+	public static void listarApenasNomesDiferentes() {
+		List<Seguro> lista = new ArrayList<Seguro>();
+
+		SeguroDAO segDao = new SeguroDAO();
+		lista = segDao.listarApenasNomesDiferentes();
+
+		for (Seguro s : lista) {
+			System.out.println(s);
+		}
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -73,6 +84,7 @@ public class SeguroDAOTest {
 		//pesquisarPorCodigo();
 		//excluir();
 		//listarTodos();
+		listarApenasNomesDiferentes();
 	}
 
 }

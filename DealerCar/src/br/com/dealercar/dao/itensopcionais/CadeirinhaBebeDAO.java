@@ -117,7 +117,12 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 				cadeirinha.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				cadeirinha.setPesoBebe(rSet.getInt("peso_bebe"));
 				
-				listaRetorno.add(cadeirinha);
+				if(cadeirinha.getCodigo()!=99){
+					listaRetorno.add(cadeirinha);	
+				}else{
+					rSet.next();
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -155,12 +160,20 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 			
 			while(rSet.next()) {
 				cadeirinhaRetorno = new CadeirinhaBebe();
-				cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
-				cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
-				cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
-				cadeirinhaRetorno.setMarca(rSet.getString("marca"));
-				cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
+				
+				if(cadeirinhaBebe.getCodigo()!=99){
+					
+					cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
+					cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
+					cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
+					cadeirinhaRetorno.setMarca(rSet.getString("marca"));
+					cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+					cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
+					
+				}else{
+					rSet.next();
+				}
+			
 			}
 			
 		} catch (SQLException e) {

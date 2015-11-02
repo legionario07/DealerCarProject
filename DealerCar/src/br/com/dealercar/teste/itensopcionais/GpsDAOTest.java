@@ -52,7 +52,7 @@ public class GpsDAOTest {
 	public static void pesquisarPorID() {
 
 		Gps gps = new Gps();
-		gps.setCodigo(1);
+		gps.setCodigo(99);
 		
 		GpsDAO gpsDao = new GpsDAO();
 		

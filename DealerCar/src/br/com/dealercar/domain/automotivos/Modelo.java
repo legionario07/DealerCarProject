@@ -40,7 +40,7 @@ public class Modelo extends EntidadeDominio {
 		this.id = id;
 	}
 	public String getNome() {
-		return nome.toUpperCase();
+		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome.toUpperCase();

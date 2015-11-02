@@ -169,4 +169,54 @@ public class ModeloDAO implements IDAO<Modelo>{
 		return listaRetorno;
 	
 	}
+	
+	/**
+	 * 
+	 * @return Localiza todos os Modelos cadastrados no BD e retorna em forma de List<Modelo> 
+	 * que estao disponiveis
+	 */
+	public List<Modelo> listarModelosDisponiveis() {
+		
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("select distinct carros.placa, ");
+		sql.append("carros.situacao, carros.id_modelo, modelos.id, "); 
+		sql.append("modelos.nome, modelos.id_fabricante, fabricantes.nome, fabricantes.id "); 
+		sql.append("from carros inner join modelos on carros.id_modelo = modelos.id ");
+		sql.append("inner join fabricantes on fabricantes.id = modelos.id_fabricante "); 
+		sql.append("where carros.situacao = ? group by modelos.nome");
+		
+		List<Modelo> listaRetorno = new ArrayList<Modelo>();
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setString(1, "Disponivel");
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				Modelo modelo = new Modelo();
+				modelo.setId(rSet.getInt("modelos.id"));
+				modelo.setNome(rSet.getString("modelos.nome"));
+				
+				Fabricante fabricante = new Fabricante();
+				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
+				fabricante.setNome(rSet.getString("fabricantes.nome"));
+				
+				modelo.setFabricante(fabricante);
+				
+				listaRetorno.add(modelo);
+			}
+			
+			rSet.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return listaRetorno;
+	
+	}
 }

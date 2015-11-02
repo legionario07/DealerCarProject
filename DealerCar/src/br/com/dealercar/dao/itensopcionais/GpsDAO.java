@@ -117,7 +117,12 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps>{
 				gps.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				gps.setIdioma(rSet.getString("idioma"));
 				
-				listaRetorno.add(gps);
+				if(gps.getCodigo()!=99){
+					listaRetorno.add(gps);	
+				}else{
+					rSet.next();
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -154,12 +159,22 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps>{
 			while(rSet.next()) {
 				
 				gpsRetorno = new Gps();
-				gpsRetorno.setCodigo(rSet.getInt("codigo"));
-				gpsRetorno.setDescricao(rSet.getString("descricao"));
-				gpsRetorno.setValor(rSet.getDouble("valor"));
-				gpsRetorno.setMarca(rSet.getString("marca"));
-				gpsRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				gpsRetorno.setIdioma(rSet.getString("idioma"));
+				
+				if(gps.getCodigo()!=99){
+					
+					gpsRetorno.setCodigo(rSet.getInt("codigo"));
+					gpsRetorno.setDescricao(rSet.getString("descricao"));
+					gpsRetorno.setValor(rSet.getDouble("valor"));
+					gpsRetorno.setMarca(rSet.getString("marca"));
+					gpsRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+					gpsRetorno.setIdioma(rSet.getString("idioma"));
+					
+				}else{
+					rSet.next();
+				}
+				
+			
+	
 				
 			}
 			

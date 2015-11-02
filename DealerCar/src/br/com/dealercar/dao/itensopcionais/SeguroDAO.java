@@ -192,6 +192,51 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 	}
 
 
+	/**
+	 * 
+	 * @return Lista todos os ArCondionados do Banco de Dados e retorna um
+	 *         objeto de Seguro
+	 */
+	public List<Seguro> listarApenasNomesDiferentes() {
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("select distinct seguros.codigo, seguros.descricao, seguros.tipo_seguro "); 
+		sql.append("from seguros inner join tipo_seguro on tipo_seguro.id = seguros.tipo_seguro ");
+		sql.append("where seguros.tipo_seguro=1 "); 
+		sql.append("order by seguros.descricao asc"); 
+		
+
+		List<Seguro> listaRetorno = new ArrayList<Seguro>();
+
+		Connection con = Conexao.getConnection();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ResultSet rSet = ps.executeQuery();
+
+			while (rSet.next()) {
+				Seguro seguro = new Seguro();
+				seguro.setCodigo(rSet.getInt("seguros.codigo"));
+				seguro.setDescricao(rSet.getString("seguros.descricao"));
+
+				TipoSeguro tipoSeguro = new TipoSeguro();
+
+				tipoSeguro.setId(rSet.getInt("seguros.tipo_seguro"));
+				
+				tipoSeguro = new TipoSeguroDAO().pesquisarPorID(tipoSeguro);
+				
+				seguro.setTipoSeguro(tipoSeguro);
+
+				listaRetorno.add(seguro);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return listaRetorno;
+	}
+
 	
 
 }

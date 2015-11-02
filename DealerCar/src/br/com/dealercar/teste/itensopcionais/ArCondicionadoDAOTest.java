@@ -67,7 +67,7 @@ public class ArCondicionadoDAOTest {
 		//cadastrar();
 		//editar();
 		//excluir();
-		//listarTodos();
+		listarTodos();
 		//pesquisarPorID();
 		
 		

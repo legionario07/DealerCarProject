@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBRetirada.carregarListagem}"
+			type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Retirada" />
+
+		</h:panelGrid>
+
+		<p:tabView id="tabViewConsultar">
+			<p:tab title="Retirada" id="tabRetiradaConsulta">
+				<h:form id="frmConsultaRetirada">
+
+					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
+
+
+						<h:outputLabel value="Digite o CPF para Localizar o Cliente"
+							rendered="#{MBRetirada.cliente.CPF == null}" />
+						<p:inputMask mask="999.999.999-99"
+							value="#{MBRetirada.cliente.CPF}"
+							rendered="#{MBRetirada.cliente.CPF == null}" />
+
+					</h:panelGrid>
+
+
+
+					<h:panelGrid id="pnlClienteDados2" columns="2"
+						rendered="#{MBRetirada.ehCadastrado == true}">
+
+						<h:outputLabel value="Id: " />
+						<p:inputText value="#{MBRetirada.cliente.id}" readonly="true" />
+
+						<h:outputText value="Nome:" />
+						<p:inputText id="inpNome" size="90" maxlength="45" readonly="true"
+							value="#{MBRetirada.cliente.nome}" />
+
+						<h:outputText value="Data Nascimento: " />
+						<p:inputText size="10" readonly="true"
+							value="#{MBRetirada.cliente.dataNasc}" />
+
+						<h:outputText value="Nome da Mãe: " maxlength="45" />
+						<p:inputText size="90" value="#{MBRetirada.cliente.nomeMae}"
+							readonly="true" />
+
+						<h:outputText value="Sexo: " maxlength="45" />
+						<p:inputText size="90" value="#{MBRetirada.cliente.sexo}"
+							readonly="true" />
+
+						<h:outputText value="RG: " maxlength="20" />
+						<p:inputText size="20" value="#{MBRetirada.cliente.RG}"
+							readonly="true" />
+
+						<h:outputText value="CPF: " maxlength="11" />
+						<p:inputText size="20" value="#{MBRetirada.cliente.CPF}"
+							readonly="true" />
+
+						<h:outputText value="Telefone: " maxlength="15" />
+						<p:inputText size="15" readonly="true"
+							value="#{MBRetirada.cliente.telefone}" />
+
+						<h:outputText value="Celular " maxlength="15" />
+						<p:inputText size="15" readonly="true"
+							value="#{MBRetirada.cliente.celular}" />
+
+						<h:outputText value="Email: " maxlength="65" />
+						<p:inputText size="50" value="#{MBRetirada.cliente.email}"
+							readonly="true" />
+
+						<h:outputText value="Rua " maxlength="50" />
+						<p:inputText size="50" value="#{MBRetirada.cliente.endereco.rua}"
+							readonly="true" maxlength="50" />
+
+						<h:outputText value="Número: " maxlength="10" />
+						<p:inputText size="10"
+							value="#{MBRetirada.cliente.endereco.numero}" readonly="true"
+							maxlength="10" />
+
+						<h:outputText value="Complemento: " maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBRetirada.cliente.endereco.complemento}"
+							readonly="true" maxlength="50" />
+
+						<h:outputText value="Bairro: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBRetirada.cliente.endereco.bairro}" readonly="true"
+							maxlength="20" />
+
+						<h:outputText value="Cidade: " />
+						<p:inputText size="50" value="#{MBRetirada.cliente.cidade.nome}"
+							readonly="true" maxlength="65" />
+					</h:panelGrid>
+					<br></br>
+
+
+
+					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+						<p:commandButton actionListener="#{MBRetirada.pesquisarPorCPF}"
+							update="frmConsultaRetirada :msgGlobal"
+							rendered="#{MBRetirada.cliente.CPF == null}" value="Pesquisar" />
+
+						<p:commandButton action="/pages/ncliente.xhtml"
+							rendered="#{MBRetirada.jaPesquisei == true}"
+							value="Cadastrar Novo Cliente" />
+
+
+						<p:commandButton value="Efetuar Retirada"
+							rendered="#{MBRetirada.ehCadastrado == true}"
+							onclick="PF('dlgEfetuarRetirada').show();"
+							update="frmConsultaRetirada: frmEfetuarRetirada:pnlEfetuarRetirada" />
+
+
+						<p:commandButton value="Editar Dados"
+							rendered="#{MBRetirada.ehCadastrado == true}"
+							onclick="PF('dlgClienteEditar').show();"
+							update="frmConsultaRetirada: frmClienteEditar:pnlClienteEditar" />
+
+						<p:commandButton value="Limpar Pesquisa"
+							actionListener="#{MBRetirada.limparPesquisa}"
+							rendered="#{MBRetirada.ehCadastrado == true}"
+							update="frmConsultaRetirada: frmConsultaRetirada:pnlClienteDados" />
+
+
+
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+
+
+		<!-- Caixa de Dialogo Efetuar Retirada -->
+		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="630"
+			onShow="" height="500" draggable="false" resizable="false"
+			header="Efetuar Retirada">
+
+			<h:form id="frmEfetuarRetirada">
+
+				<h:panelGrid id="pnlEfetuarRetirada" columns="2">
+
+					<p:outputLabel value="Nome: " />
+					<p:inputText value="#{MBRetirada.cliente.nome}" size="70"
+						readonly="true" />
+
+					<p:outputLabel value="CPF: " />
+					<p:inputText size="20" value="#{MBRetirada.cliente.CPF}"
+						readonly="true" />
+
+					<p:outputLabel value="Modelo: *" />
+					<p:selectOneMenu id="modelo" value="#{MBRetirada.modelo.nome}"
+						required="true"
+						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaModelosDisponiveis}"
+							var="m" itemLabel="#{m.nome}" itemValue="#{m.nome}" />
+
+						<p:ajax update="placa" listener="#{MBRetirada.carregarPlacas}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Placa *" />
+					<p:selectOneMenu id="placa"
+						value="#{MBRetirada.carro.placa}" required="true"
+						requiredMessage="Favor informar a Placa. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaPlacasDisponiveis}"
+							var="carro" itemLabel="#{carro.placa}" itemValue="#{carro.placa}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Quilometragem: *" />
+					<p:inputMask value="#{MBRetirada.quilometragem}" size="15"
+						mask="999999" required="true"
+						requiredMessage="Favor informar a Quilometragem. Campo de preenchimento obrigatório">
+						<f:validateLength minimum="1" maximum="7" />
+					</p:inputMask>
+
+
+					<p:outputLabel value="Seguro: *" />
+					<p:selectOneMenu id="Seguro" value="#{MBRetirada.seguro.descricao}"
+						required="true"
+						requiredMessage="Favor informar o Serguro. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaSeguros}" var="seguro"
+							itemLabel="#{seguro.descricao}" itemValue="#{seguro.descricao}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Tipo Seguro:*" />
+					<p:selectOneMenu id="TipoSeguro"
+						value="#{MBRetirada.tipoSeguro.id}" required="true"
+						requiredMessage="Favor informar o Tipo de Seguro. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:210px">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaTipoSeguros}"
+							var="tipoSeguro" itemLabel="#{tipoSeguro.nome}"
+							itemValue="#{tipoSeguro.id}" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+				<br></br>
+
+				<h:panelGrid columns="1">
+					<h:outputText value="Itens Opcionais" style="font-weight:bold" />
+
+
+				</h:panelGrid>
+
+				<h:panelGrid id="arCondicionado" columns="3"
+					styleClass="estilos.css" columnClasses="coluna1,coluna2,coluna3">
+
+					<p:outputLabel value="Ar Condicionado" />
+
+					<h:panelGrid columns="2">
+						<p:selectOneMenu id="ar" value="#{MBRetirada.selectItem}"
+							panelStyle="width:180px" effect="fade" style="width:70px">
+
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+							<p:ajax update="arCondicionado"
+								listener="#{MBRetirada.carregarItensOpcionais}" />
+						</p:selectOneMenu>
+
+
+						<p:selectOneMenu id="tipoAr"
+							rendered="#{MBRetirada.selectItem == true}"
+							value="#{MBRetirada.arCondicionado.descricao}"
+							required="true"
+							requiredMessage="Favor informar o ArCondicionado Desejado"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+							<f:selectItems value="#{MBRetirada.listaArCondicionado}" var="ar"
+								itemLabel="#{ar.descricao}" itemValue="#{ar.descricao}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<h:panelGrid id="bebeConforto" columns="3" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2,coluna3">
+
+					<p:outputLabel value="Bebe Conforto" />
+
+					<h:panelGrid columns="2">
+						<p:selectOneMenu id="bebe" value="#{MBRetirada.selectItem}"
+							panelStyle="width:180px" effect="fade" style="width:70px">
+
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+							<p:ajax update="bebeConforto"
+								listener="#{MBRetirada.carregarItensOpcionais}" />
+						</p:selectOneMenu>
+
+
+						<p:selectOneMenu id="tipoBebe"
+							rendered="#{MBRetirada.selectItem == true}"
+							value="#{MBRetirada.bebeConforto.descricao}" required="true"
+							requiredMessage="Favor informar o BebeConforto desejado"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+							<f:selectItems value="#{MBRetirada.listaBebeConforto}" var="bebe"
+								itemLabel="#{bebe.descricao}" itemValue="#{bebe.descricao}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<h:panelGrid id="cadeirinha" columns="3" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2,coluna3">
+
+					<p:outputLabel value="Cadeirinha Bebe" />
+
+					<h:panelGrid columns="2">
+						<p:selectOneMenu id="cadeirinhaBebe"
+							value="#{MBRetirada.selectItem}" panelStyle="width:180px"
+							effect="fade" style="width:70px">
+
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+
+							<p:ajax update="cadeirinha"
+								listener="#{MBRetirada.carregarItensOpcionais}" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="tipoCadeirinha"
+							rendered="#{MBRetirada.selectItem == true}"
+							value="#{MBRetirada.cadeirinhaBebe.descricao}" required="true"
+							requiredMessage="Favor informar a Cadeirinha para o Bebe desejada"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+							<f:selectItems value="#{MBRetirada.listaCadeirinhaBebe}"
+								var="cadeirinha" itemLabel="#{cadeirinha.descricao}"
+								itemValue="#{cadeirinha.descricao}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid id="gps" columns="3" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2,coluna3">
+
+					<p:outputLabel value="GPS" />
+
+					<h:panelGrid columns="2">
+						<p:selectOneMenu id="selectGPS" value="#{MBRetirada.selectItem}"
+							panelStyle="width:180px" effect="fade" style="width:70px">
+
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+
+							<p:ajax update="gps"
+								listener="#{MBRetirada.carregarItensOpcionais}" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="tipoGps"
+							rendered="#{MBRetirada.selectItem == true}"
+							value="#{MBRetirada.gps.descricao}" required="true"
+							requiredMessage="Favor informar o GPS desejado"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+							<f:selectItems value="#{MBRetirada.listaGps}" var="gps"
+								itemLabel="#{gps.descricao}" itemValue="#{gps.descricao}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid id="RadioPlayer" columns="3" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2,coluna3">
+
+					<p:outputLabel value="Radio Player" />
+
+					<h:panelGrid columns="2">
+						<p:selectOneMenu id="selectRadio" value="#{MBRetirada.selectItem}"
+							panelStyle="width:180px" effect="fade" style="width:70px">
+
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+							<p:ajax update="RadioPlayer"
+								listener="#{MBRetirada.carregarItensOpcionais}" />
+						</p:selectOneMenu>
+
+
+						<p:selectOneMenu id="tipoRadio"
+							rendered="#{MBRetirada.selectItem == true}"
+							value="#{MBRetirada.radioPlayer.descricao}" required="true"
+							requiredMessage="Favor informar o RadioPlayer desejado"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+							<f:selectItems value="#{MBRetirada.listaRadioPlayer}" var="radio"
+								itemLabel="#{radio.descricao}" itemValue="#{radio.descricao}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+				<br></br>
+
+				<h:panelGrid id="dataDevolucao" columns="2" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2">
+
+					<h:outputText value="Data da Devolução: *" />
+					<p:calendar id="data" value="#{MBRetirada.dataDevolucao}"
+						required="true"
+						requiredMessage="Favor informar a Data da Devolução" />
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" styleClass="estilos.css"
+					columnClasses="coluna1,coluna2">
+					<h:outputText value="Funcionario: *" />
+					<p:selectOneMenu id="Funcionario"
+						value="#{MBRetirada.funcionario.id}" required="true"
+						requiredMessage="Favor informar o Funcionario. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaFuncionarios}"
+							var="funcionario" itemLabel="#{funcionario.nome}"
+							itemValue="#{funcionario.id}" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+
+				<br></br>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Efetuar Retirada"
+						actionListener="#{MBRetirada.efetuarRetirada}"
+						onclick=":frmConsultaRetirada"
+						oncomplete="PF('dlgEfetuarRetirada').hide();">
+					</p:commandButton>
+					
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgEfetuarRetirada').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Editar -->
+		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
+			onShow="" height="450" draggable="false" resizable="false"
+			header="Cliente - Editar">
+
+			<h:form id="frmClienteEditar">
+
+				<h:panelGrid id="pnlClienteEditar" columns="2">
+
+					<p:outputLabel value="Nome: *" />
+					<p:inputText value="#{MBRetirada.cliente.nome}" size="70"
+						required="true"
+						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="DataNasc: *" />
+					<p:inputMask value="#{MBRetirada.cliente.dataNasc}" size="10"
+						mask="99/99/9999" required="true"
+						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="Nome da Mãe: " />
+					<p:inputText value="#{MBRetirada.cliente.nomeMae}" size="45"
+						required="true"
+						requiredMessage="Favor informar o nome da Mãe. Campo de preenchimento obrigatório" />
+
+					<h:outputText value="Sexo: " maxlength="45" />
+					<p:selectOneMenu value="#{MBRetirada.cliente.sexo}" rendered="true"
+						required="true"
+						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemLabel="Selecione o Sexo"
+							noSelectionOption="true" />
+
+						<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
+						<f:selectItem itemValue="FEMININO" itemLabel="FEMININO" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="RG: " />
+					<p:inputText value="#{MBRetirada.cliente.RG}" size="20" />
+
+					<p:outputLabel value="CPF: *" />
+					<p:inputMask value="#{MBRetirada.cliente.CPF}" size="20"
+						mask="999.999.999-99" required="true"
+						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório">
+						<f:validateLength minimum="14" maximum="14" />
+					</p:inputMask>
+
+					<p:outputLabel value="Telefone: *" />
+					<p:inputMask value="#{MBRetirada.cliente.telefone}" size="15"
+						mask="(99)9999-9999" required="true"
+						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="Celular: " />
+					<p:inputMask value="#{MBRetirada.cliente.celular}" size="15"
+						mask="(99)99999-9999" />
+
+					<p:outputLabel value="Email: " />
+					<p:inputText value="#{MBRetirada.cliente.email}" size="55" />
+
+					<p:outputLabel value="Rua *" maxlength="50" />
+					<p:inputText size="50" value="#{MBRetirada.cliente.endereco.rua}"
+						required="true"
+						requiredMessage="Favor informar o Rua do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="50" />
+
+					<p:outputLabel value="Número: *" maxlength="10" />
+					<p:inputText size="10"
+						value="#{MBRetirada.cliente.endereco.numero}" required="true"
+						requiredMessage="Favor informar o Número do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="10" />
+
+					<p:outputLabel value="Complemento: " maxlength="50" />
+					<p:inputText size="50"
+						value="#{MBRetirada.cliente.endereco.complemento}" maxlength="50" />
+
+					<p:outputLabel value="Bairro: *" maxlength="20" />
+					<p:inputText size="20"
+						value="#{MBRetirada.cliente.endereco.bairro}" required="true"
+						requiredMessage="Favor informar o Bairro do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Cidade: *" />
+
+					<p:selectOneMenu id="cidades"
+						value="#{MBRetirada.cliente.cidade.nome}" required="true"
+						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione uma Cidade"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaCidades}" var="cidade"
+							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
+
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{MBRetirada.editar}"
+						onclick=":frmConsultaRetirada"
+						oncomplete="PF('dlgClienteEditar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgClienteEditar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog modal="true" resizable="false" header="Values"
+			widgetVar="dlgDataErrada" showEffect="fold">
+			<p:panelGrid id="display" columns="2" columnClasses="label,value">
+
+				<h:outputText
+					value="A data da Devolução deve ser maior que #{MBRetirada.dataRetirada}"
+					style="font-weight:bold; text-color:red" />
+
+			</p:panelGrid>
+		</p:dialog>
+
+
+
+
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

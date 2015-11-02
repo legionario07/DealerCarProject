@@ -63,6 +63,20 @@ public class ModeloDAOTest {
 		
 	}
 	
+	@SuppressWarnings("unused")
+	private static void pesquisarModelosDisponiveis(){
+		
+		List<Modelo> lista = new ArrayList<Modelo>();
+		
+		ModeloDAO mDao = new ModeloDAO();
+		
+		lista = mDao.listarModelosDisponiveis();
+		
+		for(Modelo m : lista) {
+			System.out.println(m);
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		
@@ -71,6 +85,7 @@ public class ModeloDAOTest {
 		//editar();
 		//excluir();
 		//pesquisarPorID();
+		//pesquisarModelosDisponiveis();
 		
 		
 	}

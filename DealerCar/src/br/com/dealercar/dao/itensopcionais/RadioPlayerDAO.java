@@ -116,7 +116,12 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 				radio.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				radio.setModelo(rSet.getString("modelo"));
 				
-				listaRetorno.add(radio);
+				if(radio.getCodigo()!=99){
+					listaRetorno.add(radio);	
+				}else{
+					rSet.next();
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -153,12 +158,20 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 			while(rSet.next()) {
 				
 				radioPlayerRetorno = new RadioPlayer();
-				radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
-				radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
-				radioPlayerRetorno.setValor(rSet.getDouble("valor"));
-				radioPlayerRetorno.setMarca(rSet.getString("marca"));
-				radioPlayerRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-				radioPlayerRetorno.setModelo(rSet.getString("modelo"));
+				
+				if(radioPlayer.getCodigo()!=99){
+					radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
+					radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
+					radioPlayerRetorno.setValor(rSet.getDouble("valor"));
+					radioPlayerRetorno.setMarca(rSet.getString("marca"));
+					radioPlayerRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+					radioPlayerRetorno.setModelo(rSet.getString("modelo"));
+					
+				}else{
+					rSet.next();
+				}
+				
+			
 			}
 			
 		} catch (SQLException e) {

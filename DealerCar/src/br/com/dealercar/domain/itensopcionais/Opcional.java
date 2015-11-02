@@ -62,11 +62,13 @@ public class Opcional extends EntidadeDominio{
 	public String toString() {
 		
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Id: ");
+		retorno.append("\nId: ");
 		retorno.append(this.getId());
 		retorno.append("\n");
-		retorno.append(this.getArCondicionado().toString());
-		retorno.append("\n");
+		if(this.getArCondicionado()!=null){
+			retorno.append(this.getArCondicionado().toString());
+			retorno.append("\n");
+		}
 		retorno.append(this.getSeguro().toString());
 		retorno.append("\n");
 		for(Itens i : itens){

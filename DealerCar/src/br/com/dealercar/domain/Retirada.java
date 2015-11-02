@@ -1,26 +1,26 @@
 package br.com.dealercar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 
-public class Retirada extends EntidadeDominio{
+public class Retirada extends EntidadeDominio {
 
 	private int id;
-	private String dataRetirada;
-	private Long quilometragem;
-	private List<Opcional> listaDeOpcional = new ArrayList<Opcional>();
+	private Date dataRetirada;
+	private Date dataDevolucao;
+	private String quilometragem;
+	private Opcional opcional = new Opcional();
 	private Funcionario funcionario;
 	private Cliente cliente;
 	private Reserva reserva;
 	private Carro carro;
-	
+
 	public Retirada() {
 
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -28,121 +28,109 @@ public class Retirada extends EntidadeDominio{
 	public Retirada(int id) {
 		this.setId(id);
 	}
-	
-	/**
-	 * 
-	 * @param carro
-	 * @param dataRetirada
-	 * @param quilometragem
-	 * @param listaDeOpcional
-	 * @param funcionario
-	 * @param cliente
-	 * @param reserva
-	 */
-	public Retirada(Carro carro, String dataRetirada, Long quilometragem, Cliente cliente,
-			Funcionario funcionario, List<Opcional> listaDeOpcional, Reserva reserva) {
-		
-		this.setCarro(carro);
-		this.setDataRetirada(dataRetirada);
-		this.setQuilometragem(quilometragem);
-		this.setCliente(cliente);
-		this.setFuncionario(funcionario);
-		this.setListaDeOpcional(listaDeOpcional);
-		this.setReserva(reserva);
-		
-	}
-	
-	/**
-	 * 
-	 * @param carro
-	 * @param dataRetirada
-	 * @param quilometragem
-	 * @param cliente
-	 * @param funcionario
-	 */
-	public Retirada(Carro carro, String dataRetirada, Long quilometragem, Cliente cliente,
-			Funcionario funcionario) {
-		
-		this.setCarro(carro);
-		this.setDataRetirada(dataRetirada);
-		this.setQuilometragem(quilometragem);
-		this.setCliente(cliente);
-		this.setFuncionario(funcionario);
-		this.setListaDeOpcional(listaDeOpcional);
-		this.setReserva(reserva);
-		
-	}
-	
-	/**
-	 * 
-	 * @param carro
-	 * @param dataRetirada
-	 * @param quilometragem
-	 * @param cliente
-	 * @param funcionario
-	 * @param listaDeOpcional
-	 */
-	public Retirada(Carro carro, String dataRetirada, Long quilometragem, Cliente cliente,
-			Funcionario funcionario, List<Opcional> listaDeOpcional) {
-		
-		this.setCarro(carro);
-		this.setDataRetirada(dataRetirada);
-		this.setQuilometragem(quilometragem);
-		this.setCliente(cliente);
-		this.setFuncionario(funcionario);
-		this.setListaDeOpcional(listaDeOpcional);
-		this.setReserva(reserva);
-		
-	}
-	
+
+
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDataRetirada() {
+
+	public Date getDataRetirada() {
 		return dataRetirada;
 	}
-	public void setDataRetirada(String dataRetirada) {
+
+	public void setDataRetirada(Date dataRetirada) {
 		this.dataRetirada = dataRetirada;
 	}
-	public Long getQuilometragem() {
+
+	public Date getDataDevolucao() {
+		return dataDevolucao;
+	}
+
+	public void setDataDevolucao(Date dataDevolucao) {
+		this.dataDevolucao = dataDevolucao;
+	}
+
+	public String getQuilometragem() {
 		return quilometragem;
 	}
-	public void setQuilometragem(Long quilometragem) {
-		this.quilometragem = quilometragem;
+
+	public void setQuilometragem(String quilometragem2) {
+		this.quilometragem = quilometragem2;
 	}
-	public List<Opcional> getListaDeOpcional() {
-		return listaDeOpcional;
-	}
-	public void setListaDeOpcional(List<Opcional> listaDeOpcional) {
-		this.listaDeOpcional = listaDeOpcional;
-	}
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
+
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	public Opcional getOpcional() {
+		return opcional;
+	}
+
+	public void setOpcional(Opcional opcional) {
+		this.opcional = opcional;
+	}
+
 	public Reserva getReserva() {
 		return reserva;
 	}
+
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
 	}
+
 	public Carro getCarro() {
 		return carro;
 	}
+
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+
+		StringBuffer retorno = new StringBuffer();
+
+		retorno.append("Id: ");
+		retorno.append(this.getId());
+		retorno.append("\nCliente: ");
+		retorno.append(this.getCliente().getNome());
+		retorno.append("\nModelo: ");
+		retorno.append(this.getCarro().getModelo().getNome());
+		retorno.append("\nPlaca: ");
+		retorno.append(this.getCarro().getPlaca());
+		retorno.append("\nQuilometragem: ");
+		retorno.append(this.getQuilometragem());
+		if (this.getReserva() != null) {
+			retorno.append("\nId Reserva: ");
+			retorno.append(this.getReserva().getId());
+		}
+		retorno.append("\nData retirada: ");
+		retorno.append(this.getDataRetirada());
+		retorno.append("\nData Devolucao: ");
+		retorno.append(this.getDataDevolucao());
+		retorno.append("\nFuncionario Responsavel: ");
+		retorno.append(this.getFuncionario().getNome());
+		retorno.append(this.getOpcional().toString());
+
+		return retorno.toString();
+	}
+
 }

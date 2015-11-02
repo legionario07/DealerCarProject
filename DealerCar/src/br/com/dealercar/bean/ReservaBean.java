@@ -315,7 +315,7 @@ public class ReservaBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
 
 	}
-
+	
 	/**
 	 * Exclui os dados da reserva selecionada pelo usuario na tela Será aberta
 	 * uma nova caixa de dialogo para confirmar a Exclusão

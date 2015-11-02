@@ -78,6 +78,25 @@ public class CarroDAOTest {
 		}
 		
 	}
+	
+	public static void pesquisarPorModelo() {
+		
+		List<Carro> lista = new ArrayList<Carro>();
+
+		Modelo m = new Modelo(2);
+		
+		CarroDAO carDao = new CarroDAO(); 
+		lista = carDao.pesquisarPorModelo(m);
+
+		for (Carro c : lista) {
+			System.out.print(c.getModelo().getNome());
+			System.out.print(c.getPlaca());
+			System.out.println("\n");
+			
+		}
+		
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -86,7 +105,8 @@ public class CarroDAOTest {
 		// editar();
 		// pesquisarPorPlaca();
 		// listarTodos();
-		pesquisarCarrosDisponiveis();
+		//pesquisarCarrosDisponiveis();
+		pesquisarPorModelo();
 
 	}
 
