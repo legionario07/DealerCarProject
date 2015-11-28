@@ -564,8 +564,8 @@ public class RetiradaBean implements Serializable {
 		// sendo editado
 
 		for (Cidade cid : listaCidades) {
-			if (cid.getNome().equals(cliente.getCidade().getNome())) {
-				cliente.setCidade(cid);
+			if (cid.getNome().equals(cliente.getEndereco().getCidade().getNome())) {
+				cliente.getEndereco().setCidade(cid);
 				break;
 			}
 

@@ -37,7 +37,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			ps.setString(++i, cliente.getNome().toUpperCase());
 			ps.setString(++i, cliente.getDataNasc());
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
-			ps.setString(++i, cliente.getSexo().toUpperCase());
+			ps.setString(++i, cliente.getSexo());
 			ps.setString(++i, cliente.getTelefone());
 			ps.setString(++i, cliente.getCelular());
 			ps.setString(++i, cliente.getRG().toUpperCase());
@@ -55,7 +55,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			endereco.append(cliente.getEndereco().getBairro());
 			
 			ps.setString(++i, endereco.toString());
-			ps.setInt(++i, cliente.getCidade().getId());
+			ps.setInt(++i, cliente.getEndereco().getCidade().getId());
 
 			ps.executeUpdate();
 
@@ -88,7 +88,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			ps.setString(++i, cliente.getNome().toUpperCase());
 			ps.setString(++i, cliente.getDataNasc());
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
-			ps.setString(++i, cliente.getSexo().toUpperCase());
+			ps.setString(++i, cliente.getSexo());
 			ps.setString(++i, cliente.getTelefone());
 			ps.setString(++i, cliente.getCelular());
 			ps.setString(++i, cliente.getRG().toUpperCase());
@@ -107,7 +107,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			
 			ps.setString(++i, endereco.toString());
 			
-			ps.setInt(++i, cliente.getCidade().getId());
+			ps.setInt(++i, cliente.getEndereco().getCidade().getId());
 			ps.setInt(++i, cliente.getId());
 
 			ps.executeUpdate();
@@ -165,9 +165,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 			while (rSet.next()) {
 
-				Cidade cidadeRetorno = new Cidade();
-				cidadeRetorno.setId(rSet.getInt("cidades.id"));
-				cidadeRetorno.setNome(rSet.getString("cidades.nome"));
 
 				Cliente clienteRetorno = new Cliente();
 
@@ -201,11 +198,15 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 						end.setNumero(endereco[1].trim());
 						end.setBairro(" - " + endereco[2].trim());
 					}
-				
+					
+				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno.setId(rSet.getInt("cidades.id"));
+				cidadeRetorno.setNome(rSet.getString("cidades.nome"));
+					
+				end.setCidade(cidadeRetorno);
+					
 				clienteRetorno.setEndereco(end);				
 				
-				clienteRetorno.setCidade(cidadeRetorno);
-
 				clientes.add(clienteRetorno);
 			}
 			
@@ -279,14 +280,15 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 						end.setBairro(endereco[2].trim());
 					}
 				
-				clienteRetorno.setEndereco(end);				
 				
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
 
-				clienteRetorno.setCidade(cidade);
+				end.setCidade(cidade);
+				
+				clienteRetorno.setEndereco(end);				
 
 			}
 			
@@ -361,15 +363,15 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 						end.setNumero(endereco[1].trim());
 						end.setBairro(endereco[2].trim());
 					}
-				
-				clienteRetorno.setEndereco(end);				
-
+									
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
 
-				clienteRetorno.setCidade(cidade);
+				end.setCidade(cidade);
+				
+				clienteRetorno.setEndereco(end);				
 
 			}
 			
@@ -446,15 +448,15 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 						end.setBairro(endereco[2].trim());
 					}
 				
-				clienteRetorno.setEndereco(end);				
-
 				
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
 
-				clienteRetorno.setCidade(cidade);
+				end.setCidade(cidade);
+				
+				clienteRetorno.setEndereco(end);				
 
 				lista.add(clienteRetorno);
 

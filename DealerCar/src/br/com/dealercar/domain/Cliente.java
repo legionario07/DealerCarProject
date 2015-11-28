@@ -41,7 +41,7 @@ public class Cliente extends Pessoa {
 		this.setCPF(CPF);
 		this.setEmail(email);
 		this.setEndereco(endereco);
-		this.setCidade(cidade);
+		this.getEndereco().setCidade(cidade);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class Cliente extends Pessoa {
 		this.setRG(RG);
 		this.setCPF(CPF);
 		this.setEndereco(endereco);
-		this.setCidade(cidade);
+		this.getEndereco().setCidade(cidade);
 	}
 
 	public String getNomeMae() {

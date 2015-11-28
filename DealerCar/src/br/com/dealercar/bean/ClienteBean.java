@@ -139,10 +139,12 @@ public class ClienteBean implements Serializable {
 	 * do Cliente e da Cidade que o usuário digitou na Tela
 	 */
 	public void cadastrar() {
-
-		cliente.setEndereco(endereco);
-		cliente.setCidade(cidade);
 		
+				
+		cliente.setEndereco(endereco);
+		cidade = new CidadeDAO().pesquisarPorID(cidade);
+		
+		endereco.setCidade(cidade);
 		listaCidades = cidDao.listarTodos();
 		cliDao.cadastrar(cliente);
 
@@ -209,9 +211,9 @@ public class ClienteBean implements Serializable {
 		//Verifica a cidade escolhida para ser adicionado ao Cliente que esta sendo editado
 		
 		for (Cidade cid : listaCidades) {
-			if (cid.getNome().equals(clienteRetorno.getCidade().getNome())) {
+			if (cid.getNome().equals(clienteRetorno.getEndereco().getCidade().getNome())) {
 				setCidade(cid);
-				clienteRetorno.setCidade(cidade);
+				clienteRetorno.getEndereco().setCidade(cidade);
 				break;
 			}
 

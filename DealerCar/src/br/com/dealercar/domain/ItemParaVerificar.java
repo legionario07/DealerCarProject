@@ -4,7 +4,7 @@ public abstract class ItemParaVerificar {
 	
 	private int id;
 	private String descricao;
-	
+	private boolean ok;
 	
 	public ItemParaVerificar() {
 		
@@ -47,6 +47,12 @@ public abstract class ItemParaVerificar {
 	}
 
 
+	public boolean isOk() {
+		return ok;
+	}
+	public void setOk(boolean ok) {
+		this.ok = ok;
+	}
 	@Override
 	public String toString() {
 	

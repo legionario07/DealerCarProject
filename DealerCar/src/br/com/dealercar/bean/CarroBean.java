@@ -41,9 +41,10 @@ public class CarroBean implements Serializable{
 	private static final long serialVersionUID = -3692960075593703235L;
 	
 	private Carro carro = new Carro();
-	private int totalCarros;
 	private Modelo modelo = new Modelo();
 	private Cor cor = new Cor();
+	private Categoria categoria = new Categoria();
+	private ImagemCarro carroUrl = new ImagemCarro();
 	
 	private CorDAO corDao = new CorDAO();
 	private CarroDAO carDao = new CarroDAO();
@@ -53,8 +54,6 @@ public class CarroBean implements Serializable{
 	
 	private IValidacaoStrategy validaStrategy = null;
 	
-	private Categoria categoria = new Categoria();
-	private ImagemCarro carroUrl = new ImagemCarro();
 	private List<Carro> listaCarros = new ArrayList<Carro>();
 	private List<Cor> listaCores = new ArrayList<Cor>();
 	private List<Modelo> listaModelos = new ArrayList<Modelo>();
@@ -62,6 +61,7 @@ public class CarroBean implements Serializable{
 	private List<ImagemCarro> listaImagens = new ArrayList<ImagemCarro>();
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
 	
+	private int totalCarros;
 	private boolean ehCadastrado = false;
 	private boolean jaPesquisei = false;
 	
@@ -185,17 +185,11 @@ public class CarroBean implements Serializable{
 	public void carregarListagemCarros() {
 		
 		listaCarros = carDao.listarTodos();
-		
 		listaCategoria = catDao.listarTodos();
-		
 		listaModelos = modDao.listarTodos();
-		
 		listaCores = corDao.listarTodos();
-		
 		listaImagens = imDao.listarTodos();
-		
 		listaSituacao = Arrays.asList(SituacaoType.values());
-		
 		
 		this.setTotalCarros(listaCarros.size());
 		

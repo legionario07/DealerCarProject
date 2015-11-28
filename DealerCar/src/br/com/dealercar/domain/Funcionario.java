@@ -34,7 +34,7 @@ public class Funcionario extends Pessoa {
 		this.setSexo(sexo);
 		this.setTelefone(telefone);
 		this.setEndereco(endereco);
-		this.setCidade(cidade);
+		this.getEndereco().setCidade(cidade);
 		this.setCargo(cargo);
 		this.setSalario(salario);
 		this.setUsuario(usuario);
@@ -63,7 +63,7 @@ public class Funcionario extends Pessoa {
 		this.setTelefone(telefone);
 		this.setCelular(celular);
 		this.setEndereco(endereco);
-		this.setCidade(cidade);
+		this.getEndereco().setCidade(cidade);
 		this.setCargo(cargo);
 		this.setSalario(salario);
 		this.setUsuario(usuario);

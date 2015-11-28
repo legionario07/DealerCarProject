@@ -7,6 +7,8 @@ public class Endereco {
 	private String complemento;
 	private String bairro;
 	
+	private Cidade cidade;
+	
 	public Endereco() {
 		
 	}
@@ -71,6 +73,16 @@ public class Endereco {
 		this.bairro = bairro.toUpperCase();
 	}
 	
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+
 	@Override
 	public String toString() {
 

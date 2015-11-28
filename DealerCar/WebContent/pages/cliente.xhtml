@@ -105,7 +105,7 @@
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.cidade.nome}" readonly="true"
+							value="#{MBCliente.clienteRetorno.endereco.cidade}" readonly="true"
 							maxlength="65" />
 					</h:panelGrid>
 					<br></br>
@@ -244,7 +244,7 @@
 					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidades"
-						value="#{MBCliente.clienteRetorno.cidade.nome}" required="true"
+						value="#{MBCliente.clienteRetorno.endereco.cidade.nome}" required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">

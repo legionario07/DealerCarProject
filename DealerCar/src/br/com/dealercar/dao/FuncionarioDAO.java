@@ -51,7 +51,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 			ps.setString(++i, endereco.toString());
 			ps.setString(++i, funcionario.getTelefone());
 			ps.setString(++i, funcionario.getCelular());
-			ps.setInt(++i, funcionario.getCidade().getId());
+			ps.setInt(++i, funcionario.getEndereco().getCidade().getId());
 			ps.setInt(++i, funcionario.getUsuario().getId());
 			ps.setString(++i, funcionario.getCargo());
 			ps.setDouble(++i, funcionario.getSalario());
@@ -102,7 +102,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 			ps.setString(++i, funcionario.getCelular());
 			ps.setString(++i, funcionario.getCargo().toUpperCase());
 			ps.setDouble(++i, funcionario.getSalario());
-			ps.setInt(++i, funcionario.getCidade().getId());
+			ps.setInt(++i, funcionario.getEndereco().getCidade().getId());
 			ps.setInt(++i, funcionario.getUsuario().getId());
 			ps.setInt(++i, funcionario.getId());
 
@@ -163,10 +163,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 			while (rSet.next()) {
 
-				Cidade cidadeRetorno = new Cidade();
-				cidadeRetorno.setId(rSet.getInt("cidades.id"));
-				cidadeRetorno.setNome(rSet.getString("cidades.nome"));
-				cidadeRetorno.setUf(rSet.getString("cidades.uf"));
 
 				Funcionario funcionarioRetorno = new Funcionario();
 
@@ -194,6 +190,13 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 					end.setBairro(endereco[2].trim());
 				}
 				
+				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno.setId(rSet.getInt("cidades.id"));
+				cidadeRetorno.setNome(rSet.getString("cidades.nome"));
+				cidadeRetorno.setUf(rSet.getString("cidades.uf"));
+				
+				end.setCidade(cidadeRetorno);
+				
 				funcionarioRetorno.setEndereco(end);				
 				
 				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
@@ -205,7 +208,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 				usuario.setLogin(rSet.getString("usuarios.login"));
 				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
-				funcionarioRetorno.setCidade(cidadeRetorno);
+				funcionarioRetorno.getEndereco().setCidade(cidadeRetorno);
 				funcionarioRetorno.setUsuario(usuario);
 
 				funcionarios.add(funcionarioRetorno);
@@ -273,23 +276,26 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 					end.setBairro(endereco[2].trim());
 				}
 				
+				Cidade cidade = new Cidade();
+				cidade.setId(rSet.getInt("funcionarios.id_cidade"));
+				cidade.setNome(rSet.getString("cidades.nome"));
+				cidade.setUf(rSet.getString("cidades.uf"));
+				
+				end.setCidade(cidade);
+				
 				funcionarioRetorno.setEndereco(end);				
 
 				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
 				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
 
-				Cidade cidade = new Cidade();
-				cidade.setId(rSet.getInt("funcionarios.id_cidade"));
-				cidade.setNome(rSet.getString("cidades.nome"));
-				cidade.setUf(rSet.getString("cidades.uf"));
 
 				Usuario usuario = new Usuario();
 				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
 				usuario.setLogin(rSet.getString("usuarios.login"));
 				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
-				funcionarioRetorno.setCidade(cidade);
+			
 				funcionarioRetorno.setUsuario(usuario);
 
 			}
@@ -359,23 +365,25 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 						end.setBairro(endereco[2].trim());
 					}
 				
-				funcionarioRetorno.setEndereco(end);				
-
-				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
-				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
-				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
-
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("funcionarios.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
 				cidade.setUf(rSet.getString("cidades.uf"));
+
+				end.setCidade(cidade);
+				
+				funcionarioRetorno.setEndereco(end);
+				
+				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
+				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
+				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
+
 
 				Usuario usuario = new Usuario();
 				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
 				usuario.setLogin(rSet.getString("usuarios.login"));
 				usuario.setSenha(rSet.getString("usuarios.senha"));
 				
-				funcionarioRetorno.setCidade(cidade);
 				funcionarioRetorno.setUsuario(usuario);
 
 				lista.add(funcionarioRetorno);

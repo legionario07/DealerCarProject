@@ -194,13 +194,15 @@ public class ReservaDAO implements IDAO<Reserva> {
 					end.setBairro(endereco[2].trim());
 				}
 
-				cliente.setEndereco(end);
 
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
-				cliente.setCidade(cidade);
 
+				end.setCidade(cidade);
+				
+				cliente.setEndereco(end);
+				
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario();
@@ -307,13 +309,15 @@ public class ReservaDAO implements IDAO<Reserva> {
 						end.setBairro(endereco[2].trim());
 					}
 
-					cliente.setEndereco(end);
 
 					Cidade cidade = new Cidade();
 					cidade.setId(rSet.getInt("clientes.id_cidade"));
 					cidade.setNome(rSet.getString("cidades.nome"));
-					cliente.setCidade(cidade);
 
+					end.setCidade(cidade);
+					
+					cliente.setEndereco(end);
+					
 					reservaRetorno.setCliente(cliente);
 
 					Funcionario funcionario = new Funcionario();
@@ -416,13 +420,15 @@ public class ReservaDAO implements IDAO<Reserva> {
 					end.setBairro(endereco[2].trim());
 				}
 
-				cliente.setEndereco(end);
 
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
-				cliente.setCidade(cidade);
 
+				end.setCidade(cidade);
+				
+				cliente.setEndereco(end);
+				
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario();
@@ -522,13 +528,15 @@ public class ReservaDAO implements IDAO<Reserva> {
 					end.setBairro(endereco[2].trim());
 				}
 
-				cliente.setEndereco(end);
 
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
-				cliente.setCidade(cidade);
 
+				end.setCidade(cidade);
+				
+				cliente.setEndereco(end);
+				
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario();
@@ -632,12 +640,14 @@ public class ReservaDAO implements IDAO<Reserva> {
 					end.setBairro(endereco[2].trim());
 				}
 
-				cliente.setEndereco(end);
 
 				Cidade cidade = new Cidade();
 				cidade.setId(rSet.getInt("clientes.id_cidade"));
 				cidade.setNome(rSet.getString("cidades.nome"));
-				cliente.setCidade(cidade);
+				
+				end.setCidade(cidade);
+				
+				cliente.setEndereco(end);
 
 				reservaRetorno.setCliente(cliente);
 

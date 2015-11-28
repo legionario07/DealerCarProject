@@ -43,6 +43,7 @@ public class Cidade extends EntidadeDominio{
 		this.uf = uf;
 	}
 
+
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();

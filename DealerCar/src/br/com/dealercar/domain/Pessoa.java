@@ -8,7 +8,6 @@ public abstract class Pessoa extends EntidadeDominio{
 	private String celular;
 	private String telefone;
 	private Endereco endereco;
-	private Cidade cidade;
 	private String sexo;
 	
 	public Pessoa(){
@@ -58,15 +57,6 @@ public abstract class Pessoa extends EntidadeDominio{
 	}
 
 
-	public Cidade getCidade() {
-		return cidade;
-	}
-
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
 
 	public String getSexo() {
 		return sexo;
@@ -96,7 +86,7 @@ public abstract class Pessoa extends EntidadeDominio{
 		retorno.append(" - Endereço: ");
 		retorno.append(this.getEndereco());
 		retorno.append(" - Cidade: ");
-		retorno.append(this.getCidade().getNome());
+		retorno.append(this.getEndereco().getCidade().getNome());
 
 		return retorno.toString();
 	}
