@@ -11,6 +11,8 @@ public class Conexao {
 	private static final String url = "jdbc:mysql://localhost:3306/dealercar2";
 	private static final String usuario = "root";
 	private static final String senha = "root";
+	
+	private static Connection conexao = null;
 
 	/**
 	 * 
@@ -18,7 +20,6 @@ public class Conexao {
 	 * ou uma exception se a conexao for invalida
 	 */
 	public static Connection getConnection() {
-		Connection conexao = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);

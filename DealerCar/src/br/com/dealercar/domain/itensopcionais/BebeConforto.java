@@ -1,21 +1,21 @@
 package br.com.dealercar.domain.itensopcionais;
 
-public class BebeConforto extends Itens{
-	
+public class BebeConforto extends Itens {
+
 	private int mesesBebe;
-	
+
 	public BebeConforto() {
 
 	}
-	
-	public BebeConforto(int codigo){
+
+	public BebeConforto(int codigo) {
 		super(codigo);
 	}
-	
+
 	public BebeConforto(String descricao, double valor, String marca, String numeroPatrimonio, int mesesBebe) {
-		
+
 		super(descricao, valor, marca, numeroPatrimonio);
-		
+
 		this.setMesesBebe(mesesBebe);
 	}
 
@@ -30,11 +30,13 @@ public class BebeConforto extends Itens{
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append(super.toString());
-		retorno.append("\nMeses do Bebê: ");
-		retorno.append(this.getMesesBebe());
-		retorno.append("\n\n");
-		
+		if (this.getCodigo() != 99) {
+			retorno.append(super.toString());
+			retorno.append("\nMeses do Bebê: ");
+			retorno.append(this.getMesesBebe());
+			retorno.append("\n\n");
+		}
+
 		return retorno.toString();
 	}
 }

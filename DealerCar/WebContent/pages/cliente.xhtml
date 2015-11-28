@@ -113,7 +113,8 @@
 
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
-							value="Pesquisar" update="frmConsultaCliente :msgGlobal" />
+							value="Pesquisar" update="frmConsultaCliente :msgGlobal" 
+							rendered="#{MBCliente.clienteRetorno.nome == null}"/>
 
 						<p:commandButton value="Novo"
 							rendered="#{MBCliente.jaPesquisei == true}"

@@ -94,6 +94,7 @@
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBCarro.pesquisarPorPlaca}"
 							value="Pesquisar"
+							rendered="#{MBCarro.carro.placa == null}"
 							update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal" />
 
 						<p:commandButton value="Novo"

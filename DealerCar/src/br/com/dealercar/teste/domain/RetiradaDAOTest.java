@@ -23,6 +23,7 @@ public class RetiradaDAOTest {
 		retirada.setCliente(new Cliente(18));
 		retirada.setFuncionario(new Funcionario(3));
 		retirada.setDataRetirada(new Date(14/11/2015));
+		retirada.setDataDevolucao(new Date(30/11/2015));
 		retirada.setOpcional(new Opcional(1));
 		retirada.setQuilometragem("199911");
 		
@@ -70,10 +71,10 @@ public class RetiradaDAOTest {
 	
 	public static void main(String[] args) {
 
-		//cadastrar();
+		cadastrar();
 		//listarTodos();
 		//pesquisarPorId();
-		setarDataDeCadastro();
+		//setarDataDeCadastro();
 		
 	}
 

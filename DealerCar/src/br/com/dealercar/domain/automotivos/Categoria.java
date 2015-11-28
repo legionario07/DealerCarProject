@@ -1,11 +1,16 @@
 package br.com.dealercar.domain.automotivos;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
-public class Categoria extends EntidadeDominio {
+public class Categoria extends EntidadeDominio implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	private String descricao;

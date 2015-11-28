@@ -69,13 +69,14 @@ public class OpcionalDAOTest {
 		
 		itemOpcional.setSeguro(seguro);
 	
-		
+		itemOpcional.setArCondicionado(ar);
 		itens.add(cadeirinha);
 		itens.add(radio);
 	
 		itemOpcional.setItens(itens);
 		
 		opDao.cadastrar(itemOpcional);
+		
 		
 	}
 	
@@ -95,15 +96,31 @@ public class OpcionalDAOTest {
 		
 	}
 	
+	public static void pesquisarPorUltimoCadastrado(){
+		
+		
+		OpcionalDAO opDao = new OpcionalDAO();
+		System.out.println(opDao.pesquisarPorUltimoCadastrado());
+		
+	}
+	
 	public static void listarTodos(){
 		
+		List<Opcional> lista = new ArrayList<Opcional>();
 		
+		lista = new OpcionalDAO().listarTodos();
+		
+		for(Opcional o : lista){
+			System.out.println(o);
+		}
 	}
 	
 	public static void main(String[] args) {
 
 		//cadastrar();
-		pesquisarPorId();
+		//pesquisarPorId();
+		//listarTodos();
+		pesquisarPorUltimoCadastrado();
 		
 	}
 

@@ -147,8 +147,8 @@ public class ValidaItemOpcional implements IValidacaoStrategy {
 			lista = dao.listarTodos();
 
 			for (Seguro c : lista) {
-				if (retorno.getDescricao().toUpperCase().equals(c.getDescricao()) && 
-						retorno.getTipoSeguro().getId()==c.getTipoSeguro().getId()) {
+				if (retorno.getDescricao().equals(c.getDescricao()) && 
+						retorno.getTipoSeguro().getId() == c.getTipoSeguro().getId()) {
 					entDominio = c;
 					return entDominio;
 

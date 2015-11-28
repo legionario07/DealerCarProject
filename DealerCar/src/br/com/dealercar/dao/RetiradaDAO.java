@@ -49,10 +49,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			//colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String dataRetirada = stf.format(retirada.getDataRetirada());
-			String dataDevolucao = stf.format(retirada.getDataDevolucao());
 			
 			pstm.setString(++i, dataRetirada);
-			pstm.setString(++i, dataDevolucao);
+			pstm.setString(++i, String.valueOf(retirada.getDataDevolucao()));
 			pstm.setString(++i, retirada.getQuilometragem());
 			pstm.setString(++i, retirada.getCarro().getPlaca());
 			pstm.setInt(++i, retirada.getCliente().getId());
@@ -71,7 +70,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			pstm.executeUpdate();
 			
 			//Alterando o carro locado na tabela Carro
-			Carro carro = retirada.getCarro();
+			Carro carro = new Carro();
+			carro.setPlaca(retirada.getCarro().getPlaca());
+			carro = new CarroDAO().pesquisarPorPlaca(carro);
 			carro.setSituacao(SituacaoType.Locado);
 			new CarroDAO().editar(carro);
 			

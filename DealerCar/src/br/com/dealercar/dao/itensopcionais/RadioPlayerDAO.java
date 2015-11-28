@@ -12,19 +12,21 @@ import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
+public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> {
 
 	/**
 	 * 
-	 * @param RadioPlayer Recebe um RadioPlayer como parametro e cadastra no Banco de Dados
+	 * @param RadioPlayer
+	 *            Recebe um RadioPlayer como parametro e cadastra no Banco de
+	 *            Dados
 	 */
 	public void cadastrar(RadioPlayer radio) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into radio_player (descricao, valor, marca, numero_patrimonio, modelo) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, radio.getDescricao());
@@ -33,46 +35,49 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 			ps.setString(4, radio.getNumeroPatrimonio());
 			ps.setString(5, radio.getModelo());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @param RadioPlayer Recebe um RadioPlayer e exclui do Banco de Dados pelo seu Codigo
+	 * @param RadioPlayer
+	 *            Recebe um RadioPlayer e exclui do Banco de Dados pelo seu
+	 *            Codigo
 	 */
 	public void excluir(RadioPlayer radio) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from radio_player where codigo = ?");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, radio.getCodigo());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param RadioPlayer Recebe um RadioPlayer e edita de acordo com seu codigo
+	 * @param RadioPlayer
+	 *            Recebe um RadioPlayer e edita de acordo com seu codigo
 	 */
 	public void editar(RadioPlayer radio) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update radio_player set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, modelo = ? where codigo = ?");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, radio.getDescricao());
@@ -82,32 +87,33 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 			ps.setString(5, radio.getModelo());
 			ps.setInt(6, radio.getCodigo());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @return Lista os RadioPlayer cadastrados no Banco e exibe em forma de List<RadioPLayer>
+	 * @return Lista os RadioPlayer cadastrados no Banco e exibe em forma de
+	 *         List<RadioPLayer>
 	 */
 	public List<RadioPlayer> listarTodos() {
-		
+
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from radio_player");
-		
+		sql.append("select * from radio_player where codigo <> 99");
+
 		List<RadioPlayer> listaRetorno = new ArrayList<RadioPlayer>();
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
-			
+
 			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
+
+			while (rSet.next()) {
 				RadioPlayer radio = new RadioPlayer();
 				radio.setCodigo(rSet.getInt("codigo"));
 				radio.setDescricao(rSet.getString("descricao"));
@@ -115,70 +121,60 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 				radio.setMarca(rSet.getString("marca"));
 				radio.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				radio.setModelo(rSet.getString("modelo"));
-				
-				if(radio.getCodigo()!=99){
-					listaRetorno.add(radio);	
-				}else{
-					rSet.next();
-				}
-				
+
+				listaRetorno.add(radio);
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 		return listaRetorno;
-			
+
 	}
-	
 
 	/**
 	 * 
-	 * @param RadioPlayer Recebe um Objeto RadioPlayer e localiza no Banco de Dados
-	 * pelo Codigo
+	 * @param RadioPlayer
+	 *            Recebe um Objeto RadioPlayer e localiza no Banco de Dados pelo
+	 *            Codigo
 	 * @return Retorna um objeto de RadioPlayer
 	 */
 	public RadioPlayer pesquisarPorCodigo(RadioPlayer radioPlayer) {
-	
+
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from radio_player where codigo = ?");
-		
+
 		RadioPlayer radioPlayerRetorno = null;
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, radioPlayer.getCodigo());
-			
+
 			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
-				
+
+			while (rSet.next()) {
+
 				radioPlayerRetorno = new RadioPlayer();
-				
-				if(radioPlayer.getCodigo()!=99){
-					radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
-					radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
-					radioPlayerRetorno.setValor(rSet.getDouble("valor"));
-					radioPlayerRetorno.setMarca(rSet.getString("marca"));
-					radioPlayerRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-					radioPlayerRetorno.setModelo(rSet.getString("modelo"));
-					
-				}else{
-					rSet.next();
-				}
-				
-			
+
+				radioPlayerRetorno.setCodigo(rSet.getInt("codigo"));
+				radioPlayerRetorno.setDescricao(rSet.getString("descricao"));
+				radioPlayerRetorno.setValor(rSet.getDouble("valor"));
+				radioPlayerRetorno.setMarca(rSet.getString("marca"));
+				radioPlayerRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+				radioPlayerRetorno.setModelo(rSet.getString("modelo"));
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 		return radioPlayerRetorno;
 	}
 
@@ -187,7 +183,5 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
+
 }

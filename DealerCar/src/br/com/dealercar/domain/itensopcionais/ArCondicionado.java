@@ -2,25 +2,25 @@ package br.com.dealercar.domain.itensopcionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
-public class ArCondicionado extends EntidadeDominio{
+public class ArCondicionado extends EntidadeDominio {
 
 	private int codigo;
 	private String descricao;
 	private double valor;
-	
-	public ArCondicionado(){
+
+	public ArCondicionado() {
 
 	}
-	
+
 	public ArCondicionado(String descricao, double valor) {
 		this.setDescricao(descricao);
 		this.setValor(valor);
 	}
-	
-	public ArCondicionado(int codigo){
+
+	public ArCondicionado(int codigo) {
 		this.setCodigo(codigo);
 	}
-	
+
 	public int getCodigo() {
 		return codigo;
 	}
@@ -45,19 +45,20 @@ public class ArCondicionado extends EntidadeDominio{
 		this.valor = valor;
 	}
 
-
 	@Override
 	public String toString() {
-	
+
 		StringBuffer retorno = new StringBuffer();
-		
-		retorno.append("Codigo: ");
-		retorno.append(this.getCodigo());
-		retorno.append("\nDescricao: ");
-		retorno.append(this.getDescricao());
-		retorno.append("\nValor: ");
-		retorno.append(this.getValor());
-		
+
+		if (this.codigo != 99) {
+			retorno.append("Codigo: ");
+			retorno.append(this.getCodigo());
+			retorno.append("\nDescricao: ");
+			retorno.append(this.getDescricao());
+			retorno.append("\nValor: ");
+			retorno.append(this.getValor());
+		}
+
 		return retorno.toString();
 	}
 }

@@ -147,8 +147,8 @@
 
 
 		<!-- Caixa de Dialogo Efetuar Retirada -->
-		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="630"
-			onShow="" height="500" draggable="false" resizable="false"
+		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="650"
+			onShow="" height="520" draggable="false" resizable="false"
 			header="Efetuar Retirada">
 
 			<h:form id="frmEfetuarRetirada">
@@ -550,22 +550,6 @@
 
 			</h:form>
 		</p:dialog>
-
-
-		<p:dialog modal="true" resizable="false" header="Values"
-			widgetVar="dlgDataErrada" showEffect="fold">
-			<p:panelGrid id="display" columns="2" columnClasses="label,value">
-
-				<h:outputText
-					value="A data da Devolução deve ser maior que #{MBRetirada.dataRetirada}"
-					style="font-weight:bold; text-color:red" />
-
-			</p:panelGrid>
-		</p:dialog>
-
-
-
-
 
 
 	</ui:define>

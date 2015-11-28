@@ -119,26 +119,38 @@ body {
 </style>
 </head>
 <body>
-	<div id="login-box">
-		<div id="login-box-interno">
-			<div id="login-box-label">Login - Dealer Car</div>
+	<form action="Login" method="post">
+		<div id="login-box">
 
-			<div class="input-div" id="input-usuario">
-				<input type="text" value="Usuário" />
+			<div id="login-box-interno">
+				<div id="login-box-label">Login - DealerCar</div>
+
+				<div class="input-div" id="input-usuario">
+					<input type="text" value="Usuário" id="txtUsuario" name="txtUsuario" />
+				</div>
+
+				<div class="input-div" id="input-senha">
+					<input type="password" value="Senha" id="txtSenha" name="txtSenha" />
+				</div>
+
+				<div id="botoes">
+					<div id="botao">
+						<input value="Login" type="submit" /> Login
+
+					</div>
+				</div>
 			</div>
-
-			<div class="input-div" id="input-senha">
-				<input type="text" value="Senha" />
-			</div>
-
-			<div id="botoes">
-				<div id="botao">Login</div>
-
-
-			</div>
-
 		</div>
-	</div>
+	</form>
+	
+	<form action="Login" method="post">
+	
+	
+		<input type="text" name="txtUsuario" id="txtUsuario"/>
+		
+		<input value="Teste" type="submit"/>
+	
+	</form>
 </body>
 </html>
 

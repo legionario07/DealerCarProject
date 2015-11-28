@@ -11,8 +11,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.context.RequestContext;
-
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.dao.FuncionarioDAO;
@@ -24,6 +22,7 @@ import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
 import br.com.dealercar.dao.itensopcionais.CadeirinhaBebeDAO;
 import br.com.dealercar.dao.itensopcionais.GpsDAO;
+import br.com.dealercar.dao.itensopcionais.OpcionalDAO;
 import br.com.dealercar.dao.itensopcionais.RadioPlayerDAO;
 import br.com.dealercar.dao.itensopcionais.SeguroDAO;
 import br.com.dealercar.dao.itensopcionais.TipoSeguroDAO;
@@ -177,6 +176,7 @@ public class RetiradaBean implements Serializable {
 	public ImagemCarro getCarroUrl() {
 		return carroUrl;
 	}
+
 
 	public void setCarroUrl(ImagemCarro carroUrl) {
 		this.carroUrl = carroUrl;
@@ -456,26 +456,36 @@ public class RetiradaBean implements Serializable {
 
 		retirada = new Retirada();
 
+		if (arCondicionado.getCodigo() > 0)
+			arCondicionado = (ArCondicionado) new ValidaItemOpcional().validar(arCondicionado);
 
-		opcional.setArCondicionado((ArCondicionado) new ValidaItemOpcional().validar(opcional.getArCondicionado()));
-		bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
-		cadeirinhaBebe = (CadeirinhaBebe) new ValidaItemOpcional().validar(cadeirinhaBebe);
-		gps = (Gps) new ValidaItemOpcional().validar(gps);
-		radioPlayer = (RadioPlayer) new ValidaItemOpcional().validar(radioPlayer);
-		funcionario = (Funcionario) new ValidaFuncionario().validar(funcionario);
+		opcional.setArCondicionado(arCondicionado);
 
 		tipoSeguro = (TipoSeguro) new ValidaItemOpcional().validar(tipoSeguro);
 		seguro.setTipoSeguro(tipoSeguro);
 		seguro = (Seguro) new ValidaItemOpcional().validar(seguro);
-
-		carro = (Carro) new ValidaCarro().validar(carro);
+		opcional.setSeguro(seguro);
+		
+		if (bebeConforto.getCodigo() > 0)
+			bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
+		if (cadeirinhaBebe.getCodigo() > 0)
+			cadeirinhaBebe = (CadeirinhaBebe) new ValidaItemOpcional().validar(cadeirinhaBebe);
+		if (gps.getCodigo() > 0)
+			gps = (Gps) new ValidaItemOpcional().validar(gps);
+		if (radioPlayer.getCodigo() > 0)
+			radioPlayer = (RadioPlayer) new ValidaItemOpcional().validar(radioPlayer);
 
 		itens.add(bebeConforto);
 		itens.add(cadeirinhaBebe);
 		itens.add(gps);
 		itens.add(radioPlayer);
-
 		opcional.setItens(itens);
+
+		carro = (Carro) new ValidaCarro().validar(carro);
+		funcionario = (Funcionario) new ValidaFuncionario().validar(funcionario);
+
+		new OpcionalDAO().cadastrar(opcional);
+		opcional = new OpcionalDAO().pesquisarPorUltimoCadastrado();
 
 		retirada.setCarro(carro);
 		retirada.setCliente(cliente);
@@ -483,10 +493,18 @@ public class RetiradaBean implements Serializable {
 		retirada.setFuncionario(funcionario);
 		retirada.setQuilometragem(quilometragem);
 		retirada.setDataRetirada(setarDataDeCadastro());
-		compararDatas(); //aqui seta a data de devolução
+		int i = compararDatas(); // aqui seta a data de devolução
 		
+		//se a data for menor que o dia de hoje não sera persistido no BD
+		if(i!=1){
+			return;
+		}
 		new RetiradaDAO().cadastrar(retirada);
-
+		
+		limparObjetos();
+		
+		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
+		
 	}
 
 	/*
@@ -588,25 +606,48 @@ public class RetiradaBean implements Serializable {
 	 *         data de reserva é maior que a data de Cadastro
 	 * 
 	 */
-	public void compararDatas() {
+	public int compararDatas() {
 
 		setarDataDeCadastro();
-
+		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+		String strDataDevolucao = stf.format(dataDevolucao);
+		try {
+			this.dataDevolucao = stf.parse(strDataDevolucao);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
 		dataDevolucaoEhMaior = dataDevolucao.compareTo(dataRetirada);
 
 		if (dataDevolucaoEhMaior == 1) {
-			retirada.setDataDevolucao(dataDevolucao);
+			retirada.setDataDevolucao(this.dataDevolucao);
 		} else {
-			atualizarDataNoView();
+			JSFUtil.adicionarMensagemErro("A data de Devolução deve ser maior que "+ stf.format(dataRetirada));
+		
 		}
 
+		return dataDevolucaoEhMaior;
 	}
 
-	public void atualizarDataNoView() {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-
-		requestContext.update("form:display");
-		requestContext.execute("PF('dlgDataErrada').show()");
+	
+	public void limparObjetos(){
+		
+		retirada = new Retirada();
+		opcional = new Opcional();
+		arCondicionado = new ArCondicionado();
+		bebeConforto = new BebeConforto();
+		cadeirinhaBebe = new CadeirinhaBebe();
+		gps = new Gps();
+		radioPlayer = new RadioPlayer();
+		tipoSeguro = new TipoSeguro();
+		seguro = new Seguro();
+		carro = new Carro();
+		funcionario = new Funcionario();
+		itens.clear();
+		dataDevolucao = new Date();
+		dataDevolucaoEhMaior = 0;
+		
+		
 	}
 
 }

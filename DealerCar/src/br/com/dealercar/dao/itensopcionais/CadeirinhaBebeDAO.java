@@ -14,18 +14,19 @@ import br.com.dealercar.util.JSFUtil;
 
 public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<CadeirinhaBebe> {
 
-
 	/**
 	 * 
-	 * @param CadeirinhaBebe Recebe um CadeirinhaBebe como parametro e cadastra no Banco de Dados
+	 * @param CadeirinhaBebe
+	 *            Recebe um CadeirinhaBebe como parametro e cadastra no Banco de
+	 *            Dados
 	 */
 	public void cadastrar(CadeirinhaBebe cadeirinha) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into cadeirinhas_bebe (descricao, valor, marca, numero_patrimonio, peso_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, cadeirinha.getDescricao());
@@ -34,46 +35,49 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 			ps.setString(4, cadeirinha.getNumeroPatrimonio());
 			ps.setFloat(5, cadeirinha.getPesoBebe());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @param CadeirinhaBebe Recebe um CadeirinhaBebe e exclui do Banco de Dados pelo seu Codigo
+	 * @param CadeirinhaBebe
+	 *            Recebe um CadeirinhaBebe e exclui do Banco de Dados pelo seu
+	 *            Codigo
 	 */
 	public void excluir(CadeirinhaBebe cadeirinha) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cadeirinhas_bebe where codigo = ?");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, cadeirinha.getCodigo());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param CadeirinhaBebe Recebe um CadeirinhaBebe e edita de acordo com seu codigo
+	 * @param CadeirinhaBebe
+	 *            Recebe um CadeirinhaBebe e edita de acordo com seu codigo
 	 */
 	public void editar(CadeirinhaBebe cadeirinha) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cadeirinhas_bebe set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, peso_bebe = ? where codigo = ?");
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, cadeirinha.getDescricao());
@@ -83,32 +87,33 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 			ps.setFloat(5, cadeirinha.getPesoBebe());
 			ps.setInt(6, cadeirinha.getCodigo());
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @return Lista os CadeirinhaBebe cadastrados no Banco e exibe em forma de List<CadeirinhaBebe>
+	 * @return Lista os CadeirinhaBebe cadastrados no Banco e exibe em forma de
+	 *         List<CadeirinhaBebe>
 	 */
 	public List<CadeirinhaBebe> listarTodos() {
-		
+
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cadeirinhas_bebe");
-		
+		sql.append("select * from cadeirinhas_bebe where codigo <> 99");
+
 		List<CadeirinhaBebe> listaRetorno = new ArrayList<CadeirinhaBebe>();
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
-			
+
 			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
+
+			while (rSet.next()) {
 				CadeirinhaBebe cadeirinha = new CadeirinhaBebe();
 				cadeirinha.setCodigo(rSet.getInt("codigo"));
 				cadeirinha.setDescricao(rSet.getString("descricao"));
@@ -116,71 +121,60 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 				cadeirinha.setMarca(rSet.getString("marca"));
 				cadeirinha.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 				cadeirinha.setPesoBebe(rSet.getInt("peso_bebe"));
-				
-				if(cadeirinha.getCodigo()!=99){
-					listaRetorno.add(cadeirinha);	
-				}else{
-					rSet.next();
-				}
-				
+
+				listaRetorno.add(cadeirinha);
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
-		return listaRetorno;
-			
-	}
-	
 
+		return listaRetorno;
+
+	}
 
 	/**
 	 * 
-	 * @param CadeirinhaBebe Recebe um Objeto CadeirinhaBebe e localiza no Banco de Dados
-	 * pelo Codigo
+	 * @param CadeirinhaBebe
+	 *            Recebe um Objeto CadeirinhaBebe e localiza no Banco de Dados
+	 *            pelo Codigo
 	 * @return Retorna um objeto de CadeirinhaBebe
 	 */
 	@Override
 	public CadeirinhaBebe pesquisarPorCodigo(CadeirinhaBebe cadeirinhaBebe) {
-	
+
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from cadeirinhas_bebe where codigo = ?");
-		
+
 		CadeirinhaBebe cadeirinhaRetorno = null;
-		
+
 		Connection con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, cadeirinhaBebe.getCodigo());
-			
+
 			ResultSet rSet = ps.executeQuery();
-			
-			while(rSet.next()) {
+
+			while (rSet.next()) {
 				cadeirinhaRetorno = new CadeirinhaBebe();
-				
-				if(cadeirinhaBebe.getCodigo()!=99){
-					
-					cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
-					cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
-					cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
-					cadeirinhaRetorno.setMarca(rSet.getString("marca"));
-					cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
-					cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
-					
-				}else{
-					rSet.next();
-				}
-			
+
+				cadeirinhaRetorno.setCodigo(rSet.getInt("codigo"));
+				cadeirinhaRetorno.setDescricao(rSet.getString("descricao"));
+				cadeirinhaRetorno.setValor(rSet.getDouble("valor"));
+				cadeirinhaRetorno.setMarca(rSet.getString("marca"));
+				cadeirinhaRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
+				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		
+
 		return cadeirinhaRetorno;
 	}
 

@@ -9,23 +9,23 @@ public class Itens extends EntidadeDominio {
 	private double valor;
 	private String marca;
 	private String numeroPatrimonio;
-	
+
 	public Itens() {
 
 	}
-	
-	public Itens(int codigo){
+
+	public Itens(int codigo) {
 		this.setCodigo(codigo);
 	}
-	
+
 	public Itens(String descricao, double valor, String marca, String numeroPatrimonio) {
 		this.setDescricao(descricao);
 		this.setValor(valor);
 		this.setMarca(marca);
 		this.setNumeroPatrimonio(numeroPatrimonio);
-		
+
 	}
-	
+
 	public int getCodigo() {
 		return codigo;
 	}
@@ -50,9 +50,8 @@ public class Itens extends EntidadeDominio {
 		this.valor = valor;
 	}
 
-
 	public String getMarca() {
-		return marca.toUpperCase();
+		return marca;
 	}
 
 	public void setMarca(String marca) {
@@ -68,19 +67,20 @@ public class Itens extends EntidadeDominio {
 	}
 
 	public String toString() {
-	
+
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Codigo: ");
-		retorno.append(this.getCodigo());
-		retorno.append("\nDescricao: ");
-		retorno.append(this.getDescricao());
-		retorno.append("\nValor: ");
-		retorno.append(this.getValor());
-		retorno.append("\nMarca: ");
-		retorno.append(this.getMarca());
-		retorno.append("\nNúmero Patrimônio: ");
-		retorno.append(this.getNumeroPatrimonio());
-		
+		if (this.codigo != 99) {
+			retorno.append("Codigo: ");
+			retorno.append(this.getCodigo());
+			retorno.append("\nDescricao: ");
+			retorno.append(this.getDescricao());
+			retorno.append("\nValor: ");
+			retorno.append(this.getValor());
+			retorno.append("\nMarca: ");
+			retorno.append(this.getMarca());
+			retorno.append("\nNúmero Patrimônio: ");
+			retorno.append(this.getNumeroPatrimonio());
+		}
 		return retorno.toString();
 	}
 
