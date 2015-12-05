@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.FuncionarioDAO;
+import br.com.dealercar.dao.UsuarioDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
@@ -76,6 +77,19 @@ public class FuncionarioDAOTest {
 		System.out.println(fDao.pesquisarPorID(funcionario));
 	}
 	
+	public static void pesquisarPorUsuario(){
+		Funcionario funcionario = new Funcionario();
+		Usuario usuario = new Usuario();
+		usuario.setLogin("legionario");
+		usuario = new UsuarioDAO().pesquisarPorLogin(usuario);
+		
+		funcionario = new FuncionarioDAO().pesquisarPorUsuario(usuario);
+		
+		System.out.println(funcionario);
+
+		
+	}
+	
 	public static void main(String[] args) {
 
 		//cadastrar();
@@ -85,6 +99,7 @@ public class FuncionarioDAOTest {
 		//pesquisarPorID();
 		//pesquisarPorNome();
 		//listarTodos();
+		pesquisarPorUsuario();
 		
 	}
 

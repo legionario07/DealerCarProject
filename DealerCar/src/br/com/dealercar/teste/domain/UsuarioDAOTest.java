@@ -17,11 +17,11 @@ public class UsuarioDAOTest {
 		usuarioDao.cadastrar(usuario);
 
 	}
-	
+
 	public static void editar() {
-		
-		Usuario usuario = new Usuario("felipe" , "admin" , new Permissao(1) , "SIM" );
-		
+
+		Usuario usuario = new Usuario("legionario", "legionario", new Permissao(1), "SIM");
+
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		usuarioDao.editar(usuario);
 	}
@@ -44,7 +44,7 @@ public class UsuarioDAOTest {
 		System.out.println(usuarioDao.pesquisarPorLogin(usuario));
 
 	}
-	
+
 	public static void listarTodos() {
 
 		List<Usuario> lista = new ArrayList<Usuario>();
@@ -57,18 +57,29 @@ public class UsuarioDAOTest {
 			
 			System.out.println(u);
 		}
-		
-
 	}
 
+	public static void autenticar() {
+		Usuario usuario = new Usuario();
+		usuario.setLogin("legionario");
+		usuario.setSenha("legionario");
+		usuario =  new UsuarioDAO().autenticar(usuario);
+		if(usuario == null){
+			System.out.println("Senha Incorreta");
+		}else{
+			System.out.println("Autenticado");
+		}
+		
+	}
 
 	public static void main(String[] args) {
 
-		//cadastrar();
-		//pesquisarPorID();
-		//pesquisarPorLogin();
-		//editar();
-		listarTodos();
+		// cadastrar();
+		// pesquisarPorID();
+		// pesquisarPorLogin();
+		 //editar();
+		//listarTodos();
+		autenticar();
 	}
 
 }

@@ -399,6 +399,94 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 		return lista;
 	}
+	
+	
+	/**
+	 * 
+	 * @param funcionario Recebe um funcionario e localiza pelo Id no Banco de Dados
+	 * @return Retorna um Objeto de Funcionario
+	 */
+	public Funcionario pesquisarPorUsuario(Usuario usuario) {
+
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("select funcionarios.id, funcionarios.nome, funcionarios.telefone, funcionarios.data_nasc, ");
+		sql.append("funcionarios.endereco, funcionarios.id_cidade, cidades.id, cidades.nome, cidades.uf, ");
+		sql.append("funcionarios.celular, funcionarios.sexo, funcionarios.cargo, funcionarios.salario, ");
+		sql.append("funcionarios.id_usuario, usuarios.id, usuarios.login, usuarios.senha ");
+		sql.append("from funcionarios inner join cidades on funcionarios.id_cidade = cidades.id ");
+		sql.append("inner join usuarios on funcionarios.id_usuario = usuarios.id ");
+		sql.append("where usuarios.login = ?");
+
+		Funcionario funcionarioRetorno = null;
+
+		Connection con = Conexao.getConnection();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setString(1, usuario.getLogin());
+
+			ResultSet rSet = ps.executeQuery();
+
+			while (rSet.next()) {
+				funcionarioRetorno = new Funcionario();
+
+				funcionarioRetorno.setId(rSet.getInt("funcionarios.id"));
+				funcionarioRetorno.setNome(rSet.getString("funcionarios.nome"));
+				funcionarioRetorno.setDataNasc(rSet.getString("funcionarios.data_nasc"));
+				funcionarioRetorno.setSexo(rSet.getString("funcionarios.sexo"));
+				funcionarioRetorno.setTelefone(rSet.getString("funcionarios.telefone"));
+				
+				Endereco end = new Endereco();
+				// Alterando o formato de armazenamento da endereço para o Banco de
+				// Dados Aceitar
+				String[] endereco = rSet.getString("funcionarios.endereco").split(",");
+				
+				if(endereco.length == 4) {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setComplemento(endereco[2].trim());
+					end.setBairro(endereco[3].trim());
+				} else {
+					end.setRua(endereco[0].trim());
+					end.setNumero(endereco[1].trim());
+					end.setBairro(endereco[2].trim());
+				}
+				
+				Cidade cidade = new Cidade();
+				cidade.setId(rSet.getInt("funcionarios.id_cidade"));
+				cidade.setNome(rSet.getString("cidades.nome"));
+				cidade.setUf(rSet.getString("cidades.uf"));
+				
+				end.setCidade(cidade);
+				
+				funcionarioRetorno.setEndereco(end);				
+
+				funcionarioRetorno.setCelular(rSet.getString("funcionarios.celular"));
+				funcionarioRetorno.setCargo(rSet.getString("funcionarios.cargo"));
+				funcionarioRetorno.setSalario(rSet.getDouble("funcionarios.salario"));
+
+
+				Usuario usuarioRetorno = new Usuario();
+				usuario.setId(rSet.getInt("funcionarios.id_usuario"));
+				usuario.setLogin(rSet.getString("usuarios.login"));
+				usuario.setSenha(rSet.getString("usuarios.senha"));
+				
+			
+				funcionarioRetorno.setUsuario(usuarioRetorno);
+
+			}
+			
+			rSet.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return funcionarioRetorno;
+
+	}
+	
 
 
 }

@@ -242,6 +242,56 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		return usuarios;
 
 	}
+	
+	/**
+	 * 
+	 * @param usuario recebe um objeto Usuario e pesquisa pelo login no Banco de Dados
+	 * @return
+	 */
+	public Usuario autenticar(Usuario usuario) {
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
+		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
+		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
+		sql.append("where usuarios.login = ? and usuarios.senha = md5(?) ");
+		
+		Usuario usuarioRetorno = null;
+		
+		Connection con = Conexao.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql.toString());
+			ps.setString(1, usuario.getLogin());
+			ps.setString(2, usuario.getSenha());
+			
+			ResultSet rSet = ps.executeQuery();
+			
+			while(rSet.next()) {
+				usuarioRetorno = new Usuario();
+				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
+				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
+				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
+				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				
+				Permissao permissao = new Permissao();
+				permissao.setId(rSet.getInt("usuarios.id_permissao"));
+				permissao.setNivel(rSet.getString("permissao.nivel"));
+				
+				usuarioRetorno.setPermissao(permissao);
+				
+			}
+			
+			rSet.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return usuarioRetorno;
+	}
+	
 }
 
 
