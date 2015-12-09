@@ -15,6 +15,10 @@ import br.com.dealercar.domain.automotivos.Carro;
  */
 public class Revisao extends EntidadeDominio{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String dataRevisao;
 	private String descricao;

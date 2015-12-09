@@ -245,8 +245,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	
 	/**
 	 * 
-	 * @param usuario recebe um objeto Usuario e pesquisa pelo login no Banco de Dados
-	 * @return
+	 * @param usuario recebe um objeto Usuario e pesquisa pelo login e senha no BD
+	 * @return Retorna um Usuario ou Null se nao encontrar
 	 */
 	public Usuario autenticar(Usuario usuario) {
 		StringBuffer sql = new StringBuffer();

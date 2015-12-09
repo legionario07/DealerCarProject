@@ -1,11 +1,13 @@
 package br.com.dealercar.domain.automotivos;
 
-import java.util.List;
-
 import br.com.dealercar.domain.EntidadeDominio;
 
 public class Modelo extends EntidadeDominio {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	private Fabricante fabricante;
@@ -52,25 +54,7 @@ public class Modelo extends EntidadeDominio {
 		this.fabricante = fabricante;
 	}
 	
-	/**
-	 * 
-	 * @param modelo Recebe uma String com o nome do Modelo
-	 * @param lista Recebe uma Lista de Modelos
-	 * @return Retorna um objeto Modelo Válido do BD
-	 */
-	public Modelo validaModelo(String modelo, List<Modelo> lista) {
-		Modelo rModelo = new Modelo(modelo);
 		
-		for(Modelo m : lista) {
-			if(rModelo.getNome().equals(m.getNome())){
-				rModelo.setId(m.getId());
-				rModelo.setFabricante(m.getFabricante());
-			}
-		}
-		
-		return rModelo;
-	}
-	
 	@Override
 	public String toString() {
 		StringBuffer retorno =  new StringBuffer();

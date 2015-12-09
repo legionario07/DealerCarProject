@@ -18,8 +18,7 @@
 		<h:form id="frmClientesListagem">
 			<p:dataTable id="tblClientes" value="#{MBCliente.listaClientes}"
 				var="itemCliente" emptyMessage="Nenhum Registro foi encontrado"
-				sortBy="#{itemCliente.nome}"
-				paginator="true" rows="10">
+				sortBy="#{itemCliente.nome}" paginator="true" rows="10">
 
 				<f:facet name="header">
 					<h:outputText value="Clientes - Listagem" style="font-size:14px" />
@@ -45,9 +44,11 @@
 				<p:column headerText="Dt Nasc" width="10%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemCliente.dataNasc}">
-					<h:outputText value="#{itemCliente.dataNasc}" />
+					<h:outputText value="#{itemCliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 				</p:column>
-				
+
 				<p:column headerText="CPF" width="10%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemCliente.CPF}">

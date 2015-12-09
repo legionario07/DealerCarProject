@@ -1,9 +1,12 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,14 @@ import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 
-public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
+public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Connection con = Conexao.getConnection();
+	
 
 	/**
 	 * 
@@ -28,14 +38,18 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 		sql.append("(nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
 		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, cliente.getNome().toUpperCase());
-			ps.setString(++i, cliente.getDataNasc());
+			
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			String strDataCadastro = stf.format(cliente.getDataNasc());
+			
+			ps.setString(++i, strDataCadastro);
+			
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
 			ps.setString(++i, cliente.getSexo());
 			ps.setString(++i, cliente.getTelefone());
@@ -77,7 +91,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, ");
 		sql.append("id_cidade = ? where id=?");
 		
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -86,7 +99,13 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 			int i = 0;
 			
 			ps.setString(++i, cliente.getNome().toUpperCase());
-			ps.setString(++i, cliente.getDataNasc());
+			
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			String strDataCadastro = stf.format(cliente.getDataNasc());
+			
+			ps.setString(++i, strDataCadastro);
+			
 			ps.setString(++i, cliente.getNomeMae().toUpperCase());
 			ps.setString(++i, cliente.getSexo());
 			ps.setString(++i, cliente.getTelefone());
@@ -125,8 +144,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 		String sql = "delete from clientes where id = ?";
 
-		Connection con = Conexao.getConnection();
-
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -157,8 +174,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ResultSet rSet = ps.executeQuery();
@@ -170,7 +185,16 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -237,8 +261,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 		Cliente clienteRetorno = null;
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, cliente.getId());
@@ -250,7 +272,16 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -320,8 +351,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 		Cliente clienteRetorno = null;
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, cliente.getCPF());
@@ -333,7 +362,16 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
@@ -403,8 +441,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 		List<Cliente> lista = new ArrayList<Cliente>();
 
-		Connection con = Conexao.getConnection();
-
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -418,7 +454,16 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> {
 
 				clienteRetorno.setId(rSet.getInt("clientes.id"));
 				clienteRetorno.setNome(rSet.getString("clientes.nome"));
-				clienteRetorno.setDataNasc(rSet.getString("clientes.data_nasc"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
 				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));

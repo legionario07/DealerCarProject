@@ -2,6 +2,10 @@ package br.com.dealercar.domain;
 
 public class Cidade extends EntidadeDominio{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	private String uf;

@@ -5,8 +5,12 @@ import java.util.Date;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 
-public class Retirada extends EntidadeDominio {
+public class Retirada extends EntidadeDominio{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private Date dataRetirada;
 	private Date dataDevolucao;

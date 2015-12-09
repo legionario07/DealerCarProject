@@ -6,8 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:form>
-		<p:menubar>
+	<h:form id="frmMenuPrincipal">
+		<p:menubar >
 			<p:submenu label="Arquivo">
 				<p:menuitem value="Logout" />
 			</p:submenu>
@@ -18,19 +18,24 @@
 					<p:menuitem value="Listar Clientes"
 						outcome="/pages/lclientes.xhtml" />
 				</p:submenu>
-				
+
 				<p:submenu label="Carros">
 					<p:menuitem value="Pesquisar" outcome="/pages/carro.xhtml" />
 					<p:menuitem value="Listar Carros" outcome="/pages/lcarros.xhtml" />
 				</p:submenu>
-				
+
 				<p:menuitem value="Categorias" outcome="/pages/categoria.xhtml" />
-				<p:menuitem value="Opcionais" />
-				<p:menuitem value="Taxas Adicionais" />
+				<p:submenu label="Funcionarios" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
+					<p:menuitem value="Pesquisar" />
+					<p:menuitem value="Listar Funcionarios" outcome="/pages/lfuncionario.xhtml"/>
+				</p:submenu>
+				<p:menuitem value="Opcionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}"/>
+				<p:menuitem value="Taxas Adicionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 			</p:submenu>
 
-			<p:submenu label="Reserva" >
-				<p:menuitem value="Gerenciar Reservas" outcome="/pages/reserva.xhtml"/>
+			<p:submenu label="Reserva">
+				<p:menuitem value="Gerenciar Reservas"
+					outcome="/pages/reserva.xhtml" />
 
 			</p:submenu>
 
@@ -43,7 +48,7 @@
 
 			</p:submenu>
 
-			<p:submenu label="Manutenção">
+			<p:submenu label="Manutenção" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
 
 			</p:submenu>
 
@@ -55,9 +60,11 @@
 				<p:menuitem value="Sobre" />
 			</p:submenu>
 
-
+			<p:submenu label="Logout">
+				<p:menuitem value="Sair" actionListener="#{MBlogin.efetuarLogout}" update=":frmMenuPrincipal :msgGlobal" />
+			</p:submenu>
+		
 		</p:menubar>
-
 
 
 	</h:form>

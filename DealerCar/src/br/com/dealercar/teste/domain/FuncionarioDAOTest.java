@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.FuncionarioDAO;
-import br.com.dealercar.dao.UsuarioDAO;
-import br.com.dealercar.domain.Cidade;
-import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
-import br.com.dealercar.domain.Usuario;
 
 public class FuncionarioDAOTest {
 
+	/*
 	public static void cadastrar() {
 
 		Funcionario funcionario = new Funcionario("Luis Gustavo", "31/07/1988", "Masculino", "971986033",
@@ -41,6 +38,7 @@ public class FuncionarioDAOTest {
 		FuncionarioDAO funDao = new FuncionarioDAO();
 		funDao.excluir(funcionario);
 	}
+	*/
 	
 	public static void listarTodos() {
 		List<Funcionario> lista = new ArrayList<Funcionario> ();
@@ -54,6 +52,7 @@ public class FuncionarioDAOTest {
 		}
 	}
 
+	/*
 	public static void pesquisarPorNome() {
 		List<Funcionario> lista = new ArrayList<Funcionario> ();
 		
@@ -88,7 +87,11 @@ public class FuncionarioDAOTest {
 		System.out.println(funcionario);
 
 		
-	}
+	
+	  }
+	 */
+	 
+	
 	
 	public static void main(String[] args) {
 
@@ -98,8 +101,8 @@ public class FuncionarioDAOTest {
 		//excluir();
 		//pesquisarPorID();
 		//pesquisarPorNome();
-		//listarTodos();
-		pesquisarPorUsuario();
+		listarTodos();
+		//pesquisarPorUsuario();
 		
 	}
 

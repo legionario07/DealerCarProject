@@ -4,6 +4,10 @@ import java.util.List;
 
 public class Cor extends EntidadeDominio {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	

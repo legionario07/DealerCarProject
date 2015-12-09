@@ -1,10 +1,16 @@
 package br.com.dealercar.domain;
 
+import java.util.Date;
+
 public abstract class Pessoa extends EntidadeDominio{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
-	private String dataNasc;
+	private Date dataNasc;
 	private String celular;
 	private String telefone;
 	private Endereco endereco;
@@ -27,10 +33,10 @@ public abstract class Pessoa extends EntidadeDominio{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getDataNasc() {
+	public Date getDataNasc() {
 		return dataNasc;
 	}
-	public void setDataNasc(String dataNasc) {
+	public void setDataNasc(Date dataNasc) {
 		this.dataNasc = dataNasc;
 	}
 	public String getTelefone() {

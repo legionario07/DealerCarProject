@@ -2,6 +2,7 @@ package br.com.dealercar.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -20,9 +21,10 @@ import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.strategy.valida.IValidacaoStrategy;
 import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaFabricante;
-import br.com.dealercar.strategy.valida.ValidaFuncionario;
 import br.com.dealercar.strategy.valida.ValidaModelo;
+import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
+import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
 @ViewScoped
@@ -35,10 +37,10 @@ public class ReservaBean implements Serializable {
 
 	private Reserva reserva = new Reserva();
 	private Modelo modelo = new Modelo();
-	private Funcionario funcionario = new Funcionario();
 	private Cliente cliente = new Cliente();
 	private Fabricante fabricante = new Fabricante();
 	private Carro carro = new Carro();
+	private Date dataReserva = null;
 
 	IValidacaoStrategy validaStrategy = null;
 
@@ -54,6 +56,7 @@ public class ReservaBean implements Serializable {
 
 	private int totalReservas;
 	private boolean ehCadastrado = false;
+	private boolean jaPesquisei = false;
 
 	public Reserva getReserva() {
 		return reserva;
@@ -61,6 +64,14 @@ public class ReservaBean implements Serializable {
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
+	}
+
+	public Date getDataReserva() {
+		return dataReserva;
+	}
+
+	public void setDataReserva(Date dataReserva) {
+		this.dataReserva = dataReserva;
 	}
 
 	public Modelo getModelo() {
@@ -79,12 +90,12 @@ public class ReservaBean implements Serializable {
 		this.carro = carro;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public boolean isJaPesquisei() {
+		return jaPesquisei;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setJaPesquisei(boolean jaPesquisei) {
+		this.jaPesquisei = jaPesquisei;
 	}
 
 	public Cliente getCliente() {
@@ -183,6 +194,7 @@ public class ReservaBean implements Serializable {
 	public void pesquisarPorCPF() {
 
 		this.ehCadastrado = false;
+		this.jaPesquisei = false;
 
 		validaStrategy = new ValidaCliente();
 		cliente = (Cliente) validaStrategy.validar(cliente);
@@ -197,6 +209,7 @@ public class ReservaBean implements Serializable {
 
 		if (this.ehCadastrado == false) {
 			cliente = new Cliente();
+			jaPesquisei = true;
 
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Localizado.");
 			return;
@@ -212,43 +225,26 @@ public class ReservaBean implements Serializable {
 
 		// validando o modelo pelo nome
 		validaStrategy = new ValidaModelo();
-		modelo.setNome(reserva.getModelo().getNome());
 		modelo = (Modelo) validaStrategy.validar(modelo);
-		
-		modelo.setNome(reserva.getModelo().getNome());
+		reserva.setModelo(modelo);
 
 		// validando o fabricante pelo modelo
 		validaStrategy = new ValidaFabricante();
 		fabricante = (Fabricante) validaStrategy.validar(modelo);
 		modelo.setFabricante(fabricante);
 
-
-
-		if (modelo != null) {
-
-			reserva.setModelo(modelo);
-			modelo = new Modelo();
-		}
-
-		// validando o Funcionario pelo id
-		validaStrategy = new ValidaFuncionario();
-		funcionario = (Funcionario) validaStrategy.validar(funcionario);
-
-		if (funcionario != null) {
-			reserva.setFuncionario(funcionario);
-			funcionario = new Funcionario();
-		}
+		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
+		reserva.setFuncionario(funcionario);
 
 		// recebendo a data atual do sistema
-		reserva.setDataCadastroReserva(reserva.setarDataDeCadastro());
+		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 
 		// Verifica se a data digitada para Reserva é válida
-		int i = reserva.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
+		int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
 
 		if (i != 1) {
-			reserva.setDataFim(null);
-			JSFUtil.adicionarMensagemErro(
-					"A data para Reserva está incorreta. Deve ser maior que " + reserva.getDataCadastroReserva());
+			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. "
+					+ "Deve ser maior que " + reserva.getDataCadastroReserva());
 			return;
 		}
 
@@ -274,39 +270,32 @@ public class ReservaBean implements Serializable {
 
 		// validando o modelo pelo nome
 		validaStrategy = new ValidaModelo();
-		modelo.setNome(reserva.getModelo().getNome());
-		modelo = (Modelo) validaStrategy.validar(modelo);
-		
-		modelo.setNome(reserva.getModelo().getNome());
+		modelo = (Modelo) validaStrategy.validar(reserva.getModelo());
+		reserva.setModelo(modelo);
 
 		// validando o fabricante pelo modelo
 		validaStrategy = new ValidaFabricante();
 		fabricante = (Fabricante) validaStrategy.validar(modelo);
 		modelo.setFabricante(fabricante);
 
+		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
+		reserva.setFuncionario(funcionario);
 
-		if (modelo != null) {
+		// recebendo a data atual do sistema
+		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 
-			reserva.setModelo(modelo);
-			modelo = new Modelo();
-		}
+		// Se a alteração for apenas para CANCELADO não é necessário validar a
+		// Data
+		if (!reserva.getSituacao().getDescricao().equals("CANCELADO")) {
+			// Verifica se a data digitada para Reserva é válida
+			int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
 
-		// validando o Funcionario pelo id
-		validaStrategy = new ValidaFuncionario();
-		funcionario = (Funcionario) validaStrategy.validar(funcionario);
-
-		if (funcionario != null) {
-			reserva.setFuncionario(funcionario);
-		}
-		
-		// Verifica se a data digitada para Reserva é válida
-		int i = reserva.compararDatas(reserva.setarDataDeCadastro(), reserva.getDataFim());
-
-		if (i != 1) {
-			reserva.setDataFim(null);
-			JSFUtil.adicionarMensagemErro(
-					"A data para Reserva está incorreta. Deve ser maior que " + reserva.setarDataDeCadastro());
-			return;
+			if (i != 1) {
+				reserva.setDataFim(null);
+				JSFUtil.adicionarMensagemErro(
+						"A data para Reserva está incorreta. Deve ser maior que " + reserva.getDataCadastroReserva());
+				return;
+			}
 		}
 
 		reservaDao.editar(reserva);
@@ -315,7 +304,7 @@ public class ReservaBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
 
 	}
-	
+
 	/**
 	 * Exclui os dados da reserva selecionada pelo usuario na tela Será aberta
 	 * uma nova caixa de dialogo para confirmar a Exclusão

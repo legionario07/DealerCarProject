@@ -49,9 +49,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			//colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String dataRetirada = stf.format(retirada.getDataRetirada());
-			
 			pstm.setString(++i, dataRetirada);
-			pstm.setString(++i, String.valueOf(retirada.getDataDevolucao()));
+			
+			String dataDevolucao = stf.format(retirada.getDataDevolucao());
+			pstm.setString(++i, dataDevolucao);
+			
 			pstm.setString(++i, retirada.getQuilometragem());
 			pstm.setString(++i, retirada.getCarro().getPlaca());
 			pstm.setInt(++i, retirada.getCliente().getId());

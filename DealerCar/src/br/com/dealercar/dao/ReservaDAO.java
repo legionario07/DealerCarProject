@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +46,16 @@ public class ReservaDAO implements IDAO<Reserva> {
 														// da Reserva como Ativo
 
 			ps.setString(++i, reserva.getSituacao().getDescricao());
-			ps.setString(++i, reserva.setarDataDeCadastro());
-			ps.setString(++i, reserva.getDataFim());
+			
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			String strDataCadastro = stf.format(reserva.getDataCadastroReserva());
+
+			//colocando formato string para armazenar no banco de dados
+			String strDataFim = stf.format(reserva.getDataFim());
+			
+			ps.setString(++i, strDataCadastro);
+			ps.setString(++i, strDataFim);
 			ps.setInt(++i, reserva.getModelo().getId());
 			ps.setInt(++i, reserva.getCliente().getId());
 			ps.setInt(++i, reserva.getFuncionario().getId());
@@ -80,8 +90,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 			int i = 0;
 
 			ps.setString(++i, reserva.getSituacao().getDescricao());
-			ps.setString(++i, reserva.getDataCadastroReserva());
-			ps.setString(++i, reserva.getDataFim());
+			
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			String strDataCadastro = stf.format(reserva.getDataCadastroReserva());
+
+			//colocando formato string para armazenar no banco de dados
+			String strDataFim = stf.format(reserva.getDataFim());
+			
+			ps.setString(++i, strDataCadastro);
+			ps.setString(++i, strDataFim);
+			
 			ps.setInt(++i, reserva.getModelo().getId());
 			ps.setInt(++i, reserva.getCliente().getId());
 			ps.setInt(++i, reserva.getFuncionario().getId());
@@ -154,8 +173,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("reservas.id"));
-				reservaRetorno.setDataCadastroReserva(rSet.getString("reservas.data_inicio"));
-				reservaRetorno.setDataFim(rSet.getString("reservas.data_fim"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("reservas.data_inicio")));
+					reservaRetorno.setDataFim(stf.parse(rSet.getString("reservas.data_fim")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("reservas.situacao")));
 
 				Modelo modelo = new Modelo();
@@ -268,8 +296,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 				if (reserva.getId() != 99) {
 
 					reservaRetorno.setId(rSet.getInt("reservas.id"));
-					reservaRetorno.setDataCadastroReserva(rSet.getString("reservas.data_inicio"));
-					reservaRetorno.setDataFim(rSet.getString("reservas.data_fim"));
+					
+					//recebendo string do BD e armazenando em DATE
+					SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+					
+					try {
+						reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("reservas.data_inicio")));
+						reservaRetorno.setDataFim(stf.parse(rSet.getString("reservas.data_fim")));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
 					reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("reservas.situacao")));
 
 					Modelo modelo = new Modelo();
@@ -380,8 +417,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("reservas.id"));
-				reservaRetorno.setDataCadastroReserva(rSet.getString("reservas.data_inicio"));
-				reservaRetorno.setDataFim(rSet.getString("reservas.data_fim"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("reservas.data_inicio")));
+					reservaRetorno.setDataFim(stf.parse(rSet.getString("reservas.data_fim")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("reservas.situacao")));
 
 				Modelo modelo = new Modelo();
@@ -488,8 +534,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("reservas.id"));
-				reservaRetorno.setDataCadastroReserva(rSet.getString("reservas.data_inicio"));
-				reservaRetorno.setDataFim(rSet.getString("reservas.data_fim"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("reservas.data_inicio")));
+					reservaRetorno.setDataFim(stf.parse(rSet.getString("reservas.data_fim")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("reservas.situacao")));
 
 				Modelo modelo = new Modelo();
@@ -600,8 +655,17 @@ public class ReservaDAO implements IDAO<Reserva> {
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("reservas.id"));
-				reservaRetorno.setDataCadastroReserva(rSet.getString("reservas.data_inicio"));
-				reservaRetorno.setDataFim(rSet.getString("reservas.data_fim"));
+				
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("reservas.data_inicio")));
+					reservaRetorno.setDataFim(stf.parse(rSet.getString("reservas.data_fim")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("reservas.situacao")));
 
 				Modelo modelo = new Modelo();

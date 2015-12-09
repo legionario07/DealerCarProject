@@ -53,7 +53,9 @@
 
 						<h:outputText value="Data Nascimento: " />
 						<p:inputText size="10" readonly="true"
-							value="#{MBCliente.clienteRetorno.dataNasc}" />
+							value="#{MBCliente.clienteRetorno.dataNasc}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputText>
 
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
 						<p:inputText size="90" value="#{MBCliente.clienteRetorno.nomeMae}"
@@ -105,16 +107,16 @@
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.endereco.cidade}" readonly="true"
-							maxlength="65" />
+							value="#{MBCliente.clienteRetorno.endereco.cidade.nome}"
+							readonly="true" maxlength="65" />
 					</h:panelGrid>
 					<br></br>
 
 
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
-							value="Pesquisar" update="frmConsultaCliente :msgGlobal" 
-							rendered="#{MBCliente.clienteRetorno.nome == null}"/>
+							value="Pesquisar" update="frmConsultaCliente :msgGlobal"
+							rendered="#{MBCliente.clienteRetorno.nome == null}" />
 
 						<p:commandButton value="Novo"
 							rendered="#{MBCliente.jaPesquisei == true}"
@@ -169,10 +171,13 @@
 						required="true"
 						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
-					<p:outputLabel value="DataNasc: *" />
-					<p:inputMask value="#{MBCliente.clienteRetorno.dataNasc}" size="10"
-						mask="99/99/9999" required="true"
-						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório" />
+					<h:outputText value="DataNasc: *" />
+					<p:calendar id="data" value="#{MBCliente.dataNascimento}"
+						pattern="dd-MM-yyyy" mask="true"
+						required="true"
+						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
+
+					</p:calendar>
 
 					<p:outputLabel value="Nome da Mãe: " />
 					<p:inputText value="#{MBCliente.clienteRetorno.nomeMae}" size="45"
@@ -186,7 +191,7 @@
 
 						<f:selectItem itemLabel="Selecione o Sexo"
 							noSelectionOption="true" />
-							
+
 						<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
 						<f:selectItem itemValue="FEMININO" itemLabel="FEMININO" />
 					</p:selectOneMenu>
@@ -244,7 +249,8 @@
 					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidades"
-						value="#{MBCliente.clienteRetorno.endereco.cidade.nome}" required="true"
+						value="#{MBCliente.clienteRetorno.endereco.cidade.nome}"
+						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -262,6 +268,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBCliente.editar}" onclick=":frmConsultaCliente"
+						update="msgGlobal"
 						oncomplete="PF('dlgClienteEditar').hide();" />
 
 					<p:commandButton value="Cancelar"

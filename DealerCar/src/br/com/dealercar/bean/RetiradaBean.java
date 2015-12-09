@@ -1,10 +1,7 @@
 package br.com.dealercar.bean;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,11 +41,12 @@ import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.strategy.valida.ValidaCarro;
-import br.com.dealercar.strategy.valida.ValidaFuncionario;
 import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaItemOpcional;
 import br.com.dealercar.strategy.valida.ValidaModelo;
+import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
+import br.com.dealercar.viewhelper.SessionHelper;
 
 /**
  * Classe Controller responsavel pela View Retirada
@@ -64,12 +62,12 @@ public class RetiradaBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Retirada retirada = new Retirada();
 	private Reserva reserva = new Reserva();
 	private Cliente cliente = new Cliente();
 	private Cidade cidade = new Cidade();
 	private Modelo modelo = new Modelo();
-	private Funcionario funcionario = new Funcionario();
 	private Itens item = new Itens();
 	private Carro carro = new Carro();
 	private String quilometragem;
@@ -78,12 +76,15 @@ public class RetiradaBean implements Serializable {
 	private Opcional opcional = new Opcional();
 	private TipoSeguro tipoSeguro = new TipoSeguro();
 	private Date dataDevolucao = null;
-	private Date dataRetirada = null;
-
-	private boolean selectItem = false;
-
+	
 	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 
+	private boolean selectAr = false;
+	private boolean selectBebe = false;
+	private boolean selectGps = false;
+	private boolean selectCadeirinha = false;
+	private boolean selectRadio = false;
+	
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
@@ -107,14 +108,9 @@ public class RetiradaBean implements Serializable {
 
 	private boolean ehCadastrado;
 	private boolean jaPesquisei;
-	private int dataDevolucaoEhMaior;
 
 	public Retirada getRetirada() {
 		return retirada;
-	}
-
-	public void setRetirada(Retirada retirada) {
-		this.retirada = retirada;
 	}
 
 	public Date getDataDevolucao() {
@@ -125,20 +121,57 @@ public class RetiradaBean implements Serializable {
 		this.dataDevolucao = dataDevolucao;
 	}
 
+	public void setRetirada(Retirada retirada) {
+		this.retirada = retirada;
+	}
+
+	public boolean isSelectAr() {
+		return selectAr;
+	}
+
+	public void setSelectAr(boolean selectAr) {
+		this.selectAr = selectAr;
+	}
+
+	public boolean isSelectBebe() {
+		return selectBebe;
+	}
+
+	public void setSelectBebe(boolean selectBebe) {
+		this.selectBebe = selectBebe;
+	}
+
+	public boolean isSelectGps() {
+		return selectGps;
+	}
+
+	public void setSelectGps(boolean selectGps) {
+		this.selectGps = selectGps;
+	}
+
+	public boolean isSelectCadeirinha() {
+		return selectCadeirinha;
+	}
+
+	public void setSelectCadeirinha(boolean selectCadeirinha) {
+		this.selectCadeirinha = selectCadeirinha;
+	}
+
+	public boolean isSelectRadio() {
+		return selectRadio;
+	}
+
+	public void setSelectRadio(boolean selectRadio) {
+		this.selectRadio = selectRadio;
+	}
+
+
 	public Reserva getReserva() {
 		return reserva;
 	}
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
-	}
-
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
 	}
 
 	public List<Reserva> getReservas() {
@@ -161,13 +194,6 @@ public class RetiradaBean implements Serializable {
 		this.listaFuncionarios = listaFuncionarios;
 	}
 
-	public boolean isSelectItem() {
-		return selectItem;
-	}
-
-	public void setSelectItem(boolean selectItem) {
-		this.selectItem = selectItem;
-	}
 
 	public void setCarro(Carro carro) {
 		this.carro = carro;
@@ -218,13 +244,6 @@ public class RetiradaBean implements Serializable {
 		return quilometragem;
 	}
 
-	public int getDataDevolucaoEhMaior() {
-		return dataDevolucaoEhMaior;
-	}
-
-	public void setDataDevolucaoEhMaior(int dataDevolucaoEhMaior) {
-		this.dataDevolucaoEhMaior = dataDevolucaoEhMaior;
-	}
 
 	public void setQuilometragem(String quilometragem) {
 		this.quilometragem = quilometragem;
@@ -252,14 +271,6 @@ public class RetiradaBean implements Serializable {
 
 	public void setBebeConforto(BebeConforto bebeConforto) {
 		this.bebeConforto = bebeConforto;
-	}
-
-	public Date getDataRetirada() {
-		return dataRetirada;
-	}
-
-	public void setDataRetirada(Date dataRetirada) {
-		this.dataRetirada = dataRetirada;
 	}
 
 	public CadeirinhaBebe getCadeirinhaBebe() {
@@ -365,6 +376,7 @@ public class RetiradaBean implements Serializable {
 	public void setListaTipoSeguros(List<TipoSeguro> listaTipoSeguros) {
 		this.listaTipoSeguros = listaTipoSeguros;
 	}
+	
 
 	public Seguro getSeguro() {
 		return seguro;
@@ -482,7 +494,7 @@ public class RetiradaBean implements Serializable {
 		opcional.setItens(itens);
 
 		carro = (Carro) new ValidaCarro().validar(carro);
-		funcionario = (Funcionario) new ValidaFuncionario().validar(funcionario);
+		
 
 		new OpcionalDAO().cadastrar(opcional);
 		opcional = new OpcionalDAO().pesquisarPorUltimoCadastrado();
@@ -490,21 +502,31 @@ public class RetiradaBean implements Serializable {
 		retirada.setCarro(carro);
 		retirada.setCliente(cliente);
 		retirada.setOpcional(opcional);
-		retirada.setFuncionario(funcionario);
 		retirada.setQuilometragem(quilometragem);
-		retirada.setDataRetirada(setarDataDeCadastro());
-		int i = compararDatas(); // aqui seta a data de devolução
 		
+		// aqui seta a data de retirada
+		retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
+		retirada.setDataDevolucao(dataDevolucao);
+		int i = DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao()); 
 		//se a data for menor que o dia de hoje não sera persistido no BD
-		if(i!=1){
+		if(i==-1){
+			retirada.setDataDevolucao(null);
+			JSFUtil.adicionarMensagemErro("A data de Devolução não pode ser menor que "+ retirada.getDataRetirada());
 			return;
 		}
+		
+		
+		//Recebendo o funcionario Logado
+		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
+		
+		retirada.setFuncionario(funcionario);
+		
 		new RetiradaDAO().cadastrar(retirada);
 		
 		limparObjetos();
 		
 		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
-		
+
 	}
 
 	/*
@@ -576,59 +598,7 @@ public class RetiradaBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
-	/**
-	 * 
-	 * @return Uma Date com a data atual do Sistema
-	 */
-	public Date setarDataDeCadastro() {
-
-		// Setando a Data inicio como a data do Cadastro
-		Date data = Calendar.getInstance().getTime();
-		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-		String dataInicio = stf.format(data);
-
-		try {
-			this.dataRetirada = stf.parse(dataInicio);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		return dataRetirada;
-	}
-
-	/**
-	 * Se a data que o cliente deseja retirar o carro for menor que a data da
-	 * Devolucao o sistema irá invalidar a retirada. A dataDevolucao deve ser
-	 * maior que a data de Cadastro de Retirada, e nunca menor ou no mesmo dia.
-	 * 
-	 * @return uma inteiro com os seguintes valores: -1 = a data de cadastro é
-	 *         maior que a data da Reserva 0 = ambas das datas são iguais 1 = a
-	 *         data de reserva é maior que a data de Cadastro
-	 * 
-	 */
-	public int compararDatas() {
-
-		setarDataDeCadastro();
-		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-		String strDataDevolucao = stf.format(dataDevolucao);
-		try {
-			this.dataDevolucao = stf.parse(strDataDevolucao);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		dataDevolucaoEhMaior = dataDevolucao.compareTo(dataRetirada);
-
-		if (dataDevolucaoEhMaior == 1) {
-			retirada.setDataDevolucao(this.dataDevolucao);
-		} else {
-			JSFUtil.adicionarMensagemErro("A data de Devolução deve ser maior que "+ stf.format(dataRetirada));
-		
-		}
-
-		return dataDevolucaoEhMaior;
-	}
-
+	
 	
 	public void limparObjetos(){
 		
@@ -642,12 +612,11 @@ public class RetiradaBean implements Serializable {
 		tipoSeguro = new TipoSeguro();
 		seguro = new Seguro();
 		carro = new Carro();
-		funcionario = new Funcionario();
 		itens.clear();
-		dataDevolucao = new Date();
-		dataDevolucaoEhMaior = 0;
 		
 		
 	}
+
+
 
 }

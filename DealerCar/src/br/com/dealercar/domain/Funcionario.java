@@ -1,7 +1,13 @@
 package br.com.dealercar.domain;
 
+import java.util.Date;
+
 public class Funcionario extends Pessoa {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String cargo;
 	private Double salario;
 	private Usuario usuario;
@@ -26,7 +32,7 @@ public class Funcionario extends Pessoa {
 	 * @param salario
 	 * @param usuario
 	 */
-	public Funcionario(String nome, String dataNasc, String sexo, String telefone, 
+	public Funcionario(String nome, Date dataNasc, String sexo, String telefone, 
 			 Endereco endereco, Cidade cidade, String cargo, Double salario, Usuario usuario) {
 		
 		this.setNome(nome);
@@ -54,7 +60,7 @@ public class Funcionario extends Pessoa {
 	 * @param salario
 	 * @param usuario
 	 */
-	public Funcionario(String nome, String dataNasc, String sexo, String telefone,
+	public Funcionario(String nome, Date dataNasc, String sexo, String telefone,
 			Endereco endereco, Cidade cidade, String celular, String cargo, Double salario,  Usuario usuario) {
 		
 		this.setNome(nome);

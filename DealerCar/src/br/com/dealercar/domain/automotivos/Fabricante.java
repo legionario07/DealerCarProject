@@ -1,10 +1,13 @@
 package br.com.dealercar.domain.automotivos;
 
-import br.com.dealercar.dao.automotivos.FabricanteDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 
 public class Fabricante extends EntidadeDominio {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	
@@ -33,19 +36,6 @@ public class Fabricante extends EntidadeDominio {
 		this.nome = nome.toUpperCase();
 	}
 	
-	/**
-	 * 
-	 * @param fabricante Recebe um int com o id do Fabricante
-	 * @return Retorna um objeto Fabricante valido do BD
-	 */
-	public Fabricante validaFabricante(int fabricante) {
-		Fabricante rFabricante = new Fabricante(fabricante);
-		
-		FabricanteDAO fDao = new FabricanteDAO();
-		rFabricante = fDao.pesquisarPorID(rFabricante);
-		
-		return rFabricante;
-	}
 
 	@Override
 	public String toString() {

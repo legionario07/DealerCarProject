@@ -1,20 +1,20 @@
 package br.com.dealercar.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
-import br.com.dealercar.util.JSFUtil;
 
 public class Reserva extends EntidadeDominio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private SituacaoReserva situacao;
-	private String dataCadastroReserva;
-	private String dataFim;
+	private Date dataCadastroReserva;
+	private Date dataFim;
 	private Modelo modelo;
 	private Cliente cliente;
 	private Funcionario funcionario;
@@ -66,21 +66,21 @@ public class Reserva extends EntidadeDominio {
 		this.situacao = situacao;
 	}
 
-	public String getDataCadastroReserva() {
+	public Date getDataCadastroReserva() {
 		return dataCadastroReserva;
 	}
 
-	public void setDataCadastroReserva(String dataCadastroReserva) {
+	public void setDataCadastroReserva(Date dataCadastroReserva) {
 
 		this.dataCadastroReserva = dataCadastroReserva;
 
 	}
 
-	public String getDataFim() {
+	public Date getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(String dataFim) {
+	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
 	}
 
@@ -108,57 +108,7 @@ public class Reserva extends EntidadeDominio {
 		this.funcionario = funcionario;
 	}
 
-	/**
-	 * 
-	 * @return Uma String com a data atual do Sistema
-	 */
-	public String setarDataDeCadastro() {
-
-		// Setando a Data inicio como a data do Cadastro
-		Date data = Calendar.getInstance().getTime();
-		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-		String dataInicio = stf.format(data);
-
-		return dataInicio;
-
-	}
-
-	/**
-	 * Note: Recebe duas datas em forma de String
-	 * 		String dataCadastro: representa a data do cadastramento da Reserva
-	 * 		String dataReserva: representa a data que o cliente deseja retirar o carro
-	 * 		Se a data que o cliente deseja retirar o carro for menor que a data do cadastro
-	 * 		o sistema irá invalidar a reserva.
-	 * 		A dataReserva deve ser maior que a data de Cadastro da Reserva, e nunca menor ou no mesmo diqa.
-	 * 		
-	 * @param dataCadastro
-	 * @param dataReserva
-	 * @return uma inteiro com os seguintes valores:	-1 = a data de cadastro é maior que a data da Reserva
-	 * 													0 = ambas das datas são iguais
-	 * 													1 = a data de reserva é maior que a data de Cadastro
-	 * 												
-	 */
-	public int compararDatas(String dataCadastro, String dataReserva) {
-
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-		Date dtCadastro = null; 
-
-		Date dtReserva = null;
-		try {
-			dtCadastro = sdf.parse(dataCadastro);
-			dtReserva = sdf.parse(dataReserva);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-
-		int i = dtReserva.compareTo(dtCadastro);
-
-		return i;
-	}
-
 	@Override
 	public String toString() {
 

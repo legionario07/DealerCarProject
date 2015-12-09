@@ -1,14 +1,9 @@
 package br.com.dealercar.teste.domain;
 
-import java.util.List;
-
-import br.com.dealercar.dao.ClienteDAO;
-import br.com.dealercar.domain.Cidade;
-import br.com.dealercar.domain.Cliente;
-import br.com.dealercar.domain.Endereco;
-
 public class ClienteDAOTest {
 
+	/*
+	@SuppressWarnings("unused")
 	public static void cadastrar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(5);
@@ -21,6 +16,7 @@ public class ClienteDAOTest {
 
 	}
 
+	@SuppressWarnings("unused")
 	public static void editar() {
 		Cidade cidade = new Cidade();
 		cidade.setId(1);
@@ -79,6 +75,7 @@ public class ClienteDAOTest {
 	}
 		
 		
+		*/
 
 
 	public static void main(String[] args) {

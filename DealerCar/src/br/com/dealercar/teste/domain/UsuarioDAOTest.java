@@ -20,7 +20,7 @@ public class UsuarioDAOTest {
 
 	public static void editar() {
 
-		Usuario usuario = new Usuario("legionario", "legionario", new Permissao(1), "SIM");
+		Usuario usuario = new Usuario("felipe", "felipe", new Permissao(2), "SIM");
 
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		usuarioDao.editar(usuario);
@@ -77,9 +77,9 @@ public class UsuarioDAOTest {
 		// cadastrar();
 		// pesquisarPorID();
 		// pesquisarPorLogin();
-		 //editar();
+		editar();
 		//listarTodos();
-		autenticar();
+		//autenticar();
 	}
 
 }

@@ -1,7 +1,14 @@
 package br.com.dealercar.domain;
 
-public class Cliente extends Pessoa {
+import java.io.Serializable;
+import java.util.Date;
 
+public class Cliente extends Pessoa implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nomeMae;
 	private String RG;
 	private String CPF;
@@ -29,7 +36,7 @@ public class Cliente extends Pessoa {
 	 * @param endereco
 	 * @param cidade
 	 */
-	public Cliente(String nome, String dataNasc, String nomeMae, String sexo, String telefone, 
+	public Cliente(String nome, Date dataNasc, String nomeMae, String sexo, String telefone, 
 			String celular, String RG, String CPF, String email, Endereco endereco, Cidade cidade) {
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);
@@ -56,7 +63,7 @@ public class Cliente extends Pessoa {
 	 * @param endereco
 	 * @param cidade
 	 */
-	public Cliente(String nome, String dataNasc,  String sexo, String telefone, String celular, 
+	public Cliente(String nome, Date dataNasc,  String sexo, String telefone, String celular, 
 			String RG, String CPF, Endereco endereco, Cidade cidade) {
 		this.setNome(nome);
 		this.setDataNasc(dataNasc);

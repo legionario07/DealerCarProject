@@ -60,6 +60,7 @@
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemReserva.dataCadastroReserva}">
 					<h:outputText value="#{itemReserva.dataCadastroReserva}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
@@ -67,6 +68,7 @@
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemReserva.dataFim}">
 					<h:outputText value="#{itemReserva.dataFim}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
@@ -113,9 +115,18 @@
 
 		<!--  Caixa de Dialogo Cadastrar Reserva -->
 		<p:dialog widgetVar="dlgReservaNova" closable="false" width="30%"
-			id="dlgNovo" height="40%"  resizable="false"
-			appendTo="@(body)" modal="true" header="Reserva - Cadastrar">
+			id="dlgNovo" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Reserva - Cadastrar">
 			<h:form id="frmNovaReserva">
+
+				<h:panelGrid id="validadores" columns="4">
+					<p:message for="data" />
+					<h:outputText value="#{MBReserva.reserva.dataFim}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+				</h:panelGrid>
+				
 				<h:panelGrid id="pnlNovaReserva" columns="2">
 
 					<h:outputLabel value="Digite o CPF para Localizar"
@@ -124,58 +135,54 @@
 						rendered="#{MBReserva.ehCadastrado == false}" size="13" />
 				</h:panelGrid>
 
-				<h:panelGrid id="pnlNovaReserva2" rendered="#{MBReserva.ehCadastrado == true}">
-				
+				<h:panelGrid id="pnlNovaReserva2"
+					rendered="#{MBReserva.ehCadastrado == true}">
+
 					<h:outputText value="Cliente: " />
 					<p:inputText value="#{MBReserva.reserva.cliente.nome}"
-						required="true"
-						size="50" 
+						required="true" size="50"
 						requiredMessage="Favor informar o Cliente. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Modelo: *" />
-					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.reserva.modelo.nome}" required="true"
+					<p:selectOneMenu id="Modelo" value="#{MBReserva.modelo.nome}"
+						required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}" var="carro"
-							itemLabel="#{carro.modelo.nome}" itemValue="#{carro.modelo.nome}" />
+						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
+							var="carro" itemLabel="#{carro.modelo.nome}"
+							itemValue="#{carro.modelo.nome}" />
 					</p:selectOneMenu>
 
-					<h:outputText value="Data da Reserva: "/>
-					<p:inputMask mask="99/99/9999" value="#{MBReserva.reserva.dataFim}"
-						required="true" requiredMessage="A data para retirar o Carro é invalida.
-										Deve ser digitada uma data maior que a data de Cadastro"/>
-					
-					<h:outputText value="Funcionario *" />
-					<p:selectOneMenu id="Funcionario"
-						value="#{MBReserva.funcionario.id}" required="true"
-						requiredMessage="Favor informar o Funcionario. Campo de preenchimento obrigatório"
-						panelStyle="width:180px" effect="fade" style="width:160px"
-						filter="true" filterMatchMode="startsWith">
 
-						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-						<f:selectItems value="#{MBReserva.listaFuncionarios}"
-							var="funcionario" itemLabel="#{funcionario.nome}"
-							itemValue="#{funcionario.id}" />
-					</p:selectOneMenu>
+					<h:outputText value="Data da Reserva: *" />
+					<p:calendar id="data" value="#{MBReserva.reserva.dataFim}"
+						required="true" requiredMessage="Favor informar a Data da Reserva">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:calendar>
+
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
 					<p:commandButton action="#{MBReserva.pesquisarPorCPF}"
-						rendered="#{MBReserva.ehCadastrado==false}"
-						value="Pesquisar" update="frmNovaReserva :frmListaReserva:tblListaReserva :msgGlobal" />
+						rendered="#{MBReserva.ehCadastrado==false}" value="Pesquisar"
+						update="frmNovaReserva :frmListaReserva:tblListaReserva :msgGlobal" />
 
 					<p:commandButton value="Salvar"
-						rendered="#{MBReserva.ehCadastrado == true}"
+						rendered="#{MBReserva.ehCadastrado == true}" validateClient="true"
 						actionListener="#{MBReserva.cadastrar}"
-						oncomplete="PF('dlgReservaNova').hide();"
-						update="frmListaReserva:tblListaReserva :frmNovaReserva :msgGlobal" />
+						update="frmListaReserva:tblListaReserva :frmNovaReserva:validadores :msgGlobal"
+						onsuccess="PF('dlgReservaNova').hide();" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgReservaNova').hide();" />
+
+					<p:commandButton value="Novo Cliente"
+						rendered="#{MBReserva.jaPesquisei == true}"
+						action="/pages/ncliente.xhtml" update=":frmNovaReserva :msgGlobal" />
+
 				</h:panelGrid>
 
 			</h:form>
@@ -203,10 +210,14 @@
 					<h:outputText value="#{MBReserva.reserva.modelo.nome}" />
 
 					<p:outputLabel value="Data Cadastro: " />
-					<h:outputText value="#{MBReserva.reserva.dataCadastroReserva}" />
+					<h:outputText value="#{MBReserva.reserva.dataCadastroReserva}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 
 					<p:outputLabel value="Data Fim: " />
-					<h:outputText value="#{MBReserva.reserva.dataFim}" />
+					<h:outputText value="#{MBReserva.reserva.dataFim}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 
 					<p:outputLabel value="Situação: " />
 					<h:outputText value="#{MBReserva.reserva.situacao}" />
@@ -243,10 +254,6 @@
 					<p:inputText value="#{MBReserva.reserva.cliente.telefone}"
 						readonly="true" />
 
-					<h:outputText value="Data da Reserva: " />
-					<p:inputMask mask="99/99/9999" value="#{MBReserva.reserva.dataFim}"
-						required="true" requiredMessage="A data para retirar o Carro é invalida.
-										Deve ser digitada uma data maior que a data de Cadastro"/>
 
 					<h:outputText value="Modelo: *" />
 					<p:selectOneMenu id="Modelo"
@@ -256,22 +263,16 @@
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}" var="carro"
-							itemLabel="#{carro.modelo.nome}" itemValue="#{carro.modelo.nome}" />
+						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
+							var="carro" itemLabel="#{carro.modelo.nome}"
+							itemValue="#{carro.modelo.nome}" />
 					</p:selectOneMenu>
 
-					<h:outputText value="Funcionario *" />
-					<p:selectOneMenu id="Funcionario"
-						value="#{MBReserva.funcionario.id}" required="true"
-						requiredMessage="Favor informar o Funcionario. Campo de preenchimento obrigatório"
-						panelStyle="width:180px" effect="fade" style="width:160px"
-						filter="true" filterMatchMode="startsWith">
+					<h:outputText value="Data da Reserva: *" />
+					<p:calendar id="data" value="#{MBReserva.reserva.dataFim}"
+						required="true"
+						requiredMessage="Favor informar a Data da Devolução" />
 
-						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-						<f:selectItems value="#{MBReserva.listaFuncionarios}"
-							var="funcionario" itemLabel="#{funcionario.nome}"
-							itemValue="#{funcionario.id}" />
-					</p:selectOneMenu>
 
 					<h:outputText value="Situação: *" maxlength="15" />
 					<p:selectOneMenu value="#{MBReserva.reserva.situacao}"

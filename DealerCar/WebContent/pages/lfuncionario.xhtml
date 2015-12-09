@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBFuncionario.carregarListagem}"
+			type="preRenderView" />
+
+		<h:form id="frmFuncionariosListagem">
+			<p:dataTable id="tblFuncionarios"
+				value="#{MBFuncionario.listaFuncionario}" var="itemFuncionario"
+				emptyMessage="Nenhum Registro foi encontrado"
+				sortBy="#{itemFuncionario.nome}" paginator="true" rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Funcionarios - Listagem"
+						style="font-size:14px" />
+				</f:facet>
+
+				<p:column headerText="Id" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.id}">
+					<h:outputText value="#{itemFuncionario.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" width="25%" style="font-size:11px"
+					sortBy="#{itemFuncionario.nome}" filterBy="#{itemFuncionario.nome}">
+					<h:outputText value="#{itemFuncionario.nome}" />
+				</p:column>
+
+				<p:column headerText="Sexo" width="10%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.sexo}">
+					<h:outputText value="#{itemFuncionario.sexo}" />
+				</p:column>
+
+				<p:column headerText="Dt Nasc" width="10%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.dataNasc}">
+					<h:outputText value="#{itemFuncionario.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Telefone" width="10%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.telefone}">
+					<h:outputText value="#{itemFuncionario.telefone}" />
+				</p:column>
+
+				<p:column headerText="Cargo" width="25%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.cargo}">
+					<h:outputText value="#{itemFuncionario.cargo}" />
+				</p:column>
+
+				<p:column headerText="Salario" width="15%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.salario}">
+					<h:outputText value="#{itemFuncionario.salario}" />
+				</p:column>
+
+				<p:column headerText="Usuario" width="15%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.usuario.login}">
+					<h:outputText value="#{itemFuncionario.usuario.login}" />
+				</p:column>
+
+				<p:column headerText="Permissao" width="15%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.usuario.permissao.nivel}">
+					<h:outputText value="#{itemFuncionario.usuario.permissao.nivel}" />
+				</p:column>
+				
+				<p:column headerText="Ativo" width="15%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFuncionario.usuario.ativo}">
+					<h:outputText value="#{itemFuncionario.usuario.ativo}" />
+				</p:column>
+
+
+				<f:facet name="footer">
+					<h:outputText value="Exitem " />
+					<h:outputText value="#{MBFuncionario.totalFuncionario}" />
+					<h:outputText value=" funcionarios cadastrados." />
+				</f:facet>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>
