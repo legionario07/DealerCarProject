@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +9,13 @@ import java.util.List;
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.enums.SeguroType;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL TipoSeguro
+ * @author Paulinho
+ *
+ */
 public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 
 	/**
@@ -24,8 +27,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		sql.append("select * from tipo_seguro");
 
 		List<TipoSeguro> listaRetorno = new ArrayList<TipoSeguro>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -65,8 +66,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		sql.append("insert into tipo_seguro (nome, valor_acrescido) ");
 		sql.append("values (? , ?)");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, tipoSeguro.getNome().getDescricao().toUpperCase());
@@ -90,8 +89,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("update tipo_seguro set nome = ?, valor_acrescido = ? ");
 		sql.append("where id = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -117,8 +114,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from tipo_seguro where id=?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, tipoSeguro.getId());
@@ -139,8 +134,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		sql.append("select * from tipo_seguro where id = ?");
 
 		TipoSeguro retorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

@@ -1,7 +1,6 @@
 package br.com.dealercar.dao;
 
 import java.io.Serializable;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,6 @@ import java.util.List;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.Endereco;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 
@@ -23,8 +21,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Connection con = Conexao.getConnection();
-	
 
 	/**
 	 * 

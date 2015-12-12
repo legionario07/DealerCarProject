@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL RadioPlayer
+ * @author Paulinho
+ *
+ */
 public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> {
 
 	/**
@@ -24,8 +27,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into radio_player (descricao, valor, marca, numero_patrimonio, modelo) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -53,8 +54,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from radio_player where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, radio.getCodigo());
@@ -75,8 +74,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		StringBuffer sql = new StringBuffer();
 		sql.append("update radio_player set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, modelo = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -105,8 +102,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("select * from radio_player where codigo <> 99");
 
 		List<RadioPlayer> listaRetorno = new ArrayList<RadioPlayer>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -148,8 +143,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("select * from radio_player where codigo = ?");
 
 		RadioPlayer radioPlayerRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

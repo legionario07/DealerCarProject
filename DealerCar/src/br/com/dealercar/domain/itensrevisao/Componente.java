@@ -1,26 +1,26 @@
-package br.com.dealercar.domain;
+package br.com.dealercar.domain.itensrevisao;
 
-public abstract class ItemParaVerificar {
+public abstract class Componente {
 	
 	private int id;
 	private String descricao;
 	private boolean ok;
 	
-	public ItemParaVerificar() {
+	public Componente() {
 		
 	}
 	/**
 	 * 
 	 * @param id
 	 */
-	public ItemParaVerificar(int id) {
+	public Componente(int id) {
 		this.setId(id);
 	}
 	/**
 	 * 
 	 * @param descricao
 	 */
-	public ItemParaVerificar(String descricao) {
+	public Componente(String descricao) {
 		this.setDescricao(descricao);
 	}
 	/**
@@ -28,7 +28,7 @@ public abstract class ItemParaVerificar {
 	 * @param id
 	 * @param descricao
 	 */
-	public ItemParaVerificar(int id, String descricao) {
+	public Componente(int id, String descricao) {
 		this.setId(id);
 		this.setDescricao(descricao);
 	}

@@ -69,7 +69,7 @@ public class CidadeDAOTest {
 		}
 	}
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private static void listarTodos() {
 		CidadeDAO cDao = new CidadeDAO();
 		List<Cidade> cidades = new ArrayList<Cidade>();
@@ -89,7 +89,7 @@ public class CidadeDAOTest {
 		// editar();
 		// procurarPorId();
 		//pesquisarPorNome();
-		//listarTodos();
+		listarTodos();
 
 	}
 

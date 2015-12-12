@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,9 +15,13 @@ import br.com.dealercar.domain.itensopcionais.Itens;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos Itens Opcionais Escolhidos pelo Usuario
+ * @author Paulinho
+ *
+ */
 public class OpcionalDAO implements IDAO<Opcional> {
 
 	public void cadastrar(Opcional opcional) {
@@ -34,12 +37,10 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		boolean gps = false;
 		boolean radio = false;
 
-		Connection conn = Conexao.getConnection();
-
 		try
 
 		{
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, opcional.getSeguro().getCodigo());
 
 			for (Itens itens : opcional.getItens()) {
@@ -128,10 +129,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		List<Opcional> listaOpcionais = new ArrayList<Opcional>();
 
-		Connection conn = Conexao.getConnection();
-
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
@@ -196,10 +195,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		Opcional opcional = null;
 
-		Connection conn = Conexao.getConnection();
-
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, entidade.getId());
 			ResultSet rSet = pstm.executeQuery();
 
@@ -261,10 +258,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		Opcional opcional = null;
 
-		Connection conn = Conexao.getConnection();
-
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

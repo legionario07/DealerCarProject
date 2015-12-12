@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,12 +13,9 @@ import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
-	
-	private Connection con = Conexao.getConnection();
 	
 	/**
 	 * 
@@ -33,7 +29,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 		sql.append("(nome, data_nasc, sexo, endereco, telefone, celular, ");
 		sql.append("id_cidade, id_usuario, cargo, salario) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		
 
 		try {
 
@@ -88,7 +83,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 		sql.append("celular = ?, cargo = ?, salario = ?, ");
 		sql.append("id_cidade = ?, id_usuario = ? where id = ?");
 
-		
 
 		try {
 
@@ -139,8 +133,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 		String sql = "delete from funcionarios where id = ?";
 
-		
-
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -173,8 +165,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 		sql.append("order by funcionarios.nome asc");
 
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-
-		
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -278,8 +268,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 
 		Funcionario funcionarioRetorno = null;
 
-		
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, funcionario.getId());
@@ -381,8 +369,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 		sql.append("where funcionarios.nome like ? order by funcionarios.nome asc");
 
 		List<Funcionario> lista = new ArrayList<Funcionario>();
-
-		
 
 		try {
 
@@ -488,7 +474,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
 		sql.append("where usuarios.login = ?");
 
 		Funcionario funcionarioRetorno = null;
-
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

@@ -3,9 +3,7 @@ package br.com.dealercar.domain.itensrevisao;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.ItemParaVerificar;
-
-public class Pneu extends ItemParaVerificar{
+public class Pneu extends Componente{
 	
 	private List<String> posicaoPneu = new ArrayList<String>();
 	

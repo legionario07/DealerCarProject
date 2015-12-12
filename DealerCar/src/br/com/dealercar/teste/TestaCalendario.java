@@ -13,6 +13,7 @@ import org.primefaces.event.SelectEvent;
 
 @ManagedBean(name = "MBTestaCalendario")
 @ViewScoped
+@SuppressWarnings("unused")
 public class TestaCalendario implements Serializable{
 
 	/**

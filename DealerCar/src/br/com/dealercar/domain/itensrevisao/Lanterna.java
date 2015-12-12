@@ -1,8 +1,6 @@
 package br.com.dealercar.domain.itensrevisao;
 
-import br.com.dealercar.domain.ItemParaVerificar;
-
-public class Lanterna extends ItemParaVerificar{
+public class Lanterna extends Componente{
 
 	public Lanterna(int id) {
 		super(id);

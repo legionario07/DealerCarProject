@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL CadeirinhaBeBe
+ * @author Paulinho
+ *
+ */
 public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<CadeirinhaBebe> {
 
 	/**
@@ -24,8 +27,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into cadeirinhas_bebe (descricao, valor, marca, numero_patrimonio, peso_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -53,8 +54,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cadeirinhas_bebe where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, cadeirinha.getCodigo());
@@ -75,8 +74,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cadeirinhas_bebe set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, peso_bebe = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -105,8 +102,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		sql.append("select * from cadeirinhas_bebe where codigo <> 99");
 
 		List<CadeirinhaBebe> listaRetorno = new ArrayList<CadeirinhaBebe>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -149,8 +144,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		sql.append("select * from cadeirinhas_bebe where codigo = ?");
 
 		CadeirinhaBebe cadeirinhaRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

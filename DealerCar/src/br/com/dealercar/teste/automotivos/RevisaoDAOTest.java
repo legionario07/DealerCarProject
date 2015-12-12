@@ -3,9 +3,9 @@ package br.com.dealercar.teste.automotivos;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.ItemParaVerificar;
 import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.itensrevisao.Componente;
 import br.com.dealercar.domain.itensrevisao.Pneu;
 
 public class RevisaoDAOTest {
@@ -13,7 +13,7 @@ public class RevisaoDAOTest {
 	public static void main(String[] args) {
 		Revisao revisao = new Revisao();
 		
-		List<ItemParaVerificar> itens = new ArrayList<ItemParaVerificar>();
+		List<Componente> itens = new ArrayList<Componente>();
 
 		Pneu pneu = new Pneu("Pneu");
 		List<String> posicoes= new ArrayList<String>();

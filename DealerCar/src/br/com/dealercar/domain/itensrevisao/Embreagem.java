@@ -1,8 +1,6 @@
 package br.com.dealercar.domain.itensrevisao;
 
-import br.com.dealercar.domain.ItemParaVerificar;
-
-public class Embreagem extends ItemParaVerificar{
+public class Embreagem extends Componente{
 	
 	public Embreagem(int id) {
 		super(id);

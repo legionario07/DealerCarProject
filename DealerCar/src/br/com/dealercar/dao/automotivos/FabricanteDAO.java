@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.automotivos;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * Classe responsavel por realizar a Persistencia dos Fabricantes no BD
+ * @author Paulinho
+ *
+ */
 public class FabricanteDAO implements IDAO<Fabricante> {
 
 	/**
@@ -20,8 +23,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 */
 	public void cadastrar(Fabricante fabricante) {
 		String sql = "insert into fabricantes (nome) values(?)";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -42,8 +43,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 */
 	public void editar(Fabricante fabricante) {
 		String sql = "update fabricantes set nome = ? where id = ?";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -67,7 +66,7 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	public void excluir (Fabricante fabricante) {
 		String sql = "delete from fabricantes where id=?";
 		
-		Connection con = Conexao.getConnection();
+		
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -89,7 +88,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		String sql = "select * from fabricantes";
 		List<Fabricante> listaFabricantes = new ArrayList<Fabricante>();
 		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -122,8 +120,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		
 		String sql = "select * from fabricantes where id=?";
 		Fabricante fRetorno = null;
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);

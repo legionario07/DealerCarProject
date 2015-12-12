@@ -4,6 +4,10 @@ import br.com.dealercar.domain.EntidadeDominio;
 
 public class ArCondicionado extends EntidadeDominio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int codigo;
 	private String descricao;
 	private double valor;

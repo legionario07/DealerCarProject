@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import br.com.dealercar.bean.ClienteBean;
 
+@SuppressWarnings("unused")
 public class TestaGeral {
 
 	public static void main(String[] args) throws ParseException {

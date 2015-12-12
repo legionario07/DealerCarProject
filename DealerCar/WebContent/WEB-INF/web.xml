@@ -12,8 +12,6 @@
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>/faces/*</url-pattern>
-     <url-pattern>*.html</url-pattern>
-     <url-pattern>*.jsf</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>primefaces.THEME</param-name>

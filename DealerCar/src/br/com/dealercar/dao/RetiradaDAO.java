@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +18,6 @@ import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.enums.SituacaoType;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -40,10 +38,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("id_funcionario, id_itensopcionais, id_reserva) ");
 		sql.append("values (?,?,?,?,?,?,?,?)");
 
-		Connection conn = Conexao.getConnection();
 
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			
 			//colocando formato string para armazenar no banco de dados
@@ -112,10 +109,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 
-		Connection conn = Conexao.getConnection();
-
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
@@ -175,17 +170,14 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		Retirada retiradaRetorno = null;
 		
-		Connection conn = Conexao.getConnection();
-
 		try {
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, retirada.getId());
 			
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				retiradaRetorno = new Retirada();
-
 				
 				retiradaRetorno.setId(rSet.getInt("id"));
 				retiradaRetorno.setDataRetirada(Date.valueOf(rSet.getString("data_retirada")));

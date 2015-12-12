@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class UsuarioDAO implements IDAO<Usuario>{
@@ -22,8 +20,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into usuarios (login, senha, id_permissao, ativo) values ( ?, md5(?), ?, ?)");
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -49,8 +45,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("update usuarios set login = ?, senha = md5( ? ), id_permissao = ?, ativo = ? where login = ?");
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -84,8 +78,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 		
-		Connection con = Conexao.getConnection();
-		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, usuario.getId());
@@ -104,7 +96,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				permissao.setNivel(rSet.getString("permissao.nivel"));
 				
 				usuarioRetorno.setPermissao(permissao);
-				
 				
 			}
 			
@@ -127,8 +118,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	public void excluir(Usuario usuario) {
 
 		String sql = "delete from usuarios where id = ?";
-
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -158,8 +147,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		sql.append("where usuarios.login = ? ");
 		
 		Usuario usuarioRetorno = null;
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -208,8 +195,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
-		Connection con = Conexao.getConnection();
-
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -257,8 +242,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		sql.append("where usuarios.login = ? and usuarios.senha = md5(?) ");
 		
 		Usuario usuarioRetorno = null;
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

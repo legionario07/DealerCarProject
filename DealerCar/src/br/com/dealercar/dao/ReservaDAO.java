@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,11 +16,11 @@ import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class ReservaDAO implements IDAO<Reserva> {
 
+	
 	/**
 	 * 
 	 * @param reserva
@@ -35,7 +34,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("(situacao, data_inicio, data_fim, id_modelo, id_cliente, id_funcionario) ");
 		sql.append("values (?, ?, ?, ?, ?, ?)");
 
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -43,7 +41,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 			int i = 0;
 
 			reserva.setSituacao(SituacaoReserva.ATIVO);// iniciando a Situação
-														// da Reserva como Ativo
 
 			ps.setString(++i, reserva.getSituacao().getDescricao());
 			
@@ -80,8 +77,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("update reservas set situacao = ?, data_inicio = ?, data_fim = ?, id_modelo = ?, ");
 		sql.append("id_cliente = ?, id_funcionario = ? ");
 		sql.append("where id = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -123,7 +118,7 @@ public class ReservaDAO implements IDAO<Reserva> {
 
 		String sql = "delete from reservas where id = ?";
 
-		Connection con = Conexao.getConnection();
+		
 
 		try {
 
@@ -161,8 +156,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("order by reservas.situacao asc");
 
 		List<Reserva> listaReservas = new ArrayList<Reserva>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -281,8 +274,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("where reservas.id = ? ");
 
 		Reserva reservaRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -405,8 +396,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, "%" + reserva.getModelo().getNome() + "%");
@@ -521,8 +510,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("where reservas.situacao = ? order by clientes.nome asc");
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -642,8 +629,6 @@ public class ReservaDAO implements IDAO<Reserva> {
 		sql.append("where clientes.cpf = ? order by clientes.nome asc");
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.Cor;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class CorDAO implements IDAO<Cor> {
@@ -22,8 +20,6 @@ public class CorDAO implements IDAO<Cor> {
 	@Override
 	public void cadastrar(Cor cor) {
 		String sql = "insert into cores (nome) values (?)";
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -47,8 +43,6 @@ public class CorDAO implements IDAO<Cor> {
 	public void excluir(Cor cor) {
 
 		String sql = "delete from cores where id = ?";
-
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -74,8 +68,6 @@ public class CorDAO implements IDAO<Cor> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cores set id = ?, nome = ? where id = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			int i = 0;
@@ -99,8 +91,6 @@ public class CorDAO implements IDAO<Cor> {
 	public List<Cor> listarTodos() {
 		String sql = "select * from cores";
 		List<Cor> listaCores = new ArrayList<Cor>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 
@@ -135,8 +125,6 @@ public class CorDAO implements IDAO<Cor> {
 	public Cor pesquisarPorID(Cor cor) {
 		String sql = "select * from cores where id = ?";
 		Cor corRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);

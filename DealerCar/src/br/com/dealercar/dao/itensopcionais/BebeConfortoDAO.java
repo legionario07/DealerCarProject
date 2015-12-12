@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL BebeConforto
+ * @author Paulinho
+ *
+ */
 public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto> {
 
 	/**
@@ -24,8 +27,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into bebe_confortos (descricao, valor, marca, numero_patrimonio, meses_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -53,8 +54,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from bebe_confortos where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, bebeConforto.getCodigo());
@@ -75,8 +74,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		StringBuffer sql = new StringBuffer();
 		sql.append("update bebe_confortos set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, meses_bebe = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -105,8 +102,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("select * from bebe_confortos where codigo <> 99");
 
 		List<BebeConforto> listaRetorno = new ArrayList<BebeConforto>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -148,8 +143,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 		BebeConforto bebeConfortoRetorno = null;
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, bebeConforto.getCodigo());
@@ -188,8 +181,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("select * from bebe_confortos where codigo = ?");
 
 		BebeConforto bConfortoRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

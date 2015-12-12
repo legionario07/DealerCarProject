@@ -5,6 +5,11 @@ import java.util.Date;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 
+/**
+ * Classe que representa a Locação
+ * @author Paulinho
+ *
+ */
 public class Retirada extends EntidadeDominio{
 
 	/**

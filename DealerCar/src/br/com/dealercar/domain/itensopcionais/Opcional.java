@@ -7,6 +7,10 @@ import br.com.dealercar.domain.EntidadeDominio;
 
 public class Opcional extends EntidadeDominio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private List<Itens> itens = new ArrayList<Itens>();
 	private ArCondicionado arCondicionado;

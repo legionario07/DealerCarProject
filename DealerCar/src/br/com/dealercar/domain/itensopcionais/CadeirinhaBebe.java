@@ -2,6 +2,10 @@ package br.com.dealercar.domain.itensopcionais;
 
 public class CadeirinhaBebe extends Itens {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int pesoBebe;
 
 	public CadeirinhaBebe() {

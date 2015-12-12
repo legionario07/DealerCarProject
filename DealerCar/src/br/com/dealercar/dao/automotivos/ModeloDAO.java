@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.automotivos;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +9,13 @@ import java.util.List;
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia os Modelos de Carros no BD
+ * @author Paulinho
+ *
+ */
 public class ModeloDAO implements IDAO<Modelo>{
 	
 	/**
@@ -22,8 +25,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 */
 	public void cadastrar(Modelo modelo) {
 		String sql = "insert into modelos (nome, id_fabricante) values (?, ?)";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -45,7 +46,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 	public void editar(Modelo modelo) {
 		String sql = "update modelos set nome = ?, id_fabricante = ? where id = ?";
 		
-		Connection con = Conexao.getConnection();
+		
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -67,8 +68,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 */
 	public void excluir(Modelo modelo) {
 		String sql = "delete from modelos where id = ?";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -95,8 +94,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 		sql.append("from modelos inner join fabricantes where modelos.id = ?");
 		
 		Modelo modeloRetorno = null;
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -137,8 +134,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 				+ " from modelos inner join fabricantes where modelos.id_fabricante = fabricantes.id";
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -187,8 +182,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 		sql.append("where carros.situacao = ? group by modelos.nome");
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

@@ -1,8 +1,6 @@
 package br.com.dealercar.domain.itensrevisao;
 
-import br.com.dealercar.domain.ItemParaVerificar;
-
-public class Motor extends ItemParaVerificar{
+public class Motor extends Componente{
 	
 	public Motor(int id) {
 		super(id);

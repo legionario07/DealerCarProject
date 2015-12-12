@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +10,13 @@ import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.enums.SeguroType;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL Seguro
+ * @author Paulinho
+ *
+ */
 public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
@@ -25,8 +28,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into seguros (descricao, valor, tipo_seguro) ");
 		sql.append("values (?, ?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -51,8 +52,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from seguros where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, seguro.getCodigo());
@@ -74,8 +73,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("update seguros set descricao = ?, valor = ?, tipo_seguro = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -105,8 +102,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("order by seguros.descricao asc");
 
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -152,8 +147,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("where seguros.codigo = ?");
 
 		Seguro seguroRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -207,8 +200,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		
 
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

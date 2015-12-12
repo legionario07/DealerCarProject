@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.ArCondicionado;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL ArCondicionado
+ * @author Paulinho
+ *
+ */
 public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicionado> {
 
 	/**
@@ -24,8 +27,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into arcondicionados (descricao, valor) ");
 		sql.append("values (?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -50,8 +51,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from arcondicionados where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, ar.getCodigo());
@@ -74,8 +73,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("update arcondicionados set descricao = ?, valor = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -101,8 +98,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		sql.append("select * from arcondicionados where codigo <> 99");
 
 		List<ArCondicionado> listaRetorno = new ArrayList<ArCondicionado>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -139,8 +134,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		sql.append("select * from arcondicionados where codigo = ?");
 
 		ArCondicionado arRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

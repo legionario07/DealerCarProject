@@ -16,6 +16,11 @@ import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBlogin")
 @RequestScoped
+/**
+ * Controller responsavel por realizar a autenticação do Usuario
+ * @author Paulinho
+ *
+ */
 public class LoginBean {
 	
 	private static Funcionario funcionario = new Funcionario();

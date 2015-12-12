@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.automotivos;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * Classe responsavel por realizar a Persintencia das URL's nos BD
+ * @author Paulinho
+ *
+ */
 public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 
 	/**
@@ -20,8 +23,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 */
 	public void cadastrar(ImagemCarro carroUrl) {
 		String sql = "insert into carros_images (caminho, descricao) values (?, ?)";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -44,8 +45,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	public void editar(ImagemCarro carroUrl) {
 		String sql = "update carros_images set caminho = ? , descricao = ? where id = ?";
 		
-		Connection con = Conexao.getConnection();
-		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, carroUrl.getCaminho());
@@ -66,8 +65,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 */
 	public void excluir(ImagemCarro carroUrl) {
 		String sql = "delete from carros_images where id = ?";
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -90,8 +87,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	public ImagemCarro pesquisarPorID(ImagemCarro carroUrl) {
 		String sql = "select * from carros_images where id = ?";
 		ImagemCarro carroUrlRetorno = null;
-		
-		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -126,8 +121,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		String sql = "select * from carros_images";
 		List<ImagemCarro> lista =  new ArrayList<ImagemCarro>();
 
-		Connection con = Conexao.getConnection();
-		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rSet = ps.executeQuery();

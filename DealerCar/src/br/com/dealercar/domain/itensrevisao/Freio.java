@@ -1,8 +1,6 @@
 package br.com.dealercar.domain.itensrevisao;
 
-import br.com.dealercar.domain.ItemParaVerificar;
-
-public class Freio extends ItemParaVerificar{
+public class Freio extends Componente{
 	
 	public Freio(int id) {
 		super(id);

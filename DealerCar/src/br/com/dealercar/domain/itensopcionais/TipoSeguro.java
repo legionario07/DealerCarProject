@@ -5,6 +5,10 @@ import br.com.dealercar.enums.SeguroType;
 
 public class TipoSeguro extends EntidadeDominio{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private SeguroType nome;
 	private double valorAcrescido;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.itensrevisao.Componente;
 
 /**
  * 
@@ -24,7 +25,7 @@ public class Revisao extends EntidadeDominio{
 	private String descricao;
 	private Long quilometragem;
 	private Carro carro;
-	private List<ItemParaVerificar> itensParaVerificar = new ArrayList<ItemParaVerificar>();
+	private List<Componente> itensParaVerificar = new ArrayList<Componente>();
 
 	public Revisao() {
 		
@@ -46,7 +47,7 @@ public class Revisao extends EntidadeDominio{
 	 * @param itensParaVerificar
 	 */
 	public Revisao(String dataRevisao, String descricao, 
-			Long quilometragem, Carro carro, List<ItemParaVerificar> itensParaVerificar) {
+			Long quilometragem, Carro carro, List<Componente> itensParaVerificar) {
 		
 		this.setId(id);
 		this.setDescricao(descricao);
@@ -85,10 +86,10 @@ public class Revisao extends EntidadeDominio{
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-	public List<ItemParaVerificar> getItensParaVerificar() {
+	public List<Componente> getItensParaVerificar() {
 		return itensParaVerificar;
 	}
-	public void setItensParaVerificar(List<ItemParaVerificar> itensParaVerificar) {
+	public void setItensParaVerificar(List<Componente> itensParaVerificar) {
 		this.itensParaVerificar = itensParaVerificar;
 	}
 	
@@ -106,7 +107,7 @@ public class Revisao extends EntidadeDominio{
 		retorno.append(this.getQuilometragem());
 		retorno.append(" - Carro: ");
 		retorno.append(this.getCarro().getPlaca());
-		for(ItemParaVerificar i : this.getItensParaVerificar()){
+		for(Componente i : this.getItensParaVerificar()){
 		retorno.append(i.toString());
 		}
 		//retorno.append(this.getItensParaVerificar().get(0).ge);

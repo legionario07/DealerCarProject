@@ -1,8 +1,11 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.util.List;
 
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.factory.Conexao;
+
 /**
  * 
  * @author Paulinho
@@ -15,6 +18,9 @@ import br.com.dealercar.domain.EntidadeDominio;
  * @param <T> Classe entidadeDominio
  */
 public interface IDAO<T extends EntidadeDominio> {
+	
+	final Connection con = Conexao.getConnection();
+	
 	void cadastrar(T entidade);
 
 	void excluir(T entidade);

@@ -1,6 +1,5 @@
 package br.com.dealercar.dao.itensopcionais;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +8,13 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.Gps;
-import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * REaliza a persistencia dos ITEM OPCIONAL GPS
+ * @author Paulinho
+ *
+ */
 public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 	/**
@@ -23,8 +26,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into gps (descricao, valor, marca, numero_patrimonio, idioma) ");
 		sql.append("values (?, ?, ?, ?, ?)");
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -51,8 +52,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from gps where codigo = ?");
 
-		Connection con = Conexao.getConnection();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, gps.getCodigo());
@@ -73,9 +72,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update gps set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, idioma = ? where codigo = ?");
-
-		Connection con = Conexao.getConnection();
-
+		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setString(1, gps.getDescricao());
@@ -102,8 +99,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		sql.append("select * from gps where codigo <> 99");
 
 		List<Gps> listaRetorno = new ArrayList<Gps>();
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
@@ -144,8 +139,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		sql.append("select * from gps where codigo = ?");
 
 		Gps gpsRetorno = null;
-
-		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());

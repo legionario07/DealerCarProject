@@ -2,6 +2,11 @@ package br.com.dealercar.domain;
 
 import java.util.Date;
 
+/**
+ * Classe que representa o Funcionario Usado o Sistema
+ * @author Paulinho
+ *
+ */
 public class Funcionario extends Pessoa {
 	
 	/**
