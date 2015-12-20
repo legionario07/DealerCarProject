@@ -75,7 +75,6 @@ public class Seguro extends EntidadeDominio{
 		retorno.append(this.tipoSeguro.getNome().getDescricao());
 		retorno.append("\nValor acrescido: ");
 		retorno.append(this.getTipoSeguro().getValorAcrescido());
-		retorno.append("\n\n");
 		
 		return retorno.toString();
 	}

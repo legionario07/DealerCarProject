@@ -2,19 +2,21 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Embreagem extends Componente{
 	
-	public Embreagem(int id) {
-		super(id);
+	public Embreagem() {
 	}
-	public Embreagem(String descricao) {
-		super(descricao);
+	
+	public Embreagem(boolean ok) {
+		this.setOk(ok);
 	}
-	public Embreagem(int id, String descricao) {
-		super(id, descricao);
-	}
+	
 
 	@Override
 	public String toString() {
-		return super.toString();
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("\nEmbreagem: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
 	}
 
 }

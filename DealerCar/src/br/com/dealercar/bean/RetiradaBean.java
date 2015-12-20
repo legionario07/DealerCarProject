@@ -56,13 +56,13 @@ import br.com.dealercar.viewhelper.SessionHelper;
  */
 @ManagedBean(name = "MBRetirada")
 @ViewScoped
-public class RetiradaBean implements Serializable {
+public class RetiradaBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Retirada retirada = new Retirada();
 	private Reserva reserva = new Reserva();
 	private Cliente cliente = new Cliente();
@@ -76,7 +76,7 @@ public class RetiradaBean implements Serializable {
 	private Opcional opcional = new Opcional();
 	private TipoSeguro tipoSeguro = new TipoSeguro();
 	private Date dataDevolucao = null;
-	
+
 	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 
 	private boolean selectAr = false;
@@ -85,6 +85,9 @@ public class RetiradaBean implements Serializable {
 	private boolean selectCadeirinha = false;
 	private boolean selectRadio = false;
 	
+	private int totalRetiradas;
+
+	private List<Retirada> listaRetirada = new ArrayList<Retirada>();
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
@@ -106,9 +109,6 @@ public class RetiradaBean implements Serializable {
 	private Gps gps = new Gps();
 	private RadioPlayer radioPlayer = new RadioPlayer();
 
-	private boolean ehCadastrado;
-	private boolean jaPesquisei;
-
 	public Retirada getRetirada() {
 		return retirada;
 	}
@@ -123,6 +123,14 @@ public class RetiradaBean implements Serializable {
 
 	public void setRetirada(Retirada retirada) {
 		this.retirada = retirada;
+	}
+
+	public int getTotalRetiradas() {
+		return totalRetiradas;
+	}
+
+	public void setTotalRetiradas(int totalRetiradas) {
+		this.totalRetiradas = totalRetiradas;
 	}
 
 	public boolean isSelectAr() {
@@ -165,7 +173,6 @@ public class RetiradaBean implements Serializable {
 		this.selectRadio = selectRadio;
 	}
 
-
 	public Reserva getReserva() {
 		return reserva;
 	}
@@ -194,7 +201,6 @@ public class RetiradaBean implements Serializable {
 		this.listaFuncionarios = listaFuncionarios;
 	}
 
-
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
@@ -202,7 +208,6 @@ public class RetiradaBean implements Serializable {
 	public ImagemCarro getCarroUrl() {
 		return carroUrl;
 	}
-
 
 	public void setCarroUrl(ImagemCarro carroUrl) {
 		this.carroUrl = carroUrl;
@@ -243,7 +248,6 @@ public class RetiradaBean implements Serializable {
 	public String getQuilometragem() {
 		return quilometragem;
 	}
-
 
 	public void setQuilometragem(String quilometragem) {
 		this.quilometragem = quilometragem;
@@ -297,14 +301,6 @@ public class RetiradaBean implements Serializable {
 		this.radioPlayer = radioPlayer;
 	}
 
-	public boolean isEhCadastrado() {
-		return ehCadastrado;
-	}
-
-	public void setEhCadastrado(boolean ehCadastrado) {
-		this.ehCadastrado = ehCadastrado;
-	}
-
 	public List<Carro> getListaPlacasDisponiveis() {
 		return listaPlacasDisponiveis;
 	}
@@ -313,20 +309,20 @@ public class RetiradaBean implements Serializable {
 		this.listaPlacasDisponiveis = listaPlacasDisponiveis;
 	}
 
-	public boolean isJaPesquisei() {
-		return jaPesquisei;
-	}
-
-	public void setJaPesquisei(boolean jaPesquisei) {
-		this.jaPesquisei = jaPesquisei;
-	}
-
 	public List<Reserva> getListaReservas() {
 		return listaReservas;
 	}
 
 	public void setListaReservas(List<Reserva> listaReservas) {
 		this.listaReservas = listaReservas;
+	}
+
+	public List<Retirada> getListaRetirada() {
+		return listaRetirada;
+	}
+
+	public void setListaRetirada(List<Retirada> listaRetirada) {
+		this.listaRetirada = listaRetirada;
 	}
 
 	public List<Cliente> getListaClientes() {
@@ -376,7 +372,6 @@ public class RetiradaBean implements Serializable {
 	public void setListaTipoSeguros(List<TipoSeguro> listaTipoSeguros) {
 		this.listaTipoSeguros = listaTipoSeguros;
 	}
-	
 
 	public Seguro getSeguro() {
 		return seguro;
@@ -434,8 +429,10 @@ public class RetiradaBean implements Serializable {
 		this.listaRadioPlayer = listaRadioPlayer;
 	}
 
+	@Override
 	public void carregarListagem() {
 
+		listaRetirada = new RetiradaDAO().listarTodos();
 		listaReservas = new ReservaDAO().listarTodos();
 		listaClientes = new ClienteDAO().listarTodos();
 		listaCidades = new CidadeDAO().listarTodos();
@@ -444,12 +441,14 @@ public class RetiradaBean implements Serializable {
 		listaSeguros = new SeguroDAO().listarApenasNomesDiferentes();
 		listaFuncionarios = new FuncionarioDAO().listarTodos();
 
+		setTotalRetiradas(listaRetirada.size());
+		
 	}
 
 	public void carregarPlacas() {
 
 		modelo = (Modelo) new ValidaModelo().validar(modelo);
-		listaPlacasDisponiveis = new CarroDAO().pesquisarPorModelo(modelo);
+		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(modelo);
 		carroUrl.setDescricao(modelo.getNome());
 		carroUrl = (ImagemCarro) new ValidaImagemCarro().validar(carroUrl);
 	}
@@ -468,8 +467,12 @@ public class RetiradaBean implements Serializable {
 
 		retirada = new Retirada();
 
-		if (arCondicionado.getCodigo() > 0)
+		if (arCondicionado.getDescricao() != null)
 			arCondicionado = (ArCondicionado) new ValidaItemOpcional().validar(arCondicionado);
+		else{
+			arCondicionado.setCodigo(99);
+			arCondicionado = new ArCondicionadoDAO().pesquisarPorCodigo(arCondicionado);
+		}
 
 		opcional.setArCondicionado(arCondicionado);
 
@@ -477,15 +480,32 @@ public class RetiradaBean implements Serializable {
 		seguro.setTipoSeguro(tipoSeguro);
 		seguro = (Seguro) new ValidaItemOpcional().validar(seguro);
 		opcional.setSeguro(seguro);
-		
-		if (bebeConforto.getCodigo() > 0)
+
+		if (bebeConforto.getDescricao() != null)
 			bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
-		if (cadeirinhaBebe.getCodigo() > 0)
+		else {
+			bebeConforto.setCodigo(99);
+			bebeConforto = new BebeConfortoDAO().pesquisarPorCodigo(bebeConforto);
+		}
+
+		if (cadeirinhaBebe.getDescricao() != null)
 			cadeirinhaBebe = (CadeirinhaBebe) new ValidaItemOpcional().validar(cadeirinhaBebe);
-		if (gps.getCodigo() > 0)
+		else {
+			cadeirinhaBebe.setCodigo(99);
+			cadeirinhaBebe = new CadeirinhaBebeDAO().pesquisarPorCodigo(cadeirinhaBebe);
+		}
+		if (gps.getDescricao() != null)
 			gps = (Gps) new ValidaItemOpcional().validar(gps);
-		if (radioPlayer.getCodigo() > 0)
+		else {
+			gps.setCodigo(99);
+			gps = new GpsDAO().pesquisarPorCodigo(gps);
+		}
+		if (radioPlayer.getDescricao() != null)
 			radioPlayer = (RadioPlayer) new ValidaItemOpcional().validar(radioPlayer);
+		else {
+			radioPlayer.setCodigo(99);
+			radioPlayer = new RadioPlayerDAO().pesquisarPorCodigo(radioPlayer);
+		}
 
 		itens.add(bebeConforto);
 		itens.add(cadeirinhaBebe);
@@ -494,7 +514,6 @@ public class RetiradaBean implements Serializable {
 		opcional.setItens(itens);
 
 		carro = (Carro) new ValidaCarro().validar(carro);
-		
 
 		new OpcionalDAO().cadastrar(opcional);
 		opcional = new OpcionalDAO().pesquisarPorUltimoCadastrado();
@@ -503,28 +522,30 @@ public class RetiradaBean implements Serializable {
 		retirada.setCliente(cliente);
 		retirada.setOpcional(opcional);
 		retirada.setQuilometragem(quilometragem);
-		
+
 		// aqui seta a data de retirada
 		retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
 		retirada.setDataDevolucao(dataDevolucao);
-		int i = DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao()); 
-		//se a data for menor que o dia de hoje não sera persistido no BD
-		if(i==-1){
+		int i = DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao());
+		// se a data for menor que o dia de hoje não sera persistido no BD
+		if (i == -1) {
 			retirada.setDataDevolucao(null);
-			JSFUtil.adicionarMensagemErro("A data de Devolução não pode ser menor que "+ retirada.getDataRetirada());
+			JSFUtil.adicionarMensagemErro("A data de Devolução não pode ser menor que " + retirada.getDataRetirada());
 			return;
 		}
-		
-		
-		//Recebendo o funcionario Logado
+
+		// Recebendo o funcionario Logado
 		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
-		
+
 		retirada.setFuncionario(funcionario);
-		
+
 		new RetiradaDAO().cadastrar(retirada);
 		
+		//atualizando a lista de carros disponiveis
+		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
+
 		limparObjetos();
-		
+
 		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
 
 	}
@@ -535,13 +556,13 @@ public class RetiradaBean implements Serializable {
 	 */
 	public void pesquisarPorCPF() {
 
-		this.ehCadastrado = false;
-		this.jaPesquisei = true;
+		setEhCadastrado(false);
+		setJaPesquisei(true);
 
 		for (Cliente cli : listaClientes) {
 			if (cliente.getCPF().toString().equals(cli.getCPF().toString())) {
-				this.ehCadastrado = true;
-				this.jaPesquisei = false;
+				setEhCadastrado(true);
+				setJaPesquisei(false);
 				cliente = new ClienteDAO().pesquisarPorCPF(cli);
 				reservas = pesquisarPorReserva();
 
@@ -549,7 +570,7 @@ public class RetiradaBean implements Serializable {
 			}
 		}
 
-		if (this.ehCadastrado == false) {
+		if (isEhCadastrado() == false) {
 			cliente = new Cliente();
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
@@ -573,7 +594,10 @@ public class RetiradaBean implements Serializable {
 	 */
 	public void limparPesquisa() {
 		cliente = new Cliente();
-		this.ehCadastrado = false;
+		setEhCadastrado(false);
+	
+		limparObjetos();
+		
 	}
 
 	/**
@@ -598,25 +622,34 @@ public class RetiradaBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
-	
-	
-	public void limparObjetos(){
-		
+	public void limparObjetos() {
+
 		retirada = new Retirada();
+		
 		opcional = new Opcional();
 		arCondicionado = new ArCondicionado();
 		bebeConforto = new BebeConforto();
 		cadeirinhaBebe = new CadeirinhaBebe();
 		gps = new Gps();
 		radioPlayer = new RadioPlayer();
+		
 		tipoSeguro = new TipoSeguro();
 		seguro = new Seguro();
+		
 		carro = new Carro();
+		modelo = new Modelo();
+		quilometragem = null;
+		dataDevolucao = null;
+		
+		
+		selectAr = false;
+		selectBebe = false;
+		selectGps = false;
+		selectCadeirinha = false;
+		selectRadio = false;
+		
 		itens.clear();
-		
-		
+
 	}
-
-
 
 }

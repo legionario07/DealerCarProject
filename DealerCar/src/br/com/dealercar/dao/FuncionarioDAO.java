@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,15 +9,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Funcionario;
-import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.util.JSFUtil;
 
-public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> {
+public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 
 	 * @param funcionario Recebe um funcionario e uma Cidade e cadastra no Banco de Dados

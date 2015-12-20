@@ -2,19 +2,21 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Bateria extends Componente{
 
-	public Bateria(int id) {
-		super(id);
+	public Bateria() {
 	}
-	public Bateria(String descricao) {
-		super(descricao);
+	
+	public Bateria(boolean ok) {
+		this.setOk(ok);
 	}
-	public Bateria(int id, String descricao) {
-		super(id, descricao);
-	}
+	
 
 	@Override
 	public String toString() {
-		return super.toString();
-	}
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("\nBateria: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
+		}
 
 }

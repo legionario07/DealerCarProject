@@ -1,7 +1,14 @@
-package br.com.dealercar.domain;
+package br.com.dealercar.autenticacao;
 
-public class Permissao {
+import java.io.Serializable;
 
+public class Permissao implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String nivel;
 	

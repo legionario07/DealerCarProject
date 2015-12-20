@@ -212,7 +212,7 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 				ArCondicionado ar = new ArCondicionado();
 				ar.setCodigo(rSet.getInt("id_arcondicionado"));
-				ar = new ArCondicionadoDAO().pesquisarPorID(ar);
+				ar = new ArCondicionadoDAO().pesquisarPorCodigo(ar);
 				opcional.setArCondicionado(ar);
 
 				BebeConforto bebe = new BebeConforto();

@@ -64,13 +64,13 @@ public class Opcional extends EntidadeDominio {
 		retorno.append("\n");
 		retorno.append(this.getSeguro().toString());
 		retorno.append("\n");
-		if (this.getArCondicionado() != null) {
+		if (this.getArCondicionado().getCodigo() > 0) {
 			retorno.append(this.getArCondicionado().toString());
 			retorno.append("\n");
 		}
 		
 		for (Itens i : itens) {
-			if (i != null) {
+			if (i.getCodigo() != 0) {
 				retorno.append(i.toString());
 			}
 		}

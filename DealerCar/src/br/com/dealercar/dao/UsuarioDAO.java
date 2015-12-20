@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.Permissao;
+import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.util.JSFUtil;
 

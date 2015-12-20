@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,9 +19,14 @@ import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.util.JSFUtil;
 
-public class ReservaDAO implements IDAO<Reserva> {
+public class ReservaDAO implements IDAO<Reserva>, Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 * @param reserva

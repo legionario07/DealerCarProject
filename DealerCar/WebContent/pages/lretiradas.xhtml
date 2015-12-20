@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBRetirada.carregarListagem}"
+			type="preRenderView" />
+
+		<h:form id="frmListaRetirada">
+
+			<p:dataTable id="tblListaRetirada"
+				value="#{MBRetirada.listaRetirada}" widgetVar="tabelaListagem"
+				var="itemRetirada" emptyMessage="Nenhum Registro foi encontrado"
+				paginator="true" rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Retirada - Listagem" style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Id" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRetirada.id}">
+					<h:outputText value="#{itemRetirada.id}" />
+				</p:column>
+
+				<p:column headerText="Cliente" width="15%" style="font-size:11px"
+					filterBy="#{itemRetirada.cliente.nome}"
+					sortBy="#{itemRetirada.cliente.nome}">
+					<h:outputText value="#{itemRetirada.cliente.nome}" />
+				</p:column>
+
+				<p:column headerText="Modelo" width="7%"
+					style="font-size:11px; text-align:center"
+					filterBy="#{itemRetirada.carro.modelo.nome}"
+					sortBy="#{itemRetirada.carro.modelo.nome}">
+					<h:outputText value="#{itemRetirada.carro.modelo.nome}" />
+				</p:column>
+
+				<p:column headerText="Placa" width="7%"
+					style="font-size:11px; text-align:center"
+					filterBy="#{itemRetirada.carro.placa}"
+					sortBy="#{itemRetirada.carro.placa}">
+					<h:outputText value="#{itemRetirada.carro.placa}" />
+				</p:column>
+
+				<p:column headerText="Data Retirada" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRetirada.dataRetirada}">
+					<h:outputText value="#{itemRetirada.dataRetirada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Data Devolução" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRetirada.dataDevolucao}">
+					<h:outputText value="#{itemRetirada.dataDevolucao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Funcionario" width="7%"
+					style="font-size:11px; text-align:center"
+					filterBy="#{itemRetirada.funcionario.nome}"
+					sortBy="#{itemRetirada.funcionario.nome}">
+					<h:outputText value="#{itemRetirada.funcionario.nome}" />
+				</p:column>
+				
+				<p:column headerText="Ativo" width="7%"
+					style="font-size:11px; text-align:center"
+					filterBy="#{itemRetirada.ehAtivo}"
+					sortBy="#{itemRetirada.ehAtivo}">
+					<h:outputText value="#{itemRetirada.ehAtivo}" />
+				</p:column>
+
+
+
+				<f:facet name="footer">
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBRetirada.totalRetiradas}" />
+					<p:outputLabel value=" retiradas cadastradas." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

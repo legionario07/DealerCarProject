@@ -1,7 +1,6 @@
 package br.com.dealercar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensrevisao.Componente;
@@ -21,12 +20,13 @@ public class Revisao extends EntidadeDominio{
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String dataRevisao;
+	private Date dataRevisao;
 	private String descricao;
 	private Long quilometragem;
 	private Carro carro;
-	private List<Componente> itensParaVerificar = new ArrayList<Componente>();
-
+	private Componente itensParaVerificar;
+	private Funcionario funcionario;
+	private Devolucao devolucao;
 	public Revisao() {
 		
 	}
@@ -46,14 +46,13 @@ public class Revisao extends EntidadeDominio{
 	 * @param carro
 	 * @param itensParaVerificar
 	 */
-	public Revisao(String dataRevisao, String descricao, 
-			Long quilometragem, Carro carro, List<Componente> itensParaVerificar) {
+	public Revisao(Date dataRevisao, String descricao, 
+			Long quilometragem, Carro carro) {
 		
 		this.setId(id);
 		this.setDescricao(descricao);
 		this.setQuilometragem(quilometragem);
 		this.setCarro(carro);
-		this.setItensParaVerificar(itensParaVerificar);
 	}
 	
 	public int getId() {
@@ -62,10 +61,10 @@ public class Revisao extends EntidadeDominio{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDataRevisao() {
+	public Date getDataRevisao() {
 		return dataRevisao;
 	}
-	public void setDataRevisao(String dataRevisao) {
+	public void setDataRevisao(Date dataRevisao) {
 		this.dataRevisao = dataRevisao;
 	}
 	public String getDescricao() {
@@ -86,31 +85,47 @@ public class Revisao extends EntidadeDominio{
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-	public List<Componente> getItensParaVerificar() {
+	public Componente getItensParaVerificar() {
 		return itensParaVerificar;
 	}
-	public void setItensParaVerificar(List<Componente> itensParaVerificar) {
+	public void setItensParaVerificar(Componente itensParaVerificar) {
 		this.itensParaVerificar = itensParaVerificar;
 	}
 	
+	public Devolucao getDevolucao() {
+		return devolucao;
+	}
+
+	public void setDevolucao(Devolucao devolucao) {
+		this.devolucao = devolucao;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
 	@Override
 	public String toString() {
 
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("Id: ");
 		retorno.append(this.getId());
-		retorno.append(" - Descrição: ");
-		retorno.append(this.getDescricao());
-		retorno.append(" - Data Revisão ");
+		retorno.append("\nFuncionario: ");
+		retorno.append(this.getFuncionario().getNome());
+		retorno.append("\nData Revisão: ");
 		retorno.append(this.getDataRevisao());
-		retorno.append(" - Quilometragem ");
-		retorno.append(this.getQuilometragem());
-		retorno.append(" - Carro: ");
+		retorno.append("\nCarro: ");
 		retorno.append(this.getCarro().getPlaca());
-		for(Componente i : this.getItensParaVerificar()){
-		retorno.append(i.toString());
-		}
-		//retorno.append(this.getItensParaVerificar().get(0).ge);
+		retorno.append(" - Quilometragem: ");
+		retorno.append(this.getQuilometragem());
+		retorno.append(this.getItensParaVerificar());
+		retorno.append("\nDescrição: ");
+		retorno.append(this.getDescricao());
+		
 		return retorno.toString();
 	}
 }

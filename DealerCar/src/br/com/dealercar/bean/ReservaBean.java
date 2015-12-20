@@ -28,7 +28,7 @@ import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
 @ViewScoped
-public class ReservaBean implements Serializable {
+public class ReservaBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
@@ -55,8 +55,6 @@ public class ReservaBean implements Serializable {
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 
 	private int totalReservas;
-	private boolean ehCadastrado = false;
-	private boolean jaPesquisei = false;
 
 	public Reserva getReserva() {
 		return reserva;
@@ -90,13 +88,6 @@ public class ReservaBean implements Serializable {
 		this.carro = carro;
 	}
 
-	public boolean isJaPesquisei() {
-		return jaPesquisei;
-	}
-
-	public void setJaPesquisei(boolean jaPesquisei) {
-		this.jaPesquisei = jaPesquisei;
-	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -162,17 +153,15 @@ public class ReservaBean implements Serializable {
 		this.totalReservas = totalReservas;
 	}
 
-	public boolean isEhCadastrado() {
-		return ehCadastrado;
-	}
-
-	public void setEhCadastrado(boolean ehCadastrado) {
-		this.ehCadastrado = ehCadastrado;
-	}
 
 	/**
-	 * Carrega a listagem assim que a pagina inicia
+	 * Carrega a listagem assim que a pagina inicia 
+	 * - das Reservas disponiveis
+	 *  - Modelos Disponiveis
+	 *  - Funcionarios
+	 *  - Clientes
 	 */
+	@Override
 	public void carregarListagem() {
 
 		listaReservas = reservaDao.listarTodos();
@@ -193,23 +182,23 @@ public class ReservaBean implements Serializable {
 	 */
 	public void pesquisarPorCPF() {
 
-		this.ehCadastrado = false;
-		this.jaPesquisei = false;
+		setEhCadastrado(false);
+		setJaPesquisei(false);
 
 		validaStrategy = new ValidaCliente();
 		cliente = (Cliente) validaStrategy.validar(cliente);
 
 		if (cliente != null) {
-			this.ehCadastrado = true;
+			setEhCadastrado(true);
 
 			reserva.setCliente(cliente);
 
 			return;
 		}
 
-		if (this.ehCadastrado == false) {
+		if (isEhCadastrado() == false) {
 			cliente = new Cliente();
-			jaPesquisei = true;
+			setJaPesquisei(true);
 
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Localizado.");
 			return;

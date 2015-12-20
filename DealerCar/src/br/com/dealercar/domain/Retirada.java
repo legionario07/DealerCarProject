@@ -25,6 +25,7 @@ public class Retirada extends EntidadeDominio{
 	private Cliente cliente;
 	private Reserva reserva;
 	private Carro carro;
+	private boolean ehAtivo;
 
 	public Retirada() {
 
@@ -112,6 +113,14 @@ public class Retirada extends EntidadeDominio{
 		this.carro = carro;
 	}
 
+	public boolean isEhAtivo() {
+		return ehAtivo;
+	}
+
+	public void setEhAtivo(boolean ehAtivo) {
+		this.ehAtivo = ehAtivo;
+	}
+
 	@Override
 	public String toString() {
 
@@ -138,6 +147,8 @@ public class Retirada extends EntidadeDominio{
 		retorno.append("\nFuncionario Responsavel: ");
 		retorno.append(this.getFuncionario().getNome());
 		retorno.append(this.getOpcional().toString());
+		retorno.append("Ativo: ");
+		retorno.append(this.isEhAtivo());
 
 		return retorno.toString();
 	}

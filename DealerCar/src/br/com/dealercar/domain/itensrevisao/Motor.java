@@ -2,19 +2,21 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Motor extends Componente{
 	
-	public Motor(int id) {
-		super(id);
+	public Motor() {
+		// TODO Auto-generated constructor stub
 	}
-	public Motor(String descricao) {
-		super(descricao);
+	public Motor(boolean ok) {
+		this.setOk(ok);
 	}
-	public Motor(int id, String descricao) {
-		super(id, descricao);
-	}
+	
 
 	@Override
 	public String toString() {
-		return super.toString();
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("\nMotor: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
 	}
 
 }

@@ -154,10 +154,10 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	
 	/**
 	 * 
-	 * @param carro Recebe um objeto de Modelo e localiza no BD por sua placa
+	 * @param carro Recebe um objeto de Modelo e localiza no BD por sua placa e situaçao Disponivel
 	 * @return Retorna um objeto de Carro
 	 */
-	public List<Carro> pesquisarPorModelo(Modelo modelo) {
+	public List<Carro> listarModelosDisponiveis(Modelo modelo) {
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
 		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
@@ -169,13 +169,14 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		sql.append("inner join modelos on carros.id_modelo = modelos.id ");
 		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
 		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
-		sql.append("where carros.id_modelo = ?");
+		sql.append("where carros.id_modelo = ? and carros.situacao = ?");
 		
 		List<Carro> carros = new ArrayList<Carro>();
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, modelo.getId());
+			ps.setString(2, SituacaoType.Disponivel.getDescricao());
 			
 			ResultSet rSet = ps.executeQuery();
 			

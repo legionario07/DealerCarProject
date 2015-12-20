@@ -29,7 +29,7 @@ import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBCarro")
 @ViewScoped
-public class CarroBean implements Serializable{
+public class CarroBean extends AbstractBean implements Serializable{
 
 	/**
 	 * Controlando a evolução dos objetos serialidos.... 
@@ -62,8 +62,6 @@ public class CarroBean implements Serializable{
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
 	
 	private int totalCarros;
-	private boolean ehCadastrado = false;
-	private boolean jaPesquisei = false;
 	
 	public Carro getCarro() {
 		return carro;
@@ -87,22 +85,6 @@ public class CarroBean implements Serializable{
 
 	public void setTotalCarros(int totalCarros) {
 		this.totalCarros = totalCarros;
-	}
-
-	public boolean isEhCadastrado() {
-		return ehCadastrado;
-	}
-
-	public void setEhCadastrado(boolean ehCadastrado) {
-		this.ehCadastrado = ehCadastrado;
-	}
-
-	public boolean isJaPesquisei() {
-		return jaPesquisei;
-	}
-
-	public void setJaPesquisei(boolean jaPesquisei) {
-		this.jaPesquisei = jaPesquisei;
 	}
 
 	public List<Cor> getListaCores() {
@@ -182,7 +164,8 @@ public class CarroBean implements Serializable{
 	 * Carros, Modelos, Cores e Imagens do Banco de Dados assim que a tela é iniciada
 	 * 																			
 	 */
-	public void carregarListagemCarros() {
+	@Override
+	public void carregarListagem() {
 		
 		listaCarros = carDao.listarTodos();
 		listaCategoria = catDao.listarTodos();
@@ -199,8 +182,8 @@ public class CarroBean implements Serializable{
 	 * Método que localiza um objeto de Carro pela placa digitada na tela pelo Usuario
 	 */
 	public void pesquisarPorPlaca() {
-		this.ehCadastrado =  false;
-		this.jaPesquisei = true;
+		setEhCadastrado(false);
+		setJaPesquisei(true);
 		
 		validaStrategy = new ValidaCarro();
 		
@@ -214,14 +197,14 @@ public class CarroBean implements Serializable{
 			 */
 			carro = carDao.pesquisarPorPlaca(carro);
 			consultarDadosCarroLocalizado(carro);
-			
-			this.ehCadastrado = true;
-			this.jaPesquisei = false;
+
+			setEhCadastrado(true);
+			setJaPesquisei(false);
 			return;
 
 		}
 
-		if (this.ehCadastrado == false) {
+		if (isEhCadastrado() == false) {
 			carro = new Carro();
 			JSFUtil.adicionarMensagemNaoLocalizado("Carro Não Cadastrado.");
 			return;
@@ -256,8 +239,8 @@ public class CarroBean implements Serializable{
 		
 		JSFUtil.adicionarMensagemSucesso("Carro Cadastrado com Sucesso.");
 		
-		ehCadastrado = false;
-		jaPesquisei = false;
+		setEhCadastrado(false);
+		setJaPesquisei(false);
 	}
 	
 	/**
@@ -265,7 +248,7 @@ public class CarroBean implements Serializable{
 	 */
 	public void limparPesquisa() {
 		carro = new Carro();
-		this.ehCadastrado = false;
+		setEhCadastrado(false);
 	}
 	
 	/**
@@ -277,8 +260,8 @@ public class CarroBean implements Serializable{
 		
 		JSFUtil.adicionarMensagemSucesso("Carro excluido com Sucesso.");
 		carro = new Carro();
-		this.jaPesquisei = false;
-		this.ehCadastrado = false;
+		setJaPesquisei(false);
+		setEhCadastrado(false);
 		
 	}
 	
@@ -300,8 +283,8 @@ public class CarroBean implements Serializable{
 		JSFUtil.adicionarMensagemSucesso("Carro Alterado com Sucesso.");
 		
 		carro = new Carro();
-		ehCadastrado = false;
-		jaPesquisei = false;
+		setEhCadastrado(false);
+		setJaPesquisei(false);
 	}
 	
 	/**

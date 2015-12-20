@@ -86,7 +86,7 @@ public class CarroDAOTest {
 		Modelo m = new Modelo(2);
 		
 		CarroDAO carDao = new CarroDAO(); 
-		lista = carDao.pesquisarPorModelo(m);
+		lista = carDao.listarModelosDisponiveis(m);
 
 		for (Carro c : lista) {
 			System.out.print(c.getModelo().getNome());

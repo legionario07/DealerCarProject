@@ -3,8 +3,8 @@ package br.com.dealercar.teste.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.dao.UsuarioDAO;
-import br.com.dealercar.domain.Permissao;
 import br.com.dealercar.domain.Usuario;
 
 public class UsuarioDAOTest {
@@ -20,7 +20,7 @@ public class UsuarioDAOTest {
 
 	public static void editar() {
 
-		Usuario usuario = new Usuario("felipe", "felipe", new Permissao(2), "SIM");
+		Usuario usuario = new Usuario("joaocosta", "joaocosta", new Permissao(3), "SIM");
 
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		usuarioDao.editar(usuario);

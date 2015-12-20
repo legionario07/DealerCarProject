@@ -62,7 +62,7 @@ public class ValidaItemOpcional implements IValidacaoStrategy {
 			lista = dao.listarTodos();
 
 			for (BebeConforto c : lista) {
-				if (retorno.getDescricao().toUpperCase().equals(c.getDescricao())) {
+				if (retorno.getDescricao().toUpperCase().equals(c.getDescricao().toUpperCase())) {
 					entDominio = c;
 					return entDominio;
 

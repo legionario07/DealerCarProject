@@ -1,10 +1,46 @@
 package br.com.dealercar.domain.taxasadicionais;
 
-public class TaxasAdicionais {
+import br.com.dealercar.domain.EntidadeDominio;
 
+public class TaxasAdicionais extends EntidadeDominio {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
 	private String descricao;
 	private double valor;
+	private boolean foiCobrado = false;
+	private TaxaCombustivel combustivel;
+	private TaxaLavagem lavagem;
 	
+	
+	public TaxaCombustivel getCombustivel() {
+		return combustivel;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setCombustivel(TaxaCombustivel combustivel) {
+		this.combustivel = combustivel;
+	}
+	public TaxaLavagem getLavagem() {
+		return lavagem;
+	}
+	public void setLavagem(TaxaLavagem lavagem) {
+		this.lavagem = lavagem;
+	}
+	
+	public boolean isFoiCobrado() {
+		return foiCobrado;
+	}
+	public void setFoiCobrado(boolean foiCobrado) {
+		this.foiCobrado = foiCobrado;
+	}
 	public String getDescricao() {
 		return descricao;
 	}
@@ -20,14 +56,15 @@ public class TaxasAdicionais {
 	
 	@Override
 	public String toString() {
-
-		StringBuffer retorno = new StringBuffer();
 		
-		retorno.append(" Valor: ");
-		retorno.append(this.getValor());
-		retorno.append("\nDescrição: ");
-		retorno.append(this.getDescricao());
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("Taxa Combustivel: ");
+		retorno.append(this.getCombustivel());
+		retorno.append("\nTaxa Lavagem: ");
+		retorno.append(this.getLavagem());
 		
 		return retorno.toString();
+		
 	}
+	
 }

@@ -45,15 +45,28 @@ public class DataUtil {
 	}
 	
 	/**
-	 * @param recebe uma Date com a Idade
+	 * @param recebe uma Date com a Idade e devolve um int com a idade em anos
 	 * @return um inteiro com o valor em Ano
 	 */
-	public static int verificarSeEhMaiorDeIdade(Date idade){
+	public static int devolverDataEmAnos(Date idade){
 		Date dataAtual = DataUtil.pegarDataAtualDoSistema();
 				
 		long diferenca = dataAtual.getTime() - idade.getTime();
 		
 		return  (int) (((((diferenca/1000)/60)/60)/24)/365);
+		
+	}
+	
+	/**
+	 * @param recebe uma Date e devolve um int com a diferença em dias
+	 * @return um inteiro com o valor em Dias
+	 */
+	public static int devolverDataEmDias(Date dataAnterior){
+		Date dataAtual = DataUtil.pegarDataAtualDoSistema();
+				
+		long diferenca = dataAtual.getTime() - dataAnterior.getTime();
+		
+		return  (int) ((((diferenca/1000)/60)/60)/24);
 		
 	}
 

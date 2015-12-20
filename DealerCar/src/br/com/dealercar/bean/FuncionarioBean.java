@@ -13,7 +13,7 @@ import br.com.dealercar.domain.Funcionario;
 
 @javax.faces.bean.ManagedBean(name = "MBFuncionario")
 @ViewScoped
-public class FuncionarioBean implements Serializable {
+public class FuncionarioBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
@@ -25,8 +25,6 @@ public class FuncionarioBean implements Serializable {
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
 	private int totalFuncionario;
 	
-	private boolean ehCadastrado = false;
-	private boolean jaPesquisei = false;
 	
 	public Funcionario getFuncionario() {
 		return funcionario;
@@ -52,19 +50,11 @@ public class FuncionarioBean implements Serializable {
 	public void setTotalFuncionario(int totalFuncionario) {
 		this.totalFuncionario = totalFuncionario;
 	}
-	public boolean isEhCadastrado() {
-		return ehCadastrado;
-	}
-	public void setEhCadastrado(boolean ehCadastrado) {
-		this.ehCadastrado = ehCadastrado;
-	}
-	public boolean isJaPesquisei() {
-		return jaPesquisei;
-	}
-	public void setJaPesquisei(boolean jaPesquisei) {
-		this.jaPesquisei = jaPesquisei;
-	}
 	
+	/**
+	 * Carrega a listagem dos funcionarios e cidades assim que carrega a pagina
+	 */
+	@Override
 	public void carregarListagem(){
 		
 		listaFuncionario = new FuncionarioDAO().listarTodos();
@@ -72,5 +62,6 @@ public class FuncionarioBean implements Serializable {
 		totalFuncionario = listaFuncionario.size();
 		
 	}
+
 	
 }

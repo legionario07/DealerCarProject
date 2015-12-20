@@ -19,7 +19,7 @@ import br.com.dealercar.viewhelper.ViewHelper;
 
 @ManagedBean(name = "MBCliente")
 @ViewScoped
-public class ClienteBean implements Serializable {
+public class ClienteBean extends AbstractBean implements Serializable {
 
 	/**
 	 * Controlando a evolução dos objetos serialidos.... Ex.: Salva um objeto em
@@ -42,9 +42,6 @@ public class ClienteBean implements Serializable {
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
 	private int totalClientes;
-
-	private boolean ehCadastrado = false;
-	private boolean jaPesquisei = false;
 
 	public List<Cliente> getListaClientes() {
 		return listaClientes;
@@ -102,21 +99,6 @@ public class ClienteBean implements Serializable {
 		this.listaCidades = listaCidades;
 	}
 
-	public boolean isEhCadastrado() {
-		return ehCadastrado;
-	}
-
-	public void setEhCadastrado(boolean ehCadastrado) {
-		this.ehCadastrado = ehCadastrado;
-	}
-
-	public boolean isJaPesquisei() {
-		return jaPesquisei;
-	}
-
-	public void setJaPesquisei(boolean jaPesquisei) {
-		this.jaPesquisei = jaPesquisei;
-	}
 
 	public Endereco getEndereco() {
 		return endereco;
@@ -128,6 +110,7 @@ public class ClienteBean implements Serializable {
 
 	/**
 	 * Carrega a listagem de cidades assim que inicia a pagina XHTML
+	 * das Cidades Disponiveis
 	 */
 	public void carregarListagemCidades() {
 		listaCidades = cidDao.listarTodos();
@@ -137,7 +120,7 @@ public class ClienteBean implements Serializable {
 	 * carrega a listagem de todos os objetos de Clientes ao iniciar a tela e
 	 * calcula a quantidade existente e coloca na variavel totalClientes
 	 */
-
+	@Override
 	public void carregarListagem() {
 
 		listaClientes = cliDao.listarTodos();
@@ -157,7 +140,7 @@ public class ClienteBean implements Serializable {
 		listaCidades = cidDao.listarTodos();
 
 		// Verifica se o Cliente eh maior de idade
-		int i = DataUtil.verificarSeEhMaiorDeIdade(cliente.getDataNasc());
+		int i = DataUtil.devolverDataEmAnos(cliente.getDataNasc());
 		if (i < 18) {
 			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
 			return;
@@ -192,7 +175,7 @@ public class ClienteBean implements Serializable {
 			}
 		}
 
-		if (this.ehCadastrado == false) {
+		if (isEhCadastrado()== false) {
 			clienteRetorno = new Cliente();
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
@@ -206,13 +189,14 @@ public class ClienteBean implements Serializable {
 	 */
 	public void pesquisarPorCPF() {
 
-		this.ehCadastrado = false;
-		this.jaPesquisei = true;
+		setEhCadastrado(false);
+		setJaPesquisei(true);
 
 		for (Cliente cli : listaClientes) {
 			if (clienteRetorno.getCPF().toString().equals(cli.getCPF().toString())) {
-				this.ehCadastrado = true;
-				this.jaPesquisei = false;
+
+				setEhCadastrado(true);
+				setJaPesquisei(false);
 				clienteRetorno = cliDao.pesquisarPorCPF(clienteRetorno);
 				dataNascimento = clienteRetorno.getDataNasc();
 
@@ -220,7 +204,7 @@ public class ClienteBean implements Serializable {
 			}
 		}
 
-		if (this.ehCadastrado == false) {
+		if (isEhCadastrado() == false) {
 			clienteRetorno = new Cliente();
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
@@ -235,7 +219,7 @@ public class ClienteBean implements Serializable {
 	public void editar() {
 
 		// Verifica se o Cliente eh maior de idade
-		int i = DataUtil.verificarSeEhMaiorDeIdade(dataNascimento);
+		int i = DataUtil.devolverDataEmAnos(dataNascimento);
 		if (i < 18) {
 			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
 			dataNascimento = clienteRetorno.getDataNasc();
@@ -278,8 +262,8 @@ public class ClienteBean implements Serializable {
 		cliDao.excluir(clienteRetorno);
 		JSFUtil.adicionarMensagemSucesso("Cliente excluido com Sucesso.");
 		clienteRetorno = new Cliente();
-		this.jaPesquisei = false;
-		this.ehCadastrado = false;
+		setJaPesquisei(false);
+		setEhCadastrado(false);
 
 	}
 
@@ -289,7 +273,7 @@ public class ClienteBean implements Serializable {
 	 */
 	public void limparPesquisa() {
 		clienteRetorno = new Cliente();
-		this.ehCadastrado = false;
+		setEhCadastrado(false);
 	}
 
 }

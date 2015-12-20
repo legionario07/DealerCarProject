@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,8 +34,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		sql.append("insert into retiradas ");
 		sql.append("(data_retirada, data_devolucao, quilometragem, placa, id_cliente, ");
-		sql.append("id_funcionario, id_itensopcionais, id_reserva) ");
-		sql.append("values (?,?,?,?,?,?,?,?)");
+		sql.append("id_funcionario, id_itensopcionais, id_reserva, ativo) ");
+		sql.append("values (?,?,?,?,?,?,?,?,?)");
 
 
 		try {
@@ -66,9 +65,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				pstm.setInt(++i, retirada.getReserva().getId());
 			}
 
+			pstm.setString(++i, String.valueOf(retirada.isEhAtivo()));
+			
 			pstm.executeUpdate();
 			
-			//Alterando o carro locado na tabela Carro
+			//Alterando o carro locado na tabela Carro pra LOCADO
 			Carro carro = new Carro();
 			carro.setPlaca(retirada.getCarro().getPlaca());
 			carro = new CarroDAO().pesquisarPorPlaca(carro);
@@ -90,16 +91,38 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 	}
 
+	/**
+	 * Altera o campo da Retirada Ativo da Retirada para FALSE ou TRUE
+	 * TRUE = O carro ainda nao foi devolvido
+	 * False =  O carro já foi deolvido
+	 */
 	@Override
-	public void editar(Retirada entidade) {
-		// TODO Auto-generated method stub
+	public void editar(Retirada retirada) {
 
+		StringBuffer sql = new StringBuffer();
+		sql.append("update retiradas set ativo = ? ");
+		sql.append("where retiradas.id = ?");
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, String.valueOf(retirada.isEhAtivo()));
+			pstm.setInt(++i, retirada.getId());
+			
+			pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		
 	}
 
 	/**
 	 * Retorna todas as retiradas cadastradas no Banco de Dados
 	 * 
-	 * @return
+	 * @return uma lista de Retirada
 	 */
 	@Override
 	public List<Retirada> listarTodos() {
@@ -150,6 +173,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				reserva = new ReservaDAO().pesquisarPorID(reserva);
 				retirada.setReserva(reserva);
 
+				retirada.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
+				
 				lista.add(retirada);
 
 			}
@@ -163,6 +188,10 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 	}
 
+	/**
+	 * Realiza uma pesquisa no BD pelo Id da Retirada
+	 * @return Retorna uma Retirada
+	 */
 	@Override
 	public Retirada pesquisarPorID(Retirada retirada) {
 		StringBuffer sql = new StringBuffer();
@@ -179,9 +208,20 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			while (rSet.next()) {
 				retiradaRetorno = new Retirada();
 				
+
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+
 				retiradaRetorno.setId(rSet.getInt("id"));
-				retiradaRetorno.setDataRetirada(Date.valueOf(rSet.getString("data_retirada")));
-				retiradaRetorno.setDataDevolucao(Date.valueOf(rSet.getString("data_devolucao")));
+				
+				try {
+					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
+					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 
 				Carro carro = new Carro(rSet.getString("placa"));
@@ -204,6 +244,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				reserva = new ReservaDAO().pesquisarPorID(reserva);
 				retiradaRetorno.setReserva(reserva);
 
+				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,4 +255,227 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		return retiradaRetorno;
 
 	}
+	
+	/**
+	 * @param Cliente
+	 * Realiza uma pesquisa no BD pelo CPF do cliente
+	 * @return Retorna uma lista de Retirada
+	 */
+	public List<Retirada> pesquisarPorCPF(Cliente cliente) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from retiradas ");
+		sql.append("inner join clientes ");
+		sql.append("on clientes.id = retiradas.id_cliente ");
+		sql.append("where clientes.cpf = ? ");
+
+		List<Retirada> lista = new ArrayList<Retirada>();
+		Retirada retiradaRetorno = null;
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cliente.getCPF());
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				retiradaRetorno = new Retirada();
+				
+
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+
+				retiradaRetorno.setId(rSet.getInt("id"));
+				
+				try {
+					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
+					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
+
+				Carro carro = new Carro(rSet.getString("placa"));
+				carro = new CarroDAO().pesquisarPorPlaca(carro);
+				retiradaRetorno.setCarro(carro);
+
+				cliente = new Cliente(rSet.getInt("id_cliente"));
+				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				retiradaRetorno.setCliente(cliente);
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				retiradaRetorno.setFuncionario(funcionario);
+
+				Opcional opcional = new Opcional(rSet.getInt("id_itensopcionais"));
+				opcional = new OpcionalDAO().pesquisarPorID(opcional);
+				retiradaRetorno.setOpcional(opcional);
+
+				Reserva reserva = new Reserva(rSet.getInt("id_reserva"));
+				reserva = new ReservaDAO().pesquisarPorID(reserva);
+				retiradaRetorno.setReserva(reserva);
+
+				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
+				
+				lista.add(retiradaRetorno);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return lista;
+
+	}
+	
+	/**
+	 * @param Carro
+	 * Realiza uma pesquisa no BD pela placa do Carro
+	 * @return Retorna uma lista de Retirada
+	 */
+	public List<Retirada> pesquisarPorPlaca(Carro carro) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from retiradas ");
+		sql.append("inner join carros ");
+		sql.append("on carros.placa = retiradas.placa ");
+		sql.append("where carros.placa = ? ");
+
+		List<Retirada> lista = new ArrayList<Retirada>();
+		
+		Retirada retiradaRetorno = null;
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, carro.getPlaca());
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				retiradaRetorno = new Retirada();
+
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+
+				retiradaRetorno.setId(rSet.getInt("id"));
+				
+				try {
+					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
+					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
+
+				carro = new Carro(rSet.getString("placa"));
+				carro = new CarroDAO().pesquisarPorPlaca(carro);
+				retiradaRetorno.setCarro(carro);
+
+				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
+				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				retiradaRetorno.setCliente(cliente);
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				retiradaRetorno.setFuncionario(funcionario);
+
+				Opcional opcional = new Opcional(rSet.getInt("id_itensopcionais"));
+				opcional = new OpcionalDAO().pesquisarPorID(opcional);
+				retiradaRetorno.setOpcional(opcional);
+
+				Reserva reserva = new Reserva(rSet.getInt("id_reserva"));
+				reserva = new ReservaDAO().pesquisarPorID(reserva);
+				retiradaRetorno.setReserva(reserva);
+
+				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
+				
+				lista.add(retiradaRetorno);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return lista;
+
+	}
+	
+	/**
+	 * @param Cliente
+	 * Realiza uma pesquisa no BD pelo CPF do cliente e retorna apenas Retirada Ativa
+	 * @return Retorna uma lista de Retirada
+	 */
+	public List<Retirada> pesquisarRetiradaAtivaPorCPF(Cliente cliente) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from retiradas ");
+		sql.append("inner join clientes ");
+		sql.append("on clientes.id = retiradas.id_cliente ");
+		sql.append("where clientes.cpf = ? and retiradas.ativo = 'true'");
+
+		List<Retirada> lista = new ArrayList<Retirada>();
+		Retirada retiradaRetorno = null;
+		
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cliente.getCPF());
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				retiradaRetorno = new Retirada();
+				
+
+				//recebendo string do BD e armazenando em DATE
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+				
+
+				retiradaRetorno.setId(rSet.getInt("id"));
+				
+				try {
+					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
+					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
+
+				Carro carro = new Carro(rSet.getString("placa"));
+				carro = new CarroDAO().pesquisarPorPlaca(carro);
+				retiradaRetorno.setCarro(carro);
+
+				cliente = new Cliente(rSet.getInt("id_cliente"));
+				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				retiradaRetorno.setCliente(cliente);
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				retiradaRetorno.setFuncionario(funcionario);
+
+				Opcional opcional = new Opcional(rSet.getInt("id_itensopcionais"));
+				opcional = new OpcionalDAO().pesquisarPorID(opcional);
+				retiradaRetorno.setOpcional(opcional);
+
+				Reserva reserva = new Reserva(rSet.getInt("id_reserva"));
+				reserva = new ReservaDAO().pesquisarPorID(reserva);
+				retiradaRetorno.setReserva(reserva);
+
+				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
+				
+				lista.add(retiradaRetorno);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+		return lista;
+
+	}
+	
 }

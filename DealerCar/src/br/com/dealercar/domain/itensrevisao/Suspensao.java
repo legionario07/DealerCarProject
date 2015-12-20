@@ -2,19 +2,22 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Suspensao extends Componente{
 	
-	public Suspensao(int id) {
-		super(id);
+	public Suspensao() {
+		// TODO Auto-generated constructor stub
 	}
-	public Suspensao(String descricao) {
-		super(descricao);
+	
+	public Suspensao(boolean ok) {
+		this.setOk(ok);
 	}
-	public Suspensao(int id, String descricao) {
-		super(id, descricao);
-	}
+	
 
 	@Override
 	public String toString() {
-		return super.toString();
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("Suspensao: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
 	}
 
 }

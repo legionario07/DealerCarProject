@@ -12,7 +12,7 @@
 				<p:menuitem value="Logout" />
 			</p:submenu>
 
-			<p:submenu label="Cadastros">
+			<p:submenu label="Cadastros" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:submenu label="Clientes">
 					<p:menuitem value="Pesquisar" outcome="/pages/cliente.xhtml" />
 					<p:menuitem value="Listar Clientes"
@@ -33,22 +33,24 @@
 				<p:menuitem value="Taxas Adicionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 			</p:submenu>
 
-			<p:submenu label="Reserva">
+			<p:submenu label="Reserva" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Gerenciar Reservas"
 					outcome="/pages/reserva.xhtml" />
 
 			</p:submenu>
 
-			<p:submenu label="Retirada">
+			<p:submenu label="Retirada" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml"/>
+				<p:menuitem value="Gerenciar Retirada" outcome="/pages/lretiradas.xhtml"/>
 
 			</p:submenu>
 
-			<p:submenu label="Devolução">
-
+			<p:submenu label="Devolução" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+				<p:menuitem value="Gerenciar Devoluções" outcome="/pages/devolucao.xhtml"/>
+				
 			</p:submenu>
 
-			<p:submenu label="Manutenção" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
+			<p:submenu label="Manutenção" rendered="#{MBlogin.funcionario.usuario.permissao.id !=2}">
 
 			</p:submenu>
 

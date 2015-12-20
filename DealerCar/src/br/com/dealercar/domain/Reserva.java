@@ -132,7 +132,7 @@ public class Reserva extends EntidadeDominio {
 		retorno.append(this.getFuncionario().getNome());
 		retorno.append("\nSituação da Reserva: ");
 		retorno.append(this.getSituacao().getDescricao());
-		retorno.append("\n\n");
+		retorno.append("\n");
 
 		return retorno.toString();
 	}

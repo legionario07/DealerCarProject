@@ -2,19 +2,20 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Freio extends Componente{
 	
-	public Freio(int id) {
-		super(id);
+	public Freio() {
 	}
-	public Freio(String descricao) {
-		super(descricao);
-	}
-	public Freio(int id, String descricao) {
-		super(id, descricao);
+	
+	public Freio(boolean ok) {
+		this.setOk(ok);
 	}
 
 	@Override
 	public String toString() {
-		return super.toString();
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("\nFreio: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
 	}
 
 }

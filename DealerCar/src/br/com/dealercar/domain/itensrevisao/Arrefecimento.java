@@ -2,18 +2,20 @@ package br.com.dealercar.domain.itensrevisao;
 
 public class Arrefecimento extends Componente{
 
-	public Arrefecimento(int id) {
-		super(id);
+	public Arrefecimento() {
 	}
-	public Arrefecimento(String descricao) {
-		super(descricao);
+	
+	public Arrefecimento(boolean ok) {
+		this.setOk(ok);
 	}
-	public Arrefecimento(int id, String descricao) {
-		super(id, descricao);
-	}
+	
 
 	@Override
 	public String toString() {
-		return super.toString();
+		StringBuffer retorno = new StringBuffer();
+		retorno.append("\nArrefecimento: ");
+		retorno.append(this.isOk());
+		
+		return retorno.toString();
 	}
 }

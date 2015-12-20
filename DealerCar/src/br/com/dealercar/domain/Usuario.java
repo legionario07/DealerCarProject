@@ -1,5 +1,7 @@
 package br.com.dealercar.domain;
 
+import br.com.dealercar.autenticacao.Permissao;
+
 /**
  * 
  * @author Paulinho

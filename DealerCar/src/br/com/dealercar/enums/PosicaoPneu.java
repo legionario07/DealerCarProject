@@ -27,4 +27,5 @@ public enum PosicaoPneu {
 		this.descricao = descricao.toUpperCase();
 	}
 	
+	
 }
