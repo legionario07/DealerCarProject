@@ -15,7 +15,6 @@ public class TaxasAdicionais extends EntidadeDominio {
 	private TaxaCombustivel combustivel;
 	private TaxaLavagem lavagem;
 	
-	
 	public TaxaCombustivel getCombustivel() {
 		return combustivel;
 	}
@@ -58,10 +57,8 @@ public class TaxasAdicionais extends EntidadeDominio {
 	public String toString() {
 		
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Taxa Combustivel: ");
-		retorno.append(this.getCombustivel());
-		retorno.append("\nTaxa Lavagem: ");
-		retorno.append(this.getLavagem());
+		retorno.append("\nValor: ");
+		retorno.append(this.getValor());
 		
 		return retorno.toString();
 		

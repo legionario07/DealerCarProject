@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+
+		<f:event listener="#{MBDevolucao.carregarListagem}"
+			type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Efetuar Devolução" />
+
+		</h:panelGrid>
+
+		<p:tabView id="novaDevolucao">
+			<p:tab title="Devolucao" id="tabEfetuaDevolucao">
+				<h:form id="frmDevolucaoEfetuar">
+					<h:panelGrid id="pnlDevolucaoEfetuar" columns="2">
+
+						<h:outputText value="ID: " />
+						<p:inputText value="#{MBDevolucao.devolucao.retirada.id}"
+							readonly="true" />
+
+						<h:outputText value="Cliente: " />
+						<p:inputText
+							value="#{MBDevolucao.devolucao.retirada.cliente.nome}"
+							readonly="true" />
+
+						<h:outputText value="CPF: " />
+						<p:inputText value="#{MBDevolucao.devolucao.retirada.cliente.CPF}"
+							readonly="true" />
+
+						<h:outputText value="Telefone: " />
+						<p:inputText
+							value="#{MBDevolucao.devolucao.retirada.cliente.telefone}"
+							readonly="true" />
+
+
+						<h:outputText value="Modelo: " />
+						<p:inputText
+							value="#{MBDevolucao.devolucao.retirada.carro.modelo.nome}"
+							readonly="true" />
+
+						<h:outputText value="Placa: " />
+						<p:inputText value="#{MBDevolucao.devolucao.retirada.carro.placa}"
+							readonly="true" />
+
+						<h:outputText value="Ano: " />
+						<p:inputText value="#{MBDevolucao.devolucao.retirada.carro.ano}"
+							readonly="true" />
+
+						<h:outputText value="Cor: " />
+						<p:inputText
+							value="#{MBDevolucao.devolucao.retirada.carro.cor.nome}"
+							readonly="true" />
+
+						<h:outputText value="Data da Retirada: " />
+						<p:inputText
+							value="#{MBDevolucao.devolucao.retirada.dataRetirada}"
+							readonly="true">
+							<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
+						</p:inputText>
+
+						<h:outputText value="Quilometragem*: " />
+						<p:inputText value="#{MBDevolucao.devolucao.quilometragem}"
+							required="true"
+							requiredMessage="A quilometragem deve ser preenchida." />
+
+						<h:outputText value="Taxas Adicionais" />
+						<p:selectManyCheckbox id="taxasSelects"
+							value="#{MBDevolucao.selectedTaxas}" layout="grid" columns="1">
+							<f:selectItems value="#{MBDevolucao.taxasAdicionais}" var="taxa"
+								itemLabel="#{taxa}" itemValue="#{taxa}" />
+						</p:selectManyCheckbox>
+
+
+						<h:panelGrid columns="2">
+							<p:commandButton value="Efetuar Devolução"
+								actionListener="#{MBDevolucao.prepararDevolucao}"
+								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
+								onclick="PF('dlgDevolucaoEfetuar').show();"
+								update=":fmrDevolucao:pnlDevolucao :msgGlobal" />
+						</h:panelGrid>
+
+
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+		<!-- Caixa de Dialogo Efetuar Devolução-->
+		<p:dialog widgetVar="dlgDevolucaoEfetuar" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Efetuar Devolução"
+			rendered="#{MBDevolucao.devolucao.quilometragem >0}">
+
+			<h:form id="fmrDevolucao">
+				<h:panelGrid id="pnlDevolucao" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBDevolucao.devolucao.retirada.id}"
+						readonly="true" />
+
+					<h:outputText value="Data Devolucao: " />
+					<p:inputText value="#{MBDevolucao.devolucao.dataDevolucao}"
+						readonly="true">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Quantidade de Diárias" />
+					<p:inputText value="#{MBDevolucao.devolucao.qtdeDiarias}"
+						readonly="true" />
+
+					<h:outputText value="Valor Total" />
+					<p:inputText value="#{MBDevolucao.devolucao.valorFinal}">
+						<f:convertNumber type="currency" />
+					</p:inputText>
+
+
+					<h:outputText value="Observação: " />
+					<p:inputText value="#{MBDevolucao.devolucao.observacao}" />
+
+				</h:panelGrid>
+
+
+				<h:panelGrid columns="2">
+
+					<p:commandButton value="Salvar"
+						update=":novaDevolucao:frmDevolucaoEfetuar :msgGlobal"
+						actionListener="#{MBDevolucao.efetuarDevolucao}"
+						onsuccess="PF('dlgDevolucaoEfetuar').hide();" />
+
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgDevolucaoEfetuar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

@@ -28,7 +28,7 @@ public class Retirada extends EntidadeDominio{
 	private boolean ehAtivo;
 
 	public Retirada() {
-
+		reserva = new Reserva();
 	}
 
 	/**

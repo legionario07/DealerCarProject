@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +10,14 @@ import java.util.List;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.util.JSFUtil;
 
-public class CidadeDAO extends AbstractPesquisaDAO<Cidade> {
+public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** 
 	 * 
 	 * @param cidade Recebe uma Cidade e cadastra no Banco de Dados

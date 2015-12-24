@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
@@ -55,7 +55,7 @@ import br.com.dealercar.viewhelper.SessionHelper;
  *
  */
 @ManagedBean(name = "MBRetirada")
-@ViewScoped
+@SessionScoped
 public class RetiradaBean extends AbstractBean implements Serializable {
 
 	/**

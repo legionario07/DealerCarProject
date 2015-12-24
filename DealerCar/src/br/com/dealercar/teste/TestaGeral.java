@@ -4,10 +4,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.itensrevisao.Pneu;
-import br.com.dealercar.enums.PosicaoPneu;
+import br.com.dealercar.dao.RetiradaDAO;
+import br.com.dealercar.dao.automotivos.TaxasAdicionaisDAO;
+import br.com.dealercar.domain.Devolucao;
+import br.com.dealercar.domain.Retirada;
+import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
+import br.com.dealercar.util.DataUtil;
 
-@SuppressWarnings("unused")
 public class TestaGeral {
 
 	public static void main(String[] args) throws ParseException {
@@ -44,6 +47,7 @@ public class TestaGeral {
 		
 		*/
 			
+		/*
 		List<String> lista = new ArrayList<String>();
 		
 		lista = new Pneu().getPosicoesPneu();
@@ -60,5 +64,34 @@ public class TestaGeral {
 		for(PosicaoPneu p : posicoes){
 			System.out.println(p);
 		}
+		*/
+		
+		Devolucao devolucao = new Devolucao();
+		Retirada retirada = new Retirada(3);
+		
+		retirada = new RetiradaDAO().pesquisarPorID(retirada);
+		
+		devolucao.setRetirada(retirada);
+		
+		devolucao.setDataDevolucao(DataUtil.pegarDataAtualDoSistema());
+		devolucao.setQtdeDiarias(DataUtil.devolverDataEmDias(devolucao.getRetirada().getDataRetirada()));
+		
+		List<TaxasAdicionais> taxas = new ArrayList<TaxasAdicionais>();
+		List<TaxasAdicionais> taxas2 = new ArrayList<TaxasAdicionais>();
+		
+		taxas = new TaxasAdicionaisDAO().listarTodos();
+		
+		TaxasAdicionais taxa = new TaxasAdicionais();
+		taxa.setDescricao("Lavagem");
+		taxa = new TaxasAdicionaisDAO().pesquisarPorTaxa(taxa.getDescricao());
+		taxa.setFoiCobrado(true);
+		taxas2.add(taxa);
+		devolucao.setTaxasAdicionais(taxas2);
+		
+		System.out.println(devolucao.calcularValorTaxasAdicionais(devolucao, taxas));
+		
+		devolucao.setValorFinal(devolucao.calcularValorFinal(devolucao, taxas));
+		
+		
 	}
 }

@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,12 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class CategoriaDAO implements IDAO<Categoria>{
+public class CategoriaDAO implements IDAO<Categoria>, Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 

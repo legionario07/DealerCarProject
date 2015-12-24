@@ -1,7 +1,9 @@
 package br.com.dealercar.domain;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import br.com.dealercar.domain.itensopcionais.Itens;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
@@ -9,6 +11,7 @@ import br.com.dealercar.util.DataUtil;
 
 /**
  * Classe responsavel que realiza das devoluções das locações
+ * 
  * @author Paulinho
  *
  */
@@ -25,18 +28,19 @@ public class Devolucao extends EntidadeDominio {
 	private int qtdeDiarias;
 	private Reserva reserva;
 	private Funcionario funcionario;
-	private TaxasAdicionais taxasAdicionais;
+	private List<TaxasAdicionais> taxasAdicionais = new ArrayList<TaxasAdicionais>();
 	private Retirada retirada;
 	private Double valorFinal;
 	private String observacao;
+	private String taxasCobradas;
 
 	public Devolucao() {
 	}
-	
+
 	public Devolucao(int id) {
 		this.setId(id);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -77,6 +81,14 @@ public class Devolucao extends EntidadeDominio {
 		this.reserva = reserva;
 	}
 
+	public String getTaxasCobradas() {
+		return taxasCobradas;
+	}
+
+	public void setTaxasCobradas(String taxasCobradas) {
+		this.taxasCobradas = taxasCobradas;
+	}
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -93,11 +105,11 @@ public class Devolucao extends EntidadeDominio {
 		this.valorFinal = valorFinal;
 	}
 
-	public TaxasAdicionais getTaxasAdicionais() {
+	public List<TaxasAdicionais> getTaxasAdicionais() {
 		return taxasAdicionais;
 	}
 
-	public void setTaxasAdicionais(TaxasAdicionais taxasAdicionais) {
+	public void setTaxasAdicionais(List<TaxasAdicionais> taxasAdicionais) {
 		this.taxasAdicionais = taxasAdicionais;
 	}
 
@@ -145,21 +157,26 @@ public class Devolucao extends EntidadeDominio {
 
 	/**
 	 * 
-	 * @param retirada
-	 *            Recebe uma Locação
+	 * @param Lista
+	 *            de TaxasAdicionais Recebe uma Locação
 	 * @return Um double com o valor das TaxasAdicionais
 	 */
-	public Double calcularValorTaxasAdicionais(Retirada retirada) {
+	public Double calcularValorTaxasAdicionais(Devolucao devolucao, List<TaxasAdicionais> taxas) {
 
 		double valorTaxasAdicionais = 0;
 
+		List<TaxasAdicionais> lista = new ArrayList<TaxasAdicionais>();
+		lista = devolucao.getTaxasAdicionais();
 		// Verificando se Houve Cobrança de Alguma Taxa Adicional
-		if (this.getTaxasAdicionais().getCombustivel().isFoiCobrado() == true) {
-			valorTaxasAdicionais += this.getTaxasAdicionais().getCombustivel().getValor();
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.get(i).isFoiCobrado() == true) {
+				for (int b = 0; b < taxas.size(); b++) {
+					if (lista.get(i).getDescricao().equals(taxas.get(b).getDescricao()))
+						valorTaxasAdicionais += taxas.get(b).getValor();
+				}
+			}
 		}
-		if (this.getTaxasAdicionais().getLavagem().isFoiCobrado() == true) {
-			valorTaxasAdicionais += this.getTaxasAdicionais().getLavagem().getValor();
-		}
+
 		return valorTaxasAdicionais;
 
 	}
@@ -206,14 +223,14 @@ public class Devolucao extends EntidadeDominio {
 	 *            uma Retirada
 	 * @return Retorna um valor Final em formato Double
 	 */
-	public Double calcularValorFinal(Retirada retirada) {
+	public Double calcularValorFinal(Devolucao devolucao, List<TaxasAdicionais> taxas) {
 
 		double valorFinal = 0;
 
-		valorFinal += calcularValorLocacao(retirada);
-		valorFinal += calcularValorItensOpcionais(retirada);
-		valorFinal += calcularValorTaxasAdicionais(retirada);
-		valorFinal += calcularValorTipoSeguro(retirada);
+		valorFinal += calcularValorLocacao(devolucao.getRetirada());
+		valorFinal += calcularValorItensOpcionais(devolucao.getRetirada());
+		valorFinal += calcularValorTaxasAdicionais(devolucao, taxas);
+		valorFinal += calcularValorTipoSeguro(devolucao.getRetirada());
 
 		return valorFinal;
 	}
@@ -229,7 +246,7 @@ public class Devolucao extends EntidadeDominio {
 		retorno.append(this.getId());
 		retorno.append("\tCliente: ");
 		retorno.append(this.getRetirada().getCliente().getNome());
-		
+
 		retorno.append("\n\nDADOS DO CARRO");
 		retorno.append("\nData da Devolução: ");
 		retorno.append(sdf.format(this.getDataDevolucao()));
@@ -259,6 +276,8 @@ public class Devolucao extends EntidadeDominio {
 		retorno.append(this.getFuncionario().getNome());
 		retorno.append("\nObservação: ");
 		retorno.append(this.getObservacao());
+		retorno.append("\nTaxas Cobradas: ");
+		retorno.append(this.getTaxasCobradas());
 		retorno.append("\n");
 
 		return retorno.toString();

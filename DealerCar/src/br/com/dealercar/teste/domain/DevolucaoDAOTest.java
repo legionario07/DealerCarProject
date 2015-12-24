@@ -19,6 +19,7 @@ public class DevolucaoDAOTest {
 
 	public static DevolucaoDAO devolucaoDAO = new DevolucaoDAO();
 
+	/*
 	@SuppressWarnings("unused")
 	private static void cadastrar() {
 
@@ -57,13 +58,14 @@ public class DevolucaoDAOTest {
 		devolucaoDAO.cadastrar(devolucao);
 
 	}
+	*/
 
 	@SuppressWarnings("unused")
 	private static void pesquisarPorID() {
 
 		Devolucao devolucao = new Devolucao();
 
-		devolucao.setId(7);
+		devolucao.setId(12);
 
 		devolucao = devolucaoDAO.pesquisarPorID(devolucao);
 
@@ -101,8 +103,8 @@ public class DevolucaoDAOTest {
 	public static void main(String[] args) {
 
 		 //cadastrar();
-		pesquisarPorID();
-		// listarTodos();
+		//pesquisarPorID();
+		 listarTodos();
 		//pesquisarPorCPF();
 
 	}

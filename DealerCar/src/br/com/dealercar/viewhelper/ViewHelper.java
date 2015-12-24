@@ -8,7 +8,7 @@ import br.com.dealercar.util.DataUtil;
 
 public class ViewHelper {
 
-	public static int validarData(Date data){
+	public static int validarData(Date data) {
 		int i;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String minData = "01/01/1900";
@@ -19,10 +19,12 @@ public class ViewHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		i = DataUtil.compararDatas(dataMin, data);
-		
+
 		return i;
-		
+
 	}
+
+
 }
