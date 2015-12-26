@@ -83,7 +83,7 @@ public class CarroDAOTest {
 		
 		List<Carro> lista = new ArrayList<Carro>();
 
-		Modelo m = new Modelo(2);
+		Modelo m = new Modelo(5);
 		
 		CarroDAO carDao = new CarroDAO(); 
 		lista = carDao.listarModelosDisponiveis(m);

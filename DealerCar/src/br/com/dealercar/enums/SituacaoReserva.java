@@ -3,8 +3,9 @@ package br.com.dealercar.enums;
 /**
  * 
  * @author Paulinho
- * Uma reserva só pode ter dois tipos de Situação 
+ * Uma reserva só pode ter tre tipos de Situação 
  * Ativo: Ela esta no tempo de vida
+ * Finalizado: Quando a Reserva Vira Locação
  * Cancelado: a Reserva não tem mais utilidade
  *
  */
@@ -12,6 +13,7 @@ package br.com.dealercar.enums;
 public enum SituacaoReserva {
 
 	ATIVO ("Ativo".toUpperCase())
+	,FINALIZADO ("Finalizado".toUpperCase())
 	,CANCELADO ("Cancelado".toUpperCase());
 	
 	private String descricao;

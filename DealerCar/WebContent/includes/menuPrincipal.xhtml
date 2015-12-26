@@ -41,11 +41,12 @@
 
 			<p:submenu label="Retirada" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml"/>
-				<p:menuitem value="Gerenciar Retirada" outcome="/pages/lretiradas.xhtml"/>
+				<p:menuitem value="Gerenciar Retiradas" outcome="/pages/lretiradas.xhtml"/>
 
 			</p:submenu>
 
 			<p:submenu label="Devolução" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+				<p:menuitem value="Efetuar Devolução" outcome="/pages/pesqdevcpf.xhtml"/>
 				<p:menuitem value="Gerenciar Devoluções" outcome="/pages/devolucao.xhtml"/>
 				
 			</p:submenu>

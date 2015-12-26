@@ -76,24 +76,7 @@
 					<h:outputText value="#{itemDevolucao.qtdeDiarias}" />
 				</p:column>
 
-				<p:column headerText="Lavagem" width="7%"
-					style="font-size:11px; text-align:center"
-					sortBy="#{itemDevolucao.taxasAdicionais.lavagem.valor}">
-					<h:outputText
-						value="#{itemDevolucao.taxasAdicionais.lavagem.valor}">
-						<f:convertNumber type="currency" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Combustivel" width="7%"
-					style="font-size:11px; text-align:center"
-					sortBy="#{itemDevolucao.taxasAdicionais.combustivel.valor}">
-					<h:outputText
-						value="#{itemDevolucao.taxasAdicionais.combustivel.valor}">
-						<f:convertNumber type="currency" />
-					</h:outputText>
-				</p:column>
-
+			
 				<p:column headerText="Valor" width="7%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemDevolucao.valorFinal}">

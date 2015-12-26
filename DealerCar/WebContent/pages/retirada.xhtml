@@ -125,8 +125,8 @@
 
 						<p:commandButton value="Efetuar Retirada"
 							rendered="#{MBRetirada.ehCadastrado == true}"
-							onclick="PF('dlgEfetuarRetirada').show();"
-							update="frmConsultaRetirada :frmEfetuarRetirada:pnlEfetuarRetirada" />
+							actionListener="#{MBRetirada.verificaPendenciaCliente}"
+							update="frmConsultaRetirada :frmEfetuarRetirada:pnlEfetuarRetirada :msgGlobal" />
 
 
 						<p:commandButton value="Editar Dados"

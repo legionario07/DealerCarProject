@@ -1,12 +1,13 @@
 package br.com.dealercar.bean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.dao.FuncionarioDAO;
@@ -27,7 +28,7 @@ import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
-@ViewScoped
+@SessionScoped
 public class ReservaBean extends AbstractBean implements Serializable {
 
 	/**
@@ -183,7 +184,7 @@ public class ReservaBean extends AbstractBean implements Serializable {
 	public void pesquisarPorCPF() {
 
 		setEhCadastrado(false);
-		setJaPesquisei(false);
+		setJaPesquisei(true);
 
 		validaStrategy = new ValidaCliente();
 		cliente = (Cliente) validaStrategy.validar(cliente);
@@ -191,7 +192,9 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		if (cliente != null) {
 			setEhCadastrado(true);
 
+			reserva.setDataFim(DataUtil.pegarDataAtualDoSistema());
 			reserva.setCliente(cliente);
+			
 
 			return;
 		}
@@ -228,12 +231,20 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		// recebendo a data atual do sistema
 		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 
+		System.out.println(reserva.getDataCadastroReserva());
+		System.out.println(reserva.getDataFim());
+		
 		// Verifica se a data digitada para Reserva é válida
 		int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
 
+		System.out.println(i);
+		
 		if (i != 1) {
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			
 			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. "
-					+ "Deve ser maior que " + reserva.getDataCadastroReserva());
+					+ "Deve ser maior que " + stf.format(reserva.getDataCadastroReserva()));
 			return;
 		}
 
@@ -246,6 +257,7 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		cliente = new Cliente();
 
 		setEhCadastrado(false);
+		setJaPesquisei(false);
 
 		JSFUtil.adicionarMensagemSucesso("Reserva Cadastrada com Sucesso.");
 
@@ -281,8 +293,10 @@ public class ReservaBean extends AbstractBean implements Serializable {
 
 			if (i != 1) {
 				reserva.setDataFim(null);
+				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 				JSFUtil.adicionarMensagemErro(
-						"A data para Reserva está incorreta. Deve ser maior que " + reserva.getDataCadastroReserva());
+						"A data para Reserva está incorreta. Deve ser maior que " 
+				+ stf.format(reserva.getDataCadastroReserva()));
 				return;
 			}
 		}

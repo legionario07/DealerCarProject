@@ -16,6 +16,7 @@ import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
+import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.util.JSFUtil;
 
@@ -59,22 +60,31 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			// verificando se existia uma reserva
 			// incluindo o id 99 para o idReserva que nao foi incluido (99 =
 			// null)
-			if (retirada.getReserva() == null) {
-				pstm.setInt(++i, 99);
-			} else {
+			if (retirada.getReserva().getId() > 0) {
 				pstm.setInt(++i, retirada.getReserva().getId());
+				
+				//Alterando a reserva no BD para FINALIZADO
+				Reserva reserva = new Reserva();
+				reserva = retirada.getReserva();
+				reserva.setSituacao(SituacaoReserva.FINALIZADO);
+				new ReservaDAO().editar(reserva);
+				
+			} else {
+				pstm.setInt(++i, 99);
 			}
 
 			pstm.setString(++i, String.valueOf(retirada.isEhAtivo()));
 			
 			pstm.executeUpdate();
 			
-			//Alterando o carro locado na tabela Carro pra LOCADO
+			//Alterando o carro locado no BD para LOCADO
 			Carro carro = new Carro();
 			carro.setPlaca(retirada.getCarro().getPlaca());
 			carro = new CarroDAO().pesquisarPorPlaca(carro);
 			carro.setSituacao(SituacaoType.Locado);
 			new CarroDAO().editar(carro);
+			
+			
 			
 			pstm.close();
 
@@ -258,7 +268,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 	
 	/**
 	 * @param Cliente
-	 * Realiza uma pesquisa no BD pelo CPF do cliente
+	 * Realiza uma pesquisa no BD pelo CPF do cliente e situação da retirada "Ativo"
 	 * @return Retorna uma lista de Retirada
 	 */
 	public List<Retirada> pesquisarPorCPF(Cliente cliente) {
@@ -266,7 +276,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("select * from retiradas ");
 		sql.append("inner join clientes ");
 		sql.append("on clientes.id = retiradas.id_cliente ");
-		sql.append("where clientes.cpf = ? ");
+		sql.append("where clientes.cpf = ? and retiradas.ativo = ?");
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
@@ -274,6 +284,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, cliente.getCPF());
+			pstm.setString(2, "true");
 			
 			ResultSet rSet = pstm.executeQuery();
 

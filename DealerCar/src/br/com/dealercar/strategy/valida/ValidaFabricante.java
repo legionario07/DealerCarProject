@@ -1,5 +1,6 @@
 package br.com.dealercar.strategy.valida;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,13 @@ import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 
-public class ValidaFabricante implements IValidacaoStrategy{
+public class ValidaFabricante implements IValidacaoStrategy, Serializable{
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 

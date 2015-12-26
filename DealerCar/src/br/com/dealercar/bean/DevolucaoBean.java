@@ -1,17 +1,23 @@
 package br.com.dealercar.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import br.com.dealercar.dao.DevolucaoDAO;
+import br.com.dealercar.dao.RetiradaDAO;
 import br.com.dealercar.dao.automotivos.TaxasAdicionaisDAO;
+import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.Devolucao;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Reserva;
+import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
@@ -31,6 +37,7 @@ public class DevolucaoBean extends AbstractBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Devolucao devolucao = new Devolucao();
+	private Cliente cliente = new Cliente();
 	private List<TaxasAdicionais> listaTaxas = new ArrayList<TaxasAdicionais>();
 	private List<String> taxasAdicionais;
 	private String[] selectedTaxas;
@@ -64,6 +71,14 @@ public class DevolucaoBean extends AbstractBean implements Serializable{
 
 	public List<Devolucao> getListaDevolucao() {
 		return listaDevolucao;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public List<TaxasAdicionais> getListaTaxas() {
@@ -106,6 +121,13 @@ public class DevolucaoBean extends AbstractBean implements Serializable{
 			for(int i = 0 ;i<listaTaxas.size();i++){
 				taxasAdicionais.add(listaTaxas.get(i).getDescricao());
 			}
+			
+		if(devolucao.getRetirada()==null){	
+			this.devolucao.setRetirada(new Retirada());
+			this.devolucao.getRetirada().setCliente(new Cliente());
+		}
+			
+			
 	}
 
 	/**
@@ -144,8 +166,51 @@ public class DevolucaoBean extends AbstractBean implements Serializable{
 		
 	}
 	
+	/**
+	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
+	 * TEla
+	 */
+	public void pesquisarPorCPF() {
+
+		setEhCadastrado(false);
+		setJaPesquisei(true);
+
+		List<Retirada> listaClientesComRetirada = new ArrayList<Retirada>();
+		listaClientesComRetirada = new RetiradaDAO().pesquisarPorCPF(devolucao.getRetirada().getCliente());
+		
+		//Verifica se o CPF tem alguma locação
+		for (Retirada r : listaClientesComRetirada) {
+			if (this.cliente.getCPF().equals(r.getCliente().getCPF())) {
+				setEhCadastrado(true);
+				setJaPesquisei(false);
+				devolucao.getRetirada().setCliente(r.getCliente());
+				this.cliente = new Cliente();
+				
+				//encaminha para a pagina de devolucao
+				FacesContext faces = FacesContext.getCurrentInstance();
+				ExternalContext exContext = faces.getExternalContext();
+				
+				try {
+					exContext.redirect("efetuadevolucao.xhtml");
+				} catch (IOException e) {
+					e.printStackTrace();
+					JSFUtil.adicionarMensagemErro(e.getMessage());
+				}
+				
+				return;
+			}
+		}
+
+		//Cliente nao possui locação
+		if (isEhCadastrado() == false) {
+			cliente = new Cliente();
+			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não tem nenhuma Locação Pendente.");
+			return;
+		}
+
+	}
 	
-	/*
+	/**
 	 * Efetua a devolução
 	 */
 	public void efetuarDevolucao(){
@@ -158,6 +223,9 @@ public class DevolucaoBean extends AbstractBean implements Serializable{
 		
 	}
 	
+	/**
+	 * Limpa os Objetos 
+	 */
 	private void limparPesquisas(){
 		devolucao = new Devolucao();
 		selectedTaxas = null;

@@ -13,8 +13,6 @@ import br.com.dealercar.domain.Devolucao;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
-import br.com.dealercar.domain.taxasadicionais.TaxaCombustivel;
-import br.com.dealercar.domain.taxasadicionais.TaxaLavagem;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.util.JSFUtil;

@@ -40,6 +40,12 @@
 					<h:outputText value="#{itemRetirada.cliente.nome}" />
 				</p:column>
 
+				<p:column headerText="CPF" width="7%" style="font-size:11px"
+					filterBy="#{itemRetirada.cliente.CPF}"
+					sortBy="#{itemRetirada.cliente.CPF}">
+					<h:outputText value="#{itemRetirada.cliente.CPF}" />
+				</p:column>
+
 				<p:column headerText="Modelo" width="7%"
 					style="font-size:11px; text-align:center"
 					filterBy="#{itemRetirada.carro.modelo.nome}"
@@ -56,6 +62,7 @@
 
 				<p:column headerText="Data Retirada" width="7%"
 					style="font-size:11px; text-align:center"
+					filterBy="#{itemRetirada.dataRetirada}"
 					sortBy="#{itemRetirada.dataRetirada}">
 					<h:outputText value="#{itemRetirada.dataRetirada}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -79,19 +86,23 @@
 
 				<p:column headerText="Ativo" width="7%"
 					style="font-size:11px; text-align:center"
-					filterBy="#{itemRetirada.ehAtivo}" sortBy="#{itemRetirada.ehAtivo}">
+					sortBy="#{itemRetirada.ehAtivo}">
 					<h:outputText value="#{itemRetirada.ehAtivo}" />
 				</p:column>
 
-				<p:column headerText="Efetuar Devolução" width="5%" style="text-align:center">
-					<p:commandButton icon="ui-icon-circle-check" title="Efetuar Devolução"
+				<p:column headerText="Efetuar Devolução" width="5%"
+					style="text-align:center">
+					<p:commandButton icon="ui-icon-circle-check"
+						title="Efetuar Devolução"
 						rendered="#{itemRetirada.ehAtivo == true}"
 						action="/pages/efetuadevolucao.xhtml"
 						update=":frmListaRetirada:tblListaRetirada">
-						<f:setPropertyActionListener target="#{MBDevolucao.devolucao.retirada}"  value="#{itemRetirada}" />
+						<f:setPropertyActionListener
+							target="#{MBDevolucao.devolucao.retirada}"
+							value="#{itemRetirada}" />
 					</p:commandButton>
-					
-					
+
+
 				</p:column>
 
 

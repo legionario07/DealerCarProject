@@ -67,17 +67,19 @@
 							readonly="true" />
 
 						<h:outputText value="Data da Retirada: " />
-						<p:inputText
+						<p:inputText mask="999999"
 							value="#{MBDevolucao.devolucao.retirada.dataRetirada}"
 							readonly="true">
 							<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
 						</p:inputText>
 
 						<h:outputText value="Quilometragem*: " />
-						<p:inputText value="#{MBDevolucao.devolucao.quilometragem}"
-							required="true"
-							requiredMessage="A quilometragem deve ser preenchida." />
-
+						<p:inputMask value="#{MBDevolucao.devolucao.quilometragem}"
+							required="true" mask="999999"
+							requiredMessage="A quilometragem deve ser preenchida.">
+							<f:validateLength minimum="1" maximum="7" />
+						</p:inputMask>
+						
 						<h:outputText value="Taxas Adicionais" />
 						<p:selectManyCheckbox id="taxasSelects"
 							value="#{MBDevolucao.selectedTaxas}" layout="grid" columns="1">

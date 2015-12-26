@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBDevolucao.carregarListagem}"
+			type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Devolucao" />
+
+		</h:panelGrid>
+
+		<p:tabView id="tabViewConsultar">
+			<p:tab title="Devolucao" id="tabDevolucaoConsulta">
+				<h:form id="frmConsultaDevolucao">
+
+					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
+
+
+						<h:outputLabel value="Digite o CPF para Localizar o Cliente"
+							rendered="#{MBDevolucao.cliente.CPF == null}" />
+						<p:inputMask mask="999.999.999-99"
+							value="#{MBDevolucao.cliente.CPF}"
+							rendered="#{MBDevolucao.cliente.CPF == null}" />
+
+					</h:panelGrid>
+
+
+					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+						<p:commandButton actionListener="#{MBDevolucao.pesquisarPorCPF}"
+							update="frmConsultaDevolucao :msgGlobal"
+							rendered="#{MBDevolucao.cliente.CPF == null}" value="Pesquisar" />
+
+
+
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

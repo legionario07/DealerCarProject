@@ -1,14 +1,9 @@
 package br.com.dealercar.teste;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import br.com.dealercar.dao.RetiradaDAO;
-import br.com.dealercar.dao.automotivos.TaxasAdicionaisDAO;
-import br.com.dealercar.domain.Devolucao;
-import br.com.dealercar.domain.Retirada;
-import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.util.DataUtil;
 
 public class TestaGeral {
@@ -66,6 +61,7 @@ public class TestaGeral {
 		}
 		*/
 		
+		/*
 		Devolucao devolucao = new Devolucao();
 		Retirada retirada = new Retirada(3);
 		
@@ -91,6 +87,19 @@ public class TestaGeral {
 		System.out.println(devolucao.calcularValorTaxasAdicionais(devolucao, taxas));
 		
 		devolucao.setValorFinal(devolucao.calcularValorFinal(devolucao, taxas));
+		
+		*/
+		
+		Date date = DataUtil.pegarDataAtualDoSistema();
+		System.out.println(date);
+		
+		String data2 = "25/12/2015";
+		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		Date dataSegunda = stf.parse(data2);
+		System.out.println(dataSegunda);
+		
+		System.out.println(DataUtil.compararDatas(date, dataSegunda));
 		
 		
 	}

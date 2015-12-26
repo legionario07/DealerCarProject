@@ -443,8 +443,20 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		setTotalRetiradas(listaRetirada.size());
 		
+		/*verifica se ja ja tem uma reserva preenchida
+		 * Se tiver significa que foi clicado para locar na View Reserva.xhtml 
+		 */
+		if(retirada.getReserva().getId()>0){
+			cliente = retirada.getReserva().getCliente();
+			modelo = retirada.getReserva().getModelo();
+			pesquisarPorCPF();
+		}
+		
 	}
 
+	/**
+	 * Método que carrega as placas de acordo com o modelo de veiculo selecionado
+	 */
 	public void carregarPlacas() {
 
 		modelo = (Modelo) new ValidaModelo().validar(modelo);
@@ -453,6 +465,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		carroUrl = (ImagemCarro) new ValidaImagemCarro().validar(carroUrl);
 	}
 
+	/**
+	 * Carrega os Itens Opcionais na View
+	 */
 	public void carregarItensOpcionais() {
 
 		listaArCondicionado = new ArCondicionadoDAO().listarTodos();
@@ -463,17 +478,18 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	}
 
+	/**
+	 * Efetua a retirada validando os itens selecionados na VIEW
+	 */
 	public void efetuarRetirada() {
 
-		retirada = new Retirada();
-
+		//Validando Itens Opcionais
 		if (arCondicionado.getDescricao() != null)
 			arCondicionado = (ArCondicionado) new ValidaItemOpcional().validar(arCondicionado);
 		else{
 			arCondicionado.setCodigo(99);
 			arCondicionado = new ArCondicionadoDAO().pesquisarPorCodigo(arCondicionado);
 		}
-
 		opcional.setArCondicionado(arCondicionado);
 
 		tipoSeguro = (TipoSeguro) new ValidaItemOpcional().validar(tipoSeguro);
@@ -512,7 +528,8 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		itens.add(gps);
 		itens.add(radioPlayer);
 		opcional.setItens(itens);
-
+		
+		//validando o carro
 		carro = (Carro) new ValidaCarro().validar(carro);
 
 		new OpcionalDAO().cadastrar(opcional);
@@ -534,10 +551,14 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			return;
 		}
 
-		// Recebendo o funcionario Logado
+		/**
+		 *  Recebendo o funcionario Logado
+		 */
 		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
-
 		retirada.setFuncionario(funcionario);
+
+		//setando retirada como ativa
+		retirada.setEhAtivo(true);
 
 		new RetiradaDAO().cadastrar(retirada);
 		
@@ -550,7 +571,28 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	}
 
-	/*
+	
+	/**
+	 * Verifica se o cliente tem alguma locação em seu CPF
+	 */
+	public void verificaPendenciaCliente(){
+		
+		List<Retirada> listaClientesComLocacao = new ArrayList<Retirada>();
+		listaClientesComLocacao = new RetiradaDAO().pesquisarPorCPF(cliente);
+		
+		for(Retirada r : listaClientesComLocacao){
+			if(cliente.getCPF().equals(r.getCliente().getCPF())){
+				JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
+				return;
+			}
+		}
+
+		//Se o cliente não tem pendencia abre o <p:Dialog>
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgEfetuarRetirada').show();");
+		
+	}
+	
+	/**
 	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
 	 * TEla
 	 */
@@ -560,11 +602,10 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		setJaPesquisei(true);
 
 		for (Cliente cli : listaClientes) {
-			if (cliente.getCPF().toString().equals(cli.getCPF().toString())) {
+			if (cliente.getCPF().equals(cli.getCPF())) {
 				setEhCadastrado(true);
 				setJaPesquisei(false);
 				cliente = new ClienteDAO().pesquisarPorCPF(cli);
-				reservas = pesquisarPorReserva();
 
 				return;
 			}
@@ -578,16 +619,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	}
 
-	public List<Reserva> pesquisarPorReserva() {
-
-		reserva = new Reserva();
-
-		reserva.setCliente(cliente);
-		List<Reserva> lista = new ArrayList<Reserva>();
-		lista = new ReservaDAO().pesquisarPorCPF(reserva);
-
-		return lista;
-	}
 
 	/**
 	 * Limpa o inputbox de Pesquisar
@@ -622,6 +653,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
+	/**
+	 * Limpa os Objetos 
+	 */
 	public void limparObjetos() {
 
 		retirada = new Retirada();

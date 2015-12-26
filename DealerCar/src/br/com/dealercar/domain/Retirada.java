@@ -23,12 +23,11 @@ public class Retirada extends EntidadeDominio{
 	private Opcional opcional = new Opcional();
 	private Funcionario funcionario;
 	private Cliente cliente;
-	private Reserva reserva;
+	private Reserva reserva = new Reserva();
 	private Carro carro;
 	private boolean ehAtivo;
 
 	public Retirada() {
-		reserva = new Reserva();
 	}
 
 	/**
