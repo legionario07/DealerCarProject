@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBTaxasAdicionais.carregarListagem}"
+			type="preRenderView" />
+
+		<h:form id="frmListaTaxasAdicionais">
+
+			<p:dataTable id="tblListaTaxasAdicionais"
+				value="#{MBTaxasAdicionais.listaTaxasAdicionais}"
+				widgetVar="tabelaListagem" var="itemTaxasAdicionais"
+				style="width:60%" sortBy="#{itemTaxasAdicionais.descricao}"
+				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+				rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="TaxasAdicionais - Listagem"
+						style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Id" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemTaxasAdicionais.id}">
+					<h:outputText value="#{itemTaxasAdicionais.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" width="15%" style="font-size:11px"
+					sortBy="#{itemTaxasAdicionais.descricao}">
+					<h:outputText value="#{itemTaxasAdicionais.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor" width="15%" style="font-size:11px"
+					sortBy="#{itemTaxasAdicionais.valor}">
+					<h:outputText value="#{itemTaxasAdicionais.valor}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+
+
+				<p:column headerText="Opções" width="10%" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgTaxasAdicionaisEditar').show();"
+						update=":frmTaxasAdicionaisEditar:pnlTaxasAdicionaisEditar :msgGlobal">
+						<f:setPropertyActionListener value="#{itemTaxasAdicionais}"
+							target="#{MBTaxasAdicionais.taxasAdicionais}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgTaxasAdicionaisExcluir').show();"
+						update="frmExcluirTaxasAdicionais :msgGlobal">
+						<f:setPropertyActionListener value="#{itemTaxasAdicionais}"
+							target="#{MBTaxasAdicionais.taxasAdicionais}" />
+					</p:commandButton>
+
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Nova"
+							onclick="PF('dlgTaxasAdicionaisNova').show();"
+							update=":frmNovaTaxasAdicionais :msgGlobal" />
+					</h:panelGrid>
+
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBTaxasAdicionais.totalTaxasAdicionais}" />
+					<p:outputLabel value=" taxasAdicionais cadastradas." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<!--  Caixa de Dialogo Cadastrar TaxasAdicionais -->
+		<p:dialog widgetVar="dlgTaxasAdicionaisNova" closable="false"
+			width="30%" id="dlgNova" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="TaxasAdicionais - Cadastrar">
+			<h:form id="frmNovaTaxasAdicionais">
+
+
+				<h:panelGrid id="pnlNovaTaxasAdicionais2" columns="2">
+
+					<h:outputText value="Nome: *" />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.descricao}"
+						rendered="true"
+						requiredMessage="Favor informar o nome da nova Taxa Adicional" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.valor}"
+						rendered="true"
+						requiredMessage="Favor informar o valor da nova Taxa Adicional" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Salvar"
+						actionListener="#{MBTaxasAdicionais.cadastrar}"
+						update="frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
+						onclick="PF('dlgTaxasAdicionaisNova').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgTaxasAdicionaisNova').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Confimar Editar  TaxasAdicionais-->
+		<p:dialog widgetVar="dlgTaxasAdicionaisEditar" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="TaxasAdicionais - Editar">
+
+			<h:form id="frmTaxasAdicionaisEditar">
+				<h:panelGrid id="pnlTaxasAdicionaisEditar" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.id}"
+						readonly="true" />
+
+					<h:outputText value="Nome:*  " />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.descricao}" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.valor}" />
+
+
+					<p:commandButton value="Salvar"
+						actionListener="#{MBTaxasAdicionais.editar}"
+						update=":frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
+						oncomplete="PF('dlgTaxasAdicionaisEditar').hide();" />
+
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgTaxasAdicionaisEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir TaxasAdicionais -->
+		<p:dialog widgetVar="dlgTaxasAdicionaisExcluir" closable="false"
+			width="30%" id="dlgExcluir" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="TaxasAdicionais - Excluir">
+			<h:form id="frmExcluirTaxasAdicionais">
+
+
+				<h:panelGrid id="pnlExcluirTaxasAdicionais" columns="2">
+
+
+					<h:outputText value="Id: " />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.id}"
+						readonly="true" />
+
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.descricao}"
+						readonly="true" />
+
+
+					<h:outputText value="Valor " />
+					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.valor}"
+						readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBTaxasAdicionais.excluir}"
+						update="frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
+						onclick="PF('dlgTaxasAdicionaisExcluir').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgTaxasAdicionaisExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

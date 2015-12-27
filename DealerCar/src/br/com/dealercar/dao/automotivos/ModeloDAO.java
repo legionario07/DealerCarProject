@@ -29,7 +29,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into modelos ");
-		sql.append("nome, id_fabricante) values (?, ?)");
+		sql.append("(nome, id_fabricante) values (?, ?)");
 		
 		Connection con = Conexao.getConnection();
 		

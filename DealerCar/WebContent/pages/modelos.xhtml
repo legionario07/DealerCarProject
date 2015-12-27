@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBModelo.carregarListagem}" type="preRenderView" />
+
+		<h:form id="frmListaModelo">
+
+			<p:dataTable id="tblListaModelo" value="#{MBModelo.listaModelos}"
+				widgetVar="tabelaListagem" var="itemModelo" style="width:60%"
+				sortBy="#{itemModelo.nome}"
+				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+				rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Modelo - Listagem" style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Id" width="5%"
+					style="font-size:11px; text-align:center" sortBy="#{itemModelo.id}">
+					<h:outputText value="#{itemModelo.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" width="15%" style="font-size:11px"
+					sortBy="#{itemModelo.nome}">
+					<h:outputText value="#{itemModelo.nome}" />
+				</p:column>
+
+				<p:column headerText="Fabricante" width="15%" style="font-size:11px"
+					sortBy="#{itemModelo.fabricante.nome}">
+					<h:outputText value="#{itemModelo.fabricante.nome}" />
+				</p:column>
+
+
+
+				<p:column headerText="Opções" width="10%" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgModeloEditar').show();"
+						update=":frmModeloEditar:pnlModeloEditar :msgGlobal">
+						<f:setPropertyActionListener value="#{itemModelo}"
+							target="#{MBModelo.modelo}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgModeloExcluir').show();"
+						update="frmExcluirModelo :msgGlobal">
+						<f:setPropertyActionListener value="#{itemModelo}"
+							target="#{MBModelo.modelo}" />
+					</p:commandButton>
+
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Novo"
+							onclick="PF('dlgModeloNovo').show();"
+							update=":frmNovoModelo :msgGlobal" />
+					</h:panelGrid>
+
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBModelo.totalModelo}" />
+					<p:outputLabel value=" modelos cadastrados." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<!--  Caixa de Dialogo Cadastrar Modelo -->
+		<p:dialog widgetVar="dlgModeloNovo" closable="false" width="30%"
+			id="dlgNovo" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Modelo - Cadastrar">
+			<h:form id="frmNovoModelo">
+
+
+				<h:panelGrid id="pnlNovoModelo2" columns="2">
+
+					<h:outputText value="Nome: *" />
+					<p:inputText value="#{MBModelo.modelo.nome}" rendered="true"
+						requiredMessage="Favor informar o nome do novo Modelo" />
+
+
+					<h:outputText value="Fabricante: *" />
+					<p:selectOneMenu id="Fabricante"
+						value="#{MBModelo.modelo.fabricante.nome}" required="true"
+						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBModelo.listaFabricantes}"
+							var="fabricante" itemLabel="#{fabricante.nome}"
+							itemValue="#{fabricante.nome}" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Salvar"
+						actionListener="#{MBModelo.cadastrar}"
+						update="frmListaModelo:tblListaModelo :msgGlobal"
+						onclick="PF('dlgModeloNovo').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgModeloNovo').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Confimar Editar  Modelo-->
+		<p:dialog widgetVar="dlgModeloEditar" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Modelo - Editar">
+
+			<h:form id="frmModeloEditar">
+				<h:panelGrid id="pnlModeloEditar" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBModelo.modelo.id}" readonly="true" />
+
+					<h:outputText value="Nome:*  " />
+					<p:inputText value="#{MBModelo.modelo.nome}" />
+
+					<h:outputText value="Fabricante: *" />
+					<p:selectOneMenu id="Fabricante"
+						value="#{MBModelo.modelo.fabricante.nome}" required="true"
+						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBModelo.listaFabricantes}"
+							var="fabricante" itemLabel="#{fabricante.nome}"
+							itemValue="#{fabricante.nome}" />
+					</p:selectOneMenu>
+
+
+					<p:commandButton value="Salvar" actionListener="#{MBModelo.editar}"
+						update=":frmListaModelo:tblListaModelo :msgGlobal"
+						oncomplete="PF('dlgModeloEditar').hide();" />
+
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgModeloEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir Modelo -->
+		<p:dialog widgetVar="dlgModeloExcluir" closable="false" width="30%"
+			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Modelo - Excluir">
+			<h:form id="frmExcluirModelo">
+
+
+				<h:panelGrid id="pnlExcluirModelo" columns="2">
+				
+				
+					<h:outputText value="Id: " />
+					<p:inputText value="#{MBModelo.modelo.id}" readonly="true" />
+
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBModelo.modelo.nome}" readonly="true" />
+
+
+					<h:outputText value="Fabricante: " />
+					<p:inputText value="#{MBModelo.modelo.fabricante.nome}"
+						readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBModelo.excluir}"
+						update="frmListaModelo:tblListaModelo :msgGlobal"
+						onclick="PF('dlgModeloExcluir').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgModeloExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

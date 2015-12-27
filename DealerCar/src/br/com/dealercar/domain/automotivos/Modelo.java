@@ -17,6 +17,8 @@ public class Modelo extends EntidadeDominio {
 	private Fabricante fabricante;
 	
 	public Modelo() {
+		
+		fabricante = new Fabricante();
 
 	}
 	

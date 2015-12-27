@@ -7,12 +7,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form id="frmMenuPrincipal">
-		<p:menubar >
+		<p:menubar>
 			<p:submenu label="Arquivo">
 				<p:menuitem value="Logout" />
 			</p:submenu>
 
-			<p:submenu label="Cadastros" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+			<p:submenu label="Cadastros"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:submenu label="Clientes">
 					<p:menuitem value="Pesquisar" outcome="/pages/cliente.xhtml" />
 					<p:menuitem value="Listar Clientes"
@@ -24,37 +25,58 @@
 					<p:menuitem value="Listar Carros" outcome="/pages/lcarros.xhtml" />
 				</p:submenu>
 
-				<p:menuitem value="Categorias" outcome="/pages/categoria.xhtml" />
-				
-				<p:submenu label="Funcionarios" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
-					<p:menuitem value="Pesquisar" outcome="/pages/funcionario.xhtml"/>
-					<p:menuitem value="Listar Funcionarios" outcome="/pages/lfuncionario.xhtml"/>
+				<p:menuitem value="Categorias" outcome="/pages/categoria.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:submenu label="Funcionarios"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
+					<p:menuitem value="Pesquisar" outcome="/pages/funcionario.xhtml" />
+					<p:menuitem value="Listar Funcionarios"
+						outcome="/pages/lfuncionario.xhtml" />
 				</p:submenu>
-				
-				<p:menuitem value="Opcionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}"/>
-				
-				<p:menuitem value="Taxas Adicionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:menuitem value="Fabricantes" outcome="/pages/fabricantes.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:menuitem value="Modelos" outcome="/pages/modelos.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:menuitem value="Cores" outcome="/pages/cores.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:menuitem value="Opcionais"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
+				<p:menuitem value="Taxas Adicionais" outcome="/pages/taxas_adicionais.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 			</p:submenu>
 
-			<p:submenu label="Reserva" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+			<p:submenu label="Reserva"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Gerenciar Reservas"
 					outcome="/pages/reserva.xhtml" />
 
 			</p:submenu>
 
-			<p:submenu label="Retirada" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
-				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml"/>
-				<p:menuitem value="Gerenciar Retiradas" outcome="/pages/lretiradas.xhtml"/>
+			<p:submenu label="Retirada"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml" />
+				<p:menuitem value="Gerenciar Retiradas"
+					outcome="/pages/lretiradas.xhtml" />
 
 			</p:submenu>
 
-			<p:submenu label="Devolução" rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
-				<p:menuitem value="Efetuar Devolução" outcome="/pages/pesqdevcpf.xhtml"/>
-				<p:menuitem value="Gerenciar Devoluções" outcome="/pages/devolucao.xhtml"/>
-				
+			<p:submenu label="Devolução"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+				<p:menuitem value="Efetuar Devolução"
+					outcome="/pages/pesqdevcpf.xhtml" />
+				<p:menuitem value="Gerenciar Devoluções"
+					outcome="/pages/devolucao.xhtml" />
+
 			</p:submenu>
 
-			<p:submenu label="Manutenção" rendered="#{MBlogin.funcionario.usuario.permissao.id !=2}">
+			<p:submenu label="Manutenção"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id !=2}">
 
 			</p:submenu>
 
@@ -67,9 +89,10 @@
 			</p:submenu>
 
 			<p:submenu label="Logout">
-				<p:menuitem value="Sair" actionListener="#{MBlogin.efetuarLogout}" update=":frmMenuPrincipal :msgGlobal" />
+				<p:menuitem value="Sair" actionListener="#{MBlogin.efetuarLogout}"
+					update=":frmMenuPrincipal :msgGlobal" />
 			</p:submenu>
-		
+
 		</p:menubar>
 
 
