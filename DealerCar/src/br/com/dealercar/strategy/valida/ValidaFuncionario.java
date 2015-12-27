@@ -7,6 +7,11 @@ import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.Funcionario;
 
+/**
+ * Classe Strategy reponsável pela Validação de um Funcionario
+ * @author Paulinho
+ *
+ */
 public class ValidaFuncionario implements IValidacaoStrategy {
 
 

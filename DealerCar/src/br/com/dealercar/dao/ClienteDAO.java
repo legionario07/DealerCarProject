@@ -1,6 +1,7 @@
 package br.com.dealercar.dao;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.List;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.Endereco;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 
@@ -33,26 +35,28 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("insert into clientes ");
 		sql.append("(nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
 		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			ps.setString(++i, cliente.getNome().toUpperCase());
+			pstm.setString(++i, cliente.getNome().toUpperCase());
 			
 			//colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String strDataCadastro = stf.format(cliente.getDataNasc());
 			
-			ps.setString(++i, strDataCadastro);
+			pstm.setString(++i, strDataCadastro);
 			
-			ps.setString(++i, cliente.getNomeMae().toUpperCase());
-			ps.setString(++i, cliente.getSexo());
-			ps.setString(++i, cliente.getTelefone());
-			ps.setString(++i, cliente.getCelular());
-			ps.setString(++i, cliente.getRG().toUpperCase());
-			ps.setString(++i, cliente.getCPF());
-			ps.setString(++i, cliente.getEmail().toUpperCase());
+			pstm.setString(++i, cliente.getNomeMae().toUpperCase());
+			pstm.setString(++i, cliente.getSexo());
+			pstm.setString(++i, cliente.getTelefone());
+			pstm.setString(++i, cliente.getCelular());
+			pstm.setString(++i, cliente.getRG().toUpperCase());
+			pstm.setString(++i, cliente.getCPF());
+			pstm.setString(++i, cliente.getEmail().toUpperCase());
 
 			StringBuffer endereco = new StringBuffer();
 			
@@ -64,10 +68,13 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			endereco.append(cliente.getEndereco().getBairro());
 			
-			ps.setString(++i, endereco.toString());
-			ps.setInt(++i, cliente.getEndereco().getCidade().getId());
+			pstm.setString(++i, endereco.toString());
+			pstm.setInt(++i, cliente.getEndereco().getCidade().getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,28 +94,29 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, ");
 		sql.append("id_cidade = ? where id=?");
 		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 
 			int i = 0;
 			
-			ps.setString(++i, cliente.getNome().toUpperCase());
+			pstm.setString(++i, cliente.getNome().toUpperCase());
 			
 			//colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String strDataCadastro = stf.format(cliente.getDataNasc());
 			
-			ps.setString(++i, strDataCadastro);
+			pstm.setString(++i, strDataCadastro);
 			
-			ps.setString(++i, cliente.getNomeMae().toUpperCase());
-			ps.setString(++i, cliente.getSexo());
-			ps.setString(++i, cliente.getTelefone());
-			ps.setString(++i, cliente.getCelular());
-			ps.setString(++i, cliente.getRG().toUpperCase());
-			ps.setString(++i, cliente.getCPF());
-			ps.setString(++i, cliente.getEmail().toUpperCase());
+			pstm.setString(++i, cliente.getNomeMae().toUpperCase());
+			pstm.setString(++i, cliente.getSexo());
+			pstm.setString(++i, cliente.getTelefone());
+			pstm.setString(++i, cliente.getCelular());
+			pstm.setString(++i, cliente.getRG().toUpperCase());
+			pstm.setString(++i, cliente.getCPF());
+			pstm.setString(++i, cliente.getEmail().toUpperCase());
 			
 			StringBuffer endereco = new StringBuffer();
 			
@@ -120,12 +128,16 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			endereco.append(cliente.getEndereco().getBairro());
 			
-			ps.setString(++i, endereco.toString());
+			pstm.setString(++i, endereco.toString());
 			
-			ps.setInt(++i, cliente.getEndereco().getCidade().getId());
-			ps.setInt(++i, cliente.getId());
+			pstm.setInt(++i, cliente.getEndereco().getCidade().getId());
+			pstm.setInt(++i, cliente.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -138,14 +150,20 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	 */
 	public void excluir(Cliente cliente) {
 
-		String sql = "delete from clientes where id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from clientes where id = ?");
 
+		Connection con = Conexao.getConnection();
+		
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cliente.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cliente.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,10 +187,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("where cidades.id = clientes.id_cidade order by clientes.id asc");
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 
@@ -231,7 +251,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -256,12 +278,14 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.id = ?");
 
 		Cliente clienteRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, cliente.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cliente.getId());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				clienteRetorno = new Cliente();
@@ -320,7 +344,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -346,12 +372,14 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.cpf = ?");
 
 		Cliente clienteRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, cliente.getCPF());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cliente.getCPF());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				clienteRetorno = new Cliente();
@@ -410,7 +438,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -436,13 +466,15 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("where clientes.nome like ? order by clientes.nome asc");
 
 		List<Cliente> lista = new ArrayList<Cliente>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, "%" + cliente.getNome().toUpperCase() + "%");
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, "%" + cliente.getNome().toUpperCase() + "%");
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 
@@ -504,7 +536,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

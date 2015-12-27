@@ -5,13 +5,17 @@ import java.util.Date;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
 
+/**
+ * Classe que representa a Reserva do carro feita pelo cliente
+ * @author Paulinho
+ *
+ */
 public class Reserva extends EntidadeDominio {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private SituacaoReserva situacao;
 	private Date dataCadastroReserva;
 	private Date dataFim;
@@ -48,14 +52,6 @@ public class Reserva extends EntidadeDominio {
 		this.setModelo(modelo);
 		this.setCliente(cliente);
 		this.setFuncionario(funcionario);
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public SituacaoReserva getSituacao() {

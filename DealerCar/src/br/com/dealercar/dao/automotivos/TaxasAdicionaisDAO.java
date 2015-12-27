@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -27,12 +29,17 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("insert into taxas_adicionais ");
 		sql.append("(taxa, valor) values (?,?)");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			pstm.setString(++i, taxaAdicional.getDescricao());
 			pstm.setDouble(++i, taxaAdicional.getValor());
 			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 			
 		} catch (SQLException e) {
@@ -53,10 +60,15 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("delete from taxas_adicionais ");
 		sql.append("where taxa = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, taxaAdicional.getDescricao());
 			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,6 +89,8 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("set taxa = ?, valor = ? ");
 		sql.append("where id = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
@@ -85,6 +99,8 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 			pstm.setInt(++i, taxaAdicional.getId());
 			pstm.executeUpdate();
 			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,6 +120,8 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		
 		List<TaxasAdicionais> taxas = new ArrayList<TaxasAdicionais>();
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			ResultSet rSet = pstm.executeQuery();
@@ -116,6 +134,10 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				
 				taxas.add(taxa);
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -132,12 +154,14 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 	 */
 	@Override
 	public TaxasAdicionais pesquisarPorID(TaxasAdicionais taxaAdicional) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from taxas_adicionais ");
 		sql.append("where id = ?");
 
 		TaxasAdicionais taxa = null;
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -152,6 +176,10 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				taxa.setValor(rSet.getDouble("valor"));
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,12 +196,14 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 	 * Retorna uma taxa adicional localizado por seu nome
 	 */
 	public TaxasAdicionais pesquisarPorTaxa(String nome) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from taxas_adicionais ");
 		sql.append("where taxa = ?");
 
 		TaxasAdicionais taxa = null;
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -188,6 +218,10 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				taxa.setValor(rSet.getDouble("valor"));
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

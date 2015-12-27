@@ -1,5 +1,10 @@
 package br.com.dealercar.teste.domain;
 
+import java.util.List;
+
+import br.com.dealercar.dao.ClienteDAO;
+import br.com.dealercar.domain.Cliente;
+
 public class ClienteDAOTest {
 
 	/*
@@ -30,7 +35,7 @@ public class ClienteDAOTest {
 		dao.editar(cliente);
 
 	}
-
+*/
 	public static void listarTodos() {
 
 		ClienteDAO dao = new ClienteDAO();
@@ -41,7 +46,7 @@ public class ClienteDAOTest {
 		}
 	}
 
-	public static void pesquisarPorID() {
+/*	public static void pesquisarPorID() {
 		Cliente cliente = new Cliente();
 		cliente.setId(16);
 
@@ -82,7 +87,7 @@ public class ClienteDAOTest {
 
 		//cadastrar();
 		 //editar();
-		//listarTodos();
+		listarTodos();
 		// pesquisarPorID();
 		//pesquisarPorNome();
 		//pesquisarPorCPF();

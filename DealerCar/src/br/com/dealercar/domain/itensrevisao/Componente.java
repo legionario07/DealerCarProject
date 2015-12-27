@@ -1,5 +1,9 @@
 package br.com.dealercar.domain.itensrevisao;
-
+/**
+ * Classe herdadas pelos itens de Revisão
+ * @author Paulinho
+ *
+ */
 public class Componente {
 	
 	private String descricao;

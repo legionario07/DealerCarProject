@@ -1,5 +1,11 @@
 package br.com.dealercar.domain.itensopcionais;
 
+/**
+ * Classe que representa uma Cadeirinha de bebe disponivel
+ * para escolha do cliente no momento da Locação
+ * @author Paulinho
+ *
+ */
 public class CadeirinhaBebe extends Itens {
 
 	/**

@@ -7,6 +7,11 @@ import br.com.dealercar.dao.automotivos.CategoriaDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Categoria;
 
+/**
+ * Classe Strategy reponsável pela Validação de uma Categoria
+ * @author Paulinho
+ *
+ */
 public class ValidaCategoria implements IValidacaoStrategy {
 
 	/**

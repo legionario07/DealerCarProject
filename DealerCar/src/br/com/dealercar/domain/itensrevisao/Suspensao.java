@@ -1,9 +1,13 @@
 package br.com.dealercar.domain.itensrevisao;
 
+/**
+ * Classe responsavel pela revisao da Suspensão do Carro
+ * @author Paulinho
+ *
+ */
 public class Suspensao extends Componente{
 	
 	public Suspensao() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Suspensao(boolean ok) {

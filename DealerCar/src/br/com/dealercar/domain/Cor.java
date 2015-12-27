@@ -2,13 +2,17 @@ package br.com.dealercar.domain;
 
 import java.util.List;
 
+/**
+ * Classe que representa as cores dos carros
+ * @author Paulinho
+ *
+ */
 public class Cor extends EntidadeDominio {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String nome;
 	
 	public Cor() {
@@ -23,12 +27,6 @@ public class Cor extends EntidadeDominio {
 		this.setNome(cor);
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNome() {
 		return nome;
 	}

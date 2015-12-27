@@ -13,7 +13,6 @@ public class Usuario extends EntidadeDominio {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String login;
 	private String senha;
 	private String ativo;
@@ -21,28 +20,18 @@ public class Usuario extends EntidadeDominio {
 
 	private Permissao permissao;
 	
-	
-	public Usuario() {
+	public Usuario(){
+		
 	}
 	
-	public Usuario(int id) {
-		this.setId(id);
+	public Usuario (int id){
+		this.permissao = new Permissao(id);
 	}
 	
-	public Usuario(String login, String senha, Permissao permissao, String ativo) {
-		this.setLogin(login);
-		this.setSenha(senha);
-		this.setPermissao(permissao);
-		this.setAtivo(ativo);
+	public Usuario(int id, String nivel) {
+		this.permissao = new Permissao(id, nivel);
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getLogin() {
 		return login;
 	}

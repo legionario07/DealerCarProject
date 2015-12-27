@@ -2,13 +2,17 @@ package br.com.dealercar.domain.automotivos;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe que representa o modelo do carro
+ * @author Paulinho
+ *
+ */
 public class Modelo extends EntidadeDominio {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String nome;
 	private Fabricante fabricante;
 	
@@ -35,12 +39,6 @@ public class Modelo extends EntidadeDominio {
 		this.setFabricante(fabricante);
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNome() {
 		return nome;
 	}

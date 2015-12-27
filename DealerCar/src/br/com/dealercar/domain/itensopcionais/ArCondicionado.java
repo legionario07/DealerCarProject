@@ -2,6 +2,12 @@ package br.com.dealercar.domain.itensopcionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe que representa um ARCondicionado disponivel
+ * para escolha do cliente no momento da Locação
+ * @author Paulinho
+ *
+ */
 public class ArCondicionado extends EntidadeDominio {
 
 	/**

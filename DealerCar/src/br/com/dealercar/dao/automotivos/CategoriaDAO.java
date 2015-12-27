@@ -1,6 +1,7 @@
 package br.com.dealercar.dao.automotivos;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Categoria;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -28,14 +30,23 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	 * @param categoria Recebe um objeto de Categoria e cadastra no BD
 	 */
 	public void cadastrar(Categoria categoria) {
-		String sql = "insert into categorias (nome, descricao, vlr_diaria) values (?, ?, ?)";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into categorias ");
+		sql.append("nome, descricao, vlr_diaria) values (?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, categoria.getNome());
-			ps.setString(2, categoria.getDescricao());
-			ps.setDouble(3, categoria.getValorDiaria());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, categoria.getNome());
+			pstm.setString(2, categoria.getDescricao());
+			pstm.setDouble(3, categoria.getValorDiaria());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -49,15 +60,23 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	 */
 	public void editar(Categoria categoria) {
 
-		String sql = "update categorias set nome = ?, descricao = ?, vlr_diaria = ? where id = ? ";
+		StringBuffer sql = new StringBuffer();
+		sql.append("update categorias set nome = ?, ");
+		sql.append("descricao = ?, vlr_diaria = ? ");
+		sql.append("where id = ? ");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, categoria.getNome());
-			ps.setString(2, categoria.getDescricao());
-			ps.setDouble(3, categoria.getValorDiaria());
-			ps.setInt(4, categoria.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, categoria.getNome());
+			pstm.setString(2, categoria.getDescricao());
+			pstm.setDouble(3, categoria.getValorDiaria());
+			pstm.setInt(4, categoria.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,13 +91,19 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	 */
 	public void excluir(Categoria categoria) {
 
-		String sql = "delete from categorias where id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from categorias where id = ?");
 
+		Connection con = Conexao.getConnection();
+		
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, categoria.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, categoria.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,15 +119,18 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	 */
 	public Categoria pesquisarPorID(Categoria categoria) {
 
-		String sql = "select * from categorias where id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from categorias where id = ?");
 
 		Categoria categoriaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, categoria.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, categoria.getId());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				categoriaRetorno = new Categoria();
@@ -113,6 +141,8 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,13 +158,17 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	 * @return Retorna todas as Categorias cadastradas no BD em forma de List<Categoria>
 	 */
 	public List<Categoria> listarTodos() {
-		String sql = "select * from categorias";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from categorias");
 
 		List<Categoria> listaRetorno = new ArrayList<Categoria>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()){
 				Categoria categoriaRetorno = new Categoria();
@@ -148,6 +182,8 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -7,6 +7,11 @@ import br.com.dealercar.dao.automotivos.ImagemCarroDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
 
+/**
+ * Classe Strategy reponsável pela Validação de uma Imagem
+ * @author Paulinho
+ *
+ */
 public class ValidaImagemCarro implements IValidacaoStrategy {
 	
 

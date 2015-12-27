@@ -2,6 +2,11 @@ package br.com.dealercar.domain;
 
 import java.io.Serializable;
 
+/**
+ * classe que representa o endereço do cliente ou dos funcionarios
+ * @author Paulinho
+ *
+ */
 public class Endereco implements Serializable {
 	
 	/**

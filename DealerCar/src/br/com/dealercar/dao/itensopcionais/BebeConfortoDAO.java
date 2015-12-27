@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -24,18 +26,24 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 	 *            Dados
 	 */
 	public void cadastrar(BebeConforto bebeConforto) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into bebe_confortos (descricao, valor, marca, numero_patrimonio, meses_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, bebeConforto.getDescricao());
-			ps.setDouble(2, bebeConforto.getValor());
-			ps.setString(3, bebeConforto.getMarca());
-			ps.setString(4, bebeConforto.getNumeroPatrimonio());
-			ps.setInt(5, bebeConforto.getMesesBebe());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, bebeConforto.getDescricao());
+			pstm.setDouble(2, bebeConforto.getValor());
+			pstm.setString(3, bebeConforto.getMarca());
+			pstm.setString(4, bebeConforto.getNumeroPatrimonio());
+			pstm.setInt(5, bebeConforto.getMesesBebe());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,13 +59,19 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 	 *            Codigo
 	 */
 	public void excluir(BebeConforto bebeConforto) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from bebe_confortos where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, bebeConforto.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, bebeConforto.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,16 +88,21 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		StringBuffer sql = new StringBuffer();
 		sql.append("update bebe_confortos set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, meses_bebe = ? where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, bebeConforto.getDescricao());
-			ps.setDouble(2, bebeConforto.getValor());
-			ps.setString(3, bebeConforto.getMarca());
-			ps.setString(4, bebeConforto.getNumeroPatrimonio());
-			ps.setInt(5, bebeConforto.getMesesBebe());
-			ps.setInt(6, bebeConforto.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, bebeConforto.getDescricao());
+			pstm.setDouble(2, bebeConforto.getValor());
+			pstm.setString(3, bebeConforto.getMarca());
+			pstm.setString(4, bebeConforto.getNumeroPatrimonio());
+			pstm.setInt(5, bebeConforto.getMesesBebe());
+			pstm.setInt(6, bebeConforto.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,11 +121,13 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("select * from bebe_confortos where codigo <> 99");
 
 		List<BebeConforto> listaRetorno = new ArrayList<BebeConforto>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				BebeConforto bebeConforto = new BebeConforto();
@@ -120,6 +141,10 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 				listaRetorno.add(bebeConforto);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,12 +167,14 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("select * from bebe_confortos where codigo = ?");
 
 		BebeConforto bebeConfortoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, bebeConforto.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, bebeConforto.getCodigo());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				bebeConfortoRetorno = new BebeConforto();
@@ -160,6 +187,11 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 				bebeConfortoRetorno.setMesesBebe(rSet.getInt("meses_bebe"));
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -181,12 +213,14 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("select * from bebe_confortos where codigo = ?");
 
 		BebeConforto bConfortoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, bebeConforto.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, bebeConforto.getCodigo());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				bConfortoRetorno = new BebeConforto();
@@ -198,6 +232,10 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 				bConfortoRetorno.setNumeroPatrimonio(rSet.getString("numero_patrimonio"));
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

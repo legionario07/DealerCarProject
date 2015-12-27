@@ -2,6 +2,9 @@ package br.com.dealercar.domain.taxasadicionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe responsável pelas Taxas Cobradas no momento da Devolução
+ */
 public class TaxasAdicionais extends EntidadeDominio {
 
 	/**

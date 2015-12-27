@@ -7,6 +7,11 @@ import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.Cliente;
 
+/**
+ * Classe Strategy reponsável pela Validação de um Cliente
+ * @author Paulinho
+ *
+ */
 public class ValidaCliente implements IValidacaoStrategy{
 	
 	/**

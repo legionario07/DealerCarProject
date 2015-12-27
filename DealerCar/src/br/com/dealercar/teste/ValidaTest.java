@@ -1,10 +1,15 @@
-package br.com.dealercar.strategy.valida;
+package br.com.dealercar.teste;
 
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
+import br.com.dealercar.strategy.valida.ValidaCarro;
+import br.com.dealercar.strategy.valida.ValidaCategoria;
+import br.com.dealercar.strategy.valida.ValidaCidade;
+import br.com.dealercar.strategy.valida.ValidaCor;
+import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 
 public class ValidaTest {
 

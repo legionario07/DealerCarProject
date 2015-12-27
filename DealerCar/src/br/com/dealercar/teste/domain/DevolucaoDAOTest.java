@@ -3,17 +3,9 @@ package br.com.dealercar.teste.domain;
 import java.util.List;
 
 import br.com.dealercar.dao.DevolucaoDAO;
-import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.RetiradaDAO;
-import br.com.dealercar.dao.automotivos.TaxaCombustivelDAO;
 import br.com.dealercar.domain.Devolucao;
-import br.com.dealercar.domain.Funcionario;
-import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
-import br.com.dealercar.domain.taxasadicionais.TaxaCombustivel;
-import br.com.dealercar.domain.taxasadicionais.TaxaLavagem;
-import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
-import br.com.dealercar.util.DataUtil;
 
 public class DevolucaoDAOTest {
 
@@ -84,6 +76,7 @@ public class DevolucaoDAOTest {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void pesquisarPorCPF() {
 		
 		Devolucao devolucao = new Devolucao();
@@ -104,7 +97,7 @@ public class DevolucaoDAOTest {
 
 		 //cadastrar();
 		//pesquisarPorID();
-		 listarTodos();
+		// listarTodos();
 		//pesquisarPorCPF();
 
 	}

@@ -19,6 +19,11 @@ import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 
+/**
+ * Classe Strategy reponsável pela Validação de um Item Opcional
+ * @author Paulinho
+ *
+ */
 public class ValidaItemOpcional implements IValidacaoStrategy {
 
 	/**

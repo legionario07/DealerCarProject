@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.List;
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -24,13 +26,22 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 * @param fabricante
 	 */
 	public void cadastrar(Modelo modelo) {
-		String sql = "insert into modelos (nome, id_fabricante) values (?, ?)";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into modelos ");
+		sql.append("nome, id_fabricante) values (?, ?)");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, modelo.getNome().toUpperCase());
-			ps.setInt(2, modelo.getFabricante().getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, modelo.getNome().toUpperCase());
+			pstm.setInt(2, modelo.getFabricante().getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,16 +55,22 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 * @param fabricante
 	 */
 	public void editar(Modelo modelo) {
-		String sql = "update modelos set nome = ?, id_fabricante = ? where id = ?";
 		
+		StringBuffer sql = new StringBuffer();
+		sql.append("update modelos set nome = ?, ");
+		sql.append("id_fabricante = ? where id = ?");
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, modelo.getNome().toUpperCase());
-			ps.setInt(2, modelo.getFabricante().getId());
-			ps.setLong(3, modelo.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, modelo.getNome().toUpperCase());
+			pstm.setInt(2, modelo.getFabricante().getId());
+			pstm.setLong(3, modelo.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,12 +84,19 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 * localizando por seu ID
 	 */
 	public void excluir(Modelo modelo) {
-		String sql = "delete from modelos where id = ?";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from modelos where id = ?");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, modelo.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, modelo.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,6 +112,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 * @return Retorna um objeto de Modelo
 	 */
 	public Modelo pesquisarPorID(Modelo modelo) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select  modelos.id, modelos.nome, modelos.id_fabricante, ");
 		sql.append("fabricantes.id, fabricantes.nome ");
@@ -95,11 +120,13 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		Modelo modeloRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, modelo.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, modelo.getId());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				modeloRetorno = new Modelo();
@@ -115,6 +142,8 @@ public class ModeloDAO implements IDAO<Modelo>{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,15 +159,19 @@ public class ModeloDAO implements IDAO<Modelo>{
 	 */
 	public List<Modelo> listarTodos() {
 		
-		String sql = "select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.nome"
-				+ " from modelos inner join fabricantes where modelos.id_fabricante = fabricantes.id";
+		StringBuffer sql =  new StringBuffer();
+		sql.append("select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.nome ");
+		sql.append("from modelos inner join fabricantes ");
+		sql.append("where modelos.id_fabricante = fabricantes.id");
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				Modelo modelo = new Modelo();
@@ -155,6 +188,8 @@ public class ModeloDAO implements IDAO<Modelo>{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -183,10 +218,12 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, "Disponivel");
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, "Disponivel");
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				Modelo modelo = new Modelo();
@@ -203,6 +240,8 @@ public class ModeloDAO implements IDAO<Modelo>{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

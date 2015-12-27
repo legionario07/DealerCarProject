@@ -61,6 +61,7 @@
 
 				<p:column headerText="Cargo" width="25%"
 					style="font-size:11px; text-align:center"
+					filterBy="#{itemFuncionario.cargo}"
 					sortBy="#{itemFuncionario.cargo}">
 					<h:outputText value="#{itemFuncionario.cargo}" />
 				</p:column>
@@ -73,18 +74,21 @@
 
 				<p:column headerText="Usuario" width="15%"
 					style="font-size:11px; text-align:center"
+					filterBy="#{itemFuncionario.usuario.login}"
 					sortBy="#{itemFuncionario.usuario.login}">
 					<h:outputText value="#{itemFuncionario.usuario.login}" />
 				</p:column>
 
 				<p:column headerText="Permissao" width="15%"
 					style="font-size:11px; text-align:center"
+					filterBy="#{itemFuncionario.usuario.permissao.nivel}"
 					sortBy="#{itemFuncionario.usuario.permissao.nivel}">
 					<h:outputText value="#{itemFuncionario.usuario.permissao.nivel}" />
 				</p:column>
 				
 				<p:column headerText="Ativo" width="15%"
 					style="font-size:11px; text-align:center"
+					filterBy="#{itemFuncionario.usuario.ativo}"
 					sortBy="#{itemFuncionario.usuario.ativo}">
 					<h:outputText value="#{itemFuncionario.usuario.ativo}" />
 				</p:column>

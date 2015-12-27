@@ -1,5 +1,10 @@
 package br.com.dealercar.domain.itensrevisao;
 
+/**
+ * Classe responsavel pela revisao da Bateria do Carro
+ * @author Paulinho
+ *
+ */
 public class Bateria extends Componente{
 
 	public Bateria() {

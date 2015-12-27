@@ -1,6 +1,7 @@
 package br.com.dealercar.dao.automotivos;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -31,24 +33,31 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @param carro Recebe um objeto de Carro e cadastra no BD
 	 */
 	public void cadastrar(Carro carro) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into carros (placa, ano, numero_portas, qtde_malas_suportadas, ");
 		sql.append("id_cor, id_modelo, id_categoria, id_images, situacao) ");
 		sql.append("values (? , ?, ?, ?, ?, ?, ? ,? , ?)");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i=0;
-			ps.setString(++i, carro.getPlaca().toUpperCase());
-			ps.setString(++i, carro.getAno());
-			ps.setInt(++i, carro.getQtdePortas());
-			ps.setInt(++i, carro.getQtdeMalasSuportadas());
-			ps.setInt(++i, carro.getCor().getId());
-			ps.setInt(++i, carro.getModelo().getId());
-			ps.setInt(++i, carro.getCategoria().getId());
-			ps.setInt(++i, carro.getCarroUrl().getId());
-			ps.setString(++i, carro.getSituacao().getDescricao());
-			ps.executeUpdate();
+			pstm.setString(++i, carro.getPlaca().toUpperCase());
+			pstm.setString(++i, carro.getAno());
+			pstm.setInt(++i, carro.getQtdePortas());
+			pstm.setInt(++i, carro.getQtdeMalasSuportadas());
+			pstm.setInt(++i, carro.getCor().getId());
+			pstm.setInt(++i, carro.getModelo().getId());
+			pstm.setInt(++i, carro.getCategoria().getId());
+			pstm.setInt(++i, carro.getCarroUrl().getId());
+			pstm.setString(++i, carro.getSituacao().getDescricao());
+			
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,13 +70,19 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @param carro Recebe um objeto de Carro e exclui do BD de acordo com a placa
 	 */
 	public void excluir(Carro carro) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from carros where placa = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, carro.getPlaca());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, carro.getPlaca());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,6 +98,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @return Retorna um objeto de Carro
 	 */
 	public Carro pesquisarPorPlaca(Carro carro) {
+		
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
 		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
@@ -98,11 +114,13 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		Carro carroRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, carro.getPlaca());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, carro.getPlaca());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				carroRetorno = new Carro();
@@ -143,6 +161,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,6 +178,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @return Retorna um objeto de Carro
 	 */
 	public List<Carro> listarModelosDisponiveis(Modelo modelo) {
+		
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
 		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
@@ -173,12 +194,14 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		List<Carro> carros = new ArrayList<Carro>();
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, modelo.getId());
-			ps.setString(2, SituacaoType.Disponivel.getDescricao());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, modelo.getId());
+			pstm.setString(2, SituacaoType.Disponivel.getDescricao());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				
@@ -222,6 +245,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -236,27 +261,33 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @param carro Recebe um objeto Carro e edita todos os seus dados no BD
 	 */
 	public void editar(Carro carro) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("update carros set placa = ?, ano = ?, ");
 		sql.append("numero_portas = ?, qtde_malas_suportadas = ?, ");
 		sql.append("id_cor = ?, id_modelo = ?, id_categoria = ?, ");
 		sql.append("id_images = ?, situacao = ? where placa = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i=0;
-			ps.setString(++i, carro.getPlaca());
-			ps.setString(++i, carro.getAno());
-			ps.setInt(++i, carro.getQtdePortas());
-			ps.setInt(++i, carro.getQtdeMalasSuportadas());
-			ps.setInt(++i, carro.getCor().getId());
-			ps.setInt(++i, carro.getModelo().getId());
-			ps.setInt(++i, carro.getCategoria().getId());
-			ps.setInt(++i, carro.getCarroUrl().getId());
-			ps.setString(++i, carro.getSituacao().getDescricao());
-			ps.setString(++i, carro.getPlaca());
+			pstm.setString(++i, carro.getPlaca());
+			pstm.setString(++i, carro.getAno());
+			pstm.setInt(++i, carro.getQtdePortas());
+			pstm.setInt(++i, carro.getQtdeMalasSuportadas());
+			pstm.setInt(++i, carro.getCor().getId());
+			pstm.setInt(++i, carro.getModelo().getId());
+			pstm.setInt(++i, carro.getCategoria().getId());
+			pstm.setInt(++i, carro.getCarroUrl().getId());
+			pstm.setString(++i, carro.getSituacao().getDescricao());
+			pstm.setString(++i, carro.getPlaca());
 			
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -271,6 +302,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	 * @return Retorna todos os carros cadastrados no BD em forma de List<Carro>
 	 */
 	public List<Carro> listarTodos() {
+		
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
 		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
@@ -286,9 +318,11 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		List<Carro> lista = new ArrayList<Carro>();
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				
@@ -331,6 +365,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -362,14 +398,14 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		sql.append("inner join fabricantes on fabricantes.id = modelos.id_fabricante "); 
 		sql.append("where carros.situacao = ? group by modelos.nome");
 		
-		
 		List<Carro> lista = new ArrayList<Carro>();
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, SituacaoType.Disponivel.getDescricao());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, SituacaoType.Disponivel.getDescricao());
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				
@@ -412,6 +448,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

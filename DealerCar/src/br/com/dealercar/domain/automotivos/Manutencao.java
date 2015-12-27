@@ -5,6 +5,11 @@ import java.util.Date;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.Funcionario;
 
+/**
+ * Classe reponsavel pela manutenção dos carros
+ * @author Paulinho
+ *
+ */
 public class Manutencao extends EntidadeDominio {
 
 	/**
@@ -12,21 +17,12 @@ public class Manutencao extends EntidadeDominio {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int id;
 	private Carro carro;
 	private Date dataManutencao;
 	private Long quilometragem;
 	private String descricao;
 
 	private Funcionario funcionario;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Date getDataManutencao() {
 		return dataManutencao;

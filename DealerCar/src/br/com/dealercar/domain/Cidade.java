@@ -1,12 +1,16 @@
 package br.com.dealercar.domain;
 
+/**
+ * Classe que representa as cidades dos clientes e funcionarios
+ * @author Paulinho
+ *
+ */
 public class Cidade extends EntidadeDominio{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String nome;
 	private String uf;
 
@@ -21,14 +25,6 @@ public class Cidade extends EntidadeDominio{
 	public Cidade(String nome, String uf) {
 		this.nome = nome;
 		this.uf = uf;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getNome() {

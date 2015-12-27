@@ -5,13 +5,18 @@ import java.util.List;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe reponsavel por gerenciar os itens opcionais
+ * escolhidos pelo cliente no momento da locação
+ * @author Paulinho
+ *
+ */
 public class Opcional extends EntidadeDominio {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private List<Itens> itens = new ArrayList<Itens>();
 	private ArCondicionado arCondicionado;
 	private Seguro seguro;
@@ -37,14 +42,6 @@ public class Opcional extends EntidadeDominio {
 
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public List<Itens> getItens() {

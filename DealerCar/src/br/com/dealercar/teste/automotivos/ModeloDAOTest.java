@@ -85,7 +85,7 @@ public class ModeloDAOTest {
 		//editar();
 		//excluir();
 		//pesquisarPorID();
-		pesquisarModelosDisponiveis();
+		//pesquisarModelosDisponiveis();
 		
 		
 	}

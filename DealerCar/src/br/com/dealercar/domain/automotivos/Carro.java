@@ -6,6 +6,11 @@ import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.enums.SituacaoType;
 
+/**
+ * Classe que representa o Objeto Carro
+ * @author Paulinho
+ *
+ */
 public class Carro extends EntidadeDominio implements Serializable {
 
 	/**

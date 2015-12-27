@@ -2,13 +2,17 @@ package br.com.dealercar.domain.automotivos;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe que representa o Fabricante de determinado modelo de veiculo
+ * @author Paulinho
+ *
+ */
 public class Fabricante extends EntidadeDominio {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String nome;
 	
 	public Fabricante(){
@@ -21,13 +25,6 @@ public class Fabricante extends EntidadeDominio {
 	
 	public Fabricante(String nome){
 		this.setNome(nome);
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getNome() {
 		return nome;

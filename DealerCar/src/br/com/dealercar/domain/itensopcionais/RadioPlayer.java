@@ -1,5 +1,11 @@
 package br.com.dealercar.domain.itensopcionais;
 
+/**
+ * Classe que representa um RAdio Player disponivel
+ * para escolha do cliente no momento da Locação
+ * @author Paulinho
+ *
+ */
 public class RadioPlayer extends Itens {
 
 	/**

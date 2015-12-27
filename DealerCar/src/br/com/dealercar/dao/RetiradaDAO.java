@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.enums.SituacaoType;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -37,7 +39,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("(data_retirada, data_devolucao, quilometragem, placa, id_cliente, ");
 		sql.append("id_funcionario, id_itensopcionais, id_reserva, ativo) ");
 		sql.append("values (?,?,?,?,?,?,?,?,?)");
-
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -76,6 +79,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			pstm.setString(++i, String.valueOf(retirada.isEhAtivo()));
 			
 			pstm.executeUpdate();
+
+			pstm.close();
+			con.close();
 			
 			//Alterando o carro locado no BD para LOCADO
 			Carro carro = new Carro();
@@ -84,9 +90,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			carro.setSituacao(SituacaoType.Locado);
 			new CarroDAO().editar(carro);
 			
-			
-			
-			pstm.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,6 +116,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("update retiradas set ativo = ? ");
 		sql.append("where retiradas.id = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
@@ -120,6 +125,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			pstm.setInt(++i, retirada.getId());
 			
 			pstm.executeUpdate();
+
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -141,6 +149,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("select * from retiradas ");
 
 		List<Retirada> lista = new ArrayList<Retirada>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -188,6 +198,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				lista.add(retirada);
 
 			}
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -208,6 +221,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("select * from retiradas where id = ? ");
 
 		Retirada retiradaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -257,6 +272,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -272,6 +292,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 	 * @return Retorna uma lista de Retirada
 	 */
 	public List<Retirada> pesquisarPorCPF(Cliente cliente) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from retiradas ");
 		sql.append("inner join clientes ");
@@ -280,6 +301,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -332,6 +355,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				lista.add(retiradaRetorno);
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -347,6 +375,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 	 * @return Retorna uma lista de Retirada
 	 */
 	public List<Retirada> pesquisarPorPlaca(Carro carro) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from retiradas ");
 		sql.append("inner join carros ");
@@ -356,6 +385,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		List<Retirada> lista = new ArrayList<Retirada>();
 		
 		Retirada retiradaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -406,6 +437,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				lista.add(retiradaRetorno);
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -421,6 +457,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 	 * @return Retorna uma lista de Retirada
 	 */
 	public List<Retirada> pesquisarRetiradaAtivaPorCPF(Cliente cliente) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from retiradas ");
 		sql.append("inner join clientes ");
@@ -429,6 +466,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -480,6 +519,11 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				lista.add(retiradaRetorno);
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

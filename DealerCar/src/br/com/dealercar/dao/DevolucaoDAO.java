@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.enums.SituacaoType;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -39,6 +41,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 		sql.append("(data, quilometragem, placa, qtde_diarias, id_cliente, id_funcionario, ");
 		sql.append("taxas_adicionais, id_reserva, id_retirada, vlr_total, observacao, taxas_cobradas) ");
 		sql.append("values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -75,6 +79,9 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 			pstm.setString(++i, devolucao.getTaxasCobradas());
 
 			pstm.executeUpdate();
+
+			pstm.close();
+			con.close();
 
 			// Alterando a retirada o campo Ativo da Retirada no BD para FALSE
 			devolucao.getRetirada().setEhAtivo(false);
@@ -117,6 +124,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 		sql.append("select * from devolucoes");
 
 		List<Devolucao> lista = new ArrayList<Devolucao>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,6 +172,10 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 				lista.add(devolucaoRetorno);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -184,6 +197,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 		sql.append("select * from devolucoes where id = ? ");
 
 		Devolucao devolucaoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -230,6 +245,11 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 				devolucaoRetorno.setReserva(reserva);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -258,6 +278,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 		sql.append("where clientes.cpf = ?");
 
 		List<Devolucao> lista = new ArrayList<Devolucao>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -305,6 +327,10 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 				lista.add(devolucaoRetorno);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

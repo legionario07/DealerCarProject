@@ -1,5 +1,9 @@
 package br.com.dealercar.domain.itensrevisao;
-
+/**
+ * Classe responsavel pela revisao da Temperatura do Carro
+ * @author Paulinho
+ *
+ */
 public class Arrefecimento extends Componente{
 
 	public Arrefecimento() {

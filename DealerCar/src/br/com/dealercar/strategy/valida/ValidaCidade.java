@@ -7,6 +7,11 @@ import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe Strategy reponsável pela Validação de uma Cidade
+ * @author Paulinho
+ *
+ */
 public class ValidaCidade implements IValidacaoStrategy{
 
 	/**

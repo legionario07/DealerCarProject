@@ -3,6 +3,13 @@ package br.com.dealercar.domain.itensopcionais;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.enums.SeguroType;
 
+/**
+ * Classe que representa um Tipo de Seguro disponivel
+ * para escolha do cliente no momento da Locação, quando o mesmo fizer a
+ * escolha do seguro apropriado
+ * @author Paulinho
+ *
+ */
 public class TipoSeguro extends EntidadeDominio{
 	
 	/**

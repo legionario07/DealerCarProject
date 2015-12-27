@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.enums.SeguroType;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -21,21 +23,26 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
-	 * @pseguroam Seguro Recebe um Seguro e cadastra no Banco de Dados
+	 * @pstmeguroam Seguro Recebe um Seguro e cadastra no Banco de Dados
 	 */
 	public void cadastrar(Seguro seguro) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into seguros (descricao, valor, tipo_seguro) ");
 		sql.append("values (?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, seguro.getDescricao());
-			ps.setDouble(2, seguro.getValor());
-			ps.setInt(3, seguro.getTipoSeguro().getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, seguro.getDescricao());
+			pstm.setDouble(2, seguro.getValor());
+			pstm.setInt(3, seguro.getTipoSeguro().getId());
+			pstm.executeUpdate();
 
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -44,18 +51,23 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
-	 * @pseguroam Seguro Recebe um Seguro e exclui-o do Banco de Dados
+	 * @pstmeguroam Seguro Recebe um Seguro e exclui-o do Banco de Dados
 	 *            procurando-o pelo codigo
 	 */
 	public void excluir(Seguro seguro) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from seguros where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, seguro.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, seguro.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,22 +78,28 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
-	 * @pseguroam Seguro Recebe um Seguro e edita-o no Banco de Dados
+	 * @pstmeguroam Seguro Recebe um Seguro e edita-o no Banco de Dados
 	 *            Localizando-o pelo seu Codigo
 	 */
 	public void editar(Seguro seguro) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("update seguros set descricao = ?, valor = ?, tipo_seguro = ? where codigo = ?");
+		sql.append("update seguros set descricao = ?, ");
+		sql.append("valor = ?, tipo_seguro = ? where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, seguro.getDescricao());
-			ps.setDouble(2, seguro.getValor());
-			ps.setInt(3, seguro.getTipoSeguro().getId());
-			ps.setInt(4, seguro.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, seguro.getDescricao());
+			pstm.setDouble(2, seguro.getValor());
+			pstm.setInt(3, seguro.getTipoSeguro().getId());
+			pstm.setInt(4, seguro.getCodigo());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,10 +120,12 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("order by seguros.descricao asc");
 
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				Seguro seguro = new Seguro();
@@ -123,6 +143,11 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 				listaRetorno.add(seguro);
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -133,7 +158,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
-	 * @pseguroam Seguro Recebe um Objeto Seguro e localiza no Banco de Dados
+	 * @pstmeguroam Seguro Recebe um Objeto Seguro e localiza no Banco de Dados
 	 *            pelo Codigo
 	 * @return Retorna um objeto de Seguro
 	 */
@@ -147,12 +172,14 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("where seguros.codigo = ?");
 
 		Seguro seguroRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, seguro.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, seguro.getCodigo());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				seguroRetorno = new Seguro();
@@ -169,6 +196,10 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 				seguroRetorno.setTipoSeguro(tipoSeguro);
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,21 +222,23 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 	 *         objeto de Seguro
 	 */
 	public List<Seguro> listarApenasNomesDiferentes() {
-		StringBuffer sql = new StringBuffer();
 		
+		StringBuffer sql = new StringBuffer();
 		sql.append("select distinct seguros.codigo, seguros.descricao, seguros.tipo_seguro "); 
 		sql.append("from seguros inner join tipo_seguro on tipo_seguro.id = seguros.tipo_seguro ");
 		sql.append("where seguros.tipo_seguro=1 "); 
 		sql.append("order by seguros.descricao asc"); 
 		
-
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
+				
 				Seguro seguro = new Seguro();
 				seguro.setCodigo(rSet.getInt("seguros.codigo"));
 				seguro.setDescricao(rSet.getString("seguros.descricao"));
@@ -220,6 +253,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 				listaRetorno.add(seguro);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

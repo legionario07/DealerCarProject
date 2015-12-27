@@ -83,6 +83,24 @@ public class ReservaDAOTest {
 		}
 	}
 	
+	public static void pesquisarPorNome() {
+
+		Cliente cliente = new Cliente();
+		cliente.setNome("PAULO SERGIO MOREIRA");
+
+		Reserva reserva = new Reserva();
+		reserva.setCliente(cliente);
+		ReservaDAO reservaDao = new ReservaDAO();
+
+		List<Reserva> lista = new ArrayList<Reserva>();
+		lista = reservaDao.pesquisarPorNome(reserva);
+
+		for (Reserva r : lista) {
+			System.out.println(r);
+		}
+	}
+	
+	
 	public static void pesquisarReservasAtivas() {
 
 
@@ -119,7 +137,8 @@ public class ReservaDAOTest {
 		// pesquisarPorModelo();
 		// pesquisarPorSituacao();
 		//listarTodos();
-		pesquisarReservasAtivas();
+		//pesquisarReservasAtivas();
+		pesquisarPorNome();
 
 	}
 

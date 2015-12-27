@@ -6,7 +6,11 @@ import java.util.List;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
-
+/**
+ * Classe Strategy reponsável pela Validação de um Carro
+ * @author Paulinho
+ *
+ */
 public class ValidaCarro implements IValidacaoStrategy {
 
 	/**

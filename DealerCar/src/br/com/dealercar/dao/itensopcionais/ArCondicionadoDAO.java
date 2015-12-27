@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.ArCondicionado;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -27,12 +29,17 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into arcondicionados (descricao, valor) ");
 		sql.append("values (?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, ar.getDescricao());
-			ps.setDouble(2, ar.getValor());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, ar.getDescricao());
+			pstm.setDouble(2, ar.getValor());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,11 +57,16 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from arcondicionados where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, ar.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, ar.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,15 +84,21 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 	public void editar(ArCondicionado ar) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("update arcondicionados set descricao = ?, valor = ? where codigo = ?");
+		sql.append("update arcondicionados set descricao = ?, ");
+		sql.append("valor = ? where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, ar.getDescricao());
-			ps.setDouble(2, ar.getValor());
-			ps.setInt(3, ar.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, ar.getDescricao());
+			pstm.setDouble(2, ar.getValor());
+			pstm.setInt(3, ar.getCodigo());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,14 +112,17 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 	 *         de ArCondicionado
 	 */
 	public List<ArCondicionado> listarTodos() {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from arcondicionados where codigo <> 99");
 
 		List<ArCondicionado> listaRetorno = new ArrayList<ArCondicionado>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				ArCondicionado ar = new ArCondicionado();
@@ -112,6 +133,11 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 				listaRetorno.add(ar);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -134,12 +160,14 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		sql.append("select * from arcondicionados where codigo = ?");
 
 		ArCondicionado arRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, ar.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, ar.getCodigo());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				arRetorno = new ArCondicionado();
@@ -149,6 +177,10 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 				arRetorno.setValor(rSet.getDouble("valor"));
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

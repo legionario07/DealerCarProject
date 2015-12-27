@@ -25,11 +25,14 @@
 				</p:submenu>
 
 				<p:menuitem value="Categorias" outcome="/pages/categoria.xhtml" />
+				
 				<p:submenu label="Funcionarios" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
-					<p:menuitem value="Pesquisar" />
+					<p:menuitem value="Pesquisar" outcome="/pages/funcionario.xhtml"/>
 					<p:menuitem value="Listar Funcionarios" outcome="/pages/lfuncionario.xhtml"/>
 				</p:submenu>
+				
 				<p:menuitem value="Opcionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}"/>
+				
 				<p:menuitem value="Taxas Adicionais" rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 			</p:submenu>
 

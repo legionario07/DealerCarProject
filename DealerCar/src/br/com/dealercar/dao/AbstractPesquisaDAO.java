@@ -13,5 +13,6 @@ public abstract class AbstractPesquisaDAO<T extends EntidadeDominio> implements 
 	 * @return
 	 */
 	abstract List<T> pesquisarPorNome(T entidade);
+
 	
 }

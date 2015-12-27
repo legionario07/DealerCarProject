@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -22,12 +24,18 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 * @param fabricante Recebe um objeto de Fabricante e cadastra no BD
 	 */
 	public void cadastrar(Fabricante fabricante) {
-		String sql = "insert into fabricantes (nome) values(?)";
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into fabricantes (nome) values(?)");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, fabricante.getNome().toUpperCase());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, fabricante.getNome().toUpperCase());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,14 +50,21 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 * localizando por seu ID
 	 */
 	public void editar(Fabricante fabricante) {
-		String sql = "update fabricantes set nome = ? where id = ?";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("update fabricantes set nome = ? where id = ?");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, fabricante.getNome().toUpperCase());
-			ps.setInt(2, fabricante.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, fabricante.getNome().toUpperCase());
+			pstm.setInt(2, fabricante.getId());
 		
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,14 +79,19 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 * localizando por seu ID
 	 */
 	public void excluir (Fabricante fabricante) {
-		String sql = "delete from fabricantes where id=?";
 		
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from fabricantes where id=?");
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, fabricante.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, fabricante.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,13 +105,17 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 * @return Retorna todos os Fabricantes cadastrados no Bd em forma de List<Fabricante>
 	 */
 	public List<Fabricante> listarTodos() {
-		String sql = "select * from fabricantes";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from fabricantes");
+		
 		List<Fabricante> listaFabricantes = new ArrayList<Fabricante>();
 		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()){
 				Fabricante fRetorno = new Fabricante();
@@ -102,6 +126,8 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,14 +144,18 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 	 */
 	public Fabricante pesquisarPorID(Fabricante fabricante) {
 		
-		String sql = "select * from fabricantes where id=?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from fabricantes where id=?");
+		
 		Fabricante fRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, fabricante.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, fabricante.getId());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				fRetorno = new Fabricante();
@@ -134,6 +164,8 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

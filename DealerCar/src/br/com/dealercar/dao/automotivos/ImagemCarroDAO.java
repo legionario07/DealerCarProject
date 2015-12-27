@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -22,13 +24,21 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 * @param carroUrl Recebe um Objeto de ImagemCarro e cadastra no BD
 	 */
 	public void cadastrar(ImagemCarro carroUrl) {
-		String sql = "insert into carros_images (caminho, descricao) values (?, ?)";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into carros_images ");
+		sql.append("caminho, descricao) values (?, ?)");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, carroUrl.getCaminho());
-			ps.setString(2, carroUrl.getDescricao());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, carroUrl.getCaminho());
+			pstm.setString(2, carroUrl.getDescricao());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,14 +53,23 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 * localizando por seu ID
 	 */
 	public void editar(ImagemCarro carroUrl) {
-		String sql = "update carros_images set caminho = ? , descricao = ? where id = ?";
+		
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("update carros_images set caminho = ?, ");
+		sql.append("descricao = ? where id = ?");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, carroUrl.getCaminho());
-			ps.setString(2, carroUrl.getDescricao());
-			ps.setInt(3, carroUrl.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, carroUrl.getCaminho());
+			pstm.setString(2, carroUrl.getDescricao());
+			pstm.setInt(3, carroUrl.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,12 +83,19 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 * e exclui do BD localiando por seu ID
 	 */
 	public void excluir(ImagemCarro carroUrl) {
-		String sql = "delete from carros_images where id = ?";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from carros_images where id = ?");
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, carroUrl.getId());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, carroUrl.getId());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,14 +111,19 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 * @return Retorna um objeto de ImagemCarro
 	 */
 	public ImagemCarro pesquisarPorID(ImagemCarro carroUrl) {
-		String sql = "select * from carros_images where id = ?";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from carros_images where id = ?");
+		
 		ImagemCarro carroUrlRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, carroUrl.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, carroUrl.getId());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				carroUrlRetorno = new ImagemCarro();
@@ -103,6 +134,8 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,12 +151,17 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 	 * em forma de List<ImagemCarro>
 	 */
 	public List<ImagemCarro> listarTodos() {
-		String sql = "select * from carros_images";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from carros_images");
+		
 		List<ImagemCarro> lista =  new ArrayList<ImagemCarro>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
 				ImagemCarro carroUrl = new ImagemCarro();
@@ -136,6 +174,8 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

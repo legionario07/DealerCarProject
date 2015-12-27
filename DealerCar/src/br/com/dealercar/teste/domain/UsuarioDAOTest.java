@@ -1,15 +1,8 @@
 package br.com.dealercar.teste.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.dealercar.autenticacao.Permissao;
-import br.com.dealercar.dao.UsuarioDAO;
-import br.com.dealercar.domain.Usuario;
-
 public class UsuarioDAOTest {
 
-	public static void cadastrar() {
+/*	public static void cadastrar() {
 
 		Usuario usuario = new Usuario("Teste", "teste", new Permissao(1), "SIM");
 
@@ -18,6 +11,7 @@ public class UsuarioDAOTest {
 
 	}
 
+	@SuppressWarnings("Unused")
 	public static void editar() {
 
 		Usuario usuario = new Usuario("joaocosta", "joaocosta", new Permissao(3), "SIM");
@@ -26,6 +20,7 @@ public class UsuarioDAOTest {
 		usuarioDao.editar(usuario);
 	}
 
+	@SuppressWarnings("Unused")
 	public static void pesquisarPorID() {
 
 		Usuario usuario = new Usuario(1);
@@ -71,13 +66,14 @@ public class UsuarioDAOTest {
 		}
 		
 	}
+	*/
 
 	public static void main(String[] args) {
 
 		// cadastrar();
 		// pesquisarPorID();
 		// pesquisarPorLogin();
-		editar();
+		//editar();
 		//listarTodos();
 		//autenticar();
 	}

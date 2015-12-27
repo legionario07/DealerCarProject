@@ -1,8 +1,12 @@
 package br.com.dealercar.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
+/**
+ * Classe que representa os clientes da Locadora
+ * @author Paulinho
+ *
+ */
 public class Cliente extends Pessoa implements Serializable{
 
 	/**
@@ -10,6 +14,8 @@ public class Cliente extends Pessoa implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nomeMae;
+	private String celular;
+	private String telefone;
 	private String RG;
 	private String CPF;
 	private String email;
@@ -22,59 +28,6 @@ public class Cliente extends Pessoa implements Serializable{
 		this.setId(id);
 	}
 
-	/**
-	 * 
-	 * @param nome
-	 * @param dataNasc
-	 * @param nomeMae
-	 * @param sexo
-	 * @param telefone
-	 * @param celular
-	 * @param RG
-	 * @param CPF
-	 * @param email
-	 * @param endereco
-	 * @param cidade
-	 */
-	public Cliente(String nome, Date dataNasc, String nomeMae, String sexo, String telefone, 
-			String celular, String RG, String CPF, String email, Endereco endereco, Cidade cidade) {
-		this.setNome(nome);
-		this.setDataNasc(dataNasc);
-		this.setNomeMae(nomeMae);
-		this.setSexo(sexo);
-		this.setTelefone(telefone);
-		this.setCelular(celular);
-		this.setRG(RG);
-		this.setCPF(CPF);
-		this.setEmail(email);
-		this.setEndereco(endereco);
-		this.getEndereco().setCidade(cidade);
-	}
-
-	/**
-	 * 
-	 * @param nome
-	 * @param dataNasc
-	 * @param sexo
-	 * @param telefone
-	 * @param celular
-	 * @param RG
-	 * @param CPF
-	 * @param endereco
-	 * @param cidade
-	 */
-	public Cliente(String nome, Date dataNasc,  String sexo, String telefone, String celular, 
-			String RG, String CPF, Endereco endereco, Cidade cidade) {
-		this.setNome(nome);
-		this.setDataNasc(dataNasc);
-		this.setSexo(sexo);
-		this.setTelefone(telefone);
-		this.setCelular(celular);
-		this.setRG(RG);
-		this.setCPF(CPF);
-		this.setEndereco(endereco);
-		this.getEndereco().setCidade(cidade);
-	}
 
 	public String getNomeMae() {
 		return nomeMae;
@@ -99,6 +52,20 @@ public class Cliente extends Pessoa implements Serializable{
 	public void setCPF(String cPF) {
 		CPF = cPF;
 	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 
 	public String getEmail() {
 		return email;
@@ -119,6 +86,10 @@ public class Cliente extends Pessoa implements Serializable{
 		retorno.append(this.getRG());
 		retorno.append(" - Cpf: ");
 		retorno.append(this.getCPF());
+		retorno.append(" - Telefone: ");
+		retorno.append(this.getTelefone());
+		retorno.append(" - Celular: ");
+		retorno.append(this.getCelular());
 		retorno.append(" - Email: ");
 		retorno.append(this.getEmail());
 		retorno.append("\n");

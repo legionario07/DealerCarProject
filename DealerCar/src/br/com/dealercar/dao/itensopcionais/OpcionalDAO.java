@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import br.com.dealercar.domain.itensopcionais.Itens;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -37,12 +39,13 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		boolean gps = false;
 		boolean radio = false;
 
-		try
-
-		{
+		Connection con = Conexao.getConnection();
+		
+		try{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, opcional.getSeguro().getCodigo());
 
+			//Verifica se foi escolhido os itens opcionais
 			for (Itens itens : opcional.getItens()) {
 
 				if (itens instanceof BebeConforto) {
@@ -95,7 +98,9 @@ public class OpcionalDAO implements IDAO<Opcional> {
 			}
 
 			pstm.executeUpdate();
+			
 			pstm.close();
+			con.close();
 
 		} catch (
 
@@ -128,6 +133,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		sql.append("id_gps, id_radioplayer from itens_opcionais ");
 
 		List<Opcional> listaOpcionais = new ArrayList<Opcional>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -176,6 +183,10 @@ public class OpcionalDAO implements IDAO<Opcional> {
 				listaOpcionais.add(opcional);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -194,6 +205,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		sql.append("id_gps, id_radioplayer from itens_opcionais where id = ?");
 
 		Opcional opcional = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -241,6 +254,10 @@ public class OpcionalDAO implements IDAO<Opcional> {
 				opcional.setItens(itens);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -257,6 +274,8 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		sql.append("id_gps, id_radioplayer from itens_opcionais");
 
 		Opcional opcional = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -306,6 +325,10 @@ public class OpcionalDAO implements IDAO<Opcional> {
 				}
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

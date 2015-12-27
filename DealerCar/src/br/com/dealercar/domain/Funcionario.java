@@ -1,9 +1,7 @@
 package br.com.dealercar.domain;
 
-import java.util.Date;
-
 /**
- * Classe que representa o Funcionario Usado o Sistema
+ * Classe que representa o Funcionario da locadora
  * @author Paulinho
  *
  */
@@ -13,6 +11,8 @@ public class Funcionario extends Pessoa {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String celular;
+	private String telefone;
 	private String cargo;
 	private Double salario;
 	private Usuario usuario;
@@ -20,67 +20,27 @@ public class Funcionario extends Pessoa {
 	public Funcionario(){
 		
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 */
 	public Funcionario(int id) {
 		this.setId(id);
 	}
 	
-	/**
-	 * 
-	 * @param nome
-	 * @param dataNasc
-	 * @param sexo
-	 * @param telefone
-	 * @param endereco
-	 * @param cidade
-	 * @param cargo
-	 * @param salario
-	 * @param usuario
-	 */
-	public Funcionario(String nome, Date dataNasc, String sexo, String telefone, 
-			 Endereco endereco, Cidade cidade, String cargo, Double salario, Usuario usuario) {
-		
-		this.setNome(nome);
-		this.setDataNasc(dataNasc);
-		this.setSexo(sexo);
-		this.setTelefone(telefone);
-		this.setEndereco(endereco);
-		this.getEndereco().setCidade(cidade);
-		this.setCargo(cargo);
-		this.setSalario(salario);
-		this.setUsuario(usuario);
-		
+	public String getTelefone() {
+		return telefone;
 	}
-	
-	/**
-	 * 
-	 * @param nome
-	 * @param dataNasc
-	 * @param sexo
-	 * @param telefone
-	 * @param celular
-	 * @param endereco
-	 * @param cidade
-	 * @param cargo
-	 * @param salario
-	 * @param usuario
-	 */
-	public Funcionario(String nome, Date dataNasc, String sexo, String telefone,
-			Endereco endereco, Cidade cidade, String celular, String cargo, Double salario,  Usuario usuario) {
-		
-		this.setNome(nome);
-		this.setDataNasc(dataNasc);
-		this.setSexo(sexo);
-		this.setTelefone(telefone);
-		this.setCelular(celular);
-		this.setEndereco(endereco);
-		this.getEndereco().setCidade(cidade);
-		this.setCargo(cargo);
-		this.setSalario(salario);
-		this.setUsuario(usuario);
-		
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public String getCelular() {
+		return celular;
 	}
 
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 	public String getCargo() {
 		return cargo.toUpperCase();
 	}

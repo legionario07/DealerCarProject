@@ -1,5 +1,10 @@
 package br.com.dealercar.domain.itensrevisao;
 
+/**
+ * Classe responsavel pela revisao do Motor do Carro
+ * @author Paulinho
+ *
+ */
 public class Motor extends Componente{
 	
 	public Motor() {

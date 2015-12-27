@@ -2,20 +2,20 @@ package br.com.dealercar.autenticacao;
 
 import java.io.Serializable;
 
-public class Permissao implements Serializable {
+import br.com.dealercar.domain.EntidadeDominio;
+
+public class Permissao extends EntidadeDominio implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
 	private String nivel;
-	
+
 	public Permissao(){
 		
 	}
-	
 	public Permissao(int i){
 		this.setId(i);
 	}
@@ -25,12 +25,6 @@ public class Permissao implements Serializable {
 		this.setNivel(nivel);
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNivel() {
 		return nivel;
 	}
@@ -43,7 +37,9 @@ public class Permissao implements Serializable {
 
 		StringBuffer retorno = new StringBuffer();
 			
-		retorno.append("Nível de Acesso: ");
+		retorno.append("\nID: ");
+		retorno.append(this.getNivel());
+		retorno.append(" - Nível de Acesso: ");
 		retorno.append(this.getNivel());
 		
 		return retorno.toString();

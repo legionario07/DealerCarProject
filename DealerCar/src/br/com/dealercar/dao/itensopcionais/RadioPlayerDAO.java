@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -24,18 +26,24 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 	 *            Dados
 	 */
 	public void cadastrar(RadioPlayer radio) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into radio_player (descricao, valor, marca, numero_patrimonio, modelo) ");
 		sql.append("values (?, ?, ?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, radio.getDescricao());
-			ps.setDouble(2, radio.getValor());
-			ps.setString(3, radio.getMarca());
-			ps.setString(4, radio.getNumeroPatrimonio());
-			ps.setString(5, radio.getModelo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, radio.getDescricao());
+			pstm.setDouble(2, radio.getValor());
+			pstm.setString(3, radio.getMarca());
+			pstm.setString(4, radio.getNumeroPatrimonio());
+			pstm.setString(5, radio.getModelo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,14 +59,20 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 	 *            Codigo
 	 */
 	public void excluir(RadioPlayer radio) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from radio_player where codigo = ?");
 
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, radio.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, radio.getCodigo());
+			pstm.executeUpdate();
 
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -71,20 +85,26 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 	 *            Recebe um RadioPlayer e edita de acordo com seu codigo
 	 */
 	public void editar(RadioPlayer radio) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("update radio_player set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, modelo = ? where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, radio.getDescricao());
-			ps.setDouble(2, radio.getValor());
-			ps.setString(3, radio.getMarca());
-			ps.setString(4, radio.getNumeroPatrimonio());
-			ps.setString(5, radio.getModelo());
-			ps.setInt(6, radio.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, radio.getDescricao());
+			pstm.setDouble(2, radio.getValor());
+			pstm.setString(3, radio.getMarca());
+			pstm.setString(4, radio.getNumeroPatrimonio());
+			pstm.setString(5, radio.getModelo());
+			pstm.setInt(6, radio.getCodigo());
+			pstm.executeUpdate();
 
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -102,11 +122,13 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("select * from radio_player where codigo <> 99");
 
 		List<RadioPlayer> listaRetorno = new ArrayList<RadioPlayer>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				RadioPlayer radio = new RadioPlayer();
@@ -120,6 +142,10 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 				listaRetorno.add(radio);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,12 +169,14 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("select * from radio_player where codigo = ?");
 
 		RadioPlayer radioPlayerRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, radioPlayer.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, radioPlayer.getCodigo());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 
@@ -162,6 +190,10 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 				radioPlayerRetorno.setModelo(rSet.getString("modelo"));
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -1,13 +1,14 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.domain.Usuario;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class UsuarioDAO implements IDAO<Usuario>{
@@ -21,15 +22,20 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into usuarios (login, senha, id_permissao, ativo) values ( ?, md5(?), ?, ?)");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			ps.setString(++i, usuario.getLogin());
-			ps.setString(++i, usuario.getSenha());
-			ps.setInt(++i, usuario.getPermissao().getId());
-			ps.setString(++i, usuario.getAtivo());
+			pstm.setString(++i, usuario.getLogin());
+			pstm.setString(++i, usuario.getSenha());
+			pstm.setInt(++i, usuario.getPermissao().getId());
+			pstm.setString(++i, usuario.getAtivo());
 			
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,17 +52,22 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("update usuarios set login = ?, senha = md5( ? ), id_permissao = ?, ativo = ? where login = ?");
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			
-			ps.setString(++i, usuario.getLogin());
-			ps.setString(++i, usuario.getSenha());
-			ps.setInt(++i, usuario.getPermissao().getId());
-			ps.setString(++i, usuario.getAtivo());
-			ps.setString(++i, usuario.getLogin());
+			pstm.setString(++i, usuario.getLogin());
+			pstm.setString(++i, usuario.getSenha());
+			pstm.setInt(++i, usuario.getPermissao().getId());
+			pstm.setString(++i, usuario.getAtivo());
+			pstm.setString(++i, usuario.getLogin());
 			
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,6 +81,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	 * @return
 	 */
 	public Usuario pesquisarPorID(Usuario usuario) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
 		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
@@ -78,28 +90,27 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, usuario.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, usuario.getId());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario();
+				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
 				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
 				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
 				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
 				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
 				
-				Permissao permissao = new Permissao();
-				permissao.setId(rSet.getInt("usuarios.id_permissao"));
-				permissao.setNivel(rSet.getString("permissao.nivel"));
-				
-				usuarioRetorno.setPermissao(permissao);
 				
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,13 +129,18 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	public void excluir(Usuario usuario) {
 
 		String sql = "delete from usuarios where id = ?";
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, usuario.getId());
+			PreparedStatement pstm = con.prepareStatement(sql);
+			pstm.setInt(1, usuario.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -139,6 +155,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	 * @return
 	 */
 	public Usuario pesquisarPorLogin(Usuario usuario) {
+		
 		StringBuffer sql = new StringBuffer();
 		
 		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
@@ -148,28 +165,26 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, usuario.getLogin());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, usuario.getLogin());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario();
+				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
 				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
 				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
 				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
 				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
 				
-				Permissao permissao = new Permissao();
-				permissao.setId(rSet.getInt("usuarios.id_permissao"));
-				permissao.setNivel(rSet.getString("permissao.nivel"));
-				
-				usuarioRetorno.setPermissao(permissao);
-				
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -194,31 +209,29 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		sql.append("order by usuarios.id asc ");
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Usuario usuarioRetorno = new Usuario();
+				Usuario usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
 				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
 				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
 				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
 				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
-				
-				Permissao permissao = new Permissao();
-				permissao.setId(rSet.getInt("usuarios.id_permissao"));
-				permissao.setNivel(rSet.getString("permissao.nivel"));
-
-				usuarioRetorno.setPermissao(permissao);
 				
 				usuarios.add(usuarioRetorno);
 
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -234,6 +247,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	 * @return Retorna um Usuario ou Null se nao encontrar
 	 */
 	public Usuario autenticar(Usuario usuario) {
+		
 		StringBuffer sql = new StringBuffer();
 		
 		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
@@ -242,30 +256,29 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		sql.append("where usuarios.login = ? and usuarios.senha = md5(?) ");
 		
 		Usuario usuarioRetorno = null;
+
+		Connection con = Conexao.getConnection();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, usuario.getLogin());
-			ps.setString(2, usuario.getSenha());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, usuario.getLogin());
+			pstm.setString(2, usuario.getSenha());
 			
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario();
+				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
 				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
 				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
 				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
 				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
 				
-				Permissao permissao = new Permissao();
-				permissao.setId(rSet.getInt("usuarios.id_permissao"));
-				permissao.setNivel(rSet.getString("permissao.nivel"));
-				
-				usuarioRetorno.setPermissao(permissao);
 				
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

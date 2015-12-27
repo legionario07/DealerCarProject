@@ -5,6 +5,11 @@ import java.util.List;
 
 import br.com.dealercar.enums.PosicaoPneu;
 
+/**
+ * Classe responsavel pela revisao do Pneu do Carro
+ * @author Paulinho
+ *
+ */
 public class Pneu extends Componente{
 	
 	private PosicaoPneu[] posicaoPneu = PosicaoPneu.values();

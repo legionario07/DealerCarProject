@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBFuncionario.carregarListagem}"
+			type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Consulta de Funcionarios" />
+
+		</h:panelGrid>
+
+
+		<p:tabView id="tabViewConsultar">
+			<p:tab title="Funcionario" id="tabFuncionarioConsulta">
+				<h:form id="frmConsultaFuncionario">
+					<h:panelGrid id="pnlFuncionarioDados" columns="2" cellpadding="10">
+
+						<h:outputLabel value="Digite o ID para Localizar"
+							rendered="#{MBFuncionario.funcionario.id == 0}" />
+						<p:inputText value="#{MBFuncionario.funcionario.id}"
+							rendered="#{MBFuncionario.funcionario.id == 0}" />
+
+					</h:panelGrid>
+
+					<h:panelGrid id="pnlFuncionarioDados2" columns="2"
+						rendered="#{MBFuncionario.ehCadastrado == true}">
+
+						<h:outputLabel value="Id: " />
+						<p:inputText value="#{MBFuncionario.funcionario.id}"
+							readonly="true" size="10" />
+
+						<h:outputText value="Nome:" />
+						<p:inputText id="inpNome" size="50" maxlength="60" readonly="true"
+							value="#{MBFuncionario.funcionario.nome}" />
+
+						<h:outputText value="Data Nascimento: " />
+						<p:inputText size="10" readonly="true"
+							value="#{MBFuncionario.funcionario.dataNasc}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputText>
+
+						<h:outputText value="Sexo: " maxlength="15" />
+						<p:inputText size="15" value="#{MBFuncionario.funcionario.sexo}"
+							readonly="true" />
+
+						<h:outputText value="Telefone: " maxlength="15" />
+						<p:inputText size="15" readonly="true"
+							value="#{MBFuncionario.funcionario.telefone}" />
+
+						<h:outputText value="Celular " maxlength="15" />
+						<p:inputText size="15" readonly="true"
+							value="#{MBFuncionario.funcionario.celular}" />
+
+						<h:outputText value="Rua " maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBFuncionario.funcionario.endereco.rua}" readonly="true"
+							maxlength="50" />
+
+						<h:outputText value="Número: " maxlength="10" />
+						<p:inputText size="10"
+							value="#{MBFuncionario.funcionario.endereco.numero}"
+							readonly="true" maxlength="10" />
+
+						<h:outputText value="Complemento: " maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBFuncionario.funcionario.endereco.complemento}"
+							readonly="true" maxlength="50" />
+
+						<h:outputText value="Bairro: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.endereco.bairro}"
+							readonly="true" maxlength="20" />
+
+						<h:outputText value="Cidade: " />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
+							readonly="true" maxlength="45" />
+					</h:panelGrid>
+					<br></br>
+
+
+					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+						<p:commandButton action="#{MBFuncionario.pesquisarPorID}"
+							value="Pesquisar" update="frmConsultaFuncionario :msgGlobal"
+							rendered="#{MBFuncionario.funcionario.nome == null}" />
+
+						<p:commandButton value="Novo"
+							rendered="#{MBFuncionario.jaPesquisei == true}"
+							onclick="PF('dlgFuncionarioCadastrado').show();"
+							update="frmFuncionarioEditar:pnlFuncionarioEditar" />
+
+
+						<p:commandButton value="Editar"
+							rendered="#{MBFuncionario.ehCadastrado == true}"
+							onclick="PF('dlgFuncionarioEditar').show();"
+							update="frmFuncionarioEditar:pnlFuncionarioEditar" />
+
+
+						<p:commandButton value="Limpar Pesquisa"
+							actionListener="#{MBFuncionario.limparPesquisa}"
+							rendered="#{MBFuncionario.ehCadastrado == true}"
+							update="frmConsultaFuncionario: frmConsultaFuncionario:pnlFuncionarioDados" />
+
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+
+		</p:tabView>
+
+		<!-- Caixa de Dialogo Editar -->
+		<p:dialog widgetVar="dlgFuncionarioEditar" closable="false"
+			width="630" onShow="" height="450" draggable="false"
+			resizable="false" header="Funcionario - Editar">
+
+			<h:form id="frmFuncionarioEditar">
+
+				<h:panelGrid id="pnlFuncionarioEditar" columns="2">
+
+					<p:outputLabel value="Nome: *" />
+					<p:inputText value="#{MBFuncionario.funcionario.nome}" size="60"
+						required="true"
+						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
+
+					<h:outputText value="DataNasc: *" />
+					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
+						pattern="dd-MM-yyyy" mask="true" required="true"
+						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
+
+					</p:calendar>
+
+					<h:outputText value="Sexo: " maxlength="15" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.sexo}"
+						rendered="true" required="true"
+						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
+						<f:selectItem itemValue="FEMININO" itemLabel="FEMININO" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Telefone: *" />
+					<p:inputMask value="#{MBFuncionario.funcionario.telefone}"
+						size="15" mask="(99)9999-9999" required="true"
+						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="Celular: " />
+					<p:inputMask value="#{MBFuncionario.funcionario.celular}" size="15"
+						mask="(99)99999-9999" />
+
+					<p:outputLabel value="Rua *" maxlength="50" />
+					<p:inputText size="50"
+						value="#{MBFuncionario.funcionario.endereco.rua}" required="true"
+						requiredMessage="Favor informar o Rua do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="50" />
+
+					<p:outputLabel value="Número: *" maxlength="10" />
+					<p:inputText size="10"
+						value="#{MBFuncionario.funcionario.endereco.numero}"
+						required="true"
+						requiredMessage="Favor informar o Número do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="10" />
+
+					<p:outputLabel value="Complemento: " maxlength="50" />
+					<p:inputText size="50"
+						value="#{MBFuncionario.funcionario.endereco.complemento}"
+						maxlength="50" />
+
+					<p:outputLabel value="Bairro: *" maxlength="20" />
+					<p:inputText size="20"
+						value="#{MBFuncionario.funcionario.endereco.bairro}"
+						required="true"
+						requiredMessage="Favor informar o Bairro do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Cidade: *" />
+
+					<p:selectOneMenu id="cidades"
+						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
+						required="true"
+						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione uma Cidade"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
+							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
+
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Usuario:* " maxlength="50" />
+					<p:inputText size="15"
+						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
+
+					<p:outputLabel value="Senha*: " maxlength="15" />
+					<p:inputText size="15" type="password"
+						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
+
+					<p:outputLabel value="Ativo: " maxlength="15" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.usuario.ativo}"
+						rendered="true" required="true"
+						requiredMessage="Favor informar o Status. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemValue="SIM" itemLabel="SIM" />
+						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+
+				<h:panelGrid id="comandos" columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{MBFuncionario.editar}"
+						onclick="PF('dlgFuncionarioEditar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgFuncionarioEditar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!-- Caixa de Dialogo Cadastrar -->
+		<p:dialog widgetVar="dlgFuncionarioCadastrar" closable="false"
+			width="630" onShow="" height="450" draggable="false"
+			resizable="false" header="Funcionario - Cadastrar">
+
+			<h:form id="frmFuncionarioCadastrar">
+
+				<h:panelGrid id="pnlFuncionarioCadastrar" columns="2">
+
+					<p:outputLabel value="Nome: *" />
+					<p:inputText value="#{MBFuncionario.funcionario.nome}" size="60"
+						required="true"
+						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
+
+					<h:outputText value="DataNasc: *" />
+					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
+						pattern="dd-MM-yyyy" mask="true" required="true"
+						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
+
+					</p:calendar>
+
+					<h:outputText value="Sexo: " maxlength="15" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.sexo}"
+						rendered="true" required="true"
+						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemLabel="Selecione o Sexo"
+							noSelectionOption="true" />
+						<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
+						<f:selectItem itemValue="FEMININO" itemLabel="FEMININO" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Telefone: *" />
+					<p:inputMask value="#{MBFuncionario.funcionario.telefone}"
+						size="15" mask="(99)9999-9999" required="true"
+						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="Celular: " />
+					<p:inputMask value="#{MBFuncionario.funcionario.celular}" size="15"
+						mask="(99)99999-9999" />
+
+					<p:outputLabel value="Rua *" maxlength="50" />
+					<p:inputText size="50"
+						value="#{MBFuncionario.funcionario.endereco.rua}" required="true"
+						requiredMessage="Favor informar o Rua do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="50" />
+
+					<p:outputLabel value="Número: *" maxlength="10" />
+					<p:inputText size="10"
+						value="#{MBFuncionario.funcionario.endereco.numero}"
+						required="true"
+						requiredMessage="Favor informar o Número do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="10" />
+
+					<p:outputLabel value="Complemento: " maxlength="50" />
+					<p:inputText size="50"
+						value="#{MBFuncionario.funcionario.endereco.complemento}"
+						maxlength="50" />
+
+					<p:outputLabel value="Bairro: *" maxlength="20" />
+					<p:inputText size="20"
+						value="#{MBFuncionario.funcionario.endereco.bairro}"
+						required="true"
+						requiredMessage="Favor informar o Bairro do cliente. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Cidade: *" />
+
+					<p:selectOneMenu id="cidades"
+						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
+						required="true"
+						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione uma Cidade"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
+							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
+
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Usuario*: " maxlength="50" />
+					<p:inputText size="15"
+						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
+
+					<p:outputLabel value="Senha*: " maxlength="15" />
+					<p:inputText size="15" type="password"
+						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
+
+					<p:outputLabel value="Ativo: " maxlength="15" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.usuario.ativo}"
+						rendered="true" required="true"
+						requiredMessage="Favor informar o Status. Campo de preenchimento obrigatório">
+
+						<f:selectItem itemValue="SIM" itemLabel="SIM" />
+						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+
+				<h:panelGrid id="comandos" columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{MBFuncionario.cadastrar}"
+						onclick="PF('dlgFuncionarioCadastrar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgFuncionarioCadastrar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

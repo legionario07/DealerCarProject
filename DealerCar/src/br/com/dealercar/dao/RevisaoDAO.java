@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import br.com.dealercar.domain.itensrevisao.Lanterna;
 import br.com.dealercar.domain.itensrevisao.Motor;
 import br.com.dealercar.domain.itensrevisao.Pneu;
 import br.com.dealercar.domain.itensrevisao.Suspensao;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -44,6 +46,8 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		sql.append("arreferecimento, bateria, embreagem, ");
 		sql.append("freio, lanterna, motor, pneu, suspensao, descricao) ");
 		sql.append("values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -74,6 +78,9 @@ public class RevisaoDAO implements IDAO<Revisao> {
 			pstm.setString(++i, revisao.getDescricao());
 			
 			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,6 +113,8 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		List<Revisao> listaRetorno = new ArrayList<Revisao>();
 		
 		Revisao revisaoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -171,6 +180,10 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 			}
 			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -186,11 +199,14 @@ public class RevisaoDAO implements IDAO<Revisao> {
 	 */
 	@Override
 	public Revisao pesquisarPorID(Revisao revisao) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
 		sql.append("where id = ?");
 		
 		Revisao revisaoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -254,8 +270,11 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				revisaoRetorno.setItensParaVerificar(componente);
 				
-				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -279,6 +298,8 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		List<Revisao> listaRetorno = new ArrayList<Revisao>();
 		
 		Revisao revisaoRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -344,6 +365,11 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				listaRetorno.add(revisaoRetorno);
 				
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -89,7 +89,7 @@ public class TaxasAdicionaisDAOTest {
 		// excluir();
 		// pesquisarPorID();
 		//listarTodos();
-		pesquisarPorTaxa();
+		//pesquisarPorTaxa();
 	}
 
 }

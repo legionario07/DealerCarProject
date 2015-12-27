@@ -2,6 +2,12 @@ package br.com.dealercar.domain.itensopcionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe que representa um Seguro disponivel
+ * para escolha do cliente no momento da Locação
+ * @author Paulinho
+ *
+ */
 public class Seguro extends EntidadeDominio{
 	
 	/**
@@ -20,13 +26,6 @@ public class Seguro extends EntidadeDominio{
 	public Seguro(int codigo) {
 		this.setCodigo(codigo);
 	}
-
-	public Seguro(String descricao, double valor, TipoSeguro tipo){
-		this.setDescricao(descricao);
-		this.setValor(valor);
-		this.setTipoSeguro(tipo);
-	}
-
 
 	public int getCodigo() {
 		return codigo;

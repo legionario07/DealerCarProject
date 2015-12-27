@@ -16,7 +16,6 @@ public class Retirada extends EntidadeDominio{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private Date dataRetirada;
 	private Date dataDevolucao;
 	private String quilometragem;
@@ -36,16 +35,6 @@ public class Retirada extends EntidadeDominio{
 	 */
 	public Retirada(int id) {
 		this.setId(id);
-	}
-
-
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public Date getDataRetirada() {

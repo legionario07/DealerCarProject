@@ -1,6 +1,7 @@
 package br.com.dealercar.dao;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializable {
@@ -25,14 +27,20 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public void cadastrar(Cidade cidade) {
 
-		String sql = "insert into cidades (nome, uf)  values (?,?)";
-
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into cidades (nome, uf)  values (?,?)");
+		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cidade.getNome().toUpperCase());
-			ps.setString(2, cidade.getUf().toUpperCase());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cidade.getNome().toUpperCase());
+			pstm.setString(2, cidade.getUf().toUpperCase());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -48,13 +56,19 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	 */
 	@Override
 	public void excluir(Cidade cidade) {
-		String sql = "delete from cidades where id=?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from cidades where id=?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cidade.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cidade.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,15 +85,21 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public void editar(Cidade cidade) {
 
-		String sql = "update cidades set nome = ?, uf = ? where id=?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("update cidades set nome = ?, uf = ? where id=?");
 
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cidade.getNome().toUpperCase());
-			ps.setString(2, cidade.getUf().toUpperCase());
-			ps.setInt(3, cidade.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cidade.getNome().toUpperCase());
+			pstm.setString(2, cidade.getUf().toUpperCase());
+			pstm.setInt(3, cidade.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,14 +116,18 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public Cidade pesquisarPorID(Cidade cidade) {
 
-		String sql = "select * from cidades where id = ? ";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cidades where id = ? ");
+		
 		Cidade cidadeRetorno = null;
 		
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cidade.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cidade.getId());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				cidadeRetorno = new Cidade();
@@ -112,7 +136,10 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 				cidadeRetorno.setUf(rSet.getString("uf"));
 
 			}
+		
 			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,15 +158,19 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public List<Cidade> pesquisarPorNome(Cidade cidade) {
 
-		String sql = "select distinct * from cidades where nome like ? order by nome asc";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select distinct * from cidades ");
+		sql.append("where nome like ? order by nome asc");
 		List<Cidade> cidades = new ArrayList<Cidade>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "%" + cidade.getNome().toUpperCase() + "%");
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, "%" + cidade.getNome().toUpperCase() + "%");
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				Cidade cidadeRetorno = new Cidade();
@@ -152,6 +183,8 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 			}
 			
 			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,13 +201,16 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public List<Cidade> listarTodos() {
 
-		String sql = "select * from cidades";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cidades");
 		List<Cidade> cidades = new ArrayList<Cidade>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rSet = ps.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				Cidade cidadeRetorno = new Cidade();
@@ -187,7 +223,9 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 			}
 			
 			rSet.close();
-
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

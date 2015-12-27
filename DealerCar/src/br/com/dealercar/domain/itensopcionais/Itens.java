@@ -1,7 +1,11 @@
 package br.com.dealercar.domain.itensopcionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
-
+/**
+ * Classe que contem os atributos herdados pelos demais itens Opcionais
+ * @author Paulinho
+ *
+ */
 public class Itens extends EntidadeDominio {
 
 	/**

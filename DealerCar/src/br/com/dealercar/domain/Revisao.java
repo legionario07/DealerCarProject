@@ -19,7 +19,6 @@ public class Revisao extends EntidadeDominio{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private Date dataRevisao;
 	private String descricao;
 	private Long quilometragem;
@@ -38,29 +37,7 @@ public class Revisao extends EntidadeDominio{
 	public Revisao(int id) {
 		this.setId(id);
 	}
-	/**
-	 * 
-	 * @param dataRevisao
-	 * @param descricao
-	 * @param quilometragem
-	 * @param carro
-	 * @param itensParaVerificar
-	 */
-	public Revisao(Date dataRevisao, String descricao, 
-			Long quilometragem, Carro carro) {
-		
-		this.setId(id);
-		this.setDescricao(descricao);
-		this.setQuilometragem(quilometragem);
-		this.setCarro(carro);
-	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public Date getDataRevisao() {
 		return dataRevisao;
 	}

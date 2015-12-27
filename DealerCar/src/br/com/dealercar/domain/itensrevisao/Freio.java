@@ -1,5 +1,10 @@
 package br.com.dealercar.domain.itensrevisao;
 
+/**
+ * Classe responsavel pela revisao do Freio do Carro
+ * @author Paulinho
+ *
+ */
 public class Freio extends Componente{
 	
 	public Freio() {

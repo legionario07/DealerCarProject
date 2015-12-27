@@ -7,6 +7,11 @@ import br.com.dealercar.dao.CorDAO;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe Strategy reponsável pela Validação de um Cor
+ * @author Paulinho
+ *
+ */
 public class ValidaCor implements IValidacaoStrategy {
 
 	/**

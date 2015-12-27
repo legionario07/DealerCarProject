@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.Cor;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 public class CorDAO implements IDAO<Cor> {
@@ -19,13 +21,19 @@ public class CorDAO implements IDAO<Cor> {
 	 */
 	@Override
 	public void cadastrar(Cor cor) {
-		String sql = "insert into cores (nome) values (?)";
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into cores (nome) values (?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, cor.getNome());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cor.getNome());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,14 +50,20 @@ public class CorDAO implements IDAO<Cor> {
 
 	public void excluir(Cor cor) {
 
-		String sql = "delete from cores where id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("delete from cores where id = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cor.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cor.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,15 +81,20 @@ public class CorDAO implements IDAO<Cor> {
 	public void editar(Cor cor) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cores set id = ?, nome = ? where id = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			ps.setInt(++i, cor.getId());
-			ps.setString(++i, cor.getNome());
-			ps.setInt(++i, cor.getId());
+			pstm.setInt(++i, cor.getId());
+			pstm.setString(++i, cor.getNome());
+			pstm.setInt(++i, cor.getId());
 
-			ps.executeUpdate();
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,14 +108,17 @@ public class CorDAO implements IDAO<Cor> {
 	 */
 	@Override
 	public List<Cor> listarTodos() {
-		String sql = "select * from cores";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cores");
+		
 		List<Cor> listaCores = new ArrayList<Cor>();
+		Connection con = Conexao.getConnection();
 
 		try {
 
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				Cor cor = new Cor();
@@ -105,7 +127,10 @@ public class CorDAO implements IDAO<Cor> {
 				listaCores.add(cor);
 
 			}
+
 			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,14 +148,18 @@ public class CorDAO implements IDAO<Cor> {
 	 */
 	@Override
 	public Cor pesquisarPorID(Cor cor) {
-		String sql = "select * from cores where id = ?";
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cores where id = ?");
+		
 		Cor corRetorno = null;
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cor.getId());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cor.getId());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				corRetorno = new Cor();
@@ -139,6 +168,8 @@ public class CorDAO implements IDAO<Cor> {
 			}
 
 			rSet.close();
+			pstm.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -9,6 +9,11 @@ import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 
+/**
+ * Classe Strategy reponsável pela Validação de um FAbricante
+ * @author Paulinho
+ *
+ */
 public class ValidaFabricante implements IValidacaoStrategy, Serializable{
 
 

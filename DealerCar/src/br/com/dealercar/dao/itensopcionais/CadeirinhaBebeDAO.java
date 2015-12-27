@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
+import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -24,18 +26,25 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 	 *            Dados
 	 */
 	public void cadastrar(CadeirinhaBebe cadeirinha) {
+		
 		StringBuffer sql = new StringBuffer();
-		sql.append("insert into cadeirinhas_bebe (descricao, valor, marca, numero_patrimonio, peso_bebe) ");
+		sql.append("insert into cadeirinhas_bebe ");
+		sql.append("(descricao, valor, marca, numero_patrimonio, peso_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, cadeirinha.getDescricao());
-			ps.setDouble(2, cadeirinha.getValor());
-			ps.setString(3, cadeirinha.getMarca());
-			ps.setString(4, cadeirinha.getNumeroPatrimonio());
-			ps.setFloat(5, cadeirinha.getPesoBebe());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cadeirinha.getDescricao());
+			pstm.setDouble(2, cadeirinha.getValor());
+			pstm.setString(3, cadeirinha.getMarca());
+			pstm.setString(4, cadeirinha.getNumeroPatrimonio());
+			pstm.setFloat(5, cadeirinha.getPesoBebe());
+			pstm.executeUpdate();
+
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,13 +60,19 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 	 *            Codigo
 	 */
 	public void excluir(CadeirinhaBebe cadeirinha) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cadeirinhas_bebe where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, cadeirinha.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cadeirinha.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,19 +86,25 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 	 *            Recebe um CadeirinhaBebe e edita de acordo com seu codigo
 	 */
 	public void editar(CadeirinhaBebe cadeirinha) {
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cadeirinhas_bebe set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, peso_bebe = ? where codigo = ?");
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setString(1, cadeirinha.getDescricao());
-			ps.setDouble(2, cadeirinha.getValor());
-			ps.setString(3, cadeirinha.getMarca());
-			ps.setString(4, cadeirinha.getNumeroPatrimonio());
-			ps.setFloat(5, cadeirinha.getPesoBebe());
-			ps.setInt(6, cadeirinha.getCodigo());
-			ps.executeUpdate();
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, cadeirinha.getDescricao());
+			pstm.setDouble(2, cadeirinha.getValor());
+			pstm.setString(3, cadeirinha.getMarca());
+			pstm.setString(4, cadeirinha.getNumeroPatrimonio());
+			pstm.setFloat(5, cadeirinha.getPesoBebe());
+			pstm.setInt(6, cadeirinha.getCodigo());
+			pstm.executeUpdate();
+			
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,11 +123,13 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		sql.append("select * from cadeirinhas_bebe where codigo <> 99");
 
 		List<CadeirinhaBebe> listaRetorno = new ArrayList<CadeirinhaBebe>();
+		
+		Connection con = Conexao.getConnection();
 
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				CadeirinhaBebe cadeirinha = new CadeirinhaBebe();
@@ -120,6 +143,10 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 				listaRetorno.add(cadeirinha);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,11 +172,13 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 		CadeirinhaBebe cadeirinhaRetorno = null;
 
+		Connection con = Conexao.getConnection();
+		
 		try {
-			PreparedStatement ps = con.prepareStatement(sql.toString());
-			ps.setInt(1, cadeirinhaBebe.getCodigo());
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, cadeirinhaBebe.getCodigo());
 
-			ResultSet rSet = ps.executeQuery();
+			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
 				cadeirinhaRetorno = new CadeirinhaBebe();
@@ -162,6 +191,10 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 				cadeirinhaRetorno.setPesoBebe(rSet.getInt("peso_bebe"));
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

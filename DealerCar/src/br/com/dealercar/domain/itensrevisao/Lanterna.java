@@ -1,5 +1,10 @@
 package br.com.dealercar.domain.itensrevisao;
 
+/**
+ * Classe responsavel pela revisao da Lanterna do Carro
+ * @author Paulinho
+ *
+ */
 public class Lanterna extends Componente{
 
 	public Lanterna() {
