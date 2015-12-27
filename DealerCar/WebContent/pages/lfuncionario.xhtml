@@ -52,14 +52,13 @@
 					</h:outputText>
 				</p:column>
 
-
-				<p:column headerText="Telefone" width="10%"
+				<p:column headerText="Telefone" width="15%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemFuncionario.telefone}">
 					<h:outputText value="#{itemFuncionario.telefone}" />
 				</p:column>
 
-				<p:column headerText="Cargo" width="25%"
+				<p:column headerText="Cargo" width="15%"
 					style="font-size:11px; text-align:center"
 					filterBy="#{itemFuncionario.cargo}"
 					sortBy="#{itemFuncionario.cargo}">
@@ -69,7 +68,9 @@
 				<p:column headerText="Salario" width="15%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemFuncionario.salario}">
-					<h:outputText value="#{itemFuncionario.salario}" />
+					<h:outputText value="#{itemFuncionario.salario}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Usuario" width="15%"

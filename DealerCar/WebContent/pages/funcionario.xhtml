@@ -20,7 +20,7 @@
 		<h:panelGrid width="100%" style="text-align:center">
 			<h:outputText
 				style="horizontal-align:center; font-size:20px;font-weigth:bold"
-				value="Consulta de Funcionarios" />
+				value="Consulta de Funcionários" />
 
 		</h:panelGrid>
 
@@ -90,6 +90,29 @@
 						<p:inputText size="20"
 							value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
 							readonly="true" maxlength="45" />
+
+
+						<h:outputText value="Cargo: " maxlength="20" />
+						<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
+							readonly="true" maxlength="20" />
+
+						<h:outputText value="Salário: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.salario}" readonly="true"
+							maxlength="20">
+							<f:convertNumber type="currency" />
+						</p:inputText>
+
+						<h:outputText value="Usuário: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.usuario.login}"
+							readonly="true" maxlength="20" />
+
+						<h:outputText value="Permissão: " maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
+							readonly="true" maxlength="20" />
+
 					</h:panelGrid>
 					<br></br>
 
@@ -101,20 +124,20 @@
 
 						<p:commandButton value="Novo"
 							rendered="#{MBFuncionario.jaPesquisei == true}"
-							onclick="PF('dlgFuncionarioCadastrado').show();"
-							update="frmFuncionarioEditar:pnlFuncionarioEditar" />
+							onclick="PF('dlgFuncionarioCadastrar').show();"
+							update="frmFuncionarioCadastrar:pnlFuncionarioCadastrar :msgGlobal" />
 
 
 						<p:commandButton value="Editar"
 							rendered="#{MBFuncionario.ehCadastrado == true}"
 							onclick="PF('dlgFuncionarioEditar').show();"
-							update="frmFuncionarioEditar:pnlFuncionarioEditar" />
+							update="frmFuncionarioEditar:pnlFuncionarioEditar :msgGlobal" />
 
 
 						<p:commandButton value="Limpar Pesquisa"
 							actionListener="#{MBFuncionario.limparPesquisa}"
 							rendered="#{MBFuncionario.ehCadastrado == true}"
-							update="frmConsultaFuncionario: frmConsultaFuncionario:pnlFuncionarioDados" />
+							update="frmConsultaFuncionario: frmConsultaFuncionario:pnlFuncionarioDados :msgGlobal" />
 
 					</h:panelGrid>
 
@@ -206,21 +229,49 @@
 
 					</p:selectOneMenu>
 
+					<p:outputLabel value="Cargo: *" maxlength="20" />
+					<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
+						required="true"
+						requiredMessage="Favor informar o Cargo do Funcionário. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Salário: *" maxlength="20" />
+					<p:inputText size="20" value="#{MBFuncionario.funcionario.salario}"
+						requiredMessage="Favor informar o Sálario do Funcionário. 
+							Campo de preenchimento obrigatório"
+						maxlength="20">
+					</p:inputText>
+
+
 					<p:outputLabel value="Usuario:* " maxlength="50" />
 					<p:inputText size="15"
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
 					<p:outputLabel value="Senha*: " maxlength="15" />
 					<p:inputText size="15" type="password"
-						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
+						value="#{MBFuncionario.funcionario.usuario.senha}" />
+
+					<p:outputLabel value="Permissão:* " />
+					<p:selectOneMenu id="permissoes"
+						value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith" rendered="true"
+						requiredMessage="Favor informar a Permissão. Campo de preenchimento obrigatório">
+
+						<f:selectItems value="#{MBFuncionario.listaPermissoes}"
+							var="permissao" itemLabel="#{permissao.nivel}"
+							itemValue="#{permissao.nivel}" />
+
+					</p:selectOneMenu>
 
 					<p:outputLabel value="Ativo: " maxlength="15" />
 					<p:selectOneMenu value="#{MBFuncionario.funcionario.usuario.ativo}"
-						rendered="true" required="true"
+						rendered="true"
 						requiredMessage="Favor informar o Status. Campo de preenchimento obrigatório">
 
-						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
+						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 					</p:selectOneMenu>
 
 				</h:panelGrid>
@@ -228,6 +279,7 @@
 
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
+						update="frmFuncionarioEditar :msgGlobal"
 						actionListener="#{MBFuncionario.editar}"
 						onclick="PF('dlgFuncionarioEditar').hide();" />
 
@@ -290,7 +342,7 @@
 					<p:inputText size="10"
 						value="#{MBFuncionario.funcionario.endereco.numero}"
 						required="true"
-						requiredMessage="Favor informar o Número do cliente. 
+						requiredMessage="Favor informar o Número do Funcionário. 
 							Campo de preenchimento obrigatório"
 						maxlength="10" />
 
@@ -303,7 +355,7 @@
 					<p:inputText size="20"
 						value="#{MBFuncionario.funcionario.endereco.bairro}"
 						required="true"
-						requiredMessage="Favor informar o Bairro do cliente. 
+						requiredMessage="Favor informar o Bairro do Funcionário. 
 							Campo de preenchimento obrigatório"
 						maxlength="20" />
 
@@ -323,6 +375,20 @@
 
 					</p:selectOneMenu>
 
+					<p:outputLabel value="Cargo: *" maxlength="20" />
+					<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
+						required="true"
+						requiredMessage="Favor informar o Cargo do Funcionário. 
+							Campo de preenchimento obrigatório"
+						maxlength="20" />
+
+					<p:outputLabel value="Salário: *" maxlength="20" />
+					<p:inputText size="20" value="#{MBFuncionario.funcionario.salario}"
+						requiredMessage="Favor informar o Sálario do Funcionário. 
+							Campo de preenchimento obrigatório"
+						maxlength="20">
+					</p:inputText>
+
 					<p:outputLabel value="Usuario*: " maxlength="50" />
 					<p:inputText size="15"
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
@@ -331,13 +397,26 @@
 					<p:inputText size="15" type="password"
 						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
 
+					<p:outputLabel value="Permissão:* " />
+					<p:selectOneMenu id="permissoes"
+						value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith" rendered="true"
+						requiredMessage="Favor informar a Permissão. Campo de preenchimento obrigatório">
+
+						<f:selectItems value="#{MBFuncionario.listaPermissoes}"
+							var="permissao" itemLabel="#{permissao.nivel}"
+							itemValue="#{permissao.nivel}" />
+
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Ativo: " maxlength="15" />
 					<p:selectOneMenu value="#{MBFuncionario.funcionario.usuario.ativo}"
-						rendered="true" required="true"
+						rendered="true"
 						requiredMessage="Favor informar o Status. Campo de preenchimento obrigatório">
 
-						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
+						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 					</p:selectOneMenu>
 
 				</h:panelGrid>
@@ -346,6 +425,7 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBFuncionario.cadastrar}"
+						update="frmFuncionarioCadastrar :msgGlobal"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />
 
 					<p:commandButton value="Cancelar"

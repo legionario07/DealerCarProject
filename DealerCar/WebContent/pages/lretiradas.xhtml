@@ -21,6 +21,7 @@
 			<p:dataTable id="tblListaRetirada"
 				value="#{MBRetirada.listaRetirada}" widgetVar="tabelaListagem"
 				var="itemRetirada" emptyMessage="Nenhum Registro foi encontrado"
+				sortBy="#{itemRetirada.ehAtivo}" sortOrder="DESCENDING"
 				paginator="true" rows="10">
 
 				<f:facet name="header">

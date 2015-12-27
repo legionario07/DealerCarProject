@@ -34,8 +34,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 			
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,7 +48,8 @@ public class UsuarioDAO implements IDAO<Usuario>{
 	public void editar(Usuario usuario) {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("update usuarios set login = ?, senha = md5( ? ), id_permissao = ?, ativo = ? where login = ?");
+		sql.append("update usuarios set login = ?, senha = md5(?), ");
+		sql.append("id_permissao = ?, ativo = ? where id = ?");
 		
 		Connection con = Conexao.getConnection();
 		
@@ -62,12 +61,9 @@ public class UsuarioDAO implements IDAO<Usuario>{
 			pstm.setString(++i, usuario.getSenha());
 			pstm.setInt(++i, usuario.getPermissao().getId());
 			pstm.setString(++i, usuario.getAtivo());
-			pstm.setString(++i, usuario.getLogin());
+			pstm.setInt(++i, usuario.getId());
 			
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

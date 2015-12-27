@@ -18,7 +18,8 @@ public class Funcionario extends Pessoa {
 	private Usuario usuario;
 
 	public Funcionario(){
-		
+		this.setEndereco(new Endereco());
+		this.setUsuario(new Usuario());
 	}
 	/**
 	 * 
@@ -42,7 +43,7 @@ public class Funcionario extends Pessoa {
 		this.celular = celular;
 	}
 	public String getCargo() {
-		return cargo.toUpperCase();
+		return cargo;
 	}
 
 	public Usuario getUsuario() {
@@ -54,12 +55,7 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setCargo(String cargo) {
-		//verificando se o banco retorna null para o campo cargo
-		if(cargo != null){
-			this.cargo = cargo.toUpperCase();
-		} else {
 			this.cargo = cargo;
-		}
 	}
 
 	public Double getSalario() {

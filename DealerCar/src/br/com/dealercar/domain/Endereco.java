@@ -22,6 +22,7 @@ public class Endereco implements Serializable {
 	
 	public Endereco() {
 		
+		this.cidade = new Cidade();
 	}
 	
 

@@ -10,6 +10,7 @@ import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.PermissaoDAO;
+import br.com.dealercar.dao.UsuarioDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.util.JSFUtil;
@@ -80,10 +81,12 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	 */
 	public void pesquisarPorID() {
 		this.setEhCadastrado(false);
+		this.setJaPesquisei(true);
 
 		for (Funcionario f : listaFuncionario) {
 			if (funcionario.getId() == f.getId()) {
 				this.setEhCadastrado(true);
+				this.setJaPesquisei(false);
 				break;
 			}
 		}
@@ -103,12 +106,29 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	 */
 	public void cadastrar() {
 
-		//pesquisando ao cidade escolhida no view e armazanando no Funcionario
-		funcionario.getEndereco().setCidade(new CidadeDAO().pesquisarPorID(funcionario.getEndereco().getCidade()));
+		// Verifica a cidade escolhida para ser adicionado ao Funcionario que esta
+		// sendo editado
+		for (Cidade cid : listaCidades) {
+			if (cid.getNome().equals(funcionario.getEndereco().getCidade().getNome())) {
+				funcionario.getEndereco().setCidade(cid);
+				break;
+			}
+		}
 		
-		//pesquisando a permissao e setando ao usuario do funcionario
-		funcionario.getUsuario().setPermissao(new PermissaoDAO().pesquisarPorID(funcionario.getUsuario().getPermissao()));
+		// Verifica a permissão escolhida para ser adicionado ao Funcionario que esta
+		// sendo cadastrado
+		for (Permissao p : listaPermissoes) {
+			if (p.getNivel().equals(funcionario.getUsuario().getPermissao().getNivel())) {
+				funcionario.getUsuario().setPermissao(p);
+				break;
+			}
+		}
 		
+		//cadastrando primeiro o usuario ao banco de dados
+		new UsuarioDAO().cadastrar(funcionario.getUsuario());
+		
+		//pesquisa o usuario cadastrado e seta todos os dados no Funcionario
+		funcionario.setUsuario(new UsuarioDAO().pesquisarPorLogin(funcionario.getUsuario()));
 		
 		new FuncionarioDAO().cadastrar(funcionario);
 
@@ -134,6 +154,15 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 
 		}
 		
+		// Verifica a permissão escolhida para ser adicionado ao Funcionario que esta
+		// sendo editado
+		for (Permissao p : listaPermissoes) {
+			if (p.getNivel().equals(funcionario.getUsuario().getPermissao().getNivel())) {
+				funcionario.getUsuario().setPermissao(p);
+				break;
+			}
+		}
+
 		new FuncionarioDAO().editar(funcionario);
 		
 		JSFUtil.adicionarMensagemSucesso("Funcionario Editado com Sucesso.");

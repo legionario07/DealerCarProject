@@ -21,6 +21,7 @@ public class Usuario extends EntidadeDominio {
 	private Permissao permissao;
 	
 	public Usuario(){
+		this.permissao = new Permissao();
 		
 	}
 	

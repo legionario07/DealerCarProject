@@ -46,6 +46,8 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			
+			Reserva reserva = null;
+			
 			//colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String dataRetirada = stf.format(retirada.getDataRetirada());
@@ -67,10 +69,9 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				pstm.setInt(++i, retirada.getReserva().getId());
 				
 				//Alterando a reserva no BD para FINALIZADO
-				Reserva reserva = new Reserva();
+				reserva = new Reserva();
 				reserva = retirada.getReserva();
 				reserva.setSituacao(SituacaoReserva.FINALIZADO);
-				new ReservaDAO().editar(reserva);
 				
 			} else {
 				pstm.setInt(++i, 99);
@@ -83,6 +84,10 @@ public class RetiradaDAO implements IDAO<Retirada> {
 			pstm.close();
 			con.close();
 			
+			//reserva diferente de null editar
+			if(reserva != null){
+				new ReservaDAO().editar(reserva);
+			}
 			//Alterando o carro locado no BD para LOCADO
 			Carro carro = new Carro();
 			carro.setPlaca(retirada.getCarro().getPlaca());

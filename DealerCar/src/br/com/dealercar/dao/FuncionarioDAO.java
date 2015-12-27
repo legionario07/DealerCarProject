@@ -71,8 +71,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			pstm.setString(++i, funcionario.getCargo());
 			pstm.setDouble(++i, funcionario.getSalario());
 
-			//Cadastrando um Usuario para o Funcionario
-			new UsuarioDAO().cadastrar(funcionario.getUsuario());
 			
 			pstm.executeUpdate();
 			
@@ -133,6 +131,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			pstm.setInt(++i, funcionario.getUsuario().getId());
 			pstm.setInt(++i, funcionario.getId());
 
+			
 			//editando o Usuario do Funcionario
 			new UsuarioDAO().editar(funcionario.getUsuario());
 			
