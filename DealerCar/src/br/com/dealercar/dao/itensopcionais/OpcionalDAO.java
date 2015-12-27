@@ -184,9 +184,6 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -255,9 +252,6 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -326,9 +320,6 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

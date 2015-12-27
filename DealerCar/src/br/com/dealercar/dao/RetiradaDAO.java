@@ -199,8 +199,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 			}
 			
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -273,9 +271,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -356,9 +351,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -438,9 +430,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -519,10 +508,6 @@ public class RetiradaDAO implements IDAO<Retirada> {
 				lista.add(retiradaRetorno);
 				
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

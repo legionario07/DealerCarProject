@@ -48,5 +48,24 @@ public abstract class Conexao {
 		return conexao;
 		
 	}
+	
+	/**
+	 * Fecha a conexao com o BD
+	 */
+	public static void close(){
+		
+		
+		try {
+			if(!conexao.isClosed() || conexao!=null){
+
+				conexao.close();
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+		
+	}
 
 }

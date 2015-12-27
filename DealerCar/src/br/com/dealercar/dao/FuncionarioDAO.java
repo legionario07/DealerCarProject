@@ -262,9 +262,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 				funcionarios.add(funcionarioRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -362,9 +359,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -467,9 +461,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -566,9 +557,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

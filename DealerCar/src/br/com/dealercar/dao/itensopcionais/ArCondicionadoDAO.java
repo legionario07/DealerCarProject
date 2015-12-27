@@ -134,10 +134,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -178,9 +174,6 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

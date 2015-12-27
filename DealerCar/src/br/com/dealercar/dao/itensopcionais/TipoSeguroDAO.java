@@ -53,9 +53,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 				listaRetorno.add(tipoSeguro);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,9 +186,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 				retorno.setValorAcrescido(rSet.getDouble("valor_acrescido"));
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

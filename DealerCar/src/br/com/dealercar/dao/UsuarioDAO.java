@@ -108,9 +108,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -182,10 +179,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -227,10 +220,6 @@ public class UsuarioDAO implements IDAO<Usuario>{
 				usuarios.add(usuarioRetorno);
 
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

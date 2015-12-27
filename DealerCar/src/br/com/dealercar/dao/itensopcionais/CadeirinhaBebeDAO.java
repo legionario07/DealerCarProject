@@ -144,9 +144,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -192,9 +189,6 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

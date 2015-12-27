@@ -95,9 +95,6 @@ public class TaxaLavagemDAO implements IDAO<TaxaLavagem> {
 				taxaRetorno.setValor(rSet.getDouble("valor"));
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

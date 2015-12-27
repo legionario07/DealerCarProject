@@ -140,9 +140,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 				categoriaRetorno.setValorDiaria(rSet.getDouble("vlr_diaria"));
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,9 +178,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

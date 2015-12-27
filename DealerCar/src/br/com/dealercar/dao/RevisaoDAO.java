@@ -180,9 +180,6 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -272,9 +269,6 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -365,11 +359,6 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				listaRetorno.add(revisaoRetorno);
 				
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

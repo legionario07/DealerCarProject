@@ -135,9 +135,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				taxas.add(taxa);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,9 +174,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -219,9 +213,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -246,9 +246,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -328,9 +325,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

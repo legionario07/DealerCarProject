@@ -160,10 +160,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -244,9 +240,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -364,9 +357,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				lista.add(carroRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -447,9 +437,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				lista.add(carroRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

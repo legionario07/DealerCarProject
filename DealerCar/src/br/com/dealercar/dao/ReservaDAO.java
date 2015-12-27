@@ -261,9 +261,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -386,9 +383,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -505,9 +499,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 				listaReserva.add(reservaRetorno);
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -628,9 +619,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 				}
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -747,9 +735,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 				listaReserva.add(reservaRetorno);
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -863,9 +848,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 				lista.add(reservaRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 			
 		} catch (SQLException e) {

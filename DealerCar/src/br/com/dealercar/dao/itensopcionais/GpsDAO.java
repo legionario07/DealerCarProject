@@ -141,9 +141,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,9 +185,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

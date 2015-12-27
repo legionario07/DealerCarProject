@@ -133,9 +133,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -172,10 +169,6 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 				lista.add(carroUrl);
 				
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

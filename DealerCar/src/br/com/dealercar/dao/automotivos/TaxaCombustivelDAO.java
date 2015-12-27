@@ -95,9 +95,6 @@ public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel> {
 				taxaRetorno.setValor(rSet.getDouble("valor"));
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -144,9 +144,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 				listaRetorno.add(seguro);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -197,9 +194,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

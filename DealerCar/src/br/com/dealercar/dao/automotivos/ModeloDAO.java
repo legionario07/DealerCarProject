@@ -141,9 +141,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -187,9 +184,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 				listaRetorno.add(modelo);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,9 +233,6 @@ public class ModeloDAO implements IDAO<Modelo>{
 				listaRetorno.add(modelo);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

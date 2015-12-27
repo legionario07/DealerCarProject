@@ -125,9 +125,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 				listaFabricantes.add(fRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,9 +160,6 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 				fRetorno.setNome(rSet.getString("nome"));
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -142,9 +142,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,9 +185,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -233,9 +227,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

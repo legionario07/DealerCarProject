@@ -137,9 +137,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 			}
 		
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -182,9 +179,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 				cidades.add(cidadeRetorno);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -222,9 +216,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

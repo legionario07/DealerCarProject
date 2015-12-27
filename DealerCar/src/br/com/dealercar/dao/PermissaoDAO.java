@@ -82,9 +82,6 @@ public class PermissaoDAO implements IDAO<Permissao>{
 				listaPermissao.add(permissao);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,10 +114,6 @@ public class PermissaoDAO implements IDAO<Permissao>{
 				permissaoRetorno.setNivel(rSet.getString("nivel"));
 				
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

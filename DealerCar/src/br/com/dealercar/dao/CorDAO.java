@@ -128,9 +128,6 @@ public class CorDAO implements IDAO<Cor> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -167,9 +164,6 @@ public class CorDAO implements IDAO<Cor> {
 				corRetorno.setNome(rSet.getString("nome"));
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
