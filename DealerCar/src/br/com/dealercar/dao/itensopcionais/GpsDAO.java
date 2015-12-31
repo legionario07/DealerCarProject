@@ -21,6 +21,13 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+	/**
+	 * 
 	 * @param Gps
 	 *            Recebe um Gps como parametro e cadastra no Banco de Dados
 	 */
@@ -30,7 +37,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		sql.append("insert into gps (descricao, valor, marca, numero_patrimonio, idioma) ");
 		sql.append("values (?, ?, ?, ?, ?)");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -61,7 +68,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from gps where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -89,7 +96,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 		sql.append("update gps set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, idioma = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -121,7 +128,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 		List<Gps> listaRetorno = new ArrayList<Gps>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -164,7 +171,7 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 
 		Gps gpsRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

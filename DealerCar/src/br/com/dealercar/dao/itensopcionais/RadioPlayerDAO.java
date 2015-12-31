@@ -21,6 +21,13 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+	/**
+	 * 
 	 * @param RadioPlayer
 	 *            Recebe um RadioPlayer como parametro e cadastra no Banco de
 	 *            Dados
@@ -31,7 +38,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("insert into radio_player (descricao, valor, marca, numero_patrimonio, modelo) ");
 		sql.append("values (?, ?, ?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -63,7 +70,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from radio_player where codigo = ?");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -90,7 +97,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 		sql.append("update radio_player set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, modelo = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -123,7 +130,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 
 		List<RadioPlayer> listaRetorno = new ArrayList<RadioPlayer>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -167,7 +174,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 
 		RadioPlayer radioPlayerRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

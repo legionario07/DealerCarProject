@@ -12,7 +12,7 @@ import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensrevisao.Arrefecimento;
 import br.com.dealercar.domain.itensrevisao.Bateria;
-import br.com.dealercar.domain.itensrevisao.Componente;
+import br.com.dealercar.domain.itensrevisao.Componentes;
 import br.com.dealercar.domain.itensrevisao.Embreagem;
 import br.com.dealercar.domain.itensrevisao.Freio;
 import br.com.dealercar.domain.itensrevisao.Lanterna;
@@ -31,7 +31,7 @@ public class RevisaoDAOTest {
 		devolucao = new DevolucaoDAO().pesquisarPorID(devolucao);
 		revisao.setDevolucao(devolucao);
 
-		Componente componente = new Componente();
+		Componentes componente = new Componentes();
 
 		Arrefecimento arrefecimento = new Arrefecimento();
 		arrefecimento.setOk(true);

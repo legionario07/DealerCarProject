@@ -11,7 +11,19 @@ import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * Classe responsável por persistir os Usuarios no BD
+ * @author Paulinho
+ *
+ */
 public class UsuarioDAO implements IDAO<Usuario>{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
 	
 	/**
 	 * 
@@ -22,7 +34,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into usuarios (login, senha, id_permissao, ativo) values ( ?, md5(?), ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -51,7 +63,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		sql.append("update usuarios set login = ?, senha = md5(?), ");
 		sql.append("id_permissao = ?, ativo = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -86,7 +98,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -123,7 +135,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 
 		String sql = "delete from usuarios where id = ?";
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -158,7 +170,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -199,7 +211,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -242,7 +254,7 @@ public class UsuarioDAO implements IDAO<Usuario>{
 		
 		Usuario usuarioRetorno = null;
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

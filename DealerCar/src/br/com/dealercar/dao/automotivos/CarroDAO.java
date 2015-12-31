@@ -25,6 +25,8 @@ import br.com.dealercar.util.JSFUtil;
  *
  */
 public class CarroDAO implements IDAO<Carro>, Serializable{
+	
+	Connection con = Conexao.getConnection();
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +41,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		sql.append("id_cor, id_modelo, id_categoria, id_images, situacao) ");
 		sql.append("values (? , ?, ?, ?, ?, ?, ? ,? , ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -74,7 +76,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from carros where placa = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -114,7 +116,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		Carro carroRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -190,7 +192,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		List<Carro> carros = new ArrayList<Carro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -261,7 +263,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		sql.append("id_cor = ?, id_modelo = ?, id_categoria = ?, ");
 		sql.append("id_images = ?, situacao = ? where placa = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -311,7 +313,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		List<Carro> lista = new ArrayList<Carro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -390,7 +392,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		List<Carro> lista = new ArrayList<Carro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

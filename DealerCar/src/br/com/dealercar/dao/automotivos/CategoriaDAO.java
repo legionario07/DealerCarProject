@@ -19,6 +19,8 @@ import br.com.dealercar.util.JSFUtil;
  *
  */
 public class CategoriaDAO implements IDAO<Categoria>, Serializable{
+	
+	Connection con = Conexao.getConnection();
 
 	/**
 	 * 
@@ -35,7 +37,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 		sql.append("insert into categorias ");
 		sql.append("nome, descricao, vlr_diaria) values (?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -65,7 +67,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 		sql.append("descricao = ?, vlr_diaria = ? ");
 		sql.append("where id = ? ");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -94,7 +96,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from categorias where id = ?");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 
@@ -124,7 +126,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 
 		Categoria categoriaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -161,7 +163,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 
 		List<Categoria> listaRetorno = new ArrayList<Categoria>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

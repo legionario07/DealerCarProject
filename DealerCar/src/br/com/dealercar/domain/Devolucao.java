@@ -34,6 +34,9 @@ public class Devolucao extends EntidadeDominio {
 	private String taxasCobradas;
 
 	public Devolucao() {
+		funcionario = new Funcionario();
+		retirada = new Retirada();
+		reserva = new Reserva();
 	}
 
 	public Devolucao(int id) {

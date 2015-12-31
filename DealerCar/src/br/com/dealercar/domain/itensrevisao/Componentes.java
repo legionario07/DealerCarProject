@@ -4,7 +4,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Componente {
+public class Componentes {
 	
 	private String descricao;
 	private boolean ok = false;
@@ -17,7 +17,7 @@ public class Componente {
 	private Pneu pneu;
 	private Suspensao suspensao;
 	
-	public Componente() {
+	public Componentes() {
 	}
 	
 	public String getDescricao() {
@@ -108,6 +108,7 @@ public class Componente {
 		retorno.append(this.getFreio());
 		retorno.append(this.getLanterna());
 		retorno.append(this.getMotor());
+		retorno.append(this.getPneu());
 		retorno.append(this.getSuspensao());
 		
 		return retorno.toString();

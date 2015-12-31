@@ -13,9 +13,7 @@
 
 
 	<ui:define name="conteudo">
-
-		<f:event listener="#{MBCliente.carregarListagemCidades}"
-			type="preRenderView" />
+	
 		<f:event listener="#{MBCliente.carregarListagem}" type="preRenderView" />
 
 		<h:panelGrid width="100%" style="text-align:center">
@@ -33,10 +31,10 @@
 
 
 						<h:outputLabel value="Digite o CPF para Localizar"
-							rendered="#{MBCliente.clienteRetorno.nome == null}" />
+							rendered="#{MBCliente.cliente.CPF == null}" />
 						<p:inputMask mask="999.999.999-99"
-							value="#{MBCliente.clienteRetorno.CPF}"
-							rendered="#{MBCliente.clienteRetorno.nome == null}" />
+							value="#{MBCliente.cliente.CPF}"
+							rendered="#{MBCliente.cliente.CPF == null}" />
 
 					</h:panelGrid>
 
@@ -44,70 +42,70 @@
 						rendered="#{MBCliente.ehCadastrado == true}">
 
 						<h:outputLabel value="Id: " />
-						<p:inputText value="#{MBCliente.clienteRetorno.id}"
+						<p:inputText value="#{MBCliente.cliente.id}"
 							readonly="true" />
 
 						<h:outputText value="Nome:" />
 						<p:inputText id="inpNome" size="90" maxlength="45" readonly="true"
-							value="#{MBCliente.clienteRetorno.nome}" />
+							value="#{MBCliente.cliente.nome}" />
 
 						<h:outputText value="Data Nascimento: " />
 						<p:inputText size="10" readonly="true"
-							value="#{MBCliente.clienteRetorno.dataNasc}">
+							value="#{MBCliente.cliente.dataNasc}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</p:inputText>
 
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
-						<p:inputText size="90" value="#{MBCliente.clienteRetorno.nomeMae}"
+						<p:inputText size="90" value="#{MBCliente.cliente.nomeMae}"
 							readonly="true" />
 
 						<h:outputText value="Sexo: " maxlength="45" />
-						<p:inputText size="90" value="#{MBCliente.clienteRetorno.sexo}"
+						<p:inputText size="90" value="#{MBCliente.cliente.sexo}"
 							readonly="true" />
 
 						<h:outputText value="RG: " maxlength="20" />
-						<p:inputText size="20" value="#{MBCliente.clienteRetorno.RG}"
+						<p:inputText size="20" value="#{MBCliente.cliente.RG}"
 							readonly="true" />
 
 						<h:outputText value="CPF: " maxlength="11" />
-						<p:inputText size="20" value="#{MBCliente.clienteRetorno.CPF}"
+						<p:inputText size="20" value="#{MBCliente.cliente.CPF}"
 							readonly="true" />
 
 						<h:outputText value="Telefone: " maxlength="15" />
 						<p:inputText size="15" readonly="true"
-							value="#{MBCliente.clienteRetorno.telefone}" />
+							value="#{MBCliente.cliente.telefone}" />
 
 						<h:outputText value="Celular " maxlength="15" />
 						<p:inputText size="15" readonly="true"
-							value="#{MBCliente.clienteRetorno.celular}" />
+							value="#{MBCliente.cliente.celular}" />
 
 						<h:outputText value="Email: " maxlength="65" />
-						<p:inputText size="50" value="#{MBCliente.clienteRetorno.email}"
+						<p:inputText size="50" value="#{MBCliente.cliente.email}"
 							readonly="true" />
 
 						<h:outputText value="Rua " maxlength="50" />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.endereco.rua}" readonly="true"
+							value="#{MBCliente.cliente.endereco.rua}" readonly="true"
 							maxlength="50" />
 
 						<h:outputText value="Número: " maxlength="10" />
 						<p:inputText size="10"
-							value="#{MBCliente.clienteRetorno.endereco.numero}"
+							value="#{MBCliente.cliente.endereco.numero}"
 							readonly="true" maxlength="10" />
 
 						<h:outputText value="Complemento: " maxlength="50" />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.endereco.complemento}"
+							value="#{MBCliente.cliente.endereco.complemento}"
 							readonly="true" maxlength="50" />
 
 						<h:outputText value="Bairro: " maxlength="20" />
 						<p:inputText size="20"
-							value="#{MBCliente.clienteRetorno.endereco.bairro}"
+							value="#{MBCliente.cliente.endereco.bairro}"
 							readonly="true" maxlength="20" />
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
-							value="#{MBCliente.clienteRetorno.endereco.cidade.nome}"
+							value="#{MBCliente.cliente.endereco.cidade.nome}"
 							readonly="true" maxlength="65" />
 					</h:panelGrid>
 					<br></br>
@@ -116,7 +114,7 @@
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
 							value="Pesquisar" update="frmConsultaCliente :msgGlobal"
-							rendered="#{MBCliente.clienteRetorno.nome == null}" />
+							rendered="#{MBCliente.cliente.CPF == null}" />
 
 						<p:commandButton value="Novo"
 							rendered="#{MBCliente.jaPesquisei == true}"
@@ -167,12 +165,12 @@
 				<h:panelGrid id="pnlClienteEditar" columns="2">
 
 					<p:outputLabel value="Nome: *" />
-					<p:inputText value="#{MBCliente.clienteRetorno.nome}" size="70"
+					<p:inputText value="#{MBCliente.cliente.nome}" size="70"
 						required="true"
 						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="DataNasc: *" />
-					<p:calendar id="data" value="#{MBCliente.dataNascimento}"
+					<p:calendar id="data" value="#{MBCliente.cliente.dataNasc}"
 						pattern="dd-MM-yyyy" mask="true"
 						required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
@@ -180,12 +178,12 @@
 					</p:calendar>
 
 					<p:outputLabel value="Nome da Mãe: " />
-					<p:inputText value="#{MBCliente.clienteRetorno.nomeMae}" size="45"
+					<p:inputText value="#{MBCliente.cliente.nomeMae}" size="45"
 						required="true"
 						requiredMessage="Favor informar o nome da Mãe. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Sexo: " maxlength="45" />
-					<p:selectOneMenu value="#{MBCliente.clienteRetorno.sexo}"
+					<p:selectOneMenu value="#{MBCliente.cliente.sexo}"
 						rendered="true" required="true"
 						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
 
@@ -194,37 +192,37 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="RG: " />
-					<p:inputText value="#{MBCliente.clienteRetorno.RG}" size="20" />
+					<p:inputText value="#{MBCliente.cliente.RG}" size="20" />
 
 					<p:outputLabel value="CPF: *" />
-					<p:inputMask value="#{MBCliente.clienteRetorno.CPF}" size="20"
+					<p:inputMask value="#{MBCliente.cliente.CPF}" size="20"
 						mask="999.999.999-99" required="true"
 						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório">
 						<f:validateLength minimum="14" maximum="14" />
 					</p:inputMask>
 
 					<p:outputLabel value="Telefone: *" />
-					<p:inputMask value="#{MBCliente.clienteRetorno.telefone}" size="15"
+					<p:inputMask value="#{MBCliente.cliente.telefone}" size="15"
 						mask="(99)9999-9999" required="true"
 						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="Celular: " />
-					<p:inputMask value="#{MBCliente.clienteRetorno.celular}" size="15"
+					<p:inputMask value="#{MBCliente.cliente.celular}" size="15"
 						mask="(99)99999-9999" />
 
 					<p:outputLabel value="Email: " />
-					<p:inputText value="#{MBCliente.clienteRetorno.email}" size="55" />
+					<p:inputText value="#{MBCliente.cliente.email}" size="55" />
 
 					<p:outputLabel value="Rua *" maxlength="50" />
 					<p:inputText size="50"
-						value="#{MBCliente.clienteRetorno.endereco.rua}" required="true"
+						value="#{MBCliente.cliente.endereco.rua}" required="true"
 						requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="50" />
 
 					<p:outputLabel value="Número: *" maxlength="10" />
 					<p:inputText size="10"
-						value="#{MBCliente.clienteRetorno.endereco.numero}"
+						value="#{MBCliente.cliente.endereco.numero}"
 						required="true"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
@@ -232,12 +230,12 @@
 
 					<p:outputLabel value="Complemento: " maxlength="50" />
 					<p:inputText size="50"
-						value="#{MBCliente.clienteRetorno.endereco.complemento}"
+						value="#{MBCliente.cliente.endereco.complemento}"
 						maxlength="50" />
 
 					<p:outputLabel value="Bairro: *" maxlength="20" />
 					<p:inputText size="20"
-						value="#{MBCliente.clienteRetorno.endereco.bairro}"
+						value="#{MBCliente.cliente.endereco.bairro}"
 						required="true"
 						requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
@@ -246,7 +244,7 @@
 					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidades"
-						value="#{MBCliente.clienteRetorno.endereco.cidade.nome}"
+						value="#{MBCliente.cliente.endereco.cidade.nome}"
 						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"

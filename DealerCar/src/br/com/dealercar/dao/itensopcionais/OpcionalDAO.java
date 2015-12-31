@@ -26,6 +26,13 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class OpcionalDAO implements IDAO<Opcional> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
 	public void cadastrar(Opcional opcional) {
 
 		StringBuffer sql = new StringBuffer();
@@ -39,7 +46,7 @@ public class OpcionalDAO implements IDAO<Opcional> {
 		boolean gps = false;
 		boolean radio = false;
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -134,7 +141,7 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		List<Opcional> listaOpcionais = new ArrayList<Opcional>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -203,7 +210,7 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		Opcional opcional = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -269,7 +276,7 @@ public class OpcionalDAO implements IDAO<Opcional> {
 
 		Opcional opcional = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

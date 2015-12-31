@@ -22,6 +22,8 @@ public class Opcional extends EntidadeDominio {
 	private Seguro seguro;
 
 	public Opcional() {
+		arCondicionado = new ArCondicionado();
+		seguro = new Seguro();
 	}
 
 	public Opcional(int id) {

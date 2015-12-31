@@ -19,6 +19,12 @@ import br.com.dealercar.util.JSFUtil;
 public class PermissaoDAO implements IDAO<Permissao>{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Connection con = Conexao.getConnection();
+	
+	/**
 	 * Cadastra uma nova Permissão no Banco de Dados
 	 */
 	@Override
@@ -28,7 +34,7 @@ public class PermissaoDAO implements IDAO<Permissao>{
 		sql.append("insert into permissao ");
 		sql.append("(nivel) values (?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -69,7 +75,7 @@ public class PermissaoDAO implements IDAO<Permissao>{
 		
 		List<Permissao> listaPermissao = new ArrayList<Permissao>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -103,7 +109,7 @@ public class PermissaoDAO implements IDAO<Permissao>{
 		
 		Permissao permissaoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

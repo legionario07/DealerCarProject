@@ -21,13 +21,20 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+	
+	/**
+	 * 
 	 * @param fabricante Recebe um objeto de Fabricante e cadastra no BD
 	 */
 	public void cadastrar(Fabricante fabricante) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into fabricantes (nome) values(?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -54,7 +61,7 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update fabricantes set nome = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -83,7 +90,7 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from fabricantes where id=?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -111,7 +118,7 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		
 		List<Fabricante> listaFabricantes = new ArrayList<Fabricante>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -146,7 +153,7 @@ public class FabricanteDAO implements IDAO<Fabricante> {
 		
 		Fabricante fRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

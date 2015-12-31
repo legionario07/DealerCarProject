@@ -10,7 +10,7 @@ import br.com.dealercar.enums.PosicaoPneu;
  * @author Paulinho
  *
  */
-public class Pneu extends Componente{
+public class Pneu extends Componentes{
 	
 	private PosicaoPneu[] posicaoPneu = PosicaoPneu.values();
 	

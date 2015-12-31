@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.dealercar.dao.automotivos.FabricanteDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Fabricante;
-import br.com.dealercar.domain.automotivos.Modelo;
 
 /**
  * Classe Strategy reponsável pela Validação de um FAbricante
@@ -24,17 +23,17 @@ public class ValidaFabricante implements IValidacaoStrategy, Serializable{
 
 	/**
 	 * 
-	 * @param recebe um objeto Modelo e faz a Validação pelo Nome
+	 * @param recebe um objeto Fabricante e faz a Validação pelo Nome
 	 * @return Retorna um objeto Fabricante do BD válido ou Null se não for encontrado
 	 */
 	public EntidadeDominio validar(EntidadeDominio entDominio) {
 
 		Fabricante rFabricante = null;
 
-		//Verifica se a classe passada no Parametro eh um objeto Modelo
-		if (entDominio instanceof Modelo) {
+		//Verifica se a classe passada no Parametro eh um objeto Fabricante
+		if (entDominio instanceof Fabricante) {
 
-			Modelo retorno = (Modelo) entDominio;
+			Fabricante retorno = (Fabricante) entDominio;
 			
 			FabricanteDAO dao = new FabricanteDAO();
 
@@ -42,7 +41,7 @@ public class ValidaFabricante implements IValidacaoStrategy, Serializable{
 			lista = dao.listarTodos();
 
 			for (Fabricante c : lista) {
-				if (retorno.getFabricante().getNome().toUpperCase().equals(c.getNome())) {
+				if (retorno.getNome().toUpperCase().equals(c.getNome())) {
 					
 					rFabricante = c;
 

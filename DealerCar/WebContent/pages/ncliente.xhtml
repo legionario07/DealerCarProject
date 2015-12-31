@@ -14,7 +14,7 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBCliente.carregarListagemCidades}"
+		<f:event listener="#{MBCliente.carregarListagem}"
 			type="preRenderView" />
 
 		<h:panelGrid width="100%" style="text-align:center">
@@ -55,8 +55,8 @@
 
 						<h:outputText value="Sexo: " maxlength="45" />
 						<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true">
-							<f:selectItem itemValue="Masculino" itemLabel="Masculino" />
-							<f:selectItem itemValue="Feminino" itemLabel="Feminino" />
+							<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
+							<f:selectItem itemValue="FEMININO" itemLabel="FEMININO" />
 						</p:selectOneMenu>
 
 						<h:outputText value="RG: " maxlength="20" />
@@ -85,32 +85,32 @@
 						<p:inputText size="50" value="#{MBCliente.cliente.email}" />
 
 						<h:outputText value="Rua *" maxlength="50" />
-						<p:inputText size="50" value="#{MBCliente.endereco.rua}"
+						<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"
 							required="true"
 							requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
 							maxlength="50" />
 
 						<h:outputText value="Número: *" maxlength="10" />
-						<p:inputText size="10" value="#{MBCliente.endereco.numero}"
+						<p:inputText size="10" value="#{MBCliente.cliente.endereco.numero}"
 							required="true"
 							requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 							maxlength="10" />
 
 						<h:outputText value="Complemento: " maxlength="50" />
-						<p:inputText size="50" value="#{MBCliente.endereco.complemento}"
+						<p:inputText size="50" value="#{MBCliente.cliente.endereco.complemento}"
 							maxlength="50" />
 
 						<h:outputText value="Bairro: *" maxlength="20" />
-						<p:inputText size="20" value="#{MBCliente.endereco.bairro}"
+						<p:inputText size="20" value="#{MBCliente.cliente.endereco.bairro}"
 							required="true"
 							requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
 							maxlength="20" />
 
 						<h:outputText value="Cidade: *" />
-						<p:selectOneMenu id="cidades" value="#{MBCliente.cidade.id}"
+						<p:selectOneMenu id="cidades" value="#{MBCliente.cliente.endereco.cidade.nome}"
 							required="true"
 							requiredMessage="Favor informar a Cidade do cliente. 
 							Campo de preenchimento obrigatório"
@@ -120,13 +120,13 @@
 							<f:selectItem itemLabel="Selecione uma Cidade"
 								noSelectionOption="true" />
 							<f:selectItems value="#{MBCliente.listaCidades}" var="cidade"
-								itemLabel="#{cidade.nome}" itemValue="#{cidade.id}" />
+								itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
 
 						</p:selectOneMenu>
 
 
-						<p:commandButton action="/pages/cliente.xhtml"
-							actionListener="#{MBCliente.cadastrar}" value="Cadastrar"
+						<p:commandButton actionListener="#{MBCliente.cadastrar}" 
+							value="Cadastrar"
 							update="frmNovoCliente:pnlClienteDados frmNovoCliente:validadores :msgGlobal" />
 					</h:panelGrid>
 				</h:form>

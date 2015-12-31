@@ -20,6 +20,7 @@ public class Seguro extends EntidadeDominio{
 	private TipoSeguro tipoSeguro;
 	
 	public Seguro() {
+		tipoSeguro = new TipoSeguro();
 
 	}
 	

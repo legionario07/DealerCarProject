@@ -34,7 +34,7 @@
 						requiredMessage="Favor informar a Placa do carro. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="Modelo: *" />
-					<p:selectOneMenu id="modelos" value="#{MBCarro.modelo.id}"
+					<p:selectOneMenu id="modelos" value="#{MBCarro.carro.modelo.nome}"
 						required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -43,7 +43,7 @@
 						<f:selectItem itemLabel="Selecione um Modelo"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBCarro.listaModelos}" var="modelo"
-							itemLabel="#{modelo.nome}" itemValue="#{modelo.id}" />
+							itemLabel="#{modelo.nome}" itemValue="#{modelo.nome}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Ano: *" />
@@ -81,7 +81,7 @@
 					</p:selectOneMenu>
 
 					<h:outputText value="Cor: *" />
-					<p:selectOneMenu id="cor" value="#{MBCarro.cor.id}"
+					<p:selectOneMenu id="cor" value="#{MBCarro.carro.cor.nome}"
 						required="true"
 						requiredMessage="Favor informar a Cor. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -90,12 +90,12 @@
 						<f:selectItem itemLabel="Selecione uma Cor"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBCarro.listaCores}" var="cor"
-							itemLabel="#{cor.nome}" itemValue="#{cor.id}" />
+							itemLabel="#{cor.nome}" itemValue="#{cor.nome}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Categoria: *" />
 					<p:selectOneMenu id="categoria"
-						value="#{MBCarro.categoria.id}" required="true"
+						value="#{MBCarro.carro.categoria.nome}" required="true"
 						requiredMessage="Favor informar a Categoria. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -103,7 +103,7 @@
 						<f:selectItem itemLabel="Selecione uma Categoria"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBCarro.listaCategoria}" var="categoria"
-							itemLabel="#{categoria.nome}" itemValue="#{categoria.id}" />
+							itemLabel="#{categoria.nome}" itemValue="#{categoria.nome}" />
 
 					</p:selectOneMenu>
 

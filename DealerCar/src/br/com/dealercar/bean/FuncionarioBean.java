@@ -171,7 +171,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	
 	
 	/**
-	 * limpa a tela de pesquisa de Funcionaroo Deixando pronto para uma
+	 * limpa a tela de pesquisa de Funcionario Deixando pronto para uma
 	 * nova Pesquisa
 	 */
 	public void limparPesquisa() {

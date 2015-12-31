@@ -5,7 +5,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Embreagem extends Componente{
+public class Embreagem extends Componentes{
 	
 	public Embreagem() {
 	}

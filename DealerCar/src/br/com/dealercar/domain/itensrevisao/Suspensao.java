@@ -5,7 +5,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Suspensao extends Componente{
+public class Suspensao extends Componentes{
 	
 	public Suspensao() {
 	}

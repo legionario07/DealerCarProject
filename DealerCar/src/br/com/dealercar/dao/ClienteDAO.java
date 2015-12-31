@@ -19,6 +19,8 @@ import br.com.dealercar.util.JSFUtil;
 
 public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializable{
 
+	Connection con = Conexao.getConnection();
+	
 	/**
 	 * 
 	 */
@@ -36,7 +38,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("(nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
 		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -94,7 +96,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, ");
 		sql.append("id_cidade = ? where id=?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -153,7 +155,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from clientes where id = ?");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 
@@ -188,7 +190,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -232,11 +234,11 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 						end.setRua(endereco[0].trim());
 						end.setNumero(endereco[1].trim());
 						end.setComplemento(endereco[2].trim());
-						end.setBairro(" - " + endereco[3].trim());
+						end.setBairro(endereco[3].trim());
 					} else {
 						end.setRua(endereco[0].trim());
 						end.setNumero(endereco[1].trim());
-						end.setBairro(" - " + endereco[2].trim());
+						end.setBairro(endereco[2].trim() + " ");
 					}
 					
 				Cidade cidadeRetorno = new Cidade();
@@ -275,7 +277,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 		Cliente clienteRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -366,7 +368,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 		Cliente clienteRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -457,7 +459,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 		List<Cliente> lista = new ArrayList<Cliente>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 

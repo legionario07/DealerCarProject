@@ -5,7 +5,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Lanterna extends Componente{
+public class Lanterna extends Componentes{
 
 	public Lanterna() {
 		// TODO Auto-generated constructor stub

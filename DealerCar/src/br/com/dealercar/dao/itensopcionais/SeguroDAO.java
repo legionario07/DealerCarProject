@@ -23,6 +23,14 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+
+	/**
+	 * 
 	 * @pstmeguroam Seguro Recebe um Seguro e cadastra no Banco de Dados
 	 */
 	public void cadastrar(Seguro seguro) {
@@ -31,7 +39,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("insert into seguros (descricao, valor, tipo_seguro) ");
 		sql.append("values (?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -59,7 +67,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from seguros where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -87,7 +95,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		sql.append("update seguros set descricao = ?, ");
 		sql.append("valor = ?, tipo_seguro = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -121,7 +129,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -170,7 +178,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 		Seguro seguroRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -225,7 +233,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 		
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

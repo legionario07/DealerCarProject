@@ -5,7 +5,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Motor extends Componente{
+public class Motor extends Componentes{
 	
 	public Motor() {
 		// TODO Auto-generated constructor stub

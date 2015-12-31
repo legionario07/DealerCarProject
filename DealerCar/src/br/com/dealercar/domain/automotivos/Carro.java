@@ -33,6 +33,11 @@ public class Carro extends EntidadeDominio implements Serializable {
 	private ImagemCarro carroUrl;
 
 	public Carro() {
+		
+		cor = new Cor();
+		modelo = new Modelo();
+		categoria = new Categoria();
+		carroUrl = new ImagemCarro();
 
 	}
 

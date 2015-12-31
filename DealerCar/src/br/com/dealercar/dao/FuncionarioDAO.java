@@ -17,7 +17,14 @@ import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * Classe responsável por persistir os Funcionários no BD
+ * @author Paulinho
+ *
+ */
 public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements Serializable {
+	
+	Connection con = Conexao.getConnection();
 	
 	/**
 	 * 
@@ -37,7 +44,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		sql.append("(nome, data_nasc, sexo, endereco, telefone, celular, ");
 		sql.append("id_cidade, id_usuario, cargo, salario) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 
@@ -96,7 +103,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		sql.append("celular = ?, cargo = ?, salario = ?, ");
 		sql.append("id_cidade = ?, id_usuario = ? where id = ?");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -154,7 +161,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		String sql = "delete from funcionarios where id = ?";
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 
@@ -192,7 +199,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -291,7 +298,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		Funcionario funcionarioRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -389,7 +396,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		List<Funcionario> lista = new ArrayList<Funcionario>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -490,7 +497,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		Funcionario funcionarioRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

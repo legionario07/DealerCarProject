@@ -21,8 +21,15 @@ import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
+/**
+ * Classe responsável por persistir as Reservas no BD
+ * @author Paulinho
+ *
+ */
 public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializable {
 
+	Connection con = Conexao.getConnection();
+	
 	/**
 	 * 
 	 */
@@ -41,7 +48,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 		sql.append("(situacao, data_inicio, data_fim, id_modelo, id_cliente, id_funcionario) ");
 		sql.append("values (?, ?, ?, ?, ?, ?)");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -89,7 +96,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 		sql.append("id_cliente = ?, id_funcionario = ? ");
 		sql.append("where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -134,7 +141,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		String sql = "delete from reservas where id = ?";
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 
@@ -176,7 +183,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		List<Reserva> listaReservas = new ArrayList<Reserva>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -295,7 +302,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		Reserva reservaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -418,7 +425,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -534,7 +541,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -654,7 +661,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -767,7 +774,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializ
 		
 		List<Reserva> lista = new ArrayList<Reserva>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

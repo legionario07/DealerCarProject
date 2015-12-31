@@ -2,7 +2,6 @@ package br.com.dealercar.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -10,7 +9,6 @@ import javax.faces.bean.SessionScoped;
 
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
-import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.RetiradaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
@@ -35,12 +33,12 @@ import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
-import br.com.dealercar.domain.itensopcionais.Itens;
-import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.strategy.valida.ValidaCarro;
+import br.com.dealercar.strategy.valida.ValidaCidade;
+import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaItemOpcional;
 import br.com.dealercar.strategy.valida.ValidaModelo;
@@ -64,20 +62,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Retirada retirada = new Retirada();
-	private Reserva reserva = new Reserva();
-	private Cliente cliente = new Cliente();
-	private Cidade cidade = new Cidade();
-	private Modelo modelo = new Modelo();
-	private Itens item = new Itens();
-	private Carro carro = new Carro();
-	private String quilometragem;
-	private ImagemCarro carroUrl = new ImagemCarro();
-	private Seguro seguro = new Seguro();
-	private Opcional opcional = new Opcional();
-	private TipoSeguro tipoSeguro = new TipoSeguro();
-	private Date dataDevolucao = null;
-
-	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 
 	private boolean selectAr = false;
 	private boolean selectBebe = false;
@@ -87,14 +71,12 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	
 	private int totalRetiradas;
 
+	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 	private List<Retirada> listaRetirada = new ArrayList<Retirada>();
-	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
 	private List<Modelo> listaModelosDisponiveis = new ArrayList<Modelo>();
 	private List<Carro> listaPlacasDisponiveis = new ArrayList<Carro>();
-	private List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
-	private List<Itens> itens = new ArrayList<Itens>();
 	private List<Seguro> listaSeguros = new ArrayList<Seguro>();
 	private List<TipoSeguro> listaTipoSeguros = new ArrayList<TipoSeguro>();
 	private List<ArCondicionado> listaArCondicionado = new ArrayList<ArCondicionado>();
@@ -103,7 +85,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private List<Gps> listaGps = new ArrayList<Gps>();
 	private List<RadioPlayer> listaRadioPlayer = new ArrayList<RadioPlayer>();
 
-	private ArCondicionado arCondicionado = new ArCondicionado();
 	private BebeConforto bebeConforto = new BebeConforto();
 	private CadeirinhaBebe cadeirinhaBebe = new CadeirinhaBebe();
 	private Gps gps = new Gps();
@@ -111,14 +92,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	public Retirada getRetirada() {
 		return retirada;
-	}
-
-	public Date getDataDevolucao() {
-		return dataDevolucao;
-	}
-
-	public void setDataDevolucao(Date dataDevolucao) {
-		this.dataDevolucao = dataDevolucao;
 	}
 
 	public void setRetirada(Retirada retirada) {
@@ -173,101 +146,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.selectRadio = selectRadio;
 	}
 
-	public Reserva getReserva() {
-		return reserva;
-	}
-
-	public void setReserva(Reserva reserva) {
-		this.reserva = reserva;
-	}
-
-	public List<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(List<Reserva> reservas) {
-		this.reservas = reservas;
-	}
-
-	public Carro getCarro() {
-		return carro;
-	}
-
-	public List<Funcionario> getListaFuncionarios() {
-		return listaFuncionarios;
-	}
-
-	public void setListaFuncionarios(List<Funcionario> listaFuncionarios) {
-		this.listaFuncionarios = listaFuncionarios;
-	}
-
-	public void setCarro(Carro carro) {
-		this.carro = carro;
-	}
-
-	public ImagemCarro getCarroUrl() {
-		return carroUrl;
-	}
-
-	public void setCarroUrl(ImagemCarro carroUrl) {
-		this.carroUrl = carroUrl;
-	}
-
-	public ArCondicionado getArCondicionado() {
-		return arCondicionado;
-	}
-
-	public void setArCondicionado(ArCondicionado arCondicionado) {
-		this.arCondicionado = arCondicionado;
-	}
-
-	public Itens getItem() {
-		return item;
-	}
-
-	public void setItem(Itens item) {
-		this.item = item;
-	}
-
-	public List<Itens> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<Itens> itens) {
-		this.itens = itens;
-	}
-
-	public Modelo getModelo() {
-		return modelo;
-	}
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public String getQuilometragem() {
-		return quilometragem;
-	}
-
-	public void setQuilometragem(String quilometragem) {
-		this.quilometragem = quilometragem;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Opcional getOpcional() {
-		return opcional;
-	}
-
-	public void setOpcional(Opcional opcional) {
-		this.opcional = opcional;
-	}
 
 	public BebeConforto getBebeConforto() {
 		return bebeConforto;
@@ -337,14 +215,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		return listaCidades;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
 	public void setListaCidades(List<Cidade> listaCidades) {
 		this.listaCidades = listaCidades;
 	}
@@ -371,22 +241,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	public void setListaTipoSeguros(List<TipoSeguro> listaTipoSeguros) {
 		this.listaTipoSeguros = listaTipoSeguros;
-	}
-
-	public Seguro getSeguro() {
-		return seguro;
-	}
-
-	public void setSeguro(Seguro seguro) {
-		this.seguro = seguro;
-	}
-
-	public TipoSeguro getTipoSeguro() {
-		return tipoSeguro;
-	}
-
-	public void setTipoSeguro(TipoSeguro tipoSeguro) {
-		this.tipoSeguro = tipoSeguro;
 	}
 
 	public List<ArCondicionado> getListaArCondicionado() {
@@ -439,7 +293,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
 		listaTipoSeguros = new TipoSeguroDAO().listarTodos();
 		listaSeguros = new SeguroDAO().listarApenasNomesDiferentes();
-		listaFuncionarios = new FuncionarioDAO().listarTodos();
 
 		setTotalRetiradas(listaRetirada.size());
 		
@@ -447,8 +300,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		 * Se tiver significa que foi clicado para locar na View Reserva.xhtml 
 		 */
 		if(retirada.getReserva().getId()>0){
-			cliente = retirada.getReserva().getCliente();
-			modelo = retirada.getReserva().getModelo();
+			retirada.setCliente(retirada.getReserva().getCliente());
 			pesquisarPorCPF();
 		}
 		
@@ -459,10 +311,18 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void carregarPlacas() {
 
-		modelo = (Modelo) new ValidaModelo().validar(modelo);
-		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(modelo);
-		carroUrl.setDescricao(modelo.getNome());
-		carroUrl = (ImagemCarro) new ValidaImagemCarro().validar(carroUrl);
+		retirada.getCarro().setModelo((Modelo) new ValidaModelo().validar(
+				retirada.getCarro().getModelo()));
+		
+		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(
+				retirada.getCarro().getModelo());
+		
+		//peganda a url da imagem
+		retirada.getCarro().getCarroUrl().setDescricao(retirada.getCarro().getModelo().getNome());
+		
+		//validando a imagem e setando no carro
+		retirada.getCarro().setCarroUrl((ImagemCarro) new ValidaImagemCarro().validar(
+				retirada.getCarro().getCarroUrl()));
 	}
 
 	/**
@@ -484,19 +344,23 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void efetuarRetirada() {
 
 		//Validando Itens Opcionais
-		if (arCondicionado.getDescricao() != null)
-			arCondicionado = (ArCondicionado) new ValidaItemOpcional().validar(arCondicionado);
+		if (retirada.getOpcional().getArCondicionado().getDescricao() != null)
+			retirada.getOpcional().setArCondicionado(
+					(ArCondicionado) new ValidaItemOpcional().validar(retirada.getOpcional().getArCondicionado()));
 		else{
-			arCondicionado.setCodigo(99);
-			arCondicionado = new ArCondicionadoDAO().pesquisarPorCodigo(arCondicionado);
+			retirada.getOpcional().getArCondicionado().setCodigo(99);
+			retirada.getOpcional().setArCondicionado(new ArCondicionadoDAO().pesquisarPorCodigo(
+					retirada.getOpcional().getArCondicionado()));
 		}
-		opcional.setArCondicionado(arCondicionado);
 
-		tipoSeguro = (TipoSeguro) new ValidaItemOpcional().validar(tipoSeguro);
-		seguro.setTipoSeguro(tipoSeguro);
-		seguro = (Seguro) new ValidaItemOpcional().validar(seguro);
-		opcional.setSeguro(seguro);
+		//valida o tipo de seguro escolhido na view
+		retirada.getOpcional().getSeguro().setTipoSeguro(
+				(TipoSeguro) new ValidaItemOpcional().validar(retirada.getOpcional().getSeguro().getTipoSeguro()));
+		//valida o seguro escolhido na view
+		retirada.getOpcional().setSeguro((Seguro) new ValidaItemOpcional().validar(
+				retirada.getOpcional().getSeguro()));
 
+		
 		if (bebeConforto.getDescricao() != null)
 			bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
 		else {
@@ -523,26 +387,19 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			radioPlayer = new RadioPlayerDAO().pesquisarPorCodigo(radioPlayer);
 		}
 
-		itens.add(bebeConforto);
-		itens.add(cadeirinhaBebe);
-		itens.add(gps);
-		itens.add(radioPlayer);
-		opcional.setItens(itens);
+		retirada.getOpcional().getItens().add(bebeConforto);
+		retirada.getOpcional().getItens().add(cadeirinhaBebe);
+		retirada.getOpcional().getItens().add(gps);
+		retirada.getOpcional().getItens().add(radioPlayer);
 		
 		//validando o carro
-		carro = (Carro) new ValidaCarro().validar(carro);
+		retirada.setCarro((Carro) new ValidaCarro().validar(retirada.getCarro()));
 
-		new OpcionalDAO().cadastrar(opcional);
-		opcional = new OpcionalDAO().pesquisarPorUltimoCadastrado();
-
-		retirada.setCarro(carro);
-		retirada.setCliente(cliente);
-		retirada.setOpcional(opcional);
-		retirada.setQuilometragem(quilometragem);
+		new OpcionalDAO().cadastrar(retirada.getOpcional());
+		retirada.setOpcional(new OpcionalDAO().pesquisarPorUltimoCadastrado());
 
 		// aqui seta a data de retirada
 		retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
-		retirada.setDataDevolucao(dataDevolucao);
 		int i = DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao());
 		// se a data for menor que o dia de hoje não sera persistido no BD
 		if (i == -1) {
@@ -578,10 +435,10 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void verificaPendenciaCliente(){
 		
 		List<Retirada> listaClientesComLocacao = new ArrayList<Retirada>();
-		listaClientesComLocacao = new RetiradaDAO().pesquisarPorCPF(cliente);
+		listaClientesComLocacao = new RetiradaDAO().pesquisarPorCPF(retirada.getCliente());
 		
 		for(Retirada r : listaClientesComLocacao){
-			if(cliente.getCPF().equals(r.getCliente().getCPF())){
+			if(retirada.getCliente().getCPF().equals(r.getCliente().getCPF())){
 				JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
 				return;
 			}
@@ -601,18 +458,19 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		for (Cliente cli : listaClientes) {
-			if (cliente.getCPF().equals(cli.getCPF())) {
-				setEhCadastrado(true);
-				setJaPesquisei(false);
-				cliente = new ClienteDAO().pesquisarPorCPF(cli);
-
-				return;
-			}
+		//Validando o cliente 
+		retirada.setCliente((Cliente) new ValidaCliente().validar(retirada.getCliente()));
+		
+		//veficando se o cliente foi encontrado
+		if(retirada.getCliente()!=null){
+			setEhCadastrado(true);
+			setJaPesquisei(false);
+			return;
 		}
+		
 
 		if (isEhCadastrado() == false) {
-			cliente = new Cliente();
+			retirada.setCliente(new Cliente());
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
 		}
@@ -624,7 +482,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 * Limpa o inputbox de Pesquisar
 	 */
 	public void limparPesquisa() {
-		cliente = new Cliente();
+		retirada.setCliente(new Cliente());
 		setEhCadastrado(false);
 	
 		limparObjetos();
@@ -639,16 +497,11 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
 		// sendo editado
+		retirada.getCliente().getEndereco().setCidade((Cidade) new ValidaCidade().validar(
+				retirada.getCliente().getEndereco().getCidade()));
 
-		for (Cidade cid : listaCidades) {
-			if (cid.getNome().equals(cliente.getEndereco().getCidade().getNome())) {
-				cliente.getEndereco().setCidade(cid);
-				break;
-			}
 
-		}
-
-		new ClienteDAO().editar(cliente);
+		new ClienteDAO().editar(retirada.getCliente());
 
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
@@ -660,21 +513,10 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		retirada = new Retirada();
 		
-		opcional = new Opcional();
-		arCondicionado = new ArCondicionado();
 		bebeConforto = new BebeConforto();
 		cadeirinhaBebe = new CadeirinhaBebe();
 		gps = new Gps();
 		radioPlayer = new RadioPlayer();
-		
-		tipoSeguro = new TipoSeguro();
-		seguro = new Seguro();
-		
-		carro = new Carro();
-		modelo = new Modelo();
-		quilometragem = null;
-		dataDevolucao = null;
-		
 		
 		selectAr = false;
 		selectBebe = false;
@@ -682,8 +524,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		selectCadeirinha = false;
 		selectRadio = false;
 		
-		itens.clear();
-
 	}
 
 }

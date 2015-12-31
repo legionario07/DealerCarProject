@@ -11,6 +11,7 @@ import br.com.dealercar.dao.automotivos.FabricanteDAO;
 import br.com.dealercar.dao.automotivos.ModeloDAO;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.strategy.valida.ValidaFabricante;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -77,12 +78,9 @@ public class ModeloBean implements Serializable, IBean{
 	
 	public void cadastrar(){
 		
+		
 		//recebendo o modelo da view e pesquisando nos modelos cadastrados
-		for(Fabricante f : listaFabricantes){
-			if(f.getNome().equals(modelo.getFabricante().getNome())){
-				modelo.setFabricante(f);
-			}
-		}
+		modelo.setFabricante((Fabricante) new ValidaFabricante().validar(modelo.getFabricante()));
 		
 		new ModeloDAO().cadastrar(modelo);
 		
@@ -94,12 +92,9 @@ public class ModeloBean implements Serializable, IBean{
 	
 	public void editar(){
 		
+
 		//recebendo o modelo da view e pesquisando nos modelos cadastrados
-		for(Fabricante f : listaFabricantes){
-			if(f.getNome().equals(modelo.getFabricante().getNome())){
-				modelo.setFabricante(f);
-			}
-		}
+		modelo.setFabricante((Fabricante) new ValidaFabricante().validar(modelo.getFabricante()));
 		
 		new ModeloDAO().editar(modelo);
 		

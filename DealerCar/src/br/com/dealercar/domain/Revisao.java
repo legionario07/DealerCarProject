@@ -3,7 +3,7 @@ package br.com.dealercar.domain;
 import java.util.Date;
 
 import br.com.dealercar.domain.automotivos.Carro;
-import br.com.dealercar.domain.itensrevisao.Componente;
+import br.com.dealercar.domain.itensrevisao.Componentes;
 
 /**
  * 
@@ -23,10 +23,16 @@ public class Revisao extends EntidadeDominio{
 	private String descricao;
 	private Long quilometragem;
 	private Carro carro;
-	private Componente itensParaVerificar;
+	private Componentes componentes;
 	private Funcionario funcionario;
 	private Devolucao devolucao;
+	
 	public Revisao() {
+		
+		carro = new Carro();
+		componentes  = new Componentes();
+		funcionario = new Funcionario();
+		devolucao = new Devolucao();
 		
 	}
 	
@@ -62,11 +68,11 @@ public class Revisao extends EntidadeDominio{
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-	public Componente getItensParaVerificar() {
-		return itensParaVerificar;
+	public Componentes getItensParaVerificar() {
+		return componentes;
 	}
-	public void setItensParaVerificar(Componente itensParaVerificar) {
-		this.itensParaVerificar = itensParaVerificar;
+	public void setItensParaVerificar(Componentes itensParaVerificar) {
+		this.componentes = itensParaVerificar;
 	}
 	
 	public Devolucao getDevolucao() {

@@ -14,6 +14,7 @@ import br.com.dealercar.util.JSFUtil;
 
 public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializable {
 
+	Connection con = Conexao.getConnection();
 	
 	/**
 	 * 
@@ -30,7 +31,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into cidades (nome, uf)  values (?,?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -59,7 +60,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cidades where id=?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -88,7 +89,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cidades set nome = ?, uf = ? where id=?");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -121,7 +122,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		
 		Cidade cidadeRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -160,7 +161,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		sql.append("where nome like ? order by nome asc");
 		List<Cidade> cidades = new ArrayList<Cidade>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -199,7 +200,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 		sql.append("select * from cidades");
 		List<Cidade> cidades = new ArrayList<Cidade>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 

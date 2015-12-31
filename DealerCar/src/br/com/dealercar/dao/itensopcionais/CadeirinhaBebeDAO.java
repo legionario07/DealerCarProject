@@ -21,6 +21,15 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+	
+	
+
+	/**
+	 * 
 	 * @param CadeirinhaBebe
 	 *            Recebe um CadeirinhaBebe como parametro e cadastra no Banco de
 	 *            Dados
@@ -32,7 +41,7 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		sql.append("(descricao, valor, marca, numero_patrimonio, peso_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -64,7 +73,7 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cadeirinhas_bebe where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -91,7 +100,7 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 		sql.append("update cadeirinhas_bebe set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, peso_bebe = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -124,7 +133,7 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 		List<CadeirinhaBebe> listaRetorno = new ArrayList<CadeirinhaBebe>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -169,7 +178,7 @@ public class CadeirinhaBebeDAO extends AbstractPesquisaItensOpcionais<Cadeirinha
 
 		CadeirinhaBebe cadeirinhaRetorno = null;
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

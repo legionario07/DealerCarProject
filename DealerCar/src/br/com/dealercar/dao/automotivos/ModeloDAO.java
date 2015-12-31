@@ -22,6 +22,14 @@ public class ModeloDAO implements IDAO<Modelo>{
 	
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+	
+	/**
+	 * 
 	 * @param modelo Recebe um objeto de Modelo e cadastra no BD 
 	 * @param fabricante
 	 */
@@ -31,7 +39,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		sql.append("insert into modelos ");
 		sql.append("(nome, id_fabricante) values (?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -60,7 +68,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		sql.append("update modelos set nome = ?, ");
 		sql.append("id_fabricante = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -88,7 +96,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from modelos where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -120,7 +128,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		Modelo modeloRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,7 +171,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -212,7 +220,7 @@ public class ModeloDAO implements IDAO<Modelo>{
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

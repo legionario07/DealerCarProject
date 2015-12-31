@@ -21,6 +21,15 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+	
+	
+
+	/**
+	 * 
 	 * @param BebeConforto
 	 *            Recebe um BebeConforto como parametro e cadastra no Banco de
 	 *            Dados
@@ -31,7 +40,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("insert into bebe_confortos (descricao, valor, marca, numero_patrimonio, meses_bebe) ");
 		sql.append("values (?, ?, ?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -63,7 +72,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from bebe_confortos where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -89,7 +98,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 		sql.append("update bebe_confortos set descricao = ?, valor = ?, ");
 		sql.append("marca = ?, numero_patrimonio = ?, meses_bebe = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -122,7 +131,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 		List<BebeConforto> listaRetorno = new ArrayList<BebeConforto>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -165,7 +174,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 		BebeConforto bebeConfortoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -208,7 +217,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 
 		BebeConforto bConfortoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

@@ -20,6 +20,14 @@ import br.com.dealercar.util.JSFUtil;
 public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	Connection con = Conexao.getConnection();
+
+	
+	/**
 	 * Cadastra as Taxas adicionais no Banco de DAdos
 	 */
 	@Override
@@ -29,7 +37,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("insert into taxas_adicionais ");
 		sql.append("(taxa, valor) values (?,?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -60,7 +68,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("delete from taxas_adicionais ");
 		sql.append("where taxa = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -89,7 +97,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		sql.append("set taxa = ?, valor = ? ");
 		sql.append("where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -120,7 +128,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 		
 		List<TaxasAdicionais> taxas = new ArrayList<TaxasAdicionais>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -158,7 +166,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 
 		TaxasAdicionais taxa = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -197,7 +205,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>{
 
 		TaxasAdicionais taxa = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

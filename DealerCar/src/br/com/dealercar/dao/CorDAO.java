@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +12,14 @@ import br.com.dealercar.domain.Cor;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class CorDAO implements IDAO<Cor> {
+public class CorDAO implements IDAO<Cor>, Serializable{
 
+	Connection con = Conexao.getConnection();
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 
@@ -24,7 +31,7 @@ public class CorDAO implements IDAO<Cor> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into cores (nome) values (?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -53,7 +60,7 @@ public class CorDAO implements IDAO<Cor> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from cores where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -82,7 +89,7 @@ public class CorDAO implements IDAO<Cor> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update cores set id = ?, nome = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -112,7 +119,7 @@ public class CorDAO implements IDAO<Cor> {
 		sql.append("select * from cores");
 		
 		List<Cor> listaCores = new ArrayList<Cor>();
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 
@@ -150,7 +157,7 @@ public class CorDAO implements IDAO<Cor> {
 		
 		Cor corRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

@@ -22,6 +22,13 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+	/**
+	 * 
 	 * @return Retorna todos os tipos de Tipo de Seguro cadastrados no BD
 	 */
 	public List<TipoSeguro> listarTodos() {
@@ -31,7 +38,7 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 
 		List<TipoSeguro> listaRetorno = new ArrayList<TipoSeguro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -74,7 +81,7 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		sql.append("insert into tipo_seguro (nome, valor_acrescido) ");
 		sql.append("values (? , ?)");
 
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -104,7 +111,7 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		sql.append("update tipo_seguro set nome = ?, valor_acrescido = ? ");
 		sql.append("where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -134,7 +141,7 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from tipo_seguro where id=?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,7 +170,7 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>{
 
 		TipoSeguro retorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

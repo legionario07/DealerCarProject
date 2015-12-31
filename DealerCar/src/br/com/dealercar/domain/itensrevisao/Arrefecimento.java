@@ -4,7 +4,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Arrefecimento extends Componente{
+public class Arrefecimento extends Componentes{
 
 	public Arrefecimento() {
 	}

@@ -21,6 +21,13 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+	
+	/**
+	 * 
 	 * @param carroUrl Recebe um Objeto de ImagemCarro e cadastra no BD
 	 */
 	public void cadastrar(ImagemCarro carroUrl) {
@@ -29,7 +36,7 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		sql.append("insert into carros_images ");
 		sql.append("caminho, descricao) values (?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -59,7 +66,7 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		sql.append("update carros_images set caminho = ?, ");
 		sql.append("descricao = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -87,7 +94,7 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from carros_images where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -117,7 +124,7 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		
 		ImagemCarro carroUrlRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -154,7 +161,7 @@ public class ImagemCarroDAO implements IDAO<ImagemCarro> {
 		
 		List<ImagemCarro> lista =  new ArrayList<ImagemCarro>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

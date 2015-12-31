@@ -25,6 +25,9 @@ public class Reserva extends EntidadeDominio {
 
 	public Reserva() {
 
+		 modelo = new Modelo();
+		 funcionario = new Funcionario();
+		 cliente = new Cliente();
 	}
 
 	/**

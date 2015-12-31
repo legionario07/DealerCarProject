@@ -21,6 +21,13 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
+	/**
+	 * 
 	 * @param arCondicionado
 	 *            Recebe um arCondicionado e cadastra no Banco de Dados
 	 */
@@ -30,7 +37,7 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		sql.append("insert into arcondicionados (descricao, valor) ");
 		sql.append("values (?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -58,7 +65,7 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from arcondicionados where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -87,7 +94,7 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 		sql.append("update arcondicionados set descricao = ?, ");
 		sql.append("valor = ? where codigo = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -118,7 +125,7 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 		List<ArCondicionado> listaRetorno = new ArrayList<ArCondicionado>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -157,7 +164,7 @@ public class ArCondicionadoDAO extends AbstractPesquisaItensOpcionais<ArCondicio
 
 		ArCondicionado arRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

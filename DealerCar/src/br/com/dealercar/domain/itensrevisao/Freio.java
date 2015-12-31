@@ -5,7 +5,7 @@ package br.com.dealercar.domain.itensrevisao;
  * @author Paulinho
  *
  */
-public class Freio extends Componente{
+public class Freio extends Componentes{
 	
 	public Freio() {
 	}

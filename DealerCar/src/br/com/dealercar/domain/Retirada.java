@@ -19,7 +19,7 @@ public class Retirada extends EntidadeDominio{
 	private Date dataRetirada;
 	private Date dataDevolucao;
 	private String quilometragem;
-	private Opcional opcional = new Opcional();
+	private Opcional opcional;
 	private Funcionario funcionario;
 	private Cliente cliente;
 	private Reserva reserva = new Reserva();
@@ -27,6 +27,13 @@ public class Retirada extends EntidadeDominio{
 	private boolean ehAtivo;
 
 	public Retirada() {
+		
+		funcionario = new Funcionario();
+		cliente = new Cliente();
+		reserva = new Reserva();
+		carro =  new Carro();
+		opcional = new Opcional();
+		
 	}
 
 	/**

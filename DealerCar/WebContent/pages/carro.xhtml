@@ -60,7 +60,7 @@
 
 						<h:outputText value="Modelo:" />
 						<p:inputText id="inpNome" size="15" maxlength="45" readonly="true"
-							value="#{MBCarro.modelo.nome}" />
+							value="#{MBCarro.carro.modelo.nome}" />
 
 						<h:outputText value="Ano: " />
 						<p:inputMask size="8" readonly="true" mask="9999"
@@ -75,12 +75,12 @@
 							readonly="true" />
 
 						<h:outputText value="Cor: " maxlength="30" />
-						<p:inputText size="15" value="#{MBCarro.cor.nome}"
+						<p:inputText size="15" value="#{MBCarro.carro.cor.nome}"
 							readonly="true" />
 
 						<h:outputText value="Valor Diária: " maxlength="8" />
 						<p:inputText size="8"
-							value="#{MBCarro.categoria.valorDiaria}" readonly="true">
+							value="#{MBCarro.carro.categoria.valorDiaria}" readonly="true">
 							<f:convertNumber type="currency" />
 						</p:inputText>
 

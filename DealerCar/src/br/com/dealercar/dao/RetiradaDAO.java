@@ -28,6 +28,12 @@ import br.com.dealercar.util.JSFUtil;
 public class RetiradaDAO implements IDAO<Retirada> {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Connection con = Conexao.getConnection();
+	
+	/**
 	 * Cadastra um Objeto Retirada no Banco de Dados
 	 */
 	@Override
@@ -40,7 +46,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("id_funcionario, id_itensopcionais, id_reserva, ativo) ");
 		sql.append("values (?,?,?,?,?,?,?,?,?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -121,7 +127,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		sql.append("update retiradas set ativo = ? ");
 		sql.append("where retiradas.id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -155,7 +161,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -225,7 +231,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 
 		Retirada retiradaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -302,7 +308,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -383,7 +389,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		
 		Retirada retiradaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -461,7 +467,7 @@ public class RetiradaDAO implements IDAO<Retirada> {
 		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

@@ -13,13 +13,20 @@ import br.com.dealercar.util.JSFUtil;
 
 public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+
 	@Override
 	public void cadastrar(TaxaCombustivel taxaCombustivel) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into taxa_combustivel (valor) values (?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -49,7 +56,7 @@ public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update taxa_combustivel set valor = ? where id = ?");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -82,7 +89,7 @@ public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel> {
 
 		TaxaCombustivel taxaRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

@@ -6,6 +6,11 @@ public abstract class AbstractPesquisaItensOpcionais<T extends EntidadeDominio> 
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
 	 * @param entidade Recebe uma classe que Extends EntidadeDominio e retornar uma busca
 	 * ao banco de Dados pelo seu Codigo
 	 * @return

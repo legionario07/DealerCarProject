@@ -1,18 +1,21 @@
 package br.com.dealercar.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
-import br.com.dealercar.domain.Endereco;
+import br.com.dealercar.strategy.valida.ValidaCidade;
+import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.ViewHelper;
@@ -31,13 +34,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Cliente cliente = new Cliente();
-	private Cliente clienteRetorno = new Cliente();
-	private Cidade cidade = new Cidade();
-	private Endereco endereco = new Endereco();
-	private Date dataNascimento = null;
-
-	private ClienteDAO cliDao = new ClienteDAO();
-	private CidadeDAO cidDao = new CidadeDAO();
 
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
@@ -51,13 +47,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		this.listaClientes = listaClientes;
 	}
 
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
 
 	public int getTotalClientes() {
 		return totalClientes;
@@ -75,22 +64,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
-	public Cliente getClienteRetorno() {
-		return clienteRetorno;
-	}
-
-	public void setClienteRetorno(Cliente clienteRetorno) {
-		this.clienteRetorno = clienteRetorno;
-	}
-
 	public List<Cidade> getListaCidades() {
 		return listaCidades;
 	}
@@ -100,30 +73,15 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	}
 
 
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
 	/**
-	 * Carrega a listagem de cidades assim que inicia a pagina XHTML
-	 * das Cidades Disponiveis
-	 */
-	public void carregarListagemCidades() {
-		listaCidades = cidDao.listarTodos();
-	}
-
-	/**
-	 * carrega a listagem de todos os objetos de Clientes ao iniciar a tela e
+	 * carrega a listagem de todos os objetos de Clientes e Cidades ao iniciar a tela e
 	 * calcula a quantidade existente e coloca na variavel totalClientes
 	 */
 	@Override
 	public void carregarListagem() {
 
-		listaClientes = cliDao.listarTodos();
+		listaClientes = new ClienteDAO().listarTodos();
+		listaCidades = new CidadeDAO().listarTodos();
 		setTotalClientes(listaClientes.size());
 	}
 
@@ -133,54 +91,40 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	 */
 	public void cadastrar() {
 
-		cliente.setEndereco(endereco);
-		cidade = new CidadeDAO().pesquisarPorID(cidade);
-
-		endereco.setCidade(cidade);
-		listaCidades = cidDao.listarTodos();
+		cliente.getEndereco().setCidade((Cidade) new ValidaCidade().validar(cliente.getEndereco().getCidade()));
 
 		// Verifica se o Cliente eh maior de idade
 		int i = DataUtil.devolverDataEmAnos(cliente.getDataNasc());
 		if (i < 18) {
 			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
-			return;
-		}
-		
-		if (ViewHelper.validarData(cliente.getDataNasc()) == -1) {
-
-			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
 			cliente.setDataNasc(null);
 			return;
 		}
 
-		cliDao.cadastrar(cliente);
+		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
 
-		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
-
-		cliente = new Cliente();
-		cidade = new Cidade();
-	}
-
-	/**
-	 * Pesquisa um cliente no BD de acordo com o ID digitado pelo Usuário na
-	 * Tela
-	 */
-	public void pesquisarPorID() {
-		this.setEhCadastrado(false);
-
-		for (Cliente cli : listaClientes) {
-			if (clienteRetorno.getId() == cli.getId()) {
-				this.setEhCadastrado(true);
-				break;
-			}
-		}
-
-		if (isEhCadastrado()== false) {
-			clienteRetorno = new Cliente();
-			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
+			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida.");
+			cliente.setDataNasc(null);
 			return;
 		}
-		clienteRetorno = cliDao.pesquisarPorID(clienteRetorno);
+
+		new ClienteDAO().cadastrar(cliente);
+		
+		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
+		
+		// encaminha para a pagina de cliente se não ocorrer nenhum erro
+		FacesContext faces = FacesContext.getCurrentInstance();
+		ExternalContext exContext = faces.getExternalContext();
+
+		try {
+			exContext.redirect("cliente.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		cliente = new Cliente();
+
 	}
 
 	/**
@@ -189,23 +133,22 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	 */
 	public void pesquisarPorCPF() {
 
+
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		for (Cliente cli : listaClientes) {
-			if (clienteRetorno.getCPF().toString().equals(cli.getCPF().toString())) {
+		// Validando o cliente
+		cliente = ((Cliente) new ValidaCliente().validar(cliente));
 
-				setEhCadastrado(true);
-				setJaPesquisei(false);
-				clienteRetorno = cliDao.pesquisarPorCPF(clienteRetorno);
-				dataNascimento = clienteRetorno.getDataNasc();
-
-				return;
-			}
+		// veficando se o cliente foi encontrado
+		if (cliente != null) {
+			setEhCadastrado(true);
+			setJaPesquisei(false);
+			return;
 		}
 
 		if (isEhCadastrado() == false) {
-			clienteRetorno = new Cliente();
+			cliente = new Cliente();
 			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
 		}
@@ -219,51 +162,38 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	public void editar() {
 
 		// Verifica se o Cliente eh maior de idade
-		int i = DataUtil.devolverDataEmAnos(dataNascimento);
+		int i = DataUtil.devolverDataEmAnos(cliente.getDataNasc());
 		if (i < 18) {
 			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
-			dataNascimento = clienteRetorno.getDataNasc();
 			return;
 		}
 
+		
+		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
+			
+			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
+			return;
+		}
+		
 		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
 		// sendo editado
-
-		for (Cidade cid : listaCidades) {
-			if (cid.getNome().equals(clienteRetorno.getEndereco().getCidade().getNome())) {
-				setCidade(cid);
-				clienteRetorno.getEndereco().setCidade(cidade);
-				break;
-			}
-
-		}
+		cliente.getEndereco().setCidade((Cidade) new ValidaCidade().validar(cliente.getEndereco().getCidade()));
 		
 
-		if (ViewHelper.validarData(dataNascimento) == -1) {
+		new ClienteDAO().editar(cliente);
 
-			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
-			dataNascimento = clienteRetorno.getDataNasc();
-			return;
-		}
-		
-		clienteRetorno.setDataNasc(dataNascimento);
-		
-		cliDao.editar(clienteRetorno);
-		
 		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
 	/**
-	 * Exclui um objeto de CLiente desejado pelo usuario e solicita a
+	 * Exclui um objeto de Cliente desejado pelo usuario e solicita a
 	 * confirmação na tela
 	 */
 	public void excluir() {
 
-		cliDao.excluir(clienteRetorno);
+		new ClienteDAO().excluir(cliente);
 		JSFUtil.adicionarMensagemSucesso("Cliente excluido com Sucesso.");
-		clienteRetorno = new Cliente();
-		setJaPesquisei(false);
-		setEhCadastrado(false);
+		limparPesquisa();
 
 	}
 
@@ -272,8 +202,9 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	 * nova Pesquisa
 	 */
 	public void limparPesquisa() {
-		clienteRetorno = new Cliente();
+		cliente = new Cliente();
 		setEhCadastrado(false);
+		setJaPesquisei(false);
 	}
 
 }

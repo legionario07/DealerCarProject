@@ -16,7 +16,7 @@ import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensrevisao.Arrefecimento;
 import br.com.dealercar.domain.itensrevisao.Bateria;
-import br.com.dealercar.domain.itensrevisao.Componente;
+import br.com.dealercar.domain.itensrevisao.Componentes;
 import br.com.dealercar.domain.itensrevisao.Embreagem;
 import br.com.dealercar.domain.itensrevisao.Freio;
 import br.com.dealercar.domain.itensrevisao.Lanterna;
@@ -35,6 +35,13 @@ import br.com.dealercar.util.JSFUtil;
 public class RevisaoDAO implements IDAO<Revisao> {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	Connection con = Conexao.getConnection();
+	
+	/**
 	 * Cadastra uma revisao no BD
 	 */
 	@Override
@@ -47,7 +54,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		sql.append("freio, lanterna, motor, pneu, suspensao, descricao) ");
 		sql.append("values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -114,7 +121,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		
 		Revisao revisaoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -154,7 +161,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				revisaoRetorno.setCarro(carro);
 				
-				Componente componente = new Componente();
+				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
 				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));
@@ -203,7 +210,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		
 		Revisao revisaoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -245,7 +252,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				revisaoRetorno.setCarro(carro);
 				
-				Componente componente = new Componente();
+				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
 				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));
@@ -293,7 +300,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 		
 		Revisao revisaoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -334,7 +341,7 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				revisaoRetorno.setCarro(carro);
 				
-				Componente componente = new Componente();
+				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
 				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));

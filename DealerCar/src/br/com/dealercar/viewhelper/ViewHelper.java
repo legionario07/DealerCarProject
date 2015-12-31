@@ -8,7 +8,7 @@ import br.com.dealercar.util.DataUtil;
 
 public class ViewHelper {
 
-	public static int validarData(Date data) {
+	public static int validarIdadeMaxima(Date data) {
 		int i;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String minData = "01/01/1900";
@@ -16,7 +16,6 @@ public class ViewHelper {
 		try {
 			dataMin = sdf.parse(minData);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

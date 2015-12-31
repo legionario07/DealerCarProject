@@ -29,6 +29,12 @@ import br.com.dealercar.util.JSFUtil;
 public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Connection con = Conexao.getConnection();
+	
+	/**
 	 * Persiste as devoluções realizadas no sistema no BD
 	 * 
 	 * @param devolucao
@@ -42,7 +48,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 		sql.append("taxas_adicionais, id_reserva, id_retirada, vlr_total, observacao, taxas_cobradas) ");
 		sql.append("values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -125,7 +131,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 		List<Devolucao> lista = new ArrayList<Devolucao>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -198,7 +204,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 		Devolucao devolucaoRetorno = null;
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -276,7 +282,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> {
 
 		List<Devolucao> lista = new ArrayList<Devolucao>();
 		
-		Connection con = Conexao.getConnection();
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());

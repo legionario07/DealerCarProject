@@ -74,9 +74,17 @@
 					outcome="/pages/devolucao.xhtml" />
 
 			</p:submenu>
+			
+			<p:submenu label="Revisão"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
+				
+				<p:menuitem value="Efetuar Revisão"
+					outcome="/pages/revisao.xhtml" />
+
+			</p:submenu>
 
 			<p:submenu label="Manutenção"
-				rendered="#{MBlogin.funcionario.usuario.permissao.id !=2}">
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 2}">
 
 			</p:submenu>
 
