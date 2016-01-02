@@ -94,8 +94,6 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		int atualizouReservas = atualizarStatusReserva();
 		if(atualizouReservas > 0){
 			listaReservas = reservaDao.listarTodos();
-			JSFUtil.adicionarMensagemSucesso(atualizouReservas + " reservas sofreram atualizações");
-		org.primefaces.context.RequestContext.getCurrentInstance().update("msgGlobal");
 		}
 		
 		

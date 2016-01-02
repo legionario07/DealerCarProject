@@ -92,7 +92,7 @@ public class RevisaoDAOTest {
 
 		List<Revisao> lista = new ArrayList<Revisao>();
 		
-		Carro carro = new Carro("ETE-7176");
+		Carro carro = new Carro("VVV-9898");
 		
 
 		lista = new RevisaoDAO().pesquisarPorPlaca(carro);
@@ -111,7 +111,7 @@ public class RevisaoDAOTest {
 	
 	public static void procurarPorID(){
 		
-		Revisao revisao = new Revisao(3);
+		Revisao revisao = new Revisao(4);
 		
 		revisao = new RevisaoDAO().pesquisarPorID(revisao);
 		
@@ -124,8 +124,8 @@ public class RevisaoDAOTest {
 
 		// cadastrar();
 		//listarTodos();
-		//procurarPorPlaca();
-		procurarPorID();
+		procurarPorPlaca();
+		//procurarPorID();
 	}
 
 }

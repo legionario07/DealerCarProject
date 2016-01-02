@@ -25,7 +25,7 @@ public class Suspensao extends Componentes{
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Suspensao: ");
+		retorno.append("\nSuspensao: ");
 		retorno.append(this.getSituacao());
 				
 		return retorno.toString();

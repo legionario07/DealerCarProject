@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.itensopcionais;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class OpcionalDAO implements IDAO<Opcional> {
+public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 	/**
 	 * 

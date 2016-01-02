@@ -1,8 +1,10 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
+
 import br.com.dealercar.domain.EntidadeDominio;
 
-public abstract class AbstractPesquisaItensOpcionais<T extends EntidadeDominio> implements IDAO<T>{
+public abstract class AbstractPesquisaItensOpcionais<T extends EntidadeDominio> implements IDAO<T>, Serializable{
 
 	/**
 	 * 

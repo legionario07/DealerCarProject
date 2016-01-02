@@ -2,13 +2,14 @@ package br.com.dealercar.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
+import br.com.dealercar.dao.DevolucaoDAO;
 import br.com.dealercar.dao.RevisaoDAO;
+import br.com.dealercar.domain.Devolucao;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
@@ -27,7 +28,7 @@ import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBRevisao")
-@ViewScoped
+@SessionScoped
 public class RevisaoBean extends AbstractBean implements Serializable {
 
 	/**
@@ -46,17 +47,20 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	private Freio freio = new Freio();
 	private Lanterna lanterna = new Lanterna();
 	private Motor motor = new Motor();
-	
-	private List<Pneu> pneus = new ArrayList<Pneu>();
-	private Pneu dianteiroDireito  = new Pneu();
-	private Pneu dianteiroEsquerdo  = new Pneu();
-	private Pneu traseiroDireito  = new Pneu();
-	private Pneu traseiroEsquerdo  = new Pneu();
-	private Pneu estepe  = new Pneu();
 	private Suspensao suspensao = new Suspensao();
 	
+	private List<Pneu> pneus = new ArrayList<Pneu>();
+	private Pneu dianteiroDireito   = new Pneu();
+	private Pneu dianteiroEsquerdo  = new Pneu();
+	private Pneu traseiroDireito    = new Pneu();
+	private Pneu traseiroEsquerdo   = new Pneu();
+	private Pneu estepe             = new Pneu();
+	
 	private List<Revisao> listaRevisao = new ArrayList<Revisao>();
-	private List<PosicaoPneu> posicoesPneus = new ArrayList<PosicaoPneu>();
+	private List<Devolucao> listaDevolucaoAguardandoRevisao = new ArrayList<Devolucao>();
+	
+	int totalRevisaoNaFila;
+	int totaoRevisaoRealizada;
 	
 
 	public Revisao getRevisao() {
@@ -164,6 +168,30 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		this.traseiroEsquerdo = traseiroEsquerdo;
 	}
 
+	public int getTotalRevisaoNaFila() {
+		return totalRevisaoNaFila;
+	}
+
+	public void setTotalRevisaoNaFila(int totalRevisaoNaFila) {
+		this.totalRevisaoNaFila = totalRevisaoNaFila;
+	}
+
+	public int getTotaoRevisaoRealizada() {
+		return totaoRevisaoRealizada;
+	}
+
+	public void setTotaoRevisaoRealizada(int totaoRevisaoRealizada) {
+		this.totaoRevisaoRealizada = totaoRevisaoRealizada;
+	}
+
+	public List<Devolucao> getListaDevolucaoAguardandoRevisao() {
+		return listaDevolucaoAguardandoRevisao;
+	}
+
+	public void setListaDevolucaoAguardandoRevisao(List<Devolucao> listaDevolucaoAguardandoRevisao) {
+		this.listaDevolucaoAguardandoRevisao = listaDevolucaoAguardandoRevisao;
+	}
+
 	public Pneu getEstepe() {
 		return estepe;
 	}
@@ -180,20 +208,15 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		this.suspensao = suspensao;
 	}
 
-	public List<PosicaoPneu> getPosicoesPneus() {
-		return posicoesPneus;
-	}
-
-	public void setPosicoesPneus(List<PosicaoPneu> posicoesPneus) {
-		this.posicoesPneus = posicoesPneus;
-	}
-
 
 	@Override
 	public void carregarListagem() {
 
 		listaRevisao = new RevisaoDAO().listarTodos();
-		posicoesPneus = Arrays.asList(PosicaoPneu.values());
+		listaDevolucaoAguardandoRevisao = new DevolucaoDAO().listarDevolucaoAguardandoRevisao();
+		
+		totalRevisaoNaFila = listaDevolucaoAguardandoRevisao.size();
+		totaoRevisaoRealizada = listaRevisao.size();
 		
 		/*
 		 * verifica se ja ja tem uma Devolução preenchida Se tiver significa que
@@ -245,19 +268,18 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		revisao.getComponentes().setMotor(motor);
 		revisao.getComponentes().setSuspensao(suspensao);
 		
-		
 		//recebendo os pneus
 		dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
 		dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 		traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
 		traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.TRASEIRO_ESQUERDO);
 		estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-		pneus.set(1, dianteiroDireito);
-		pneus.set(2, dianteiroEsquerdo);
-		pneus.set(3, traseiroDireito);
-		pneus.set(4, traseiroEsquerdo);
-		pneus.set(5, estepe);
-
+		pneus.add(dianteiroDireito);
+		pneus.add(dianteiroEsquerdo);
+		pneus.add(traseiroDireito);
+		pneus.add(traseiroEsquerdo);
+		pneus.add(estepe);
+		
 		revisao.getComponentes().setPneus(pneus);
 		
 		// pega a data atual do sistema
@@ -266,6 +288,16 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		// pega o funcionario que realizou a Revisão
 		revisao.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
 
+		if(revisao.getDevolucao().getId()>0){
+			revisao.getDevolucao().setAguardaRevisao(false);
+			new DevolucaoDAO().editar(revisao.getDevolucao());
+		}
+		
+		new RevisaoDAO().cadastrar(revisao);
+		
+		JSFUtil.adicionarMensagemSucesso("Revisão Efetuada com Sucesso");
+		
+		limparPesquisa();
 		
 	}
 
@@ -274,13 +306,23 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	 * Pesquisa
 	 */
 	public void limparPesquisa() {
+		
 		revisao = new Revisao();
+		
 		arrefecimento = new Arrefecimento();
 		bateria = new Bateria();
 		embreagem = new Embreagem();
 		freio = new Freio();
 		motor = new Motor();
 		suspensao = new Suspensao();
+		dianteiroDireito = new Pneu();
+		dianteiroEsquerdo = new Pneu();
+		traseiroDireito   = new Pneu();
+		traseiroEsquerdo  = new Pneu();
+		estepe            = new Pneu();
+		
+		pneus.clear();
+		
 		setEhCadastrado(false);
 
 	}

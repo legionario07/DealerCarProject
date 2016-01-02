@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBRevisao.carregarListagem}" type="preRenderView" />
+
+		<h:form id="frmListaDevolucao">
+
+			<p:dataTable id="tblListaDevolucao" value="#{MBRevisao.listaRevisao}"
+				widgetVar="tabelaListagem" var="itemRevisao"
+				emptyMessage="Nenhum Registro foi encontrado"
+				sortBy="#{itemRevisao.dataRevisao}" sortOrder="DESCENDING"
+				paginator="true" rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Revisao - Listagem" style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Id" width="3%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.id}">
+					<h:outputText value="#{itemRevisao.id}" />
+				</p:column>
+
+				<p:column headerText="Data Revisão" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.dataRevisao}">
+					<h:outputText value="#{itemRevisao.dataRevisao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Funcionario" width="10%"
+					style="font-size:11px" sortBy="#{itemRevisao.funcionario.nome}">
+					<h:outputText value="#{itemRevisao.funcionario.nome}" />
+				</p:column>
+
+				<p:column headerText="Modelo" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.carro.modelo.nome}">
+					<h:outputText value="#{itemRevisao.carro.modelo.nome}" />
+				</p:column>
+
+				<p:column headerText="Placa" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.carro.placa}">
+					<h:outputText value="#{itemRevisao.carro.placa}" />
+				</p:column>
+
+				<p:column headerText="Quilometragem" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.quilometragem}">
+					<h:outputText value="#{itemRevisao.quilometragem}" />
+				</p:column>
+
+				<p:column headerText="ID Devolucao" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.devolucao.id}">
+					<h:outputText value="#{itemRevisao.devolucao.id}" />
+				</p:column>
+
+
+				<p:column headerText="Embreagem" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.componentes.embreagem.situacao}">
+					<h:outputText value="#{itemRevisao.componentes.embreagem.situacao}" />
+				</p:column>
+
+				<p:column headerText="Freio" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.componentes.freio.situacao}">
+					<h:outputText value="#{itemRevisao.componentes.freio.situacao}" />
+				</p:column>
+
+				<p:column headerText="Motor" width="7%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.componentes.motor.situacao}">
+					<h:outputText value="#{itemRevisao.componentes.motor.situacao}" />
+				</p:column>
+
+
+				<p:column headerText="Observação" width="15%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemRevisao.descricao}">
+					<h:outputText value="#{itemRevisao.descricao}" />
+				</p:column>
+
+				<p:column headerText="Detalhar" width="5%" style="text-align:center">
+					<p:commandButton icon=" ui-icon-document" title="Detalhar Revisão">
+					</p:commandButton>
+				</p:column>
+
+
+				<f:facet name="footer">
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBRevisao.totaoRevisaoRealizada}" />
+					<p:outputLabel value=" Revisões Efetuadas." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

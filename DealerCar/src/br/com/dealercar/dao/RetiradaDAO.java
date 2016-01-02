@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ import br.com.dealercar.util.JSFUtil;
 /**
  * Recebe um objeto dominio do tipo Retirada e persiste no Banco de DAdos
  */
-public class RetiradaDAO implements IDAO<Retirada> {
+public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 
 	/**
 	 * 

@@ -112,6 +112,7 @@ public class Componentes implements Serializable {
 		retorno.append(this.getLanterna());
 		retorno.append(this.getMotor());
 		retorno.append(this.getSuspensao());
+		retorno.append(this.getPneus());
 		
 		return retorno.toString();
 	}

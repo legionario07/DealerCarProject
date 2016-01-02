@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class ModeloDAO implements IDAO<Modelo>{
+public class ModeloDAO implements IDAO<Modelo>, Serializable{
 	
 	/**
 	 * 

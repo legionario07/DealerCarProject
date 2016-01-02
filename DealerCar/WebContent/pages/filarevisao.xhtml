@@ -13,19 +13,19 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBDevolucao.carregarListagem}"
+		<f:event listener="#{MBRevisao.carregarListagem}"
 			type="preRenderView" />
 
 		<h:form id="frmListaDevolucao">
 
 			<p:dataTable id="tblListaDevolucao"
-				value="#{MBDevolucao.listaDevolucao}" widgetVar="tabelaListagem"
+				value="#{MBRevisao.listaDevolucaoAguardandoRevisao}" widgetVar="tabelaListagem"
 				var="itemDevolucao" emptyMessage="Nenhum Registro foi encontrado"
-				sortBy="#{itemDevolucao.aguardaRevisao}" sortOrder="DESCENDING"
+				sortBy="#{itemDevolucao.dataDevolucao}" sortOrder="DESCENDING"
 				paginator="true" rows="10">
 
 				<f:facet name="header">
-					<h:outputText value="Devolucao - Listagem" style="font-size:14px" />
+					<h:outputText value="Revisao - Listagem" style="font-size:14px" />
 				</f:facet>
 
 
@@ -55,13 +55,6 @@
 					<h:outputText value="#{itemDevolucao.retirada.carro.placa}" />
 				</p:column>
 
-				<p:column headerText="Data Retirada" width="7%"
-					style="font-size:11px; text-align:center"
-					sortBy="#{itemDevolucao.retirada.dataRetirada}">
-					<h:outputText value="#{itemDevolucao.retirada.dataRetirada}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-				</p:column>
 
 				<p:column headerText="Data Devolucao" width="7%"
 					style="font-size:11px; text-align:center"
@@ -71,13 +64,6 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Quantidade de Diarias" width="7%"
-					style="font-size:11px; text-align:center"
-					sortBy="#{itemDevolucao.qtdeDiarias}">
-					<h:outputText value="#{itemDevolucao.qtdeDiarias}" />
-				</p:column>
-
-
 				<p:column headerText="Valor" width="7%"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemDevolucao.valorFinal}">
@@ -86,11 +72,23 @@
 					</h:outputText>
 				</p:column>
 
+				<p:column headerText="Efetuar Revisão" width="5%"
+					style="text-align:center" sortBy="#{itemDevolucao.aguardaRevisao}">
+					<p:commandButton icon="ui-icon-wrench"
+						title="Efetuar Revisão"
+						action="/pages/revisao.xhtml"
+						update=":frmListaDevolucao:tblListaDevolucao">
+						<f:setPropertyActionListener
+							target="#{MBRevisao.revisao.devolucao}"
+							value="#{itemDevolucao}" />
+					</p:commandButton>
+				</p:column>
+
 
 				<f:facet name="footer">
 					<p:outputLabel value="Exitem " />
-					<p:outputLabel value="#{MBDevolucao.totalDevolucoes}" />
-					<p:outputLabel value=" devoluções cadastradas." />
+					<p:outputLabel value="#{MBRevisao.totalRevisaoNaFila}" />
+					<p:outputLabel value=" Revisões para Realizar." />
 				</f:facet>
 
 			</p:dataTable>

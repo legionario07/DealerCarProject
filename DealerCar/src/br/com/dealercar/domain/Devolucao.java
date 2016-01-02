@@ -32,11 +32,14 @@ public class Devolucao extends EntidadeDominio {
 	private Double valorFinal;
 	private String observacao;
 	private String taxasCobradas;
+	private boolean aguardaRevisao;
 
 	public Devolucao() {
 		funcionario = new Funcionario();
 		retirada = new Retirada();
+		
 		reserva = new Reserva();
+		setAguardaRevisao(true);
 	}
 
 	public Devolucao(int id) {
@@ -113,6 +116,14 @@ public class Devolucao extends EntidadeDominio {
 
 	public void setRetirada(Retirada retirada) {
 		this.retirada = retirada;
+	}
+
+	public boolean isAguardaRevisao() {
+		return aguardaRevisao;
+	}
+
+	public void setAguardaRevisao(boolean aguardaRevisao) {
+		this.aguardaRevisao = aguardaRevisao;
 	}
 
 	public String getObservacao() {

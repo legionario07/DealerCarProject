@@ -1,5 +1,6 @@
 package br.com.dealercar.dao.automotivos;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import br.com.dealercar.domain.taxasadicionais.TaxaCombustivel;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
-public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel> {
+public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel>,Serializable {
 
 	/**
 	 * 
