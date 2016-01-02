@@ -7,20 +7,27 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Suspensao extends Componentes{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Suspensao() {
 	}
 	
-	public Suspensao(boolean ok) {
-		this.setOk(ok);
+	public Suspensao(String situacao){
+		this.setSituacao(situacao);
 	}
+	
 	
 
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("Suspensao: ");
-		retorno.append(this.isOk());
-		
+		retorno.append(this.getSituacao());
+				
 		return retorno.toString();
 	}
 

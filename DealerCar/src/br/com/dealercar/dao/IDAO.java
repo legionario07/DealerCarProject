@@ -1,6 +1,5 @@
 package br.com.dealercar.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import br.com.dealercar.domain.EntidadeDominio;
@@ -16,7 +15,7 @@ import br.com.dealercar.domain.EntidadeDominio;
  * 		EntidadDominio pesquisarPorID(EntidadeDominio)
  * @param <T> Classe entidadeDominio
  */
-public interface IDAO<T extends EntidadeDominio> extends Serializable {
+public interface IDAO<T extends EntidadeDominio> {
 	
 	
 	void cadastrar(T entidade);

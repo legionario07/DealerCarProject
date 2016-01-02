@@ -18,19 +18,22 @@ public class Revisao extends EntidadeDominio{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2803744370760715140L;
+	/**
+	 * 
+	 */
 	private Date dataRevisao;
 	private String descricao;
 	private Long quilometragem;
-	private Carro carro;
 	private Componentes componentes;
+	private Carro carro;
 	private Funcionario funcionario;
 	private Devolucao devolucao;
 	
 	public Revisao() {
 		
 		carro = new Carro();
-		componentes  = new Componentes();
+		componentes = new Componentes();
 		funcionario = new Funcionario();
 		devolucao = new Devolucao();
 		
@@ -62,17 +65,19 @@ public class Revisao extends EntidadeDominio{
 	public void setQuilometragem(Long quilometragem) {
 		this.quilometragem = quilometragem;
 	}
+	public Componentes getComponentes() {
+		return componentes;
+	}
+
+	public void setComponentes(Componentes componentes) {
+		this.componentes = componentes;
+	}
+
 	public Carro getCarro() {
 		return carro;
 	}
 	public void setCarro(Carro carro) {
 		this.carro = carro;
-	}
-	public Componentes getItensParaVerificar() {
-		return componentes;
-	}
-	public void setItensParaVerificar(Componentes itensParaVerificar) {
-		this.componentes = itensParaVerificar;
 	}
 	
 	public Devolucao getDevolucao() {
@@ -105,7 +110,7 @@ public class Revisao extends EntidadeDominio{
 		retorno.append(this.getCarro().getPlaca());
 		retorno.append(" - Quilometragem: ");
 		retorno.append(this.getQuilometragem());
-		retorno.append(this.getItensParaVerificar());
+		retorno.append(this.getComponentes());
 		retorno.append("\nDescrição: ");
 		retorno.append(this.getDescricao());
 		

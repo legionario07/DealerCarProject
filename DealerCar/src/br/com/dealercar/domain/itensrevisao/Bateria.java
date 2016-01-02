@@ -7,11 +7,17 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Bateria extends Componentes{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Bateria() {
 	}
 	
-	public Bateria(boolean ok) {
-		this.setOk(ok);
+	public Bateria(String situacao){
+		this.setSituacao(situacao);
 	}
 	
 
@@ -19,8 +25,8 @@ public class Bateria extends Componentes{
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nBateria: ");
-		retorno.append(this.isOk());
-		
+		retorno.append(this.getSituacao());
+				
 		return retorno.toString();
 		}
 

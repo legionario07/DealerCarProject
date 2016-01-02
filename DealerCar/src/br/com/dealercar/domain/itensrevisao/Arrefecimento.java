@@ -6,11 +6,18 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Arrefecimento extends Componentes{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Arrefecimento() {
 	}
 	
-	public Arrefecimento(boolean ok) {
-		this.setOk(ok);
+	public Arrefecimento(String situacao) {
+		
+		this.setSituacao(situacao);
 	}
 	
 
@@ -18,7 +25,7 @@ public class Arrefecimento extends Componentes{
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nArrefecimento: ");
-		retorno.append(this.isOk());
+		retorno.append(this.getSituacao());
 		
 		return retorno.toString();
 	}

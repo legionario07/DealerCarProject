@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class RevisaoDAO implements IDAO<Revisao> {
+public class RevisaoDAO implements IDAO<Revisao>, Serializable{
 
 	/**
 	 * 
@@ -74,14 +75,14 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				pstm.setInt(++i, 0);
 			}
 				
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getArrefecimento().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getBateria().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getEmbreagem().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getFreio().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getLanterna().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getMotor().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getPneu().isOk()));
-			pstm.setString(++i, String.valueOf(revisao.getItensParaVerificar().getSuspensao().isOk()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getArrefecimento().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getBateria().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getEmbreagem().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getFreio().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getLanterna().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getMotor().getSituacao()));
+			//pstm.setString(++i, String.valueOf(revisao.getComponentes().getPneu().getSituacao()));
+			pstm.setString(++i, String.valueOf(revisao.getComponentes().getSuspensao().getSituacao()));
 			pstm.setString(++i, revisao.getDescricao());
 			
 			pstm.executeUpdate();
@@ -163,14 +164,18 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				Componentes componente = new Componentes();
 
-				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
-				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));
-				Embreagem embreagem = new Embreagem(Boolean.parseBoolean(rSet.getString("embreagem")));
-				Freio freio = new Freio(Boolean.parseBoolean(rSet.getString("freio")));
-				Lanterna lanterna = new Lanterna(Boolean.parseBoolean(rSet.getString("lanterna")));
-				Motor motor = new Motor(Boolean.parseBoolean(rSet.getString("motor")));
-				Pneu pneu = new Pneu(Boolean.parseBoolean(rSet.getString("pneu")));
-				Suspensao suspensao = new Suspensao(Boolean.parseBoolean(rSet.getString("suspensao")));
+				List<Pneu> pneus = new ArrayList<Pneu>();
+				
+				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				
+				Pneu pneu = new Pneu(rSet.getString("dianteiro_esquerdo"));
+				pneus.add(pneu);
 				
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
@@ -178,10 +183,10 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				componente.setFreio(freio);
 				componente.setLanterna(lanterna);
 				componente.setMotor(motor);
-				componente.setPneu(pneu);
+				componente.setPneus(pneus);
 				componente.setSuspensao(suspensao);
 				
-				revisaoRetorno.setItensParaVerificar(componente);
+				revisaoRetorno.setComponentes(componente);
 				
 				listaRetorno.add(revisaoRetorno);
 				
@@ -253,15 +258,18 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				revisaoRetorno.setCarro(carro);
 				
 				Componentes componente = new Componentes();
+				List<Pneu> pneus = new ArrayList<Pneu>();
 
-				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
-				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));
-				Embreagem embreagem = new Embreagem(Boolean.parseBoolean(rSet.getString("embreagem")));
-				Freio freio = new Freio(Boolean.parseBoolean(rSet.getString("freio")));
-				Lanterna lanterna = new Lanterna(Boolean.parseBoolean(rSet.getString("lanterna")));
-				Motor motor = new Motor(Boolean.parseBoolean(rSet.getString("motor")));
-				Pneu pneu = new Pneu(Boolean.parseBoolean(rSet.getString("pneu")));
-				Suspensao suspensao = new Suspensao(Boolean.parseBoolean(rSet.getString("suspensao")));
+				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+
+				Pneu pneu = new Pneu(rSet.getString("dianteiro_esquerdo"));
+				pneus.add(pneu);
 				
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
@@ -269,10 +277,10 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				componente.setFreio(freio);
 				componente.setLanterna(lanterna);
 				componente.setMotor(motor);
-				componente.setPneu(pneu);
+				componente.setPneus(pneus);
 				componente.setSuspensao(suspensao);
 				
-				revisaoRetorno.setItensParaVerificar(componente);
+				revisaoRetorno.setComponentes(componente);
 				
 			}
 			
@@ -343,14 +351,18 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				
 				Componentes componente = new Componentes();
 
-				Arrefecimento arrefecimento = new Arrefecimento(Boolean.parseBoolean(rSet.getString("arreferecimento")));
-				Bateria bateria = new Bateria(Boolean.parseBoolean(rSet.getString("bateria")));
-				Embreagem embreagem = new Embreagem(Boolean.parseBoolean(rSet.getString("embreagem")));
-				Freio freio = new Freio(Boolean.parseBoolean(rSet.getString("freio")));
-				Lanterna lanterna = new Lanterna(Boolean.parseBoolean(rSet.getString("lanterna")));
-				Motor motor = new Motor(Boolean.parseBoolean(rSet.getString("motor")));
-				Pneu pneu = new Pneu(Boolean.parseBoolean(rSet.getString("pneu")));
-				Suspensao suspensao = new Suspensao(Boolean.parseBoolean(rSet.getString("suspensao")));
+				List<Pneu> pneus = new ArrayList<Pneu>();
+				
+				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				
+				Pneu pneu = new Pneu(rSet.getString("dianteiro_esquerdo"));
+				pneus.add(pneu);
 				
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
@@ -358,10 +370,10 @@ public class RevisaoDAO implements IDAO<Revisao> {
 				componente.setFreio(freio);
 				componente.setLanterna(lanterna);
 				componente.setMotor(motor);
-				componente.setPneu(pneu);
+				componente.setPneus(pneus);
 				componente.setSuspensao(suspensao);
 				
-				revisaoRetorno.setItensParaVerificar(componente);
+				revisaoRetorno.setComponentes(componente);
 				
 				listaRetorno.add(revisaoRetorno);
 				

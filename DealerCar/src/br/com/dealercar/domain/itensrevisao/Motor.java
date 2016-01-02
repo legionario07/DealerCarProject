@@ -7,11 +7,17 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Motor extends Componentes{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Motor() {
-		// TODO Auto-generated constructor stub
 	}
-	public Motor(boolean ok) {
-		this.setOk(ok);
+	
+	public Motor(String situacao){
+		this.setSituacao(situacao);
 	}
 	
 
@@ -19,8 +25,8 @@ public class Motor extends Componentes{
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nMotor: ");
-		retorno.append(this.isOk());
-		
+		retorno.append(this.getSituacao());
+				
 		return retorno.toString();
 	}
 

@@ -7,18 +7,24 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Freio extends Componentes{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Freio() {
 	}
 	
-	public Freio(boolean ok) {
-		this.setOk(ok);
+	public Freio(String situacao){
+		this.setSituacao(situacao);
 	}
+	
 
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nFreio: ");
-		retorno.append(this.isOk());
+		retorno.append(this.getSituacao());
 		
 		return retorno.toString();
 	}

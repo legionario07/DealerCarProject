@@ -7,20 +7,24 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Lanterna extends Componentes{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Lanterna() {
-		// TODO Auto-generated constructor stub
 	}
-	public Lanterna(boolean ok) {
-		this.setOk(ok);
+	public Lanterna(String situacao){
+		this.setSituacao(situacao);
 	}
-	
 
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nLanterna: ");
-		retorno.append(this.isOk());
-		
+		retorno.append(this.getSituacao());
+				
 		return retorno.toString();
 	}
 }

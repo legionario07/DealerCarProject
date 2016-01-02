@@ -1,37 +1,47 @@
 package br.com.dealercar.domain.itensrevisao;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe herdadas pelos itens de Revisão
  * @author Paulinho
  *
  */
-public class Componentes {
+public class Componentes implements Serializable {
 	
-	private String descricao;
-	private boolean ok = false;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String situacao;
 	private Arrefecimento arrefecimento;
 	private Bateria bateria;
 	private Embreagem embreagem;
 	private Freio freio;
 	private Lanterna lanterna;
 	private Motor motor;
-	private Pneu pneu;
+	private List<Pneu> pneus = new ArrayList<Pneu>();
+
 	private Suspensao suspensao;
 	
 	public Componentes() {
+		
 	}
 	
-	public String getDescricao() {
-		return descricao;
+	public String getSituacao() {
+		return situacao;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
 	}
-
-	public boolean isOk() {
-		return ok;
+	public List<Pneu> getPneus() {
+		return pneus;
 	}
-	public void setOk(boolean ok) {
-		this.ok = ok;
+	
+	public void setPneus(List<Pneu> pneus) {
+		this.pneus = pneus;
 	}
 	public Arrefecimento getArrefecimento() {
 		return arrefecimento;
@@ -81,13 +91,6 @@ public class Componentes {
 		this.motor = motor;
 	}
 
-	public Pneu getPneu() {
-		return pneu;
-	}
-
-	public void setPneu(Pneu pneu) {
-		this.pneu = pneu;
-	}
 
 	public Suspensao getSuspensao() {
 		return suspensao;
@@ -108,7 +111,6 @@ public class Componentes {
 		retorno.append(this.getFreio());
 		retorno.append(this.getLanterna());
 		retorno.append(this.getMotor());
-		retorno.append(this.getPneu());
 		retorno.append(this.getSuspensao());
 		
 		return retorno.toString();

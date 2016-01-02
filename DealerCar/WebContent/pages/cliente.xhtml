@@ -13,7 +13,7 @@
 
 
 	<ui:define name="conteudo">
-	
+
 		<f:event listener="#{MBCliente.carregarListagem}" type="preRenderView" />
 
 		<h:panelGrid width="100%" style="text-align:center">
@@ -42,8 +42,7 @@
 						rendered="#{MBCliente.ehCadastrado == true}">
 
 						<h:outputLabel value="Id: " />
-						<p:inputText value="#{MBCliente.cliente.id}"
-							readonly="true" />
+						<p:inputText value="#{MBCliente.cliente.id}" readonly="true" />
 
 						<h:outputText value="Nome:" />
 						<p:inputText id="inpNome" size="90" maxlength="45" readonly="true"
@@ -84,29 +83,28 @@
 							readonly="true" />
 
 						<h:outputText value="Rua " maxlength="50" />
-						<p:inputText size="50"
-							value="#{MBCliente.cliente.endereco.rua}" readonly="true"
-							maxlength="50" />
+						<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"
+							readonly="true" maxlength="50" />
 
 						<h:outputText value="Número: " maxlength="10" />
 						<p:inputText size="10"
-							value="#{MBCliente.cliente.endereco.numero}"
-							readonly="true" maxlength="10" />
+							value="#{MBCliente.cliente.endereco.numero}" readonly="true"
+							maxlength="10" />
 
 						<h:outputText value="Complemento: " maxlength="50" />
 						<p:inputText size="50"
-							value="#{MBCliente.cliente.endereco.complemento}"
-							readonly="true" maxlength="50" />
+							value="#{MBCliente.cliente.endereco.complemento}" readonly="true"
+							maxlength="50" />
 
 						<h:outputText value="Bairro: " maxlength="20" />
 						<p:inputText size="20"
-							value="#{MBCliente.cliente.endereco.bairro}"
-							readonly="true" maxlength="20" />
+							value="#{MBCliente.cliente.endereco.bairro}" readonly="true"
+							maxlength="20" />
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
-							value="#{MBCliente.cliente.endereco.cidade.nome}"
-							readonly="true" maxlength="65" />
+							value="#{MBCliente.cliente.endereco.cidade.nome}" readonly="true"
+							maxlength="65" />
 					</h:panelGrid>
 					<br></br>
 
@@ -157,10 +155,19 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
-			onShow="" height="450" draggable="false" resizable="false"
+			height="450" draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Cliente - Editar">
 
+
 			<h:form id="frmClienteEditar">
+
+				<h:panelGrid id="validadores" columns="4">
+					<p:message for="data" />
+					<h:outputText value="#{MBCliente.cliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+				</h:panelGrid>
 
 				<h:panelGrid id="pnlClienteEditar" columns="2">
 
@@ -170,9 +177,8 @@
 						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="DataNasc: *" />
-					<p:calendar id="data" value="#{MBCliente.cliente.dataNasc}"
-						pattern="dd-MM-yyyy" mask="true"
-						required="true"
+					<p:calendar id="data" value="#{MBCliente.cliente.dataNasc}" 
+						mask="true" required="true" pattern="dd-MM-yyyy"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
 
 					</p:calendar>
@@ -183,8 +189,8 @@
 						requiredMessage="Favor informar o nome da Mãe. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Sexo: " maxlength="45" />
-					<p:selectOneMenu value="#{MBCliente.cliente.sexo}"
-						rendered="true" required="true"
+					<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true"
+						required="true"
 						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
 
 						<f:selectItem itemValue="MASCULINO" itemLabel="MASCULINO" />
@@ -214,15 +220,14 @@
 					<p:inputText value="#{MBCliente.cliente.email}" size="55" />
 
 					<p:outputLabel value="Rua *" maxlength="50" />
-					<p:inputText size="50"
-						value="#{MBCliente.cliente.endereco.rua}" required="true"
+					<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"
+						required="true"
 						requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="50" />
 
 					<p:outputLabel value="Número: *" maxlength="10" />
-					<p:inputText size="10"
-						value="#{MBCliente.cliente.endereco.numero}"
+					<p:inputText size="10" value="#{MBCliente.cliente.endereco.numero}"
 						required="true"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
@@ -230,12 +235,10 @@
 
 					<p:outputLabel value="Complemento: " maxlength="50" />
 					<p:inputText size="50"
-						value="#{MBCliente.cliente.endereco.complemento}"
-						maxlength="50" />
+						value="#{MBCliente.cliente.endereco.complemento}" maxlength="50" />
 
 					<p:outputLabel value="Bairro: *" maxlength="20" />
-					<p:inputText size="20"
-						value="#{MBCliente.cliente.endereco.bairro}"
+					<p:inputText size="20" value="#{MBCliente.cliente.endereco.bairro}"
 						required="true"
 						requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
@@ -244,8 +247,7 @@
 					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidades"
-						value="#{MBCliente.cliente.endereco.cidade.nome}"
-						required="true"
+						value="#{MBCliente.cliente.endereco.cidade.nome}" required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -262,9 +264,8 @@
 
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
-						actionListener="#{MBCliente.editar}" onclick=":frmConsultaCliente"
-						update="msgGlobal"
-						oncomplete="PF('dlgClienteEditar').hide();" />
+						actionListener="#{MBCliente.editar}" 
+						update="frmClienteEditar :msgGlobal" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgClienteEditar').hide();" />

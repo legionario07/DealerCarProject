@@ -3,25 +3,20 @@ package br.com.dealercar.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import br.com.dealercar.dao.ClienteDAO;
-import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.automotivos.Carro;
-import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
-import br.com.dealercar.strategy.valida.IValidacaoStrategy;
+import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.strategy.valida.ValidaCliente;
-import br.com.dealercar.strategy.valida.ValidaFabricante;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
@@ -37,23 +32,12 @@ public class ReservaBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Reserva reserva = new Reserva();
-	private Modelo modelo = new Modelo();
-	private Cliente cliente = new Cliente();
-	private Fabricante fabricante = new Fabricante();
-	private Carro carro = new Carro();
-	private Date dataReserva = null;
-
-	IValidacaoStrategy validaStrategy = null;
 
 	private ReservaDAO reservaDao = new ReservaDAO();
-	private ClienteDAO cliDao = new ClienteDAO();
-	private FuncionarioDAO funDao = new FuncionarioDAO();
 	private CarroDAO carroDao = new CarroDAO();
 
 	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 	private List<Carro> listaModelosDisponiveis = new ArrayList<Carro>();
-	private List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
-	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 
 	private int totalReservas;
 
@@ -63,47 +47,6 @@ public class ReservaBean extends AbstractBean implements Serializable {
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
-	}
-
-	public Date getDataReserva() {
-		return dataReserva;
-	}
-
-	public void setDataReserva(Date dataReserva) {
-		this.dataReserva = dataReserva;
-	}
-
-	public Modelo getModelo() {
-		return modelo;
-	}
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public Carro getCarro() {
-		return carro;
-	}
-
-	public void setCarro(Carro carro) {
-		this.carro = carro;
-	}
-
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Fabricante getFabricante() {
-		return fabricante;
-	}
-
-	public void setFabricante(Fabricante fabricante) {
-		this.fabricante = fabricante;
 	}
 
 	public ReservaDAO getReservaDao() {
@@ -122,22 +65,6 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		this.listaReservas = listaReservas;
 	}
 
-	public List<Funcionario> getListaFuncionarios() {
-		return listaFuncionarios;
-	}
-
-	public void setListaFuncionarios(List<Funcionario> listaFuncionarios) {
-		this.listaFuncionarios = listaFuncionarios;
-	}
-
-	public List<Cliente> getListaClientes() {
-		return listaClientes;
-	}
-
-	public void setListaClientes(List<Cliente> listaClientes) {
-		this.listaClientes = listaClientes;
-	}
-
 	public List<Carro> getListaModelosDisponiveis() {
 		return listaModelosDisponiveis;
 	}
@@ -154,27 +81,51 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		this.totalReservas = totalReservas;
 	}
 
-
 	/**
-	 * Carrega a listagem assim que a pagina inicia 
-	 * - das Reservas disponiveis
-	 *  - Modelos Disponiveis
-	 *  - Funcionarios
-	 *  - Clientes
+	 * Carrega a listagem assim que a pagina inicia - das Reservas disponiveis -
+	 * Modelos Disponiveis - Funcionarios - Clientes
 	 */
 	@Override
 	public void carregarListagem() {
 
+		
 		listaReservas = reservaDao.listarTodos();
-
+		
+		int atualizouReservas = atualizarStatusReserva();
+		if(atualizouReservas > 0){
+			listaReservas = reservaDao.listarTodos();
+			JSFUtil.adicionarMensagemSucesso(atualizouReservas + " reservas sofreram atualizações");
+		org.primefaces.context.RequestContext.getCurrentInstance().update("msgGlobal");
+		}
+		
+		
 		listaModelosDisponiveis = carroDao.listarApenasDisponiveis();
-
-		listaFuncionarios = funDao.listarTodos();
-
-		listaClientes = cliDao.listarTodos();
 
 		setTotalReservas(listaReservas.size());
 
+	}
+	
+	/**
+	 * Atualiza o Status das Reservas Ativas assim que abre a pagina
+	 * Se passou o dia Ela cancela automaticamente
+	 */
+	private int atualizarStatusReserva(){
+		int entrouNoLoop = 0;
+		
+		for(Reserva r : listaReservas){
+			if(r.getSituacao().equals("ATIVO")){
+				//verifica se ja passou a data
+				int i = DataUtil.compararDatas(DataUtil.pegarDataAtualDoSistema(), r.getDataFim());
+				if(i == -1){
+					entrouNoLoop += 1;
+					//como passou a data Fim é alterado o Status para Cancelado
+					r.setSituacao(SituacaoReserva.CANCELADO);
+					new ReservaDAO().editar(r);
+				}
+			}
+		}
+		
+		return entrouNoLoop;
 	}
 
 	/**
@@ -186,24 +137,19 @@ public class ReservaBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		validaStrategy = new ValidaCliente();
-		cliente = (Cliente) validaStrategy.validar(cliente);
+		// Validando o cliente
+		reserva.setCliente((Cliente) new ValidaCliente().validar(reserva.getCliente()));
 
-		if (cliente != null) {
+		// veficando se o cliente foi encontrado
+		if (reserva.getCliente() != null) {
 			setEhCadastrado(true);
-
-			reserva.setDataFim(DataUtil.pegarDataAtualDoSistema());
-			reserva.setCliente(cliente);
-			
-
+			setJaPesquisei(false);
 			return;
 		}
 
 		if (isEhCadastrado() == false) {
-			cliente = new Cliente();
-			setJaPesquisei(true);
-
-			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Localizado.");
+			reserva.setCliente(new Cliente());
+			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
 			return;
 		}
 
@@ -216,51 +162,35 @@ public class ReservaBean extends AbstractBean implements Serializable {
 	public void cadastrar() {
 
 		// validando o modelo pelo nome
-		validaStrategy = new ValidaModelo();
-		modelo = (Modelo) validaStrategy.validar(modelo);
-		reserva.setModelo(modelo);
-
-		// validando o fabricante pelo modelo
-		validaStrategy = new ValidaFabricante();
-		fabricante = (Fabricante) validaStrategy.validar(modelo);
-		modelo.setFabricante(fabricante);
-
-		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
-		reserva.setFuncionario(funcionario);
+		reserva.setModelo((Modelo) new ValidaModelo().validar(reserva.getModelo()));
 
 		// recebendo a data atual do sistema
 		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 
-		System.out.println(reserva.getDataCadastroReserva());
-		System.out.println(reserva.getDataFim());
-		
 		// Verifica se a data digitada para Reserva é válida
 		int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
 
-		System.out.println(i);
-		
+		// se i diferente de 1 a data esta incorreta
 		if (i != 1) {
-			//colocando formato string para armazenar no banco de dados
+			// colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			
-			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. "
-					+ "Deve ser maior que " + stf.format(reserva.getDataCadastroReserva()));
+
+			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. " + "Deve ser maior que "
+					+ stf.format(reserva.getDataCadastroReserva()));
 			return;
 		}
+
+		// setando o funcionario que realizou a reserva
+		reserva.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
 
 		reservaDao.cadastrar(reserva);
 
 		reserva = new Reserva();
 
-		modelo = new Modelo();
-		funcionario = new Funcionario();
-		cliente = new Cliente();
-
-		setEhCadastrado(false);
-		setJaPesquisei(false);
-
 		JSFUtil.adicionarMensagemSucesso("Reserva Cadastrada com Sucesso.");
 
+		// Se não houve nenhum erro fecha o <p:Dialog>
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaNova').hide();"); 
 	}
 
 	/**
@@ -270,41 +200,34 @@ public class ReservaBean extends AbstractBean implements Serializable {
 	public void editar() {
 
 		// validando o modelo pelo nome
-		validaStrategy = new ValidaModelo();
-		modelo = (Modelo) validaStrategy.validar(reserva.getModelo());
-		reserva.setModelo(modelo);
-
-		// validando o fabricante pelo modelo
-		validaStrategy = new ValidaFabricante();
-		fabricante = (Fabricante) validaStrategy.validar(modelo);
-		modelo.setFabricante(fabricante);
-
-		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
-		reserva.setFuncionario(funcionario);
+		reserva.setModelo((Modelo) new ValidaModelo().validar(reserva.getModelo()));
 
 		// recebendo a data atual do sistema
 		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 
-		// Se a alteração for apenas para CANCELADO não é necessário validar a
-		// Data
-		if (!reserva.getSituacao().getDescricao().equals("CANCELADO")) {
-			// Verifica se a data digitada para Reserva é válida
-			int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
+		// Verifica se a data digitada para Reserva é válida
+		int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
 
-			if (i != 1) {
-				reserva.setDataFim(null);
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				JSFUtil.adicionarMensagemErro(
-						"A data para Reserva está incorreta. Deve ser maior que " 
-				+ stf.format(reserva.getDataCadastroReserva()));
-				return;
-			}
+		// se i diferente de 1 a data esta incorreta
+		if (i != 1) {
+			// colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+
+			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. " + "Deve ser maior que "
+					+ stf.format(reserva.getDataCadastroReserva()));
+			return;
 		}
 
+		// setando o funcionario que realizou a reserva
+		reserva.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
+		
 		reservaDao.editar(reserva);
 		reserva = new Reserva();
 
 		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
+		
+		// Se não houve nenhum erro fecha o <p:Dialog>
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaEditar').hide();"); 
 
 	}
 

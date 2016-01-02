@@ -3,27 +3,14 @@ package br.com.dealercar.teste.automotivos;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.DevolucaoDAO;
-import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.RevisaoDAO;
-import br.com.dealercar.domain.Devolucao;
-import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
-import br.com.dealercar.domain.itensrevisao.Arrefecimento;
-import br.com.dealercar.domain.itensrevisao.Bateria;
-import br.com.dealercar.domain.itensrevisao.Componentes;
-import br.com.dealercar.domain.itensrevisao.Embreagem;
-import br.com.dealercar.domain.itensrevisao.Freio;
-import br.com.dealercar.domain.itensrevisao.Lanterna;
-import br.com.dealercar.domain.itensrevisao.Motor;
-import br.com.dealercar.domain.itensrevisao.Pneu;
-import br.com.dealercar.domain.itensrevisao.Suspensao;
-import br.com.dealercar.util.DataUtil;
 
 public class RevisaoDAOTest {
 
 	public static void cadastrar() {
+		/*
 		Revisao revisao = new Revisao();
 
 		Devolucao devolucao = new Devolucao();
@@ -67,7 +54,7 @@ public class RevisaoDAOTest {
 		componente.setSuspensao(suspensao);
 		componente.setPneu(pneu);
 
-		revisao.setItensParaVerificar(componente);
+		//revisao.setItensParaVerificar(componente);
 
 		Funcionario funcionario = new Funcionario(7);
 		funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
@@ -81,6 +68,7 @@ public class RevisaoDAOTest {
 
 		RevisaoDAO revisaoDao = new RevisaoDAO();
 		revisaoDao.cadastrar(revisao);
+		*/
 
 	}
 

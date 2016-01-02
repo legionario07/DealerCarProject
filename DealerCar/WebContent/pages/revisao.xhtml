@@ -68,7 +68,6 @@
 					<br></br>
 
 
-
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBRevisao.pesquisarPorPlaca}"
 							value="Pesquisar" update="frmConsultaRevisao :msgGlobal"
@@ -77,7 +76,7 @@
 						<p:commandButton value="Efetuar Revisão"
 							onclick="PF('dlgRevisaoEfetuar').show();"
 							rendered="#{MBRevisao.ehCadastrado == true}"
-							update="frmConsultaRevisao :msgGlobal" />
+							update=":frmNovaRevisao:pnlNovaRevisao :msgGlobal" />
 
 
 						<p:commandButton value="Limpar Pesquisa"
@@ -86,27 +85,24 @@
 							update="frmConsultaRevisao :msgGlobal" />
 
 					</h:panelGrid>
-
 				</h:form>
 			</p:tab>
 
 		</p:tabView>
 
 		<!-- Caixa de Dialogo Efetuar Revisão -->
-		<p:dialog widgetVar="dlgRevisaoEfetuar" closable="false" width="630"
-			onShow="" height="450" draggable="false" resizable="false"
-			header="Efetuar Revisão">
+		<p:dialog widgetVar="dlgRevisaoEfetuar" closable="false" width="30%"
+			id="dlgNovo" height="550" resizable="false" appendTo="@(body)"
+			draggable="false" modal="true" header="Revisão - Efetuar">
+			<h:form id="frmNovaRevisao">
 
-			<h:form id="frmRevisaoEfetuar">
-
-				<h:panelGrid id="pnlRevisaoEfetuar" columns="2">
+				<h:panelGrid id="pnlNovaRevisao" columns="2">
 
 					<h:outputLabel value="Placa: " />
-					<p:inputText value="#{MBRevisao.revisao.carro.placa}" size="20"
+					<p:inputText value="#{MBRevisao.revisao.carro.placa}" size="15"
 						readonly="true" />
 
-					<h:outputLabel value="Quilometragem*: "
-						rendered="#{MBRevisao.revisao.devolucao.id == 0}" />
+					<h:outputLabel value="Quilometragem: " />
 					<p:inputMask value="#{MBRevisao.revisao.quilometragem}" size="15"
 						mask="999999" required="true"
 						rendered="#{MBRevisao.revisao.devolucao.id == 0}"
@@ -114,28 +110,169 @@
 						<f:validateLength minimum="1" maximum="7" />
 					</p:inputMask>
 
-					<h:outputLabel value="Quilometragem: "
-						rendered="#{MBRevisao.revisao.devolucao.id > 0}" />
-					<p:inputText size="20" readonly="true"
+					<p:inputText size="15" readonly="true"
 						rendered="#{MBRevisao.revisao.devolucao.id > 0}"
 						value="#{MBRevisao.revisao.quilometragem}" />
 
-
 				</h:panelGrid>
 
-				<h:panelGrid columns="2">
+				<br></br>
+
+				<h:panelGrid columns="1">
+					<p:outputLabel value="Componentes" style="font-weight:bold" />
+				</h:panelGrid>
+
+				<p:accordionPanel>
+
+					<p:tab title="Arrefecimento">
+
+						<h:panelGrid columns="2">
+							<h:outputLabel for="arrefecimento" value="Arrefecimento" />
+							<p:selectOneMenu id="arrefecimento"
+								value="#{MBRevisao.arrefecimento.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+					</p:tab>
+
+					<p:tab title="Bateria">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="bateria" value="Bateria" />
+							<p:selectOneMenu id="bateria"
+								value="#{MBRevisao.bateria.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Embreagem">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="embreagem" value="Embreagem" />
+							<p:selectOneMenu id="embreagem"
+								value="#{MBRevisao.embreagem.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Freio">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="freio" value="Freio" />
+							<p:selectOneMenu id="freio" value="#{MBRevisao.freio.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Lanterna">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="lanterna" value="Lanterna" />
+							<p:selectOneMenu id="lanterna"
+								value="#{MBRevisao.lanterna.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Motor">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="motor" value="Motor" />
+							<p:selectOneMenu id="motor" value="#{MBRevisao.motor.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Suspensão">
+						<h:panelGrid columns="2">
+							<h:outputLabel for="suspensao" value="Suspensão" />
+							<p:selectOneMenu id="suspensao"
+								value="#{MBRevisao.suspensao.situacao}">
+								<f:selectItem itemLabel="OK" itemValue="OK" />
+								<f:selectItem itemLabel="Necessita Reparo"
+									itemValue="Necessita Reparo" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Pneu">
+						<p:accordionPanel>
+							<p:tab title="Dianteiro Direito">
+								<h:outputLabel value="Dianteiro Direito" />
+								<p:selectOneMenu 
+									value="#{MBRevisao.dianteiroDireito}">
+									<f:selectItem itemLabel="OK" itemValue="OK" />
+									<f:selectItem itemLabel="Necessita Reparo"
+										itemValue="Necessita Reparo" />
+								</p:selectOneMenu>
+							</p:tab>
+							<p:tab title="Dianteiro Esquerdo">
+								<h:outputLabel value="Dianteiro Esquerdo" />
+								<p:selectOneMenu 
+									value="#{MBRevisao.dianteiroEsquerdo}">
+									<f:selectItem itemLabel="OK" itemValue="OK" />
+									<f:selectItem itemLabel="Necessita Reparo"
+										itemValue="Necessita Reparo" />
+								</p:selectOneMenu>
+							</p:tab>
+							<p:tab title="Traseiro Direito">
+								<h:outputLabel value="Traseiro Direito" />
+								<p:selectOneMenu 
+									value="#{MBRevisao.traseiroDireito}">
+									<f:selectItem itemLabel="OK" itemValue="OK" />
+									<f:selectItem itemLabel="Necessita Reparo"
+										itemValue="Necessita Reparo" />
+								</p:selectOneMenu>
+							</p:tab>
+							<p:tab title="Traseiro Esquerdo">
+								<h:outputLabel value="Traseiro Esquerdo" />
+								<p:selectOneMenu 
+									value="#{MBRevisao.traseiroEsquerdo}">
+									<f:selectItem itemLabel="OK" itemValue="OK" />
+									<f:selectItem itemLabel="Necessita Reparo"
+										itemValue="Necessita Reparo" />
+								</p:selectOneMenu>
+							</p:tab>
+							<p:tab title="Estepe">
+								<h:outputLabel value="Estepe" />
+								<p:selectOneMenu
+									value="#{MBRevisao.estepe}">
+									<f:selectItem itemLabel="OK" itemValue="OK" />
+									<f:selectItem itemLabel="Necessita Reparo"
+										itemValue="Necessita Reparo" />
+								</p:selectOneMenu>
+							</p:tab>
+
+						</p:accordionPanel>
+					</p:tab>
+				</p:accordionPanel>
+
+				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
+
 					<p:commandButton value="Salvar"
 						actionListener="#{MBRevisao.efetuarRevisao}"
-						update="frmRevisaoEfetuar :msgGlobal"
-						oncomplete="PF('dlgRevisaoEfetuar').hide();" />
+						onclick="PF('dlgRevisaoEfetuar').hide();" />
 
 					<p:commandButton value="Cancelar"
+						actionListener="#{MBRevisao.limparPesquisa}"
 						onclick="PF('dlgRevisaoEfetuar').hide();" />
-				</h:panelGrid>
 
+				</h:panelGrid>
 			</h:form>
 		</p:dialog>
-
 
 
 

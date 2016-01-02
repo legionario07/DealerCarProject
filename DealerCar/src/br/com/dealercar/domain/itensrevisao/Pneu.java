@@ -12,44 +12,34 @@ import br.com.dealercar.enums.PosicaoPneu;
  */
 public class Pneu extends Componentes{
 	
-	private PosicaoPneu[] posicaoPneu = PosicaoPneu.values();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private PosicaoPneu posicaoPneu;
 	
 	public Pneu(){
 	}
 	
-	public Pneu(boolean ok) {
-		this.setOk(ok);
+	public Pneu(String situacao){
+		this.setSituacao(situacao);
 	}
 	
-	public PosicaoPneu[] getPosicaoPneu() {
+	public PosicaoPneu getPosicaoPneu() {
 		return posicaoPneu;
 	}
 
-	public void setPosicaoPneu(PosicaoPneu[] posicaoPneu) {
+	public void setPosicaoPneu(PosicaoPneu posicaoPneu) {
 		this.posicaoPneu = posicaoPneu;
 	}
 
-	public List<String> getPosicoesPneu(){
-		
-		PosicaoPneu[] posicoes = PosicaoPneu.values();
-		
-		List<String> listaPosicoes = new ArrayList<String>();
-		
-		for(PosicaoPneu p : posicoes){
-			listaPosicoes.add(p.getDescricao());
-		}
-		
-		return listaPosicoes;
-		
-	}
 
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("Descricao: ");
-		for(PosicaoPneu p : posicaoPneu) {
-			retorno.append(p);
-		}
+		retorno.append(this.getPosicaoPneu().getDescricao());
+		retorno.append(this.getSituacao());
 		return retorno.toString();
 	}
 

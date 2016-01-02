@@ -127,6 +127,41 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 	}
 
+	
+
+	/**
+	 * Edita o Cliente desejado pelo Usuário apos realizado a pesquisa pelo CPF
+	 * na tela
+	 */
+	public void editar() {
+
+		// Verifica se o Cliente eh maior de idade
+		int i = DataUtil.devolverDataEmAnos(cliente.getDataNasc());
+		if (i < 18) {
+			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
+			return;
+		}
+
+		
+		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
+			
+			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
+			return;
+		}
+		
+		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
+		// sendo editado
+		cliente.getEndereco().setCidade((Cidade) new ValidaCidade().validar(cliente.getEndereco().getCidade()));
+
+		new ClienteDAO().editar(cliente);
+
+		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
+		
+		// Se não houve nenhum erro fecha o <p:Dialog>
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgClienteEditar').hide();");
+
+	}
+
 	/**
 	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
 	 * TEla
@@ -154,37 +189,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		}
 
 	}
-
-	/**
-	 * Edita o Cliente desejado pelo Usuário apos realizado a pesquisa pelo CPF
-	 * na tela
-	 */
-	public void editar() {
-
-		// Verifica se o Cliente eh maior de idade
-		int i = DataUtil.devolverDataEmAnos(cliente.getDataNasc());
-		if (i < 18) {
-			JSFUtil.adicionarMensagemErro("O Cliente deve ser maior de 18 anos");
-			return;
-		}
-
-		
-		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
-			
-			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
-			return;
-		}
-		
-		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
-		// sendo editado
-		cliente.getEndereco().setCidade((Cidade) new ValidaCidade().validar(cliente.getEndereco().getCidade()));
-		
-
-		new ClienteDAO().editar(cliente);
-
-		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
-	}
-
+	
 	/**
 	 * Exclui um objeto de Cliente desejado pelo usuario e solicita a
 	 * confirmação na tela

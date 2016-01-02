@@ -148,10 +148,18 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgFuncionarioEditar" closable="false"
-			width="630" onShow="" height="450" draggable="false"
+			width="630" height="450" draggable="false" modal="true" appendTo="@(body)"
 			resizable="false" header="Funcionario - Editar">
 
 			<h:form id="frmFuncionarioEditar">
+
+				<h:panelGrid id="validadores" columns="4">
+					<p:message for="data" />
+					<h:outputText value="#{MBFuncionario.funcionario.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+				</h:panelGrid>
 
 				<h:panelGrid id="pnlFuncionarioEditar" columns="2">
 
@@ -249,8 +257,7 @@
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
 					<p:outputLabel value="Senha*: " maxlength="15" />
-					<p:inputText size="15" type="password"
-						value="#{MBFuncionario.funcionario.usuario.senha}" />
+					<p:password size="15" value="#{MBFuncionario.funcionario.usuario.senha}" />
 
 					<p:outputLabel value="Permissão:* " />
 					<p:selectOneMenu id="permissoes"
@@ -280,8 +287,7 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						update="frmFuncionarioEditar :msgGlobal"
-						actionListener="#{MBFuncionario.editar}"
-						onclick="PF('dlgFuncionarioEditar').hide();" />
+						actionListener="#{MBFuncionario.editar}" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioEditar').hide();" />
@@ -292,10 +298,18 @@
 
 		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgFuncionarioCadastrar" closable="false"
-			width="630" onShow="" height="450" draggable="false"
+			width="630" height="450" draggable="false" modal="true" appendTo="@(body)"
 			resizable="false" header="Funcionario - Cadastrar">
 
 			<h:form id="frmFuncionarioCadastrar">
+
+				<h:panelGrid id="validadores" columns="4">
+					<p:message for="data" />
+					<h:outputText value="#{MBFuncionario.funcionario.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+				</h:panelGrid>
 
 				<h:panelGrid id="pnlFuncionarioCadastrar" columns="2">
 
@@ -425,8 +439,7 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBFuncionario.cadastrar}"
-						update="frmFuncionarioCadastrar :msgGlobal"
-						onclick="PF('dlgFuncionarioCadastrar').hide();" />
+						update="frmFuncionarioCadastrar :msgGlobal" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />

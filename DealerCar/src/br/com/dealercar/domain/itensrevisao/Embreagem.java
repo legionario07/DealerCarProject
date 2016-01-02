@@ -7,11 +7,17 @@ package br.com.dealercar.domain.itensrevisao;
  */
 public class Embreagem extends Componentes{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public Embreagem() {
 	}
 	
-	public Embreagem(boolean ok) {
-		this.setOk(ok);
+	public Embreagem(String situacao){
+		this.setSituacao(situacao);
 	}
 	
 
@@ -19,8 +25,8 @@ public class Embreagem extends Componentes{
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
 		retorno.append("\nEmbreagem: ");
-		retorno.append(this.isOk());
-		
+		retorno.append(this.getSituacao());
+				
 		return retorno.toString();
 	}
 

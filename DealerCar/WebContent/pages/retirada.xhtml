@@ -151,7 +151,7 @@
 
 		<!-- Caixa de Dialogo Efetuar Retirada -->
 		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="650"
-			onShow="" height="520" draggable="false" resizable="false"
+			height="520" draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Efetuar Retirada">
 
 			<h:form id="frmEfetuarRetirada">
@@ -203,7 +203,7 @@
 					<p:outputLabel value="Seguro: *" />
 					<p:selectOneMenu id="Seguro" value="#{MBRetirada.retirada.opcional.seguro.descricao}"
 						required="true"
-						requiredMessage="Favor informar o Serguro. Campo de preenchimento obrigatório"
+						requiredMessage="Favor informar o Seguro. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
@@ -422,7 +422,7 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
-			onShow="" height="450" draggable="false" resizable="false"
+			height="450" draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Cliente - Editar">
 
 			<h:form id="frmClienteEditar">

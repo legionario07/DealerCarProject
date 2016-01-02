@@ -35,7 +35,7 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into categorias ");
-		sql.append("nome, descricao, vlr_diaria) values (?, ?, ?)");
+		sql.append("(nome, descricao, vlr_diaria) values (?, ?, ?)");
 		
 		con = Conexao.getConnection();
 
