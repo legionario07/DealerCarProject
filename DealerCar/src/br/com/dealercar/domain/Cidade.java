@@ -12,9 +12,10 @@ public class Cidade extends EntidadeDominio{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nome;
-	private String uf;
+	private Estado estado;
 
 	public Cidade() {
+		estado = new Estado();
 
 	}
 
@@ -22,10 +23,6 @@ public class Cidade extends EntidadeDominio{
 		this.setId(idCidade);
 	}
 
-	public Cidade(String nome, String uf) {
-		this.nome = nome;
-		this.uf = uf;
-	}
 
 	public String getNome() {
 		return nome;
@@ -35,26 +32,25 @@ public class Cidade extends EntidadeDominio{
 		this.nome = nome;
 	}
 
-	public String getUf() {
-		return uf;
+
+
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
-
 
 	@Override
 	public String toString() {
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("Id: ");
+		retorno.append("Id: - ");
 		retorno.append(this.getId());
-		retorno.append("\n");
-		retorno.append("Nome: ");
+		retorno.append(" - Nome: ");
 		retorno.append(this.getNome());
 		retorno.append("\n");
-		retorno.append("UF: ");
-		retorno.append(this.getUf());
+		retorno.append(this.getEstado());
 		retorno.append("\n\n");
 
 		return retorno.toString();

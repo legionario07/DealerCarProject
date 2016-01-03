@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.domain.Estado;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
@@ -29,14 +30,14 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	public void cadastrar(Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("insert into cidades (nome, uf)  values (?,?)");
+		sql.append("insert into cidades_tbl (nome, id_estado)  values (?, ?)");
 		
 		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, cidade.getNome().toUpperCase());
-			pstm.setString(2, cidade.getUf().toUpperCase());
+			pstm.setInt(2, cidade.getEstado().getId());
 
 			pstm.executeUpdate();
 
@@ -58,7 +59,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	@Override
 	public void excluir(Cidade cidade) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("delete from cidades where id=?");
+		sql.append("delete from cidades_tbl where id = ?");
 		
 		con = Conexao.getConnection();
 
@@ -87,14 +88,14 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	public void editar(Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("update cidades set nome = ?, uf = ? where id=?");
+		sql.append("update cidades_tbl set nome = ?, id_estado = ? where id=?");
 
 		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, cidade.getNome().toUpperCase());
-			pstm.setString(2, cidade.getUf().toUpperCase());
+			pstm.setInt(2, cidade.getEstado().getId());
 			pstm.setInt(3, cidade.getId());
 
 			pstm.executeUpdate();
@@ -118,7 +119,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	public Cidade pesquisarPorID(Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cidades where id = ? ");
+		sql.append("select * from cidades_tbl where id = ? ");
 		
 		Cidade cidadeRetorno = null;
 		
@@ -134,7 +135,12 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 				cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id"));
 				cidadeRetorno.setNome(rSet.getString("nome"));
-				cidadeRetorno.setUf(rSet.getString("uf"));
+				
+				Estado estadoRetorno = new Estado();
+				estadoRetorno.setId(rSet.getInt("id_estado"));
+				
+				estadoRetorno = new EstadoDAO().pesquisarPorID(estadoRetorno);
+				cidadeRetorno.setEstado(estadoRetorno);
 
 			}
 		
@@ -157,9 +163,12 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	public List<Cidade> pesquisarPorNome(Cidade cidade) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select distinct * from cidades ");
+		sql.append("select distinct * from cidades_tbl ");
 		sql.append("where nome like ? order by nome asc");
+		
 		List<Cidade> cidades = new ArrayList<Cidade>();
+		
+		Cidade cidadeRetorno = null;
 		
 		con = Conexao.getConnection();
 
@@ -171,11 +180,16 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno = new Cidade();
 
 				cidadeRetorno.setId(rSet.getInt("id"));
 				cidadeRetorno.setNome(rSet.getString("nome"));
-				cidadeRetorno.setUf(rSet.getString("uf"));
+				
+				Estado estadoRetorno = new Estado();
+				estadoRetorno.setId(rSet.getInt("id_estado"));
+				
+				estadoRetorno = new EstadoDAO().pesquisarPorID(estadoRetorno);
+				cidadeRetorno.setEstado(estadoRetorno);
 
 				cidades.add(cidadeRetorno);
 			}
@@ -197,8 +211,10 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	public List<Cidade> listarTodos() {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cidades");
+		sql.append("select * from cidades_tbl");
 		List<Cidade> cidades = new ArrayList<Cidade>();
+		
+		Cidade cidadeRetorno = null;
 		
 		con = Conexao.getConnection();
 
@@ -208,10 +224,16 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Cidade cidadeRetorno = new Cidade();
+				
+				cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id"));
 				cidadeRetorno.setNome(rSet.getString("nome"));
-				cidadeRetorno.setUf(rSet.getString("uf"));
+				
+				Estado estadoRetorno = new Estado();
+				estadoRetorno.setId(rSet.getInt("id_estado"));
+				
+				estadoRetorno = new EstadoDAO().pesquisarPorID(estadoRetorno);
+				cidadeRetorno.setEstado(estadoRetorno);
 
 				cidades.add(cidadeRetorno);
 
@@ -227,5 +249,54 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 	}
 
+	/**
+	 * 
+	 * @param cidade Recebe uma cidade e pesquisa no Banco de Dados por seu Estado
+	 * @return Retorna um array de Cidades
+	 */
+	public List<Cidade> pesquisarPorEstado(Estado estado) {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cidades_tbl ");
+		sql.append("inner join estados on cidades_tbl.id_estado = estados.id ");
+		sql.append("where estados.id = ? ");
+		List<Cidade> lista = new ArrayList<Cidade>();
+		
+		con = Conexao.getConnection();
+		
+		Cidade cidade = null;
+
+		try {
+
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, estado.getId());
+
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				cidade = new Cidade();
+
+				cidade.setId(rSet.getInt("id"));
+				cidade.setNome(rSet.getString("nome"));
+				
+				Estado estadoRetorno = new Estado();
+				estadoRetorno.setId(rSet.getInt("id_estado"));
+				
+				estadoRetorno = new EstadoDAO().pesquisarPorID(estadoRetorno);
+				cidade.setEstado(estadoRetorno);
+
+				lista.add(cidade);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return lista;
+	}
+
 
 }
+

@@ -20,7 +20,7 @@ public class ValidadorCPF implements Validator{
 		
 	}
 	
-	public static boolean validarCPF(String cpf) {
+	private static boolean validarCPF(String cpf) {
 
 		Boolean ehValido = true;
 

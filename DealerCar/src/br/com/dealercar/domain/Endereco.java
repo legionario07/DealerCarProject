@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 /**
  * classe que representa o endereço do cliente ou dos funcionarios
+ * 
  * @author Paulinho
  *
  */
 public class Endereco implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -17,14 +18,13 @@ public class Endereco implements Serializable {
 	private String numero;
 	private String complemento;
 	private String bairro;
-	
+
 	private Cidade cidade;
 	
 	public Endereco() {
-		
+
 		this.cidade = new Cidade();
 	}
-	
 
 	/**
 	 * 
@@ -32,68 +32,55 @@ public class Endereco implements Serializable {
 	 * @param numero
 	 * @param bairro
 	 */
-	public Endereco(String rua, String numero,  String bairro) {
-		
-		this.setRua(rua);
-		this.setNumero(numero);
-		this.setBairro(bairro);
-		
-	}
-	
-	/**
-	 * 
-	 * @param rua
-	 * @param numero
-	 * @param complemento
-	 * @param bairro
-	 */
 	public Endereco(String rua, String numero, String complemento, String bairro) {
-		
+
 		this.setRua(rua);
 		this.setNumero(numero);
 		this.setComplemento(complemento);
 		this.setBairro(bairro);
-		
+
 	}
-	
+
 	public String getRua() {
 		return rua;
 	}
+
 	public void setRua(String rua) {
 		this.rua = rua.toUpperCase();
 	}
+
 	public String getNumero() {
 		return numero;
 	}
+
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
+
 	public String getComplemento() {
 		return complemento;
 	}
+
 	public void setComplemento(String complemento) {
-		if(complemento != null) {
-			this.complemento = complemento.toUpperCase();
-		} else {
-			this.complemento = complemento;
-		}
+		this.complemento = complemento;
 	}
+
 	public String getBairro() {
 		return bairro;
 	}
+
 	public void setBairro(String bairro) {
 		this.bairro = bairro.toUpperCase();
 	}
-	
+
+
 	public Cidade getCidade() {
 		return cidade;
 	}
 
-
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-
 
 	@Override
 	public String toString() {
@@ -107,9 +94,9 @@ public class Endereco implements Serializable {
 		retorno.append(this.getComplemento());
 		retorno.append(" - Bairro: ");
 		retorno.append(this.getBairro());
+		retorno.append("\nCidade:\n");
+		retorno.append(this.getCidade());
 		return retorno.toString();
 	}
-	
-	
-	
+
 }
