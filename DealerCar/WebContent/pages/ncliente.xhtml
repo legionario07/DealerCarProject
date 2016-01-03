@@ -68,6 +68,7 @@
 							requiredMessage="Favor informar a CPF do cliente. 
 							Campo de preenchimento obrigatório">
 							<f:validateLength minimum="14" maximum="14" />
+							<f:validator validatorId="CpfValidator"/>
 						</p:inputMask>
 
 						<h:outputText value="Telefone: *" maxlength="15" />
@@ -82,7 +83,9 @@
 							mask="(99)99999-9999"/>
 
 						<h:outputText value="Email: " maxlength="65" />
-						<p:inputText size="50" value="#{MBCliente.cliente.email}" />
+						<p:inputText size="50" value="#{MBCliente.cliente.email}">
+							<f:validator validatorId="EmailValidator"/>
+						</p:inputText>
 
 						<h:outputText value="Rua *" maxlength="50" />
 						<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"

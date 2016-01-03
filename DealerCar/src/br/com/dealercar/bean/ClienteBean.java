@@ -110,9 +110,10 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 		new ClienteDAO().cadastrar(cliente);
 		
-		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
 		
+		JSFUtil.adicionarMensagemSucesso("Cliente Cadastrado com Sucesso.");
 		// encaminha para a pagina de cliente se não ocorrer nenhum erro
+		
 		FacesContext faces = FacesContext.getCurrentInstance();
 		ExternalContext exContext = faces.getExternalContext();
 
@@ -123,7 +124,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
-		cliente = new Cliente();
 
 	}
 
@@ -142,6 +142,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 			return;
 		}
 
+		//valida o cpf
 		
 		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
 			
@@ -159,6 +160,8 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		
 		// Se não houve nenhum erro fecha o <p:Dialog>
 		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgClienteEditar').hide();");
+		
+		
 
 	}
 

@@ -1,36 +1,25 @@
-package br.com.dealercar.viewhelper;
+package br.com.dealercar.validadores;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 
-import br.com.dealercar.util.DataUtil;
+public class ValidadorCPF implements Validator{
 
-public class ViewHelper {
-
-	public static int validarIdadeMaxima(Date data) {
-		int i;
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		String minData = "01/01/1900";
-		Date dataMin = null;
-		try {
-			dataMin = sdf.parse(minData);
-		} catch (ParseException e) {
-			e.printStackTrace();
+	@Override
+	public void validate(FacesContext arg0, UIComponent arg1, Object arg2) throws ValidatorException {
+		String cpf = (String) arg2;
+		
+		if(!validarCPF(cpf)){
+			throw new ValidatorException(new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "CPF inválido!", 
+					"Favor informar um CPF válido."));
 		}
-
-		i = DataUtil.compararDatas(dataMin, data);
-
-		return i;
-
+		
 	}
-
-	/**
-	 * Valida o CPF na View
-	 * 
-	 * @param cpf
-	 * @return
-	 */
+	
 	public static boolean validarCPF(String cpf) {
 
 		Boolean ehValido = true;
@@ -86,8 +75,6 @@ public class ViewHelper {
 
 		return ehValido;
 	}
-
-
 
 
 }

@@ -163,9 +163,12 @@
 
 				<h:panelGrid id="validadores" columns="4">
 					<p:message for="data" />
+					
 					<h:outputText value="#{MBCliente.cliente.dataNasc}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
+					
+					<p:message for="cpf" />
 
 				</h:panelGrid>
 
@@ -201,10 +204,12 @@
 					<p:inputText value="#{MBCliente.cliente.RG}" size="20" />
 
 					<p:outputLabel value="CPF: *" />
-					<p:inputMask value="#{MBCliente.cliente.CPF}" size="20"
-						mask="999.999.999-99" required="true"
+					<p:inputMask value="#{MBCliente.cliente.CPF}" size="20" id="cpf"
+						mask="999.999.999-99" required="true" validatorMessage="CPF inválido"
+						immediate="true"
 						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório">
-						<f:validateLength minimum="14" maximum="14" />
+						<f:validateLength minimum="14" maximum="14"/>
+						<f:validator validatorId="CpfValidator"/>
 					</p:inputMask>
 
 					<p:outputLabel value="Telefone: *" />
@@ -217,7 +222,9 @@
 						mask="(99)99999-9999" />
 
 					<p:outputLabel value="Email: " />
-					<p:inputText value="#{MBCliente.cliente.email}" size="55" />
+					<p:inputText value="#{MBCliente.cliente.email}" size="55">
+						<f:validator validatorId="EmailValidator"/>
+					</p:inputText>
 
 					<p:outputLabel value="Rua *" maxlength="50" />
 					<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"
@@ -265,7 +272,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBCliente.editar}" 
-						update="frmClienteEditar :msgGlobal" />
+						update=":tabViewConsultar:frmConsultaCliente :msgGlobal" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgClienteEditar').hide();" />
