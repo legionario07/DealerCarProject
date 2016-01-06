@@ -49,7 +49,7 @@ public class ReservaDAOTest {
 	public static void pesquisarPorCPF() {
 
 		Cliente cliente = new Cliente();
-		cliente.setCPF("139.492.883-98");
+		cliente.setCPF("369.429.508-90");
 
 		Reserva reserva = new Reserva();
 		reserva.setCliente(cliente);
@@ -67,7 +67,7 @@ public class ReservaDAOTest {
 	public static void pesquisarPorModelo() {
 
 		Modelo modelo = new Modelo();
-		modelo.setNome("CONCEPT");
+		modelo.setNome("MEGANE");
 
 		Reserva reserva = new Reserva();
 		// reserva.setId(3);
@@ -86,7 +86,7 @@ public class ReservaDAOTest {
 	public static void pesquisarPorNome() {
 
 		Cliente cliente = new Cliente();
-		cliente.setNome("PAULO SERGIO MOREIRA");
+		cliente.setNome("MARIA");
 
 		Reserva reserva = new Reserva();
 		reserva.setCliente(cliente);
@@ -113,6 +113,21 @@ public class ReservaDAOTest {
 			System.out.println(r);
 		}
 	}
+	
+	public static void pesquisarPorSituacao() {
+
+
+		//ReservaDAO reservaDao = new ReservaDAO();
+
+		Reserva reserva = new Reserva();
+		reserva.setSituacao(SituacaoReserva.CANCELADO);
+		
+		List<Reserva> lista = new ArrayList<Reserva>();
+
+		for (Reserva r : lista) {
+			System.out.println(r);
+		}
+	}
 
 	public static void listarTodos() {
 
@@ -134,11 +149,11 @@ public class ReservaDAOTest {
 		// excluir();
 		// pesquisarPorID();
 		// pesquisarPorCPF();
-		// pesquisarPorModelo();
-		// pesquisarPorSituacao();
+		 //pesquisarPorModelo();
+		 //pesquisarPorSituacao();
 		//listarTodos();
 		//pesquisarReservasAtivas();
-		pesquisarPorNome();
+		//pesquisarPorNome();
 
 	}
 

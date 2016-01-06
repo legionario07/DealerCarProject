@@ -106,7 +106,8 @@ public class PermissaoDAO implements IDAO<Permissao>, Serializable{
 	@Override
 	public Permissao pesquisarPorID(Permissao permissao) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from permissao");
+		sql.append("select * from permissao ");
+		sql.append("where id = ?");
 		
 		Permissao permissaoRetorno = null;
 		
@@ -114,6 +115,7 @@ public class PermissaoDAO implements IDAO<Permissao>, Serializable{
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setInt(1, permissao.getId());
 			ResultSet rSet = pstm.executeQuery();
 			while(rSet.next()){
 				permissaoRetorno = new Permissao();
