@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.dealercar.dao.CidadeDAO;
+import br.com.dealercar.dao.EstadoDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.util.JSFUtil;
 
@@ -16,18 +17,9 @@ public class CidadeBean {
 	private List<Cidade> listaCidades;
 	private CidadeDAO cidDao = new CidadeDAO(); 
 	private Cidade cidade = new Cidade();
-	private Cidade cidadeRetorno = new Cidade();
 
 	public CidadeBean() {
 
-	}
-
-	public Cidade getCidadeRetorno() {
-		return cidadeRetorno;
-	}
-
-	public void setCidadeRetorno(Cidade cidadeRetorno) {
-		this.cidadeRetorno = cidadeRetorno;
 	}
 
 	public List<Cidade> getListaCidades() {
@@ -75,9 +67,9 @@ public class CidadeBean {
 	 */
 	public void cadastrar() {
 
-		this.cidade.setNome(this.cidade.getNome().toUpperCase());
-		this.cidade.setUf(this.cidade.getUf().toUpperCase());
 
+		cidade.setEstado(new EstadoDAO().pesquisarPorID(cidade.getEstado()));
+		
 		cidDao.cadastrar(cidade);
 		JSFUtil.adicionarMensagemSucesso("Cidade cadastrada com Sucesso.");
 		cidade = new Cidade();

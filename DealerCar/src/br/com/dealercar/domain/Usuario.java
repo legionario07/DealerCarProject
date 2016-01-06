@@ -26,11 +26,7 @@ public class Usuario extends EntidadeDominio {
 	}
 	
 	public Usuario (int id){
-		this.permissao = new Permissao(id);
-	}
-	
-	public Usuario(int id, String nivel) {
-		this.permissao = new Permissao(id, nivel);
+		this.setId(id);
 	}
 	
 	public String getLogin() {

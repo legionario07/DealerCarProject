@@ -1,8 +1,15 @@
 package br.com.dealercar.teste.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.dealercar.dao.UsuarioDAO;
+import br.com.dealercar.domain.Usuario;
+
 public class UsuarioDAOTest {
 
-/*	public static void cadastrar() {
+	/*
+	public static void cadastrar() {
 
 		Usuario usuario = new Usuario("Teste", "teste", new Permissao(1), "SIM");
 
@@ -20,7 +27,8 @@ public class UsuarioDAOTest {
 		usuarioDao.editar(usuario);
 	}
 
-	@SuppressWarnings("Unused")
+*/
+	//@SuppressWarnings("Unused")
 	public static void pesquisarPorID() {
 
 		Usuario usuario = new Usuario(1);
@@ -33,7 +41,7 @@ public class UsuarioDAOTest {
 	public static void pesquisarPorLogin() {
 
 		Usuario usuario = new Usuario();
-		usuario.setLogin("Felipe");
+		usuario.setLogin("legionario");
 
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		System.out.println(usuarioDao.pesquisarPorLogin(usuario));
@@ -66,13 +74,12 @@ public class UsuarioDAOTest {
 		}
 		
 	}
-	*/
 
 	public static void main(String[] args) {
 
 		// cadastrar();
-		// pesquisarPorID();
-		// pesquisarPorLogin();
+		 //pesquisarPorID();
+		 //pesquisarPorLogin();
 		//editar();
 		//listarTodos();
 		//autenticar();

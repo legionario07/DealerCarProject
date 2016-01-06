@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.domain.Usuario;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
@@ -92,10 +93,8 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 	public Usuario pesquisarPorID(Usuario usuario) {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
-		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
-		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
-		sql.append("where usuarios.id = ? ");
+		sql.append("select * from usuarios ");
+		sql.append("where id = ? ");
 		
 		Usuario usuarioRetorno = null;
 		
@@ -108,12 +107,14 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
-				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
-				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
-				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
-				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				usuarioRetorno = new Usuario(rSet.getInt("id"));
+				usuarioRetorno.setLogin(rSet.getString("login"));
+				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setAtivo(rSet.getString("ativo"));
 				
+				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
+				permissao = new PermissaoDAO().pesquisarPorID(permissao);
+				usuarioRetorno.setPermissao(permissao);
 				
 			}
 			
@@ -164,10 +165,8 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 		
 		StringBuffer sql = new StringBuffer();
 		
-		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
-		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
-		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
-		sql.append("where usuarios.login = ? ");
+		sql.append("select * from usuarios ");
+		sql.append("where login = ? ");
 		
 		Usuario usuarioRetorno = null;
 		
@@ -180,11 +179,15 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
-				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
-				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
-				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
-				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+				
+				usuarioRetorno = new Usuario(rSet.getInt("id"));
+				usuarioRetorno.setLogin(rSet.getString("login"));
+				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setAtivo(rSet.getString("ativo"));
+				
+				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
+				permissao = new PermissaoDAO().pesquisarPorID(permissao);
+				usuarioRetorno.setPermissao(permissao);
 				
 			}
 			
@@ -205,10 +208,8 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 
 		StringBuffer sql = new StringBuffer();
 		
-		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
-		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
-		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
-		sql.append("order by usuarios.id asc ");
+		sql.append("select * from usuarios ");
+		sql.append("order by id asc ");
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
@@ -220,11 +221,16 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Usuario usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
-				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
-				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
-				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
-				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
+			
+				Usuario usuarioRetorno = new Usuario(rSet.getInt("usuarios.id"));
+				usuarioRetorno = new Usuario(rSet.getInt("id"));
+				usuarioRetorno.setLogin(rSet.getString("login"));
+				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setAtivo(rSet.getString("ativo"));
+				
+				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
+				permissao = new PermissaoDAO().pesquisarPorID(permissao);
+				usuarioRetorno.setPermissao(permissao);
 				
 				usuarios.add(usuarioRetorno);
 
@@ -248,10 +254,8 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 		
 		StringBuffer sql = new StringBuffer();
 		
-		sql.append("select usuarios.id, usuarios.login, usuarios.senha, usuarios.id_permissao, ");
-		sql.append("usuarios.ativo, permissao.id, permissao.nivel from usuarios ");
-		sql.append("inner join permissao on permissao.id = usuarios.id_permissao ");
-		sql.append("where usuarios.login = ? and usuarios.senha = md5(?) ");
+		sql.append("select * from usuarios ");
+		sql.append("where login = ? and senha = md5(?) ");
 		
 		Usuario usuarioRetorno = null;
 
@@ -265,12 +269,15 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				usuarioRetorno = new Usuario(rSet.getInt("usuarios.id_permissao"), rSet.getString("permissao.nivel"));
-				usuarioRetorno.setId(rSet.getInt("usuarios.id"));
-				usuarioRetorno.setLogin(rSet.getString("usuarios.login"));
-				usuarioRetorno.setSenha(rSet.getString("usuarios.senha"));
-				usuarioRetorno.setAtivo(rSet.getString("usuarios.ativo"));
 				
+				usuarioRetorno = new Usuario(rSet.getInt("id"));
+				usuarioRetorno.setLogin(rSet.getString("login"));
+				usuarioRetorno.setSenha(rSet.getString("senha"));
+				usuarioRetorno.setAtivo(rSet.getString("ativo"));
+				
+				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
+				permissao = new PermissaoDAO().pesquisarPorID(permissao);
+				usuarioRetorno.setPermissao(permissao);
 				
 			}
 			

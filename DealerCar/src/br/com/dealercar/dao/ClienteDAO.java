@@ -36,7 +36,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into clientes ");
 		sql.append("(nome, data_nasc, nome_mae, sexo, telefone, celular, rg, cpf, email, ");
-		sql.append("endereco, id_cidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		sql.append("rua, numero, complemento, bairro, id_cidade) ");
+		sql.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		con = Conexao.getConnection();
 
@@ -59,18 +60,10 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			pstm.setString(++i, cliente.getRG().toUpperCase());
 			pstm.setString(++i, cliente.getCPF());
 			pstm.setString(++i, cliente.getEmail().toUpperCase());
-
-			StringBuffer endereco = new StringBuffer();
-			
-			//Concatenando o endereço para add no BD
-			endereco.append(cliente.getEndereco().getRua() + ", ");
-			endereco.append(cliente.getEndereco().getNumero() + ", ");
-			if(cliente.getEndereco().getComplemento() != null){
-				endereco.append(cliente.getEndereco().getComplemento() + ", ");
-			}
-			endereco.append(cliente.getEndereco().getBairro());
-			
-			pstm.setString(++i, endereco.toString());
+			pstm.setString(++i, cliente.getEndereco().getRua().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getNumero().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getComplemento().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getBairro().toUpperCase());
 			pstm.setInt(++i, cliente.getEndereco().getCidade().getId());
 
 			pstm.executeUpdate();
@@ -93,8 +86,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("update clientes set nome = ?, data_nasc = ?, nome_mae = ?, sexo = ?, ");
-		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, endereco = ?, ");
-		sql.append("id_cidade = ? where id=?");
+		sql.append("telefone = ?, celular= ?, rg = ?, cpf = ?, email=?, ");
+		sql.append("rua = ?, numero = ?, complemento = ?, bairro = ?, ");
+		sql.append("id_cidade = ? where id = ?");
 		
 		con = Conexao.getConnection();
 
@@ -119,20 +113,12 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			pstm.setString(++i, cliente.getRG().toUpperCase());
 			pstm.setString(++i, cliente.getCPF());
 			pstm.setString(++i, cliente.getEmail().toUpperCase());
-			
-			StringBuffer endereco = new StringBuffer();
-			
-			//Concatenando o endereço para add no BD
-			endereco.append(cliente.getEndereco().getRua() + ", ");
-			endereco.append(cliente.getEndereco().getNumero() + ", ");
-			if(cliente.getEndereco().getComplemento() != null){
-				endereco.append(cliente.getEndereco().getComplemento() + ", ");
-			}
-			endereco.append(cliente.getEndereco().getBairro());
-			
-			pstm.setString(++i, endereco.toString());
-			
+			pstm.setString(++i, cliente.getEndereco().getRua().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getNumero().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getComplemento().toUpperCase());
+			pstm.setString(++i, cliente.getEndereco().getBairro().toUpperCase());
 			pstm.setInt(++i, cliente.getEndereco().getCidade().getId());
+			
 			pstm.setInt(++i, cliente.getId());
 
 			pstm.executeUpdate();
@@ -181,12 +167,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	public List<Cliente> listarTodos() {
 
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
-		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
-		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
-		sql.append("clientes.endereco, cidades.id, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades ");
-		sql.append("where cidades.id = clientes.id_cidade order by clientes.id asc");
+		sql.append("select * from clientes ");
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		
@@ -201,49 +182,35 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				Cliente clienteRetorno = new Cliente();
 
-				clienteRetorno.setId(rSet.getInt("clientes.id"));
-				clienteRetorno.setNome(rSet.getString("clientes.nome"));
+				clienteRetorno.setId(rSet.getInt("id"));
+				clienteRetorno.setNome(rSet.getString("nome"));
 				
 				//recebendo string do BD e armazenando em DATE
 				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 				
 				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				
-				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
-				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
-				clienteRetorno.setRG(rSet.getString("clientes.rg"));
-				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
-				clienteRetorno.setEmail(rSet.getString("clientes.email"));
+				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("sexo"));
+				clienteRetorno.setTelefone(rSet.getString("telefone"));
+				clienteRetorno.setCelular(rSet.getString("celular"));
+				clienteRetorno.setRG(rSet.getString("rg"));
+				clienteRetorno.setCPF(rSet.getString("cpf"));
+				clienteRetorno.setEmail(rSet.getString("email"));
 				
 				Endereco end = new Endereco();
-				/**
-				 * Alterando o formato de armazenamento da endereço para o Banco de
-				 * Dados Aceitar
-				 * Quando encontra a virgula a String é separada.
-				 * Assim A rua, O numero, o complemento é armezanado adequadamente
-				 */
-				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				end.setRua(rSet.getString("rua"));
+				end.setNumero(rSet.getString("numero"));
+				end.setComplemento(rSet.getString("complemento"));
+				end.setBairro(rSet.getString("bairro"));
 				
-					if(endereco.length == 4) {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setComplemento(endereco[2].trim());
-						end.setBairro(endereco[3].trim());
-					} else {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setBairro(endereco[2].trim() + " ");
-					}
-					
 				Cidade cidadeRetorno = new Cidade();
-				cidadeRetorno.setId(rSet.getInt("cidades.id"));
-				cidadeRetorno.setNome(rSet.getString("cidades.nome"));
+				cidadeRetorno.setId(rSet.getInt("id_cidade"));
+				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
 					
 				end.setCidade(cidadeRetorno);
 					
@@ -269,11 +236,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	public Cliente pesquisarPorID(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
-		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
-		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
-		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.id = ?");
+		sql.append("select * from clientes ");
+		sql.append("where clientes.id = ?");
 
 		Cliente clienteRetorno = null;
 		
@@ -288,56 +252,39 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			while (rSet.next()) {
 				clienteRetorno = new Cliente();
 
-				clienteRetorno.setId(rSet.getInt("clientes.id"));
-				clienteRetorno.setNome(rSet.getString("clientes.nome"));
+				clienteRetorno.setId(rSet.getInt("id"));
+				clienteRetorno.setNome(rSet.getString("nome"));
 				
 				//recebendo string do BD e armazenando em DATE
 				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 				
 				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				
-				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
-				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setRG(rSet.getString("clientes.rg"));
-				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
-				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-
+				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("sexo"));
+				clienteRetorno.setTelefone(rSet.getString("telefone"));
+				clienteRetorno.setCelular(rSet.getString("celular"));
+				clienteRetorno.setRG(rSet.getString("rg"));
+				clienteRetorno.setCPF(rSet.getString("cpf"));
+				clienteRetorno.setEmail(rSet.getString("email"));
+				
 				Endereco end = new Endereco();
-				/**
-				 * Alterando o formato de armazenamento da endereço para o Banco de
-				 * Dados Aceitar
-				 * Quando encontra a virgula a String é separada.
-				 * Assim A rua, O numero, o complemento é armezanado adequadamente
-				 */
-				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				end.setRua(rSet.getString("rua"));
+				end.setNumero(rSet.getString("numero"));
+				end.setComplemento(rSet.getString("complemento"));
+				end.setBairro(rSet.getString("bairro"));
 				
-					if(endereco.length == 4) {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setComplemento(endereco[2].trim());
-						end.setBairro(endereco[3].trim());
-					} else {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setBairro(endereco[2].trim());
-					}
-				
-				
-				Cidade cidade = new Cidade();
-				cidade.setId(rSet.getInt("clientes.id_cidade"));
-				cidade.setNome(rSet.getString("cidades.nome"));
-				cidade.setUf(rSet.getString("cidades.uf"));
-
-				end.setCidade(cidade);
-				
-				clienteRetorno.setEndereco(end);				
+				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno.setId(rSet.getInt("id_cidade"));
+				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
+					
+				end.setCidade(cidadeRetorno);
+					
+				clienteRetorno.setEndereco(end);					
 
 			}
 			
@@ -360,11 +307,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	public Cliente pesquisarPorCPF(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select clientes.id, clientes.nome, clientes.data_nasc, ");
-		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, clientes.celular, ");
-		sql.append("clientes.rg, clientes.cpf, clientes.email, ");
-		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id where clientes.cpf = ?");
+		sql.append("select * from clientes ");
+		sql.append("where cpf = ?");
 
 		Cliente clienteRetorno = null;
 		
@@ -379,57 +323,39 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			while (rSet.next()) {
 				clienteRetorno = new Cliente();
 
-				clienteRetorno.setId(rSet.getInt("clientes.id"));
-				clienteRetorno.setNome(rSet.getString("clientes.nome"));
+				clienteRetorno.setId(rSet.getInt("id"));
+				clienteRetorno.setNome(rSet.getString("nome"));
 				
 				//recebendo string do BD e armazenando em DATE
 				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 				
 				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				
-				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
-				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setRG(rSet.getString("clientes.rg"));
-				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
-				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-
+				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("sexo"));
+				clienteRetorno.setTelefone(rSet.getString("telefone"));
+				clienteRetorno.setCelular(rSet.getString("celular"));
+				clienteRetorno.setRG(rSet.getString("rg"));
+				clienteRetorno.setCPF(rSet.getString("cpf"));
+				clienteRetorno.setEmail(rSet.getString("email"));
+				
 				Endereco end = new Endereco();
-
-				/**
-				 * Alterando o formato de armazenamento da endereço para o Banco de
-				 * Dados Aceitar
-				 * Quando encontra a virgula a String é separada.
-				 * Assim A rua, O numero, o complemento é armezanado adequadamente
-				 */
-				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				end.setRua(rSet.getString("rua"));
+				end.setNumero(rSet.getString("numero"));
+				end.setComplemento(rSet.getString("complemento"));
+				end.setBairro(rSet.getString("bairro"));
 				
-					if(endereco.length == 4) {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setComplemento(endereco[2].trim());
-						end.setBairro(endereco[3].trim());
-					} else {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setBairro(endereco[2].trim());
-					}
-									
-				Cidade cidade = new Cidade();
-				cidade.setId(rSet.getInt("clientes.id_cidade"));
-				cidade.setNome(rSet.getString("cidades.nome"));
-				cidade.setUf(rSet.getString("cidades.uf"));
-
-				end.setCidade(cidade);
-				
-				clienteRetorno.setEndereco(end);				
-
+				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno.setId(rSet.getInt("id_cidade"));
+				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
+					
+				end.setCidade(cidadeRetorno);
+					
+				clienteRetorno.setEndereco(end);		
 			}
 			
 			
@@ -450,12 +376,8 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 	public List<Cliente> pesquisarPorNome(Cliente cliente) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select distinct clientes.id, clientes.nome, clientes.data_nasc, ");
-		sql.append("clientes.nome_mae, clientes.sexo, clientes.telefone, ");
-		sql.append("clientes.celular, clientes.rg, clientes.cpf, clientes.email, ");
-		sql.append("clientes.endereco, clientes.id_cidade, cidades.nome, cidades.uf ");
-		sql.append("from clientes inner join cidades on clientes.id_cidade = cidades.id ");
-		sql.append("where clientes.nome like ? order by clientes.nome asc");
+		sql.append("select * from clientes ");
+		sql.append("where nome like ? order by nome asc");
 
 		List<Cliente> lista = new ArrayList<Cliente>();
 		
@@ -472,56 +394,40 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				Cliente clienteRetorno = new Cliente();
 
-				clienteRetorno.setId(rSet.getInt("clientes.id"));
-				clienteRetorno.setNome(rSet.getString("clientes.nome"));
+
+				clienteRetorno.setId(rSet.getInt("id"));
+				clienteRetorno.setNome(rSet.getString("nome"));
 				
 				//recebendo string do BD e armazenando em DATE
 				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 				
 				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("clientes.data_nasc")));
+					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				
-				clienteRetorno.setNomeMae(rSet.getString("clientes.nome_mae"));
-				clienteRetorno.setSexo(rSet.getString("clientes.sexo"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setCelular(rSet.getString("clientes.celular"));
-				clienteRetorno.setRG(rSet.getString("clientes.rg"));
-				clienteRetorno.setCPF(rSet.getString("clientes.cpf"));
-				clienteRetorno.setTelefone(rSet.getString("clientes.telefone"));
-				clienteRetorno.setEmail(rSet.getString("clientes.email"));
-
+				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
+				clienteRetorno.setSexo(rSet.getString("sexo"));
+				clienteRetorno.setTelefone(rSet.getString("telefone"));
+				clienteRetorno.setCelular(rSet.getString("celular"));
+				clienteRetorno.setRG(rSet.getString("rg"));
+				clienteRetorno.setCPF(rSet.getString("cpf"));
+				clienteRetorno.setEmail(rSet.getString("email"));
+				
 				Endereco end = new Endereco();
-				/**
-				 * Alterando o formato de armazenamento da endereço para o Banco de
-				 * Dados Aceitar
-				 * Quando encontra a virgula a String é separada.
-				 * Assim A rua, O numero, o complemento é armezanado adequadamente
-				 */
-				String[] endereco = rSet.getString("clientes.endereco").split(",");
+				end.setRua(rSet.getString("rua"));
+				end.setNumero(rSet.getString("numero"));
+				end.setComplemento(rSet.getString("complemento"));
+				end.setBairro(rSet.getString("bairro"));
 				
-					if(endereco.length == 4) {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setComplemento(endereco[2].trim());
-						end.setBairro(endereco[3].trim());
-					} else {
-						end.setRua(endereco[0].trim());
-						end.setNumero(endereco[1].trim());
-						end.setBairro(endereco[2].trim());
-					}
-				
-				
-				Cidade cidade = new Cidade();
-				cidade.setId(rSet.getInt("clientes.id_cidade"));
-				cidade.setNome(rSet.getString("cidades.nome"));
-				cidade.setUf(rSet.getString("cidades.uf"));
-
-				end.setCidade(cidade);
-				
-				clienteRetorno.setEndereco(end);				
+				Cidade cidadeRetorno = new Cidade();
+				cidadeRetorno.setId(rSet.getInt("id_cidade"));
+				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
+					
+				end.setCidade(cidadeRetorno);
+					
+				clienteRetorno.setEndereco(end);			
 
 				lista.add(clienteRetorno);
 

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.FuncionarioDAO;
+import br.com.dealercar.dao.UsuarioDAO;
 import br.com.dealercar.domain.Funcionario;
+import br.com.dealercar.domain.Usuario;
 
 public class FuncionarioDAOTest {
 
@@ -30,6 +32,7 @@ public class FuncionarioDAOTest {
 		funDao.editar(funcionario);
 
 	}
+	*/
 
 	public static void excluir() {
 
@@ -38,7 +41,6 @@ public class FuncionarioDAOTest {
 		FuncionarioDAO funDao = new FuncionarioDAO();
 		funDao.excluir(funcionario);
 	}
-	*/
 	
 	public static void listarTodos() {
 		List<Funcionario> lista = new ArrayList<Funcionario> ();
@@ -52,7 +54,6 @@ public class FuncionarioDAOTest {
 		}
 	}
 
-	/*
 	public static void pesquisarPorNome() {
 		List<Funcionario> lista = new ArrayList<Funcionario> ();
 		
@@ -89,7 +90,6 @@ public class FuncionarioDAOTest {
 		
 	
 	  }
-	 */
 	 
 	
 	
@@ -97,11 +97,11 @@ public class FuncionarioDAOTest {
 
 		//cadastrar();
 		//editar();
-		//pesquisarPorNome();
+		pesquisarPorNome();
 		//excluir();
 		//pesquisarPorID();
 		//pesquisarPorNome();
-		listarTodos();
+		//listarTodos();
 		//pesquisarPorUsuario();
 		
 	}

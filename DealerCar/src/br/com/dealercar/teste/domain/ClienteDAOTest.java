@@ -21,21 +21,20 @@ public class ClienteDAOTest {
 
 	}
 
-	@SuppressWarnings("unused")
+*/
+	//@SuppressWarnings("unused")
 	public static void editar() {
-		Cidade cidade = new Cidade();
-		cidade.setId(1);
-
-		Cliente cliente = new Cliente("Luiza da Silva", "01-01-1961", "Luiza da Costa", "FEMININO", 
-				"96442823", "22345828", "8277357", "39192834",
-				"luiza@teste.com", new Endereco("Rua do Luiza", "11", "casa 2", "centro"), cidade);
-		cliente.setId(3);
+		
+		Cliente cliente = new Cliente(9);
+		cliente = new ClienteDAO().pesquisarPorID(cliente);
+		
+		cliente.setRG("123412342");
 
 		ClienteDAO dao = new ClienteDAO();
 		dao.editar(cliente);
 
 	}
-*/
+
 	public static void listarTodos() {
 
 		ClienteDAO dao = new ClienteDAO();
@@ -46,9 +45,9 @@ public class ClienteDAOTest {
 		}
 	}
 
-/*	public static void pesquisarPorID() {
+	public static void pesquisarPorID() {
 		Cliente cliente = new Cliente();
-		cliente.setId(16);
+		cliente.setId(9);
 
 		ClienteDAO dao = new ClienteDAO();
 		Cliente clienteRetorno = dao.pesquisarPorID(cliente);
@@ -80,14 +79,13 @@ public class ClienteDAOTest {
 	}
 		
 		
-		*/
 
 
 	public static void main(String[] args) {
 
 		//cadastrar();
-		 //editar();
-		listarTodos();
+		//editar();
+		//listarTodos();
 		// pesquisarPorID();
 		//pesquisarPorNome();
 		//pesquisarPorCPF();
