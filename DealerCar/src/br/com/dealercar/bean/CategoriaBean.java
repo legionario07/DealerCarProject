@@ -83,8 +83,8 @@ public class CategoriaBean implements Serializable {
 		}
 
 		catDao.cadastrar(categoria);
-		
-		//criando a nova pasta da categoria
+
+		// criando a nova pasta da categoria
 		criarDiretorio();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Cadastrada com Sucesso.");
@@ -102,7 +102,7 @@ public class CategoriaBean implements Serializable {
 		catDao.excluir(categoria);
 
 		excluirDiretorio();
-		
+
 		listaCategoria = catDao.listarTodos();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Excluida com Sucesso.");
@@ -114,46 +114,76 @@ public class CategoriaBean implements Serializable {
 	 * uma nova caixa de dialogo para ser feitas as alterações
 	 */
 	public void editar() {
+
+		Categoria categoriaOld = new CategoriaDAO().pesquisarPorID(categoria);
 		
 		catDao.editar(categoria);
 
-		//criando a nova pasta da categoria
-		criarDiretorio();
 		
+		// criando a nova pasta da categoria
+		editarDiretorio(categoriaOld);
+
 		listaCategoria = catDao.listarTodos();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Alterada com Sucesso.");
 
 	}
 
-	private void criarDiretorio(){
+	private void criarDiretorio() {
+
+		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
 		
 		StringBuffer pasta = new StringBuffer();
-		pasta.append("C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\");		
+		pasta.append(CAMINHO);
 		pasta.append(categoria.getNome().toLowerCase());
-		
-		File diretorio = new File(pasta.toString()); 
-		
+
+		File diretorio = new File(pasta.toString());
+
 		if (!diretorio.exists()) {
-			   diretorio.mkdir(); 
-			   
+			diretorio.mkdir();
+
 		}
-		
+
 	}
-	
-	private void excluirDiretorio(){
+
+	private void excluirDiretorio() {
+
+		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
 		
 		StringBuffer pasta = new StringBuffer();
-		pasta.append("C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\");		
+		pasta.append(CAMINHO);
 		pasta.append(categoria.getNome().toLowerCase());
-		
-		File diretorio = new File(pasta.toString()); 
-		
+
+		File diretorio = new File(pasta.toString());
+
 		if (diretorio.exists()) {
-			   diretorio.delete(); 
-			   
+			diretorio.delete();
+
 		}
-		
+
 	}
-	
+
+	private void editarDiretorio(Categoria categoriaOld) {
+		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
+		
+		StringBuffer pastaAntiga = new StringBuffer();
+		pastaAntiga.append(CAMINHO);
+		pastaAntiga.append(categoriaOld.getNome().toLowerCase());
+		
+		StringBuffer pastaNova = new StringBuffer();
+		pastaNova.append(CAMINHO);
+		pastaNova.append(categoria.getNome().toLowerCase());
+		
+		
+
+		File diretorio = new File(pastaAntiga.toString());
+		File diretorioNovo = new File(pastaNova.toString());
+
+		if (diretorio.exists()) {
+			diretorio.renameTo(diretorioNovo);
+
+		}
+
+	}
+
 }
