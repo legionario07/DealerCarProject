@@ -31,7 +31,7 @@ public class ValidaCidade implements IValidacaoStrategy{
 			CidadeDAO dao = new CidadeDAO();
 
 			List<Cidade> lista = new ArrayList<Cidade>();
-			lista = dao.listarTodos();
+			lista = dao.pesquisarPorUFEstado(retorno.getEstado());
 
 			for (Cidade c : lista) {
 				if (retorno.getNome().toUpperCase().equals(c.getNome())) {

@@ -254,7 +254,7 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 	 * @param cidade Recebe uma cidade e pesquisa no Banco de Dados por seu Estado
 	 * @return Retorna um array de Cidades
 	 */
-	public List<Cidade> pesquisarPorEstado(Estado estado) {
+	public List<Cidade> pesquisarPorIDEstado(Estado estado) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from cidades_tbl ");
@@ -289,6 +289,57 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 			}
 			
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return lista;
+	}
+	
+	/**
+	 * 
+	 * @param cidade Recebe uma cidade e pesquisa no Banco de Dados por seu Estado
+	 * @return Retorna um array de Cidades
+	 */
+	public List<Cidade> pesquisarPorUFEstado(Estado estado) {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from cidades_tbl ");
+		sql.append("inner join estados on cidades_tbl.id_estado = estados.id ");
+		sql.append("where estados.uf = ? ");
+		List<Cidade> lista = new ArrayList<Cidade>();
+		
+		con = Conexao.getConnection();
+		
+		Cidade cidade = null;
+
+		try {
+
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			pstm.setString(1, estado.getUf());
+
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				cidade = new Cidade();
+
+				cidade.setId(rSet.getInt("id"));
+				cidade.setNome(rSet.getString("nome"));
+				
+				Estado estadoRetorno = new Estado();
+				estadoRetorno.setId(rSet.getInt("id_estado"));
+				estadoRetorno = new EstadoDAO().pesquisarPorID(estadoRetorno);
+				cidade.setEstado(estadoRetorno);
+
+				lista.add(cidade);
+			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

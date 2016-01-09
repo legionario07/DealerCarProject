@@ -73,7 +73,22 @@ public class CidadeDAOTest {
 
 		CidadeDAO cDao = new CidadeDAO();
 		List<Cidade> cidades = new ArrayList<Cidade>();
-		cidades = cDao.pesquisarPorEstado(estado);
+		cidades = cDao.pesquisarPorIDEstado(estado);
+
+		for (Cidade c : cidades) {
+			System.out.println(c);
+		}
+	}
+	
+	//@SuppressWarnings("unused")
+	private static void pesquisarPorUFEstado() {
+		
+		Estado estado = new Estado();
+		estado.setUf("SP");
+
+		CidadeDAO cDao = new CidadeDAO();
+		List<Cidade> cidades = new ArrayList<Cidade>();
+		cidades = cDao.pesquisarPorUFEstado(estado);
 
 		for (Cidade c : cidades) {
 			System.out.println(c);
@@ -102,6 +117,7 @@ public class CidadeDAOTest {
 		//pesquisarPorNome();
 		//listarTodos();
 		//pesquisarPorEstado();
+		pesquisarPorUFEstado();
 
 	}
 

@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.dao.AbstractPesquisaItensOpcionais;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
-import br.com.dealercar.enums.SeguroType;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
 
@@ -122,10 +121,8 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 	 */
 	public List<Seguro> listarTodos() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select seguros.codigo, seguros.descricao, seguros.valor, ");
-		sql.append("seguros.tipo_seguro, tipo_seguro.id, tipo_seguro.nome, tipo_seguro.valor_acrescido ");
-		sql.append("from seguros inner join tipo_seguro where seguros.tipo_seguro = tipo_seguro.id ");
-		sql.append("order by seguros.descricao asc");
+		sql.append("select * from seguros ");
+		sql.append("order by descricao asc");
 
 		List<Seguro> listaRetorno = new ArrayList<Seguro>();
 		
@@ -136,20 +133,17 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Seguro seguro = new Seguro();
-				seguro.setCodigo(rSet.getInt("seguros.codigo"));
-				seguro.setDescricao(rSet.getString("seguros.descricao"));
+				Seguro seguroRetorno = new Seguro();
+				seguroRetorno.setCodigo(rSet.getInt("codigo"));
+				seguroRetorno.setDescricao(rSet.getString("descricao"));
 
-				TipoSeguro tipoSeguro = new TipoSeguro();
+				TipoSeguro tipoSeguro = new TipoSeguro(rSet.getInt("tipo_seguro"));
+				tipoSeguro = new TipoSeguroDAO().pesquisarPorID(tipoSeguro);
 
-				tipoSeguro.setId(rSet.getInt("tipo_seguro.id"));
-				tipoSeguro.setNome(SeguroType.valueOf(rSet.getString("tipo_seguro.nome")));
-				tipoSeguro.setValorAcrescido(rSet.getDouble("tipo_seguro.valor_acrescido"));
+				seguroRetorno.setTipoSeguro(tipoSeguro);
+				seguroRetorno.setValor(rSet.getDouble("valor"));
 
-				seguro.setTipoSeguro(tipoSeguro);
-				seguro.setValor(rSet.getDouble("seguros.valor"));
-
-				listaRetorno.add(seguro);
+				listaRetorno.add(seguroRetorno);
 			}
 			
 			
@@ -171,9 +165,7 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 	public Seguro pesquisarPorCodigo(Seguro seguro) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select seguros.codigo, seguros.descricao, seguros.valor, ");
-		sql.append("seguros.tipo_seguro, tipo_seguro.id, tipo_seguro.nome, tipo_seguro.valor_acrescido ");
-		sql.append("from seguros inner join tipo_seguro on seguros.tipo_seguro = tipo_seguro.id ");
+		sql.append("select * from seguros ");
 		sql.append("where seguros.codigo = ?");
 
 		Seguro seguroRetorno = null;
@@ -188,17 +180,14 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 			while (rSet.next()) {
 				seguroRetorno = new Seguro();
-				seguroRetorno.setCodigo(rSet.getInt("seguros.codigo"));
-				seguroRetorno.setDescricao(rSet.getString("seguros.descricao"));
-				seguroRetorno.setValor(rSet.getDouble("seguros.valor"));
+				seguroRetorno.setCodigo(rSet.getInt("codigo"));
+				seguroRetorno.setDescricao(rSet.getString("descricao"));
 
-				TipoSeguro tipoSeguro = new TipoSeguro();
-
-				tipoSeguro.setId(rSet.getInt("tipo_seguro.id"));
-				tipoSeguro.setNome(SeguroType.valueOf(rSet.getString("tipo_seguro.nome")));
-				tipoSeguro.setValorAcrescido(rSet.getDouble("tipo_seguro.valor_acrescido"));
+				TipoSeguro tipoSeguro = new TipoSeguro(rSet.getInt("tipo_seguro"));
+				tipoSeguro = new TipoSeguroDAO().pesquisarPorID(tipoSeguro);
 
 				seguroRetorno.setTipoSeguro(tipoSeguro);
+				seguroRetorno.setValor(rSet.getDouble("valor"));
 				
 			}
 			

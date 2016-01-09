@@ -14,8 +14,7 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBCliente.carregarListagem}"
-			type="preRenderView" />
+		<f:event listener="#{MBCliente.carregarListagem}" type="preRenderView" />
 
 		<h:panelGrid width="100%" style="text-align:center">
 			<h:outputText
@@ -33,7 +32,7 @@
 						<h:outputText value="#{MBCliente.cliente.dataNasc}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
-						
+
 					</h:panelGrid>
 
 					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="5">
@@ -68,7 +67,7 @@
 							requiredMessage="Favor informar a CPF do cliente. 
 							Campo de preenchimento obrigatório">
 							<f:validateLength minimum="14" maximum="14" />
-							<f:validator validatorId="CpfValidator"/>
+							<f:validator validatorId="CpfValidator" />
 						</p:inputMask>
 
 						<h:outputText value="Telefone: *" maxlength="15" />
@@ -76,15 +75,15 @@
 							value="#{MBCliente.cliente.telefone}" mask="(99)9999-9999"
 							requiredMessage="Favor informar a Telefone do cliente. 
 							Campo de preenchimento obrigatório">
-							
+
 						</p:inputMask>
 						<h:outputText id="celular" value="Celular: " maxlength="15" />
 						<p:inputMask size="15" value="#{MBCliente.cliente.celular}"
-							mask="(99)99999-9999"/>
+							mask="(99)99999-9999" />
 
 						<h:outputText value="Email: " maxlength="65" />
 						<p:inputText size="50" value="#{MBCliente.cliente.email}">
-							<f:validator validatorId="EmailValidator"/>
+							<f:validator validatorId="EmailValidator" />
 						</p:inputText>
 
 						<h:outputText value="Rua *" maxlength="50" />
@@ -95,32 +94,52 @@
 							maxlength="50" />
 
 						<h:outputText value="Número: *" maxlength="10" />
-						<p:inputText size="10" value="#{MBCliente.cliente.endereco.numero}"
-							required="true"
+						<p:inputText size="10"
+							value="#{MBCliente.cliente.endereco.numero}" required="true"
 							requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 							maxlength="10" />
 
 						<h:outputText value="Complemento: " maxlength="50" />
-						<p:inputText size="50" value="#{MBCliente.cliente.endereco.complemento}"
-							maxlength="50" />
+						<p:inputText size="50"
+							value="#{MBCliente.cliente.endereco.complemento}" maxlength="50" />
 
 						<h:outputText value="Bairro: *" maxlength="20" />
-						<p:inputText size="20" value="#{MBCliente.cliente.endereco.bairro}"
-							required="true"
+						<p:inputText size="20"
+							value="#{MBCliente.cliente.endereco.bairro}" required="true"
 							requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
 							maxlength="20" />
 
-						<h:outputText value="Cidade: *" />
-						<p:selectOneMenu id="cidades" value="#{MBCliente.cliente.endereco.cidade.nome}"
+						<p:outputLabel value="UF: *" />
+
+						<p:selectOneMenu id="uf"
+							value="#{MBCliente.cliente.endereco.cidade.estado.uf}"
 							required="true"
-							requiredMessage="Favor informar a Cidade do cliente. 
-							Campo de preenchimento obrigatório"
-							panelStyle="width:180px" effect="fade" style="width:180px"
+							requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
+							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
 
-							<f:selectItem itemLabel="Selecione uma Cidade"
+							<f:selectItem itemLabel="Selecione o Estado"
+								noSelectionOption="true" />
+							<f:selectItems value="#{MBCliente.listaEstados}" var="estado"
+								itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
+
+							<p:ajax update="cidade" listener="#{MBCliente.atualizarCidades}" />
+
+
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Cidade: *" />
+
+						<p:selectOneMenu id="cidade"
+							value="#{MBCliente.cliente.endereco.cidade.nome}"
+							required="true"
+							requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemLabel="Selecione a Cidade"
 								noSelectionOption="true" />
 							<f:selectItems value="#{MBCliente.listaCidades}" var="cidade"
 								itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
@@ -128,7 +147,10 @@
 						</p:selectOneMenu>
 
 
-						<p:commandButton actionListener="#{MBCliente.cadastrar}" 
+
+
+
+						<p:commandButton actionListener="#{MBCliente.cadastrar}"
 							value="Cadastrar"
 							update="frmNovoCliente:pnlClienteDados frmNovoCliente:validadores :msgGlobal" />
 					</h:panelGrid>

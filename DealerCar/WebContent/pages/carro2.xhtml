@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBCarro.carregarListagem}" type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Consulta de Carro" />
+
+		</h:panelGrid>
+
+		<p:tabView id="tabViewConsultar">
+			<p:tab title="Carro" id="tabCarroConsulta">
+				<h:form id="frmConsultaCarro">
+					<h:panelGrid id="pnlCarrosDados" columns="2" cellpadding="5">
+
+						<h:outputLabel value="Digite o Placa para Localizar"
+							rendered="#{MBCarro.carro.placa == null}" />
+						<p:inputMask value="#{MBCarro.carro.placa}" mask="aaa-9999"
+							size="8"
+							requiredMessage="O valor informado não obedece ao padrão requerido."
+							rendered="#{MBCarro.carro.placa == null}">
+							<f:validateLength minimum="8" maximum="8" />
+						</p:inputMask>
+
+					</h:panelGrid>
+
+					<div style="float: right" align="right" id="divCarros">
+						<h:panelGrid id="pnlCarrosDados2" columns="1" width="100%"
+							rendered="#{MBCarro.ehCadastrado == true}"
+							style="text-align:right;float:right;">
+							<h:graphicImage library="images"
+								name="#{MBCarro.carro.carroUrl.caminho}" height="200"
+								width="270" title="#{MBCarro.carro.carroUrl.descricao}"
+								style="text-align:right" />
+						</h:panelGrid>
+
+					</div>
+
+
+					<h:panelGrid id="pnlCarrosDados3" columns="2" cellpadding="5"
+						rendered="#{MBCarro.ehCadastrado == true}">
+						<h:outputLabel value="Placa: " />
+						<p:inputText value="#{MBCarro.carro.placa}" readonly="true"
+							size="8" />
+
+						<h:outputText value="Modelo:" />
+						<p:inputText id="inpNome" size="15" maxlength="45" readonly="true"
+							value="#{MBCarro.carro.modelo.nome}" />
+
+						<h:outputText value="Ano: " />
+						<p:inputMask size="8" readonly="true" mask="9999"
+							value="#{MBCarro.carro.ano}" />
+
+						<h:outputText value="Número de Portas: " maxlength="8" />
+						<p:inputText size="8" value="#{MBCarro.carro.qtdePortas}"
+							readonly="true" />
+
+						<h:outputText value="Bagagem (malas): " maxlength="8" />
+						<p:inputText size="8" value="#{MBCarro.carro.qtdeMalasSuportadas}"
+							readonly="true" />
+
+						<h:outputText value="Cor: " maxlength="30" />
+						<p:inputText size="15" value="#{MBCarro.carro.cor.nome}"
+							readonly="true" />
+
+						<h:outputText value="Valor Diária: " maxlength="8" />
+						<p:inputText size="8"
+							value="#{MBCarro.carro.categoria.valorDiaria}" readonly="true">
+							<f:convertNumber type="currency" />
+						</p:inputText>
+
+						<h:outputText value="Situação: " maxlength="15" />
+						<p:inputText size="15" readonly="true"
+							value="#{MBCarro.carro.situacao}" />
+
+					</h:panelGrid>
+					<br></br>
+
+					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+						<p:commandButton action="#{MBCarro.pesquisarPorPlaca}"
+							value="Pesquisar" rendered="#{MBCarro.carro.placa == null}"
+							update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal" />
+
+						<p:commandButton value="Novo"
+							rendered="#{MBCarro.jaPesquisei == true}"
+							action="/pages/ncarro.xhtml"
+							update="frmCarroEditar:pnlCarroEditar" />
+
+						<p:commandButton value="Editar"
+							rendered="#{MBCarro.ehCadastrado == true}"
+							onclick="PF('dlgCarroEditar').show();"
+							update="frmCarroEditar:pnlCarroEditar" />
+
+						<p:commandButton value="Excluir"
+							actionListener="#{MBCarro.excluir}"
+							rendered="#{MBCarro.ehCadastrado == true}"
+							update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal">
+							<p:confirm header="Confirmação"
+								message="Tem certeza que deseja excluir?" icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+								update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal" />
+						</p:confirmDialog>
+
+						<p:commandButton value="Limpar Pesquisa"
+							actionListener="#{MBCarro.limparPesquisa}"
+							rendered="#{MBCarro.ehCadastrado == true}"
+							update="frmConsultaCarro" />
+
+					</h:panelGrid>
+
+				</h:form>
+			</p:tab>
+
+		</p:tabView>
+
+		<!-- Caixa de Dialogo Editar -->
+		<p:dialog widgetVar="dlgCarroEditar" closable="false" width="630"
+		 height="420" draggable="false" resizable="false" appendTo="@(body)" modal="true"
+			header="Carro - Editar">
+
+			<h:form id="frmCarroEditar">
+
+				<h:panelGrid id="pnlCarroEditar" columns="2">
+
+					<p:outputLabel value="Placa: *" />
+					<p:inputMask value="#{MBCarro.carro.placa}" size="8"
+						required="true" mask="aaa-9999"
+						requiredMessage="Favor informar a Placa do carro. Campo de preenchimento obrigatório" />
+
+					<p:outputLabel value="Modelo: *" />
+					<p:selectOneMenu id="modelo" value="#{MBCarro.carro.modelo.nome}"
+						required="true"
+						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione um Modelo"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBCarro.listaModelos}" var="modelo"
+							itemLabel="#{modelo.nome}" itemValue="#{modelo.nome}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Ano: *" />
+					<p:inputMask value="#{MBCarro.carro.ano}" size="8" required="true"
+						mask="9999"
+						requiredMessage="Favor informar o ano de Fabricação. Campo de preenchimento obrigatório" />
+
+					<h:outputText value="Número de Portas: " maxlength="8" />
+					<p:selectOneMenu value="#{MBCarro.carro.qtdePortas}"
+						required="true"
+						requiredMessage="Favor informar o número de Portas Disponiveis."
+						rendered="true">
+						<f:selectItem itemValue="1" itemLabel="1" />
+						<f:selectItem itemValue="2" itemLabel="2" />
+						<f:selectItem itemValue="3" itemLabel="3" />
+						<f:selectItem itemValue="4" itemLabel="4" />
+						<f:selectItem itemValue="5" itemLabel="5" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Bagagem (Malas): " maxlength="10" />
+					<p:selectOneMenu value="#{MBCarro.carro.qtdeMalasSuportadas}"
+						required="true"
+						requiredMessage="Favor infomar a quantidade Malas Suportadas."
+						rendered="true">
+						<f:selectItem itemValue="1" itemLabel="1" />
+						<f:selectItem itemValue="2" itemLabel="2" />
+						<f:selectItem itemValue="3" itemLabel="3" />
+						<f:selectItem itemValue="4" itemLabel="4" />
+						<f:selectItem itemValue="5" itemLabel="5" />
+						<f:selectItem itemValue="6" itemLabel="6" />
+						<f:selectItem itemValue="7" itemLabel="7" />
+						<f:selectItem itemValue="8" itemLabel="8" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Cor: *" />
+					<p:selectOneMenu id="cor" value="#{MBCarro.carro.cor.nome}"
+						required="true"
+						requiredMessage="Favor informar a Cor. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione uma Cor"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBCarro.listaCores}" var="cor"
+							itemLabel="#{cor.nome}" itemValue="#{cor.nome}" />
+
+					</p:selectOneMenu>
+
+					<h:outputText value="Categoria: *" />
+					<p:selectOneMenu id="categoria"
+						value="#{MBCarro.carro.categoria.nome}" required="true"
+						requiredMessage="Favor informar a Categoria. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione uma Categoria"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBCarro.listaCategoria}" var="categoria"
+							itemLabel="#{categoria.nome}" itemValue="#{categoria.nome}" />
+
+					</p:selectOneMenu>
+
+					<h:outputText value="Situação: " maxlength="15" />
+					<p:selectOneMenu value="#{MBCarro.carro.situacao}" rendered="true">
+						<f:selectItem itemValue="Locado" itemLabel="Locado" />
+						<f:selectItem itemValue="Disponivel" itemLabel="Disponivel" />
+						<f:selectItem itemValue="Manutencao" itemLabel="Manutencao" />
+					</p:selectOneMenu>
+
+				</h:panelGrid >
+				<h:panelGrid columns="4" id="upload">
+					<p:fileUpload mode="advanced"
+						skinSimple="true" cancelLabel="Cancelar"
+						fileUploadListener="#{MBCarro.upload}"
+						sizeLimit="1000000"
+						label="Escolher Foto"
+						update="upload"
+						invalidSizeMessage="Tamanho deve ser menor que 1MB"
+						allowTypes="/(\.|\/)(jpeg|jpg|png|gif|)$/" />
+
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar" actionListener="#{MBCarro.editar}"
+						onclick=":frmConsultaCarro :msgGlobal"
+						oncomplete="PF('dlgCarroEditar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgCarroEditar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

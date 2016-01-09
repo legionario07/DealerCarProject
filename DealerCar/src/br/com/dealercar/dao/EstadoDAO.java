@@ -64,6 +64,10 @@ public class EstadoDAO implements IDAO<Estado> {
 				
 			}
 			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

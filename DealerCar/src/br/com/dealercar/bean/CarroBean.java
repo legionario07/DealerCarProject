@@ -8,6 +8,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
 import br.com.dealercar.dao.CorDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.dao.automotivos.CategoriaDAO;
@@ -55,6 +58,16 @@ public class CarroBean extends AbstractBean implements Serializable {
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
 
 	private int totalCarros;
+	
+	private UploadedFile file;
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
 
 	public Carro getCarro() {
 		return carro;
@@ -173,7 +186,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void cadastrar() {
 
-		//valida os dados do carro
+		// valida os dados do carro
 		consultarDadosCarroLocalizado();
 
 		carDao.cadastrar(carro);
@@ -212,9 +225,9 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void editar() {
 
-		//valida os dados do carro
+		// valida os dados do carro
 		consultarDadosCarroLocalizado();
-		
+
 		carDao.editar(carro);
 
 		JSFUtil.adicionarMensagemSucesso("Carro Alterado com Sucesso.");
@@ -247,6 +260,32 @@ public class CarroBean extends AbstractBean implements Serializable {
 
 		// validando a imagem do carro
 		carro.setCarroUrl((ImagemCarro) new ValidaImagemCarro().validar(carro.getCarroUrl()));
+
+	}
+
+	public void upload(FileUploadEvent event) {
+
+		file = event.getFile();
+
+		System.out.println("Entrou no upload");
+
+		if (file != null) {
+			JSFUtil.adicionarMensagemSucesso("Imagem Carregada om Sucesso");
+
+			StringBuffer caminho = new StringBuffer();
+			String categoria = carro.getCategoria().getNome().toLowerCase();
+			System.out.println("categoria " + categoria);
+			caminho.append("/");
+			caminho.append(file.getFileName());
+			
+			System.out.println(caminho);
+
+			System.out.println("file.getFileName()" + file.getFileName());
+			System.out.println("file.getFileName()" + file.getSize());
+
+		} else {
+			System.out.println("Se entrou aki eh nulo");
+		}
 
 	}
 

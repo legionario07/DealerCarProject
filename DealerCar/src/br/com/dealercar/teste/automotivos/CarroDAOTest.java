@@ -105,8 +105,8 @@ public class CarroDAOTest {
 		// editar();
 		// pesquisarPorPlaca();
 		// listarTodos();
-		//pesquisarCarrosDisponiveis();
-		pesquisarPorModelo();
+		pesquisarCarrosDisponiveis();
+		//pesquisarPorModelo();
 
 	}
 

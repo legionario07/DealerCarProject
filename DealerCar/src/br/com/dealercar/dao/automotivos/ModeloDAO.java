@@ -123,9 +123,8 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 	public Modelo pesquisarPorID(Modelo modelo) {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("select  modelos.id, modelos.nome, modelos.id_fabricante, ");
-		sql.append("fabricantes.id, fabricantes.nome ");
-		sql.append("from modelos inner join fabricantes where modelos.id = ?");
+		sql.append("select * from modelos ");
+		sql.append("where id = ?");
 		
 		Modelo modeloRetorno = null;
 		
@@ -142,10 +141,8 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 				modeloRetorno.setId(rSet.getInt("modelos.id"));
 				modeloRetorno.setNome(rSet.getString("modelos.nome"));
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("fabricantes.id"));
-				fabricante.setNome(rSet.getString("fabricantes.nome"));
-				
+				Fabricante fabricante = new Fabricante(rSet.getInt("id_fabricante"));
+				fabricante = new FabricanteDAO().pesquisarPorID(fabricante);
 				modeloRetorno.setFabricante(fabricante);
 				
 			}
@@ -166,9 +163,7 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 	public List<Modelo> listarTodos() {
 		
 		StringBuffer sql =  new StringBuffer();
-		sql.append("select  modelos.id, modelos.nome, modelos.id_fabricante, fabricantes.nome ");
-		sql.append("from modelos inner join fabricantes ");
-		sql.append("where modelos.id_fabricante = fabricantes.id");
+		sql.append("select * from modelos");
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
 		
@@ -180,17 +175,15 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				Modelo modelo = new Modelo();
-				modelo.setId(rSet.getInt("modelos.id"));
-				modelo.setNome(rSet.getString("modelos.nome"));
+				Modelo modeloRetorno = new Modelo();
+				modeloRetorno.setId(rSet.getInt("modelos.id"));
+				modeloRetorno.setNome(rSet.getString("modelos.nome"));
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				fabricante.setNome(rSet.getString("fabricantes.nome"));
+				Fabricante fabricante = new Fabricante(rSet.getInt("id_fabricante"));
+				fabricante = new FabricanteDAO().pesquisarPorID(fabricante);
+				modeloRetorno.setFabricante(fabricante);
 				
-				modelo.setFabricante(fabricante);
-				
-				listaRetorno.add(modelo);
+				listaRetorno.add(modeloRetorno);
 			}
 			
 			
@@ -212,11 +205,8 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 		
 		StringBuffer sql = new StringBuffer();
 		
-		sql.append("select distinct carros.placa, ");
-		sql.append("carros.situacao, carros.id_modelo, modelos.id, "); 
-		sql.append("modelos.nome, modelos.id_fabricante, fabricantes.nome, fabricantes.id "); 
-		sql.append("from carros inner join modelos on carros.id_modelo = modelos.id ");
-		sql.append("inner join fabricantes on fabricantes.id = modelos.id_fabricante "); 
+		sql.append("select * from carros ");
+		sql.append("inner join modelos on modelos.id = carros.id_modelo ");
 		sql.append("where carros.situacao = ? group by modelos.nome");
 		
 		List<Modelo> listaRetorno = new ArrayList<Modelo>();
@@ -229,17 +219,16 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()) {
-				Modelo modelo = new Modelo();
-				modelo.setId(rSet.getInt("modelos.id"));
-				modelo.setNome(rSet.getString("modelos.nome"));
+				Modelo modeloRetorno = new Modelo();
+				modeloRetorno.setId(rSet.getInt("modelos.id"));
+				modeloRetorno.setNome(rSet.getString("modelos.nome"));
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				fabricante.setNome(rSet.getString("fabricantes.nome"));
+				Fabricante fabricante = new Fabricante(rSet.getInt("id_fabricante"));
+				fabricante = new FabricanteDAO().pesquisarPorID(fabricante);
+				modeloRetorno.setFabricante(fabricante);
 				
-				modelo.setFabricante(fabricante);
+				listaRetorno.add(modeloRetorno);
 				
-				listaRetorno.add(modelo);
 			}
 			
 			

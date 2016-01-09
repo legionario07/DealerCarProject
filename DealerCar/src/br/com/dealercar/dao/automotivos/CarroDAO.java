@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.CorDAO;
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
-import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
@@ -102,17 +102,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	public Carro pesquisarPorPlaca(Carro carro) {
 		
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
-		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
-		sql.append("carros.id_modelo, modelos.nome, modelos.id_fabricante, ");
-		sql.append("carros.id_categoria, categorias.nome, ");
-		sql.append("categorias.descricao, categorias.vlr_diaria, ");
-		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao, carros.situacao ");
-		sql.append("from carros inner join cores on carros.id_cor = cores.id ");
-		sql.append("inner join modelos on carros.id_modelo = modelos.id ");
-		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
-		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
-		sql.append("where carros.placa = ?");
+		sql.append("select * from carros ");
+		sql.append("where placa = ?");
 		
 		Carro carroRetorno = null;
 		
@@ -126,36 +117,25 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			
 			while(rSet.next()) {
 				carroRetorno = new Carro();
-				carroRetorno.setPlaca(rSet.getString("carros.placa"));
-				carroRetorno.setAno(rSet.getString("carros.ano"));
-				carroRetorno.setQtdePortas(rSet.getInt("carros.numero_portas"));
-				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("carros.qtde_malas_suportadas"));
+				carroRetorno.setPlaca(rSet.getString("placa"));
+				carroRetorno.setAno(rSet.getString("ano"));
+				carroRetorno.setQtdePortas(rSet.getInt("numero_portas"));
+				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
-				Cor cor = new Cor();
-				cor.setId(rSet.getInt("carros.id_cor"));
-				cor.setNome(rSet.getString("cores.nome"));
+				Cor cor = new Cor(rSet.getInt("id_cor"));
+				cor =  new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
-				Modelo modelo = new Modelo();
-				modelo.setId(rSet.getInt("carros.id_modelo"));
-				modelo.setNome(rSet.getString("modelos.nome"));
-				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				modelo.setFabricante(fabricante);
+				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
+				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				carroRetorno.setModelo(modelo);
 				
-				Categoria categoria = new Categoria();
-				categoria.setId(rSet.getInt("carros.id_categoria"));
-				categoria.setNome(rSet.getString("categorias.nome"));
-				categoria.setDescricao(rSet.getString("categorias.descricao"));
-				categoria.setValorDiaria(rSet.getDouble("categorias.vlr_diaria"));
+				Categoria categoria = new Categoria(rSet.getInt("id_categoria"));
+				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro();
-				carroUrl.setId(rSet.getInt("carros.id_images"));
-				carroUrl.setCaminho(rSet.getString("carros_images.caminho"));
-				carroUrl.setDescricao(rSet.getString("carros_images.descricao"));
+				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
+				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
 				carroRetorno.setCarroUrl(carroUrl);
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
@@ -178,17 +158,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	public List<Carro> listarModelosDisponiveis(Modelo modelo) {
 		
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
-		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
-		sql.append("carros.id_modelo, modelos.nome, modelos.id_fabricante, ");
-		sql.append("carros.id_categoria, categorias.nome, ");
-		sql.append("categorias.descricao, categorias.vlr_diaria, ");
-		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao, carros.situacao ");
-		sql.append("from carros inner join cores on carros.id_cor = cores.id ");
-		sql.append("inner join modelos on carros.id_modelo = modelos.id ");
-		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
-		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
-		sql.append("where carros.id_modelo = ? and carros.situacao = ?");
+		sql.append("select * from carros ");
+		sql.append("where id_modelo = ? and situacao = ?");
 		
 		List<Carro> carros = new ArrayList<Carro>();
 		
@@ -204,36 +175,25 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			while(rSet.next()) {
 				
 				Carro carroRetorno = new Carro();
-				carroRetorno.setPlaca(rSet.getString("carros.placa"));
-				carroRetorno.setAno(rSet.getString("carros.ano"));
-				carroRetorno.setQtdePortas(rSet.getInt("carros.numero_portas"));
-				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("carros.qtde_malas_suportadas"));
+				carroRetorno.setPlaca(rSet.getString("placa"));
+				carroRetorno.setAno(rSet.getString("ano"));
+				carroRetorno.setQtdePortas(rSet.getInt("numero_portas"));
+				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
-				Cor cor = new Cor();
-				cor.setId(rSet.getInt("carros.id_cor"));
-				cor.setNome(rSet.getString("cores.nome"));
+				Cor cor = new Cor(rSet.getInt("id_cor"));
+				cor =  new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
-				Modelo mod = new Modelo();
-				mod.setId(rSet.getInt("carros.id_modelo"));
-				mod.setNome(rSet.getString("modelos.nome"));
+				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));
+				modeloRetorno = new ModeloDAO().pesquisarPorID(modeloRetorno);
+				carroRetorno.setModelo(modeloRetorno);
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				modelo.setFabricante(fabricante);
-				carroRetorno.setModelo(mod);
-				
-				Categoria categoria = new Categoria();
-				categoria.setId(rSet.getInt("carros.id_categoria"));
-				categoria.setNome(rSet.getString("categorias.nome"));
-				categoria.setDescricao(rSet.getString("categorias.descricao"));
-				categoria.setValorDiaria(rSet.getDouble("categorias.vlr_diaria"));
+				Categoria categoria = new Categoria(rSet.getInt("id_categoria"));
+				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro();
-				carroUrl.setId(rSet.getInt("carros.id_images"));
-				carroUrl.setCaminho(rSet.getString("carros_images.caminho"));
-				carroUrl.setDescricao(rSet.getString("carros_images.descricao"));
+				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
+				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
 				carroRetorno.setCarroUrl(carroUrl);
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
@@ -299,17 +259,8 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 	public List<Carro> listarTodos() {
 		
 		StringBuffer sql = new StringBuffer(); 
-		sql.append("select carros.placa, carros.ano, carros.numero_portas, ");
-		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
-		sql.append("carros.id_modelo, modelos.nome, modelos.id_fabricante, ");
-		sql.append("carros.id_categoria, categorias.nome, ");
-		sql.append("categorias.descricao, categorias.vlr_diaria, ");
-		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao, carros.situacao ");
-		sql.append("from carros inner join cores ");
-		sql.append("inner join modelos inner join categorias inner join carros_images ");
-		sql.append(" where carros.id_cor = cores.id and carros.id_modelo = modelos.id ");
-		sql.append("and carros.id_categoria = categorias.id and carros.id_images = carros_images.id ");
-		sql.append("order by carros.ano asc");
+		sql.append("select * from carros ");
+		sql.append("order by ano asc");
 		
 		List<Carro> lista = new ArrayList<Carro>();
 		
@@ -322,36 +273,25 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			while(rSet.next()) {
 				
 				Carro carroRetorno = new Carro();
-				carroRetorno.setPlaca(rSet.getString("carros.placa"));
-				carroRetorno.setAno(rSet.getString("carros.ano"));
-				carroRetorno.setQtdePortas(rSet.getInt("carros.numero_portas"));
-				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("carros.qtde_malas_suportadas"));
+				carroRetorno.setPlaca(rSet.getString("placa"));
+				carroRetorno.setAno(rSet.getString("ano"));
+				carroRetorno.setQtdePortas(rSet.getInt("numero_portas"));
+				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
-				Cor cor = new Cor();
-				cor.setId(rSet.getInt("carros.id_cor"));
-				cor.setNome(rSet.getString("cores.nome"));
+				Cor cor = new Cor(rSet.getInt("id_cor"));
+				cor =  new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
-				Modelo modelo = new Modelo();
-				modelo.setId(rSet.getInt("carros.id_modelo"));
-				modelo.setNome(rSet.getString("modelos.nome"));
+				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));
+				modeloRetorno = new ModeloDAO().pesquisarPorID(modeloRetorno);
+				carroRetorno.setModelo(modeloRetorno);
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				modelo.setFabricante(fabricante);
-				carroRetorno.setModelo(modelo);
-				
-				Categoria categoria = new Categoria();
-				categoria.setId(rSet.getInt("carros.id_categoria"));
-				categoria.setNome(rSet.getString("categorias.nome"));
-				categoria.setDescricao(rSet.getString("categorias.descricao"));
-				categoria.setValorDiaria(rSet.getDouble("categorias.vlr_diaria"));
+				Categoria categoria = new Categoria(rSet.getInt("id_categoria"));
+				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro();
-				carroUrl.setId(rSet.getInt("carros.id_images"));
-				carroUrl.setCaminho(rSet.getString("carros_images.caminho"));
-				carroUrl.setDescricao(rSet.getString("carros_images.descricao"));
+				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
+				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
 				carroRetorno.setCarroUrl(carroUrl);
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
@@ -377,18 +317,9 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		StringBuffer sql = new StringBuffer(); 
 		
-		sql.append("select distinct carros.placa, carros.ano, carros.numero_portas, ");
-		sql.append("carros.qtde_malas_suportadas, carros.id_cor, cores.nome, ");
-		sql.append("carros.situacao, carros.id_modelo, "); 
-		sql.append("carros.id_categoria, categorias.nome, categorias.descricao, categorias.vlr_diaria, ");
-		sql.append("modelos.nome, modelos.id_fabricante, fabricantes.nome, "); 
-		sql.append("carros.id_images, carros_images.caminho, carros_images.descricao "); 
-		sql.append("from carros inner join modelos on carros.id_modelo = modelos.id ");
-		sql.append("inner join carros_images on carros.id_images = carros_images.id ");
-		sql.append("inner join cores on cores.id = carros.id_cor ");
-		sql.append("inner join categorias on carros.id_categoria = categorias.id ");
-		sql.append("inner join fabricantes on fabricantes.id = modelos.id_fabricante "); 
-		sql.append("where carros.situacao = ? group by modelos.nome");
+		sql.append("select * from carros ");
+		sql.append("inner join modelos on modelos.id = carros.id_modelo ");
+		sql.append("where situacao = ? group by modelos.nome");
 		
 		List<Carro> lista = new ArrayList<Carro>();
 		
@@ -402,36 +333,25 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			while(rSet.next()) {
 				
 				Carro carroRetorno = new Carro();
-				carroRetorno.setPlaca(rSet.getString("carros.placa"));
-				carroRetorno.setAno(rSet.getString("carros.ano"));
-				carroRetorno.setQtdePortas(rSet.getInt("carros.numero_portas"));
-				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("carros.qtde_malas_suportadas"));
+				carroRetorno.setPlaca(rSet.getString("placa"));
+				carroRetorno.setAno(rSet.getString("ano"));
+				carroRetorno.setQtdePortas(rSet.getInt("numero_portas"));
+				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
-				Cor cor = new Cor();
-				cor.setId(rSet.getInt("carros.id_cor"));
-				cor.setNome(rSet.getString("cores.nome"));
+				Cor cor = new Cor(rSet.getInt("id_cor"));
+				cor =  new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
-				Modelo modelo = new Modelo();
-				modelo.setId(rSet.getInt("carros.id_modelo"));
-				modelo.setNome(rSet.getString("modelos.nome"));
+				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));
+				modeloRetorno = new ModeloDAO().pesquisarPorID(modeloRetorno);
+				carroRetorno.setModelo(modeloRetorno);
 				
-				Fabricante fabricante = new Fabricante();
-				fabricante.setId(rSet.getInt("modelos.id_fabricante"));
-				modelo.setFabricante(fabricante);
-				carroRetorno.setModelo(modelo);
-				
-				Categoria categoria = new Categoria();
-				categoria.setId(rSet.getInt("carros.id_categoria"));
-				categoria.setNome(rSet.getString("categorias.nome"));
-				categoria.setDescricao(rSet.getString("categorias.descricao"));
-				categoria.setValorDiaria(rSet.getDouble("categorias.vlr_diaria"));
+				Categoria categoria = new Categoria(rSet.getInt("id_categoria"));
+				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro();
-				carroUrl.setId(rSet.getInt("carros.id_images"));
-				carroUrl.setCaminho(rSet.getString("carros_images.caminho"));
-				carroUrl.setDescricao(rSet.getString("carros_images.descricao"));
+				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
+				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
 				carroRetorno.setCarroUrl(carroUrl);
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));

@@ -12,10 +12,13 @@ import javax.faces.context.FacesContext;
 
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
+import br.com.dealercar.dao.EstadoDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.Estado;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
+import br.com.dealercar.strategy.valida.ValidaEstado;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.ViewHelper;
@@ -37,6 +40,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
+	private List<Estado> listaEstados = new ArrayList<Estado>();
 	private int totalClientes;
 
 	public List<Cliente> getListaClientes() {
@@ -73,6 +77,14 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	}
 
 
+	public List<Estado> getListaEstados() {
+		return listaEstados;
+	}
+
+	public void setListaEstados(List<Estado> listaEstados) {
+		this.listaEstados = listaEstados;
+	}
+
 	/**
 	 * carrega a listagem de todos os objetos de Clientes e Cidades ao iniciar a tela e
 	 * calcula a quantidade existente e coloca na variavel totalClientes
@@ -81,8 +93,17 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	public void carregarListagem() {
 
 		listaClientes = new ClienteDAO().listarTodos();
-		listaCidades = new CidadeDAO().listarTodos();
+		listaEstados  = new EstadoDAO().listarTodos();
 		setTotalClientes(listaClientes.size());
+	}
+	
+	public void atualizarCidades(){
+		
+		cliente.getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
+				cliente.getEndereco().getCidade().getEstado()));
+		
+		listaCidades = new CidadeDAO().pesquisarPorUFEstado(cliente.getEndereco().getCidade().getEstado());
+		
 	}
 
 	/**
