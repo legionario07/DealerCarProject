@@ -130,7 +130,7 @@ public class CategoriaBean implements Serializable {
 		
 		StringBuffer pasta = new StringBuffer();
 		pasta.append(FacesContext.getCurrentInstance().getExternalContext().getRealPath(""));
-		pasta.append("WebContent\\resources\\images\\");		
+		pasta.append("\\resources\\images\\");		
 		
 		pasta.append(categoria.getNome().toLowerCase());
 		
@@ -144,7 +144,7 @@ public class CategoriaBean implements Serializable {
 		System.out.println(new File("").getParent());
 		System.out.println(new File("").getAbsoluteFile());
 		
-		File diretorio = new File("").getAbsoluteFile(); 
+		File diretorio = new File(pasta.toString()); 
 		System.out.println("Entrou aki");
 		
 		if (!diretorio.exists()) {
