@@ -1,14 +1,12 @@
 package br.com.dealercar.bean;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import br.com.dealercar.dao.automotivos.CategoriaDAO;
 import br.com.dealercar.domain.automotivos.Categoria;
@@ -103,6 +101,8 @@ public class CategoriaBean implements Serializable {
 
 		catDao.excluir(categoria);
 
+		excluirDiretorio();
+		
 		listaCategoria = catDao.listarTodos();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Excluida com Sucesso.");
@@ -129,30 +129,31 @@ public class CategoriaBean implements Serializable {
 	private void criarDiretorio(){
 		
 		StringBuffer pasta = new StringBuffer();
-		pasta.append(FacesContext.getCurrentInstance().getExternalContext().getRealPath(""));
-		pasta.append("\\resources\\images\\");		
-		
+		pasta.append("C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\");		
 		pasta.append(categoria.getNome().toLowerCase());
 		
-		System.out.println(new File("").getAbsolutePath());
-		try {
-			System.out.println(new File("").getCanonicalPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(new File("").getParent());
-		System.out.println(new File("").getAbsoluteFile());
-		
 		File diretorio = new File(pasta.toString()); 
-		System.out.println("Entrou aki");
 		
 		if (!diretorio.exists()) {
 			   diretorio.mkdir(); 
-			   System.out.println(diretorio.getPath());
-			   System.out.println(diretorio.getAbsolutePath());
 			   
 		}
 		
 	}
+	
+	private void excluirDiretorio(){
+		
+		StringBuffer pasta = new StringBuffer();
+		pasta.append("C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\");		
+		pasta.append(categoria.getNome().toLowerCase());
+		
+		File diretorio = new File(pasta.toString()); 
+		
+		if (diretorio.exists()) {
+			   diretorio.delete(); 
+			   
+		}
+		
+	}
+	
 }
