@@ -27,7 +27,6 @@ import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.automotivos.Carro;
-import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
@@ -39,7 +38,6 @@ import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
-import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaItemOpcional;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
@@ -317,12 +315,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(
 				retirada.getCarro().getModelo());
 		
-		//peganda a url da imagem
-		retirada.getCarro().getCarroUrl().setDescricao(retirada.getCarro().getModelo().getNome());
 		
-		//validando a imagem e setando no carro
-		retirada.getCarro().setCarroUrl((ImagemCarro) new ValidaImagemCarro().validar(
-				retirada.getCarro().getCarroUrl()));
 	}
 
 	/**

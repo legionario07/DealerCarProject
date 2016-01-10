@@ -7,7 +7,6 @@ import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
-import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
 
@@ -17,7 +16,7 @@ public class CarroDAOTest {
 	private static void cadastrar() {
 
 		Carro carro = new Carro("Dgx-9999", "2010", 4, 3, new Cor(7), new Modelo(3), new Categoria(6),
-				new ImagemCarro(2), SituacaoType.Locado);
+				SituacaoType.Locado);
 
 		CarroDAO carDao = new CarroDAO();
 		carDao.cadastrar(carro);
@@ -58,7 +57,7 @@ public class CarroDAOTest {
 	@SuppressWarnings("unused")
 	private static void editar() {
 		Carro carro = new Carro("DGX-9999", "2011", 4, 3, new Cor(7), new Modelo(3), new Categoria(6),
-				new ImagemCarro(2), SituacaoType.Locado);
+				 SituacaoType.Locado);
 
 		CarroDAO carroDao = new CarroDAO();
 

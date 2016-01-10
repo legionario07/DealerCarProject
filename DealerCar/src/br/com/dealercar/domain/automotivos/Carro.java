@@ -30,14 +30,14 @@ public class Carro extends EntidadeDominio implements Serializable {
 	private Cor cor;
 	private Modelo modelo;
 	private Categoria categoria;
-	private ImagemCarro carroUrl;
+	private String urlImagem;
+	
 
 	public Carro() {
 		
 		cor = new Cor();
 		modelo = new Modelo();
 		categoria = new Categoria();
-		carroUrl = new ImagemCarro();
 
 	}
 
@@ -55,20 +55,6 @@ public class Carro extends EntidadeDominio implements Serializable {
 		this.setCor(cor);
 		this.setModelo(modelo);
 		this.setCategoria(categoria);
-		this.setSituacao(situacao);
-	}
-
-	public Carro(String placa, String ano, int qtdePortas, int qtdeMalasSuportadas, Cor cor, Modelo modelo,
-			Categoria categoria, ImagemCarro carroUrl, SituacaoType situacao) {
-
-		this.setPlaca(placa);
-		this.setAno(ano);
-		this.setQtdePortas(qtdePortas);
-		this.setQtdeMalasSuportadas(qtdeMalasSuportadas);
-		this.setCor(cor);
-		this.setModelo(modelo);
-		this.setCategoria(categoria);
-		this.setCarroUrl(carroUrl);
 		this.setSituacao(situacao);
 	}
 
@@ -94,6 +80,14 @@ public class Carro extends EntidadeDominio implements Serializable {
 
 	public void setSituacao(SituacaoType situacao) {
 		this.situacao = situacao;
+	}
+
+	public String getUrlImagem() {
+		return urlImagem;
+	}
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
 	}
 
 	public int getQtdePortas() {
@@ -136,13 +130,6 @@ public class Carro extends EntidadeDominio implements Serializable {
 		this.categoria = categoria;
 	}
 
-	public ImagemCarro getCarroUrl() {
-		return carroUrl;
-	}
-
-	public void setCarroUrl(ImagemCarro carroUrl) {
-		this.carroUrl = carroUrl;
-	}
 
 	@Override
 	public String toString() {
@@ -164,7 +151,7 @@ public class Carro extends EntidadeDominio implements Serializable {
 			retorno.append("\nCategoria: ");
 			retorno.append(this.getCategoria().getNome());
 			retorno.append("\nUrl Imagem: ");
-			retorno.append(this.getCarroUrl().getCaminho());
+			retorno.append(this.getUrlImagem());
 			retorno.append("\nSituação: ");
 			retorno.append(this.getSituacao().getDescricao());
 			retorno.append("\n\n");

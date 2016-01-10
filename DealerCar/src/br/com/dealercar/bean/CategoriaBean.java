@@ -29,6 +29,8 @@ public class CategoriaBean implements Serializable {
 	private CategoriaDAO catDao = new CategoriaDAO();
 	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
 	private int totalCategoria;
+	
+	private final String CAMINHO = "C:\\Users\\Paulinho\\workspace\\J2ee\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\DealerCar\\resources\\images\\";
 
 	public Categoria getCategoria() {
 		return categoria;
@@ -106,6 +108,8 @@ public class CategoriaBean implements Serializable {
 		listaCategoria = catDao.listarTodos();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Excluida com Sucesso.");
+		
+		categoria = new Categoria();
 
 	}
 
@@ -124,14 +128,14 @@ public class CategoriaBean implements Serializable {
 		editarDiretorio(categoriaOld);
 
 		listaCategoria = catDao.listarTodos();
-
+		
 		JSFUtil.adicionarMensagemSucesso("Categoria Alterada com Sucesso.");
+		
+		categoria = new Categoria();
 
 	}
 
 	private void criarDiretorio() {
-
-		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
 		
 		StringBuffer pasta = new StringBuffer();
 		pasta.append(CAMINHO);
@@ -148,8 +152,6 @@ public class CategoriaBean implements Serializable {
 
 	private void excluirDiretorio() {
 
-		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
-		
 		StringBuffer pasta = new StringBuffer();
 		pasta.append(CAMINHO);
 		pasta.append(categoria.getNome().toLowerCase());
@@ -164,7 +166,7 @@ public class CategoriaBean implements Serializable {
 	}
 
 	private void editarDiretorio(Categoria categoriaOld) {
-		final String CAMINHO = "C:\\Users\\Paulinho\\git\\DealerCarProject\\DealerCar\\WebContent\\resources\\images\\";
+		
 		
 		StringBuffer pastaAntiga = new StringBuffer();
 		pastaAntiga.append(CAMINHO);

@@ -4,12 +4,10 @@ import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
-import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.strategy.valida.ValidaCategoria;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCor;
-import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 
 public class ValidaTest {
 
@@ -65,32 +63,12 @@ public class ValidaTest {
 		
 	}
 	
-	public static void validarImagemCarro() {
-
-		ImagemCarro carroUrl = new ImagemCarro();
-
-		carroUrl.setDescricao("GEELy");
-
-		ValidaImagemCarro valCarroUrl = new ValidaImagemCarro();
-		System.out.println(valCarroUrl.validar(carroUrl));
-
-		carroUrl = (ImagemCarro) valCarroUrl.validar(carroUrl);
-		
-		if(carroUrl != null){
-			System.out.println("Encontrou a Descricao");
-		} else {
-			System.out.println("nao encontrou a Descricao");
-		}
-		
-	}
-
 	public static void main(String[] args) {
 
 		// validarCategoria();
 		// validarCidade();
 		// validarCor();
 		//validarCarro();
-		validarImagemCarro();
 	}
 
 }

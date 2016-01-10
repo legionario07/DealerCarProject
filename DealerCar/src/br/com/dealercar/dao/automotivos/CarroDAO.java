@@ -8,12 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import br.com.dealercar.dao.CorDAO;
 import br.com.dealercar.dao.IDAO;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
-import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.factory.Conexao;
@@ -38,7 +39,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into carros (placa, ano, numero_portas, qtde_malas_suportadas, ");
-		sql.append("id_cor, id_modelo, id_categoria, id_images, situacao) ");
+		sql.append("id_cor, id_modelo, id_categoria, url_imagem, situacao) ");
 		sql.append("values (? , ?, ?, ?, ?, ?, ? ,? , ?)");
 		
 		con = Conexao.getConnection();
@@ -53,7 +54,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			pstm.setInt(++i, carro.getCor().getId());
 			pstm.setInt(++i, carro.getModelo().getId());
 			pstm.setInt(++i, carro.getCategoria().getId());
-			pstm.setInt(++i, carro.getCarroUrl().getId());
+			pstm.setString(++i, carro.getUrlImagem());
 			pstm.setString(++i, carro.getSituacao().getDescricao());
 			
 			pstm.executeUpdate();
@@ -86,7 +87,11 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			pstm.close();
 			con.close();
 			
-		} catch (SQLException e) {
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Não é Possível excluir esse Veiculo, pois já foi locado."
+					+ "\nAltere para a Situação INDISPONIVEL");
+		}catch (Exception e){
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
@@ -134,9 +139,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
-				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
-				carroRetorno.setCarroUrl(carroUrl);
+				carroRetorno.setUrlImagem(rSet.getString("url_imagem"));
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
 			
@@ -192,9 +195,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
-				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
-				carroRetorno.setCarroUrl(carroUrl);
+				carroRetorno.setUrlImagem(rSet.getString("url_imagem"));
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
 				
@@ -221,7 +222,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 		sql.append("update carros set placa = ?, ano = ?, ");
 		sql.append("numero_portas = ?, qtde_malas_suportadas = ?, ");
 		sql.append("id_cor = ?, id_modelo = ?, id_categoria = ?, ");
-		sql.append("id_images = ?, situacao = ? where placa = ?");
+		sql.append("url_imagem = ?, situacao = ? where placa = ?");
 		
 		con = Conexao.getConnection();
 		
@@ -235,7 +236,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			pstm.setInt(++i, carro.getCor().getId());
 			pstm.setInt(++i, carro.getModelo().getId());
 			pstm.setInt(++i, carro.getCategoria().getId());
-			pstm.setInt(++i, carro.getCarroUrl().getId());
+			pstm.setString(++i, carro.getUrlImagem());
 			pstm.setString(++i, carro.getSituacao().getDescricao());
 			pstm.setString(++i, carro.getPlaca());
 			
@@ -290,9 +291,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
-				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
-				carroRetorno.setCarroUrl(carroUrl);
+				carroRetorno.setUrlImagem(rSet.getString("url_imagem"));
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
 				
@@ -350,9 +349,7 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 				categoria = new CategoriaDAO().pesquisarPorID(categoria);
 				carroRetorno.setCategoria(categoria);
 				
-				ImagemCarro carroUrl = new ImagemCarro(rSet.getInt("id_images"));
-				carroUrl = new ImagemCarroDAO().pesquisarPorID(carroUrl);
-				carroRetorno.setCarroUrl(carroUrl);
+				carroRetorno.setUrlImagem(rSet.getString("url_imagem"));
 				
 				carroRetorno.setSituacao(SituacaoType.valueOf(rSet.getString("carros.situacao")));
 				

@@ -11,7 +11,8 @@ package br.com.dealercar.enums;
 public enum SituacaoType {
 	Locado ("Locado")
 	,Disponivel("Disponivel")
-	,Manutencao ("Manutencao");
+	,Manutencao ("Manutencao")
+	,Indisponivel("Indisponivel");
 	
 	private String descricao;
 	

@@ -1,5 +1,10 @@
 package br.com.dealercar.bean;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,18 +19,15 @@ import org.primefaces.model.UploadedFile;
 import br.com.dealercar.dao.CorDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.dao.automotivos.CategoriaDAO;
-import br.com.dealercar.dao.automotivos.ImagemCarroDAO;
 import br.com.dealercar.dao.automotivos.ModeloDAO;
 import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
-import br.com.dealercar.domain.automotivos.ImagemCarro;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoType;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.strategy.valida.ValidaCategoria;
 import br.com.dealercar.strategy.valida.ValidaCor;
-import br.com.dealercar.strategy.valida.ValidaImagemCarro;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.JSFUtil;
 
@@ -48,14 +50,14 @@ public class CarroBean extends AbstractBean implements Serializable {
 	private CarroDAO carDao = new CarroDAO();
 	private ModeloDAO modDao = new ModeloDAO();
 	private CategoriaDAO catDao = new CategoriaDAO();
-	private ImagemCarroDAO imDao = new ImagemCarroDAO();
 
 	private List<Carro> listaCarros = new ArrayList<Carro>();
 	private List<Cor> listaCores = new ArrayList<Cor>();
 	private List<Modelo> listaModelos = new ArrayList<Modelo>();
 	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
-	private List<ImagemCarro> listaImagens = new ArrayList<ImagemCarro>();
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
+
+	private StringBuffer caminho = new StringBuffer();
 
 	private int totalCarros;
 	
@@ -117,14 +119,6 @@ public class CarroBean extends AbstractBean implements Serializable {
 		this.listaCategoria = listaCategoria;
 	}
 
-	public List<ImagemCarro> getListaImagens() {
-		return listaImagens;
-	}
-
-	public void setListaImagens(List<ImagemCarro> listaImagens) {
-		this.listaImagens = listaImagens;
-	}
-
 	public List<SituacaoType> getListaSituacao() {
 		return listaSituacao;
 	}
@@ -132,6 +126,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 	public void setListaSituacao(List<SituacaoType> listaSituacao) {
 		this.listaSituacao = listaSituacao;
 	}
+
 
 	/**
 	 * Metodo que carrega as listagem de todas as Categoria, Carros, Modelos,
@@ -145,7 +140,6 @@ public class CarroBean extends AbstractBean implements Serializable {
 		listaCategoria = catDao.listarTodos();
 		listaModelos = modDao.listarTodos();
 		listaCores = corDao.listarTodos();
-		listaImagens = imDao.listarTodos();
 		listaSituacao = Arrays.asList(SituacaoType.values());
 
 		this.setTotalCarros(listaCarros.size());
@@ -192,6 +186,8 @@ public class CarroBean extends AbstractBean implements Serializable {
 		carDao.cadastrar(carro);
 
 		JSFUtil.adicionarMensagemSucesso("Carro Cadastrado com Sucesso.");
+		
+		caminho = new StringBuffer();
 
 		setEhCadastrado(false);
 		setJaPesquisei(false);
@@ -202,9 +198,11 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void limparPesquisa() {
 		carro = new Carro();
+		caminho = new StringBuffer();
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 	}
+	
 
 	/**
 	 * Exclui o Objeto Carro localizado pelo Usuario
@@ -215,6 +213,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 
 		JSFUtil.adicionarMensagemSucesso("Carro excluido com Sucesso.");
 		carro = new Carro();
+		caminho = new StringBuffer();
 		setJaPesquisei(false);
 		setEhCadastrado(false);
 
@@ -228,11 +227,19 @@ public class CarroBean extends AbstractBean implements Serializable {
 		// valida os dados do carro
 		consultarDadosCarroLocalizado();
 
+		//verificando se foi escolhida alguma foto
+		if(caminho.toString().equals(null)){
+			carro.setUrlImagem("null");	
+		}
+		//atualizando o caminho da foto
+		carro.setUrlImagem(caminho.toString());
+
 		carDao.editar(carro);
 
 		JSFUtil.adicionarMensagemSucesso("Carro Alterado com Sucesso.");
 
 		carro = new Carro();
+		caminho = new StringBuffer();
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 	}
@@ -244,7 +251,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 *            outros dados do Carro Localizado Como: Categoria, ImagemCarro,
 	 *            Cor, Modelo
 	 */
-	public void consultarDadosCarroLocalizado() {
+	private void consultarDadosCarroLocalizado() {
 
 		// validando a categoria
 		carro.setCategoria((Categoria) new ValidaCategoria().validar(carro.getCategoria()));
@@ -255,36 +262,51 @@ public class CarroBean extends AbstractBean implements Serializable {
 		// validando o modelo
 		carro.setModelo((Modelo) new ValidaModelo().validar(carro.getModelo()));
 
-		// setando a descrição pra encontrar a imagem
-		carro.getCarroUrl().setDescricao(carro.getModelo().getNome());
-
-		// validando a imagem do carro
-		carro.setCarroUrl((ImagemCarro) new ValidaImagemCarro().validar(carro.getCarroUrl()));
-
 	}
 
-	public void upload(FileUploadEvent event) {
+	/**
+	 * Realia o Upload da Imagem para a pasta da aplicação
+	 * @param event
+	 * @throws IOException
+	 */
+	public void upload(FileUploadEvent event){
 
+		String url = "C:\\Users\\Paulinho\\workspace\\J2ee\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\DealerCar\\";
+		
 		file = event.getFile();
+		InputStream in = null;
+		try {
+			in = file.getInputstream();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
-		System.out.println("Entrou no upload");
+		String CAMINHO = "resources\\images\\" + carro.getCategoria().getNome().toLowerCase();
+		File pastaDestino = new File(url+CAMINHO);
+
+		try {
+			OutputStream out = new FileOutputStream(new File(pastaDestino, event.getFile().getFileName()));
+			int read = 0;
+			byte[] bytes = new byte[1024];
+			while ((read = in.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+
+			in.close();
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		if (file != null) {
-			JSFUtil.adicionarMensagemSucesso("Imagem Carregada om Sucesso");
+			JSFUtil.adicionarMensagemSucesso("Imagem Carregada com Sucesso");
 
-			StringBuffer caminho = new StringBuffer();
-			String categoria = carro.getCategoria().getNome().toLowerCase();
-			System.out.println("categoria " + categoria);
+			caminho.append(carro.getCategoria().getNome().toLowerCase());
 			caminho.append("/");
+
 			caminho.append(file.getFileName());
-			
-			System.out.println(caminho);
 
-			System.out.println("file.getFileName()" + file.getFileName());
-			System.out.println("file.getFileName()" + file.getSize());
-
-		} else {
-			System.out.println("Se entrou aki eh nulo");
 		}
 
 	}
