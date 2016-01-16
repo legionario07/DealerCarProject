@@ -32,7 +32,7 @@ public class Cor extends EntidadeDominio {
 	}
 	
 	public void setNome(String nome) {
-		this.nome = nome.toUpperCase();
+		this.nome = nome.trim().toUpperCase();
 	}
 
 	public Cor validaCor(String cor, List<Cor> lista) {

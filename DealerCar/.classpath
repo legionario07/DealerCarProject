@@ -17,5 +17,11 @@
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/itext-5.5.8/itextpdf-5.5.8-javadoc.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/commons-fileupload-1.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/jasperreports-6.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/org-apache-commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/Jasper Reports/commons-beanutils-1.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/Jasper Reports/commons-collections-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/Jasper Reports/commons-digester-1.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/Jasper Reports/groovy-all-1.8.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

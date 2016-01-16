@@ -1,7 +1,6 @@
 package br.com.dealercar.autenticacao;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -22,12 +21,8 @@ import javax.servlet.http.HttpSession;
 		DispatcherType.ERROR,
 		DispatcherType.INCLUDE
 } , urlPatterns = {"/*"})
-public class ControleDeAcesso implements Filter, Serializable{
+public class ControleDeAcesso implements Filter{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void destroy() {

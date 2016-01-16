@@ -87,7 +87,7 @@ public class Carro extends EntidadeDominio implements Serializable {
 	}
 
 	public void setUrlImagem(String urlImagem) {
-		this.urlImagem = urlImagem;
+		this.urlImagem = urlImagem.trim();
 	}
 
 	public int getQtdePortas() {

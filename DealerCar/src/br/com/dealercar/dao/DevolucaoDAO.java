@@ -33,7 +33,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Connection con = Conexao.getConnection();
+	Connection con = null;
 	
 	/**
 	 * Persiste as devoluções realizadas no sistema no BD
@@ -47,8 +47,9 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 		sql.append("insert into devolucoes ");
 		sql.append("(data, quilometragem, placa, qtde_diarias, id_cliente, id_funcionario, ");
 		sql.append("taxas_adicionais, id_reserva, id_retirada, vlr_total, observacao, taxas_cobradas, aguardando_revisao) ");
-		sql.append("values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		sql.append("values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
+		//recebendo a conexao
 		con = Conexao.getConnection();
 
 		try {
@@ -58,8 +59,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			// colocando formato string para armazenar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 			String strDataDevolucao = stf.format(devolucao.getDataDevolucao());
-
 			pstm.setString(++i, strDataDevolucao);
+			
 			pstm.setString(++i, devolucao.getQuilometragem());
 			pstm.setString(++i, devolucao.getRetirada().getCarro().getPlaca());
 			pstm.setInt(++i, devolucao.getQtdeDiarias());
@@ -71,6 +72,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			for (TaxasAdicionais t : devolucao.getTaxasAdicionais()) {
 				valor += t.getValor();
 			}
+			
 			pstm.setDouble(++i, valor);
 
 			// verificando se a devolucao é originado por alguma reserva

@@ -160,7 +160,7 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 				ArCondicionado ar = new ArCondicionado();
 				ar.setCodigo(rSet.getInt("id_arcondicionado"));
-				ar = new ArCondicionadoDAO().pesquisarPorID(ar);
+				ar = new ArCondicionadoDAO().pesquisarPorCodigo(ar);
 				opcional.setArCondicionado(ar);
 
 				BebeConforto bebe = new BebeConforto();
@@ -169,7 +169,7 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 				CadeirinhaBebe cadeirinha = new CadeirinhaBebe();
 				cadeirinha.setCodigo(rSet.getInt("id_caderinhasbebe"));
-				cadeirinha = new CadeirinhaBebeDAO().pesquisarPorID(cadeirinha);
+				cadeirinha = new CadeirinhaBebeDAO().pesquisarPorCodigo(cadeirinha);
 
 				Gps gps = new Gps();
 				gps.setCodigo(rSet.getInt("id_gps"));

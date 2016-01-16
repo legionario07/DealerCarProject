@@ -9,6 +9,7 @@ import javax.faces.bean.SessionScoped;
 
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
+import br.com.dealercar.dao.EstadoDAO;
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.RetiradaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
@@ -23,6 +24,7 @@ import br.com.dealercar.dao.itensopcionais.SeguroDAO;
 import br.com.dealercar.dao.itensopcionais.TipoSeguroDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.Estado;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
@@ -38,6 +40,7 @@ import br.com.dealercar.domain.itensopcionais.TipoSeguro;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
+import br.com.dealercar.strategy.valida.ValidaEstado;
 import br.com.dealercar.strategy.valida.ValidaItemOpcional;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
@@ -69,10 +72,11 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	
 	private int totalRetiradas;
 
+	private List<Estado> listaEstados = new ArrayList<Estado>();
+	private List<Cidade> listaCidades = new ArrayList<Cidade>();
 	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 	private List<Retirada> listaRetirada = new ArrayList<Retirada>();
 	private List<Cliente> listaClientes = new ArrayList<Cliente>();
-	private List<Cidade> listaCidades = new ArrayList<Cidade>();
 	private List<Modelo> listaModelosDisponiveis = new ArrayList<Modelo>();
 	private List<Carro> listaPlacasDisponiveis = new ArrayList<Carro>();
 	private List<Seguro> listaSeguros = new ArrayList<Seguro>();
@@ -193,6 +197,22 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.listaReservas = listaReservas;
 	}
 
+	public List<Estado> getListaEstados() {
+		return listaEstados;
+	}
+
+	public void setListaEstados(List<Estado> listaEstados) {
+		this.listaEstados = listaEstados;
+	}
+
+	public List<Cidade> getListaCidades() {
+		return listaCidades;
+	}
+
+	public void setListaCidades(List<Cidade> listaCidades) {
+		this.listaCidades = listaCidades;
+	}
+
 	public List<Retirada> getListaRetirada() {
 		return listaRetirada;
 	}
@@ -209,13 +229,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.listaClientes = listaClientes;
 	}
 
-	public List<Cidade> getListaCidades() {
-		return listaCidades;
-	}
-
-	public void setListaCidades(List<Cidade> listaCidades) {
-		this.listaCidades = listaCidades;
-	}
 
 	public List<Modelo> getListaModelosDisponiveis() {
 		return listaModelosDisponiveis;
@@ -287,10 +300,10 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		listaRetirada = new RetiradaDAO().listarTodos();
 		listaReservas = new ReservaDAO().listarTodos();
 		listaClientes = new ClienteDAO().listarTodos();
-		listaCidades = new CidadeDAO().listarTodos();
 		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
 		listaTipoSeguros = new TipoSeguroDAO().listarTodos();
 		listaSeguros = new SeguroDAO().listarApenasNomesDiferentes();
+		listaEstados = new EstadoDAO().listarTodos();
 
 		setTotalRetiradas(listaRetirada.size());
 		
@@ -314,7 +327,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		
 		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(
 				retirada.getCarro().getModelo());
-		
 		
 	}
 
@@ -415,7 +427,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		//atualizando a lista de carros disponiveis
 		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
 
-		limparObjetos();
+		limparPesquisa();
 
 		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
 
@@ -516,6 +528,18 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		selectGps = false;
 		selectCadeirinha = false;
 		selectRadio = false;
+		
+	}
+	
+	/**
+	 * Carrega a lista de cidades de acordo com o Estado selecionado
+	 */
+	public void atualizarCidades(){
+		
+		retirada.getCliente().getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
+				retirada.getCliente().getEndereco().getCidade().getEstado()));
+		
+		listaCidades = new CidadeDAO().pesquisarPorUFEstado(retirada.getCliente().getEndereco().getCidade().getEstado());
 		
 	}
 

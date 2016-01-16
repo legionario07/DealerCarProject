@@ -91,6 +91,11 @@
 							value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
 							readonly="true" maxlength="45" />
 
+						<h:outputText value="UF: " />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
+							readonly="true" maxlength="45" />
+
 
 						<h:outputText value="Cargo: " maxlength="20" />
 						<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
@@ -148,8 +153,8 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgFuncionarioEditar" closable="false"
-			width="630" height="450" draggable="false" modal="true" appendTo="@(body)"
-			resizable="false" header="Funcionario - Editar">
+			width="630" height="450" draggable="false" modal="true"
+			appendTo="@(body)" resizable="false" header="Funcionario - Editar">
 
 			<h:form id="frmFuncionarioEditar">
 
@@ -221,16 +226,34 @@
 							Campo de preenchimento obrigatório"
 						maxlength="20" />
 
+					<p:outputLabel value="UF: *" />
+
+					<p:selectOneMenu id="uf"
+						value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
+						required="true"
+						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione o Estado"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBFuncionario.listaEstados}" var="estado"
+							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
+
+						<p:ajax update="cidade"
+							listener="#{MBFuncionario.atualizarCidades}" />
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Cidade: *" />
 
-					<p:selectOneMenu id="cidades"
+					<p:selectOneMenu id="cidade"
 						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
 						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
-						<f:selectItem itemLabel="Selecione uma Cidade"
+						<f:selectItem itemLabel="Selecione a Cidade"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
 							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
@@ -251,13 +274,13 @@
 						maxlength="20">
 					</p:inputText>
 
-
 					<p:outputLabel value="Usuario:* " maxlength="50" />
 					<p:inputText size="15"
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
 					<p:outputLabel value="Senha*: " maxlength="15" />
-					<p:password size="15" value="#{MBFuncionario.funcionario.usuario.senha}" />
+					<p:password size="15"
+						value="#{MBFuncionario.funcionario.usuario.senha}" />
 
 					<p:outputLabel value="Permissão:* " />
 					<p:selectOneMenu id="permissoes"
@@ -280,15 +303,13 @@
 						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
 						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 					</p:selectOneMenu>
-
 				</h:panelGrid>
-
 
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
-						update="frmFuncionarioEditar :msgGlobal"
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal"
 						actionListener="#{MBFuncionario.editar}" />
-
+						
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioEditar').hide();" />
 				</h:panelGrid>
@@ -298,8 +319,8 @@
 
 		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgFuncionarioCadastrar" closable="false"
-			width="630" height="450" draggable="false" modal="true" appendTo="@(body)"
-			resizable="false" header="Funcionario - Cadastrar">
+			width="630" height="450" draggable="false" modal="true"
+			appendTo="@(body)" resizable="false" header="Funcionario - Cadastrar">
 
 			<h:form id="frmFuncionarioCadastrar">
 
@@ -373,16 +394,35 @@
 							Campo de preenchimento obrigatório"
 						maxlength="20" />
 
+					<p:outputLabel value="UF: *" />
+
+					<p:selectOneMenu id="uf"
+						value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
+						required="true"
+						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione o Estado"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBFuncionario.listaEstados}" var="estado"
+							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
+
+						<p:ajax update="cidade"
+							listener="#{MBFuncionario.atualizarCidades}" />
+
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Cidade: *" />
 
-					<p:selectOneMenu id="cidades"
+					<p:selectOneMenu id="cidade"
 						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
 						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
-						<f:selectItem itemLabel="Selecione uma Cidade"
+						<f:selectItem itemLabel="Selecione a Cidade"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
 							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
@@ -439,7 +479,7 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBFuncionario.cadastrar}"
-						update="frmFuncionarioCadastrar :msgGlobal" />
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />

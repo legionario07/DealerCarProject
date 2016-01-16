@@ -163,6 +163,7 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 
 		devolucao.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
 
+
 	}
 
 	/**
@@ -207,7 +208,6 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 			return;
 		}
 
-
 	}
 
 	/**
@@ -220,6 +220,10 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		limparPesquisas();
 
 		JSFUtil.adicionarMensagemSucesso("Devolução Efetuada com Sucesso");
+		
+		//fecha o <p:Dialog>
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgDevolucaoEfetuar').hide();");
+				
 
 	}
 

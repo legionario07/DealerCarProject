@@ -35,7 +35,11 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 
 	public void setNomeMae(String nomeMae) {
-		this.nomeMae = nomeMae;
+		if(nomeMae.equals("")){
+			this.nomeMae = nomeMae;
+		}else{
+			this.nomeMae = nomeMae.trim().toUpperCase();
+		}
 	}
 
 	public String getRG() {
@@ -43,29 +47,45 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 
 	public void setRG(String rG) {
-		RG = rG;
+		if(rG.equals("")){
+			this.RG = rG;
+		}else{
+			this.RG = rG.trim().toUpperCase();
+		}
 	}
 
 	public String getCPF() {
 		return CPF;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setCPF(String CPF) {
+		if(CPF.equals("")){
+			this.CPF = CPF;
+		}else{
+			this.CPF = CPF.trim().toUpperCase();
+		}
 	}
 	
 	public String getTelefone() {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		if(telefone.equals("")){
+			this.telefone = telefone;
+		}else{
+			this.telefone = telefone.trim().toUpperCase();
+		}
 	}
 	public String getCelular() {
 		return celular;
 	}
 
 	public void setCelular(String celular) {
-		this.celular = celular;
+		if(celular.equals("")){
+			this.celular = celular;
+		}else{
+			this.celular = celular.trim().toUpperCase();
+		}
 	}
 
 	public String getEmail() {
@@ -73,7 +93,7 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.trim();
 	}
 
 

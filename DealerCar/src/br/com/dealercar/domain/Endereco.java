@@ -20,7 +20,7 @@ public class Endereco implements Serializable {
 	private String bairro;
 
 	private Cidade cidade;
-	
+
 	public Endereco() {
 
 		this.cidade = new Cidade();
@@ -46,7 +46,11 @@ public class Endereco implements Serializable {
 	}
 
 	public void setRua(String rua) {
-		this.rua = rua.toUpperCase();
+		if (rua.equals("")) {
+			this.rua = rua;
+		} else {
+			this.rua = rua.trim().toUpperCase();
+		}
 	}
 
 	public String getNumero() {
@@ -54,7 +58,11 @@ public class Endereco implements Serializable {
 	}
 
 	public void setNumero(String numero) {
-		this.numero = numero;
+		if (numero.equals("")) {
+			this.numero = numero;
+		} else {
+			this.numero = numero.trim();
+		}
 	}
 
 	public String getComplemento() {
@@ -70,9 +78,8 @@ public class Endereco implements Serializable {
 	}
 
 	public void setBairro(String bairro) {
-		this.bairro = bairro.toUpperCase();
+		this.bairro = bairro.trim().toUpperCase();
 	}
-
 
 	public Cidade getCidade() {
 		return cidade;

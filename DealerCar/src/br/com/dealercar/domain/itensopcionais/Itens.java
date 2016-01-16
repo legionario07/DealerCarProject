@@ -47,7 +47,7 @@ public class Itens extends EntidadeDominio {
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.trim();
 	}
 
 	public double getValor() {
@@ -63,7 +63,7 @@ public class Itens extends EntidadeDominio {
 	}
 
 	public void setMarca(String marca) {
-		this.marca = marca.toUpperCase();
+		this.marca = marca.trim().toUpperCase();
 	}
 
 	public String getNumeroPatrimonio() {
@@ -71,7 +71,7 @@ public class Itens extends EntidadeDominio {
 	}
 
 	public void setNumeroPatrimonio(String numeroPatrimonio) {
-		this.numeroPatrimonio = numeroPatrimonio.toUpperCase();
+		this.numeroPatrimonio = numeroPatrimonio.trim().toUpperCase();
 	}
 
 	public String toString() {

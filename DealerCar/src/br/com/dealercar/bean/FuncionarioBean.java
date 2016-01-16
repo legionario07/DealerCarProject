@@ -8,12 +8,15 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.dao.CidadeDAO;
+import br.com.dealercar.dao.EstadoDAO;
 import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.PermissaoDAO;
 import br.com.dealercar.dao.UsuarioDAO;
 import br.com.dealercar.domain.Cidade;
+import br.com.dealercar.domain.Estado;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.strategy.valida.ValidaCidade;
+import br.com.dealercar.strategy.valida.ValidaEstado;
 import br.com.dealercar.util.JSFUtil;
 
 @javax.faces.bean.ManagedBean(name = "MBFuncionario")
@@ -28,6 +31,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	private Funcionario funcionario = new Funcionario();
 	private List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
 	private List<Cidade> listaCidades = new ArrayList<Cidade>();
+	private List<Estado> listaEstados = new ArrayList<Estado>();
 	private List<Permissao> listaPermissoes = new ArrayList<Permissao>();
 	private int totalFuncionario;
 
@@ -37,6 +41,14 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
+	}
+
+	public List<Estado> getListaEstados() {
+		return listaEstados;
+	}
+
+	public void setListaEstados(List<Estado> listaEstados) {
+		this.listaEstados = listaEstados;
 	}
 
 	public List<Funcionario> getListaFuncionario() {
@@ -78,8 +90,8 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	public void carregarListagem() {
 
 		listaFuncionario = new FuncionarioDAO().listarTodos();
-		listaCidades = new CidadeDAO().listarTodos();
-		listaPermissoes = new PermissaoDAO().listarTodos();
+		listaEstados     = new EstadoDAO().listarTodos();
+		listaPermissoes  = new PermissaoDAO().listarTodos();
 		totalFuncionario = listaFuncionario.size();
 
 	}
@@ -177,6 +189,18 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	public void limparPesquisa() {
 		funcionario = new Funcionario();
 		setEhCadastrado(false);
+	}
+	
+	/**
+	 * Carrega a lista de cidades de acordo com o Estado selecionado
+	 */
+	public void atualizarCidades(){
+		
+		funcionario.getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
+				funcionario.getEndereco().getCidade().getEstado()));
+		
+		listaCidades = new CidadeDAO().pesquisarPorUFEstado(funcionario.getEndereco().getCidade().getEstado());
+		
 	}
 
 }

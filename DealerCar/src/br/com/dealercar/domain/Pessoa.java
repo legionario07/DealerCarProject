@@ -27,7 +27,7 @@ public abstract class Pessoa extends EntidadeDominio{
 		return nome;
 	}
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.trim();
 	}
 	public Date getDataNasc() {
 		return dataNasc;

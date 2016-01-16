@@ -44,7 +44,7 @@ public class ArCondicionado extends EntidadeDominio {
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.trim();
 	}
 
 	public double getValor() {
@@ -59,8 +59,7 @@ public class ArCondicionado extends EntidadeDominio {
 	public String toString() {
 
 		StringBuffer retorno = new StringBuffer();
-
-		if (this.codigo != 99) {
+		if (this.codigo != 99 && this.codigo > 0) {
 			retorno.append("Codigo: ");
 			retorno.append(this.getCodigo());
 			retorno.append("\nDescricao: ");

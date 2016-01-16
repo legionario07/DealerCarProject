@@ -19,7 +19,7 @@ public class Estado extends EntidadeDominio {
 		return nome;
 	}
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.trim();
 	}
 	public String getUf() {
 		return uf;

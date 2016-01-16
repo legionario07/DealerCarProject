@@ -23,6 +23,9 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class LoginBean {
 	
+	/**
+	 * 
+	 */
 	private static Funcionario funcionario = new Funcionario();
 	private Usuario usuario = new Usuario();
 	private boolean estaLogado = false; 

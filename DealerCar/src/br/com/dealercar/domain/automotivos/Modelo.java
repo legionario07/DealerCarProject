@@ -45,7 +45,7 @@ public class Modelo extends EntidadeDominio {
 		return nome;
 	}
 	public void setNome(String nome) {
-		this.nome = nome.toUpperCase();
+		this.nome = nome.trim().toUpperCase();
 	}
 	public Fabricante getFabricante() {
 		return fabricante;

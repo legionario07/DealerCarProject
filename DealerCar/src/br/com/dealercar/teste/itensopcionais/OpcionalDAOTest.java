@@ -119,8 +119,8 @@ public class OpcionalDAOTest {
 
 		//cadastrar();
 		//pesquisarPorId();
-		//listarTodos();
-		pesquisarPorUltimoCadastrado();
+		listarTodos();
+		//pesquisarPorUltimoCadastrado();
 		
 	}
 

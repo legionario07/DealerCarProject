@@ -45,7 +45,8 @@
 						rendered="#{MBRetirada.ehCadastrado == true}">
 
 						<h:outputLabel value="Id: " />
-						<p:inputText value="#{MBRetirada.retirada.cliente.id}" readonly="true" />
+						<p:inputText value="#{MBRetirada.retirada.cliente.id}"
+							readonly="true" />
 
 						<h:outputText value="Nome:" />
 						<p:inputText id="inpNome" size="90" maxlength="45" readonly="true"
@@ -58,8 +59,8 @@
 						</p:inputText>
 
 						<h:outputText value="Nome da Mãe: " maxlength="45" />
-						<p:inputText size="90" value="#{MBRetirada.retirada.cliente.nomeMae}"
-							readonly="true" />
+						<p:inputText size="90"
+							value="#{MBRetirada.retirada.cliente.nomeMae}" readonly="true" />
 
 						<h:outputText value="Sexo: " maxlength="45" />
 						<p:inputText size="90" value="#{MBRetirada.retirada.cliente.sexo}"
@@ -82,17 +83,18 @@
 							value="#{MBRetirada.retirada.cliente.celular}" />
 
 						<h:outputText value="Email: " maxlength="65" />
-						<p:inputText size="50" value="#{MBRetirada.retirada.cliente.email}"
-							readonly="true" />
+						<p:inputText size="50"
+							value="#{MBRetirada.retirada.cliente.email}" readonly="true" />
 
 						<h:outputText value="Rua " maxlength="50" />
-						<p:inputText size="50" value="#{MBRetirada.retirada.cliente.endereco.rua}"
+						<p:inputText size="50"
+							value="#{MBRetirada.retirada.cliente.endereco.rua}"
 							readonly="true" maxlength="50" />
 
 						<h:outputText value="Número: " maxlength="10" />
 						<p:inputText size="10"
-							value="#{MBRetirada.retirada.cliente.endereco.numero}" readonly="true"
-							maxlength="10" />
+							value="#{MBRetirada.retirada.cliente.endereco.numero}"
+							readonly="true" maxlength="10" />
 
 						<h:outputText value="Complemento: " maxlength="50" />
 						<p:inputText size="50"
@@ -101,8 +103,8 @@
 
 						<h:outputText value="Bairro: " maxlength="20" />
 						<p:inputText size="20"
-							value="#{MBRetirada.retirada.cliente.endereco.bairro}" readonly="true"
-							maxlength="20" />
+							value="#{MBRetirada.retirada.cliente.endereco.bairro}"
+							readonly="true" maxlength="20" />
 
 						<h:outputText value="Cidade: " />
 						<p:inputText size="50"
@@ -116,7 +118,8 @@
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton actionListener="#{MBRetirada.pesquisarPorCPF}"
 							update="frmConsultaRetirada :msgGlobal"
-							rendered="#{MBRetirada.retirada.cliente.CPF == null}" value="Pesquisar" />
+							rendered="#{MBRetirada.retirada.cliente.CPF == null}"
+							value="Pesquisar" />
 
 						<p:commandButton action="/pages/ncliente.xhtml"
 							rendered="#{MBRetirada.jaPesquisei == true}"
@@ -151,8 +154,8 @@
 
 		<!-- Caixa de Dialogo Efetuar Retirada -->
 		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="650"
-			height="520" draggable="false" resizable="false" modal="true" appendTo="@(body)"
-			header="Efetuar Retirada">
+			height="520" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)" header="Efetuar Retirada">
 
 			<h:form id="frmEfetuarRetirada">
 
@@ -167,8 +170,8 @@
 						readonly="true" />
 
 					<p:outputLabel value="Modelo: *" />
-					<p:selectOneMenu id="modelo" value="#{MBRetirada.retirada.carro.modelo.nome}"
-						required="true"
+					<p:selectOneMenu id="modelo"
+						value="#{MBRetirada.retirada.carro.modelo.nome}" required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -181,8 +184,8 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Placa *" />
-					<p:selectOneMenu id="placa" value="#{MBRetirada.retirada.carro.placa}"
-						required="true"
+					<p:selectOneMenu id="placa"
+						value="#{MBRetirada.retirada.carro.placa}" required="true"
 						requiredMessage="Favor informar a Placa. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -201,7 +204,8 @@
 
 
 					<p:outputLabel value="Seguro: *" />
-					<p:selectOneMenu id="Seguro" value="#{MBRetirada.retirada.opcional.seguro.descricao}"
+					<p:selectOneMenu id="Seguro"
+						value="#{MBRetirada.retirada.opcional.seguro.descricao}"
 						required="true"
 						requiredMessage="Favor informar o Seguro. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -214,7 +218,8 @@
 
 					<p:outputLabel value="Tipo Seguro:*" />
 					<p:selectOneMenu id="TipoSeguro"
-						value="#{MBRetirada.retirada.opcional.seguro.tipoSeguro.id}" required="true"
+						value="#{MBRetirada.retirada.opcional.seguro.tipoSeguro.id}"
+						required="true"
 						requiredMessage="Favor informar o Tipo de Seguro. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:210px">
 
@@ -253,7 +258,8 @@
 
 						<p:selectOneMenu id="tipoAr"
 							rendered="#{MBRetirada.selectAr == true}"
-							value="#{MBRetirada.retirada.opcional.arCondicionado.descricao}" required="true"
+							value="#{MBRetirada.retirada.opcional.arCondicionado.descricao}"
+							required="true"
 							requiredMessage="Favor informar o ArCondicionado Desejado"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
@@ -422,8 +428,8 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
-			height="450" draggable="false" resizable="false" modal="true" appendTo="@(body)"
-			header="Cliente - Editar">
+			height="450" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)" header="Cliente - Editar">
 
 			<h:form id="frmClienteEditar">
 
@@ -435,20 +441,21 @@
 						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="DataNasc: *" />
-					<p:calendar id="data" value="#{MBRetirada.retirada.cliente.dataNasc}"
-							pattern="dd-MM-yyyy" mask="true" required="true"
-							requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
-						</p:calendar>
+					<p:calendar id="data"
+						value="#{MBRetirada.retirada.cliente.dataNasc}"
+						pattern="dd-MM-yyyy" mask="true" required="true"
+						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
+					</p:calendar>
 
 
 					<p:outputLabel value="Nome da Mãe: " />
-					<p:inputText value="#{MBRetirada.retirada.cliente.nomeMae}" size="45"
-						required="true"
+					<p:inputText value="#{MBRetirada.retirada.cliente.nomeMae}"
+						size="45" required="true"
 						requiredMessage="Favor informar o nome da Mãe. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Sexo: " maxlength="45" />
-					<p:selectOneMenu value="#{MBRetirada.retirada.cliente.sexo}" rendered="true"
-						required="true"
+					<p:selectOneMenu value="#{MBRetirada.retirada.cliente.sexo}"
+						rendered="true" required="true"
 						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
 
 						<f:selectItem itemLabel="Selecione o Sexo"
@@ -469,19 +476,20 @@
 					</p:inputMask>
 
 					<p:outputLabel value="Telefone: *" />
-					<p:inputMask value="#{MBRetirada.retirada.cliente.telefone}" size="15"
-						mask="(99)9999-9999" required="true"
+					<p:inputMask value="#{MBRetirada.retirada.cliente.telefone}"
+						size="15" mask="(99)9999-9999" required="true"
 						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="Celular: " />
-					<p:inputMask value="#{MBRetirada.retirada.cliente.celular}" size="15"
-						mask="(99)99999-9999" />
+					<p:inputMask value="#{MBRetirada.retirada.cliente.celular}"
+						size="15" mask="(99)99999-9999" />
 
 					<p:outputLabel value="Email: " />
 					<p:inputText value="#{MBRetirada.retirada.cliente.email}" size="55" />
 
 					<p:outputLabel value="Rua *" maxlength="50" />
-					<p:inputText size="50" value="#{MBRetirada.retirada.cliente.endereco.rua}"
+					<p:inputText size="50"
+						value="#{MBRetirada.retirada.cliente.endereco.rua}"
 						required="true"
 						requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
@@ -489,44 +497,65 @@
 
 					<p:outputLabel value="Número: *" maxlength="10" />
 					<p:inputText size="10"
-						value="#{MBRetirada.retirada.cliente.endereco.numero}" required="true"
+						value="#{MBRetirada.retirada.cliente.endereco.numero}"
+						required="true"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="10" />
 
 					<p:outputLabel value="Complemento: " maxlength="50" />
 					<p:inputText size="50"
-						value="#{MBRetirada.retirada.cliente.endereco.complemento}" maxlength="50" />
+						value="#{MBRetirada.retirada.cliente.endereco.complemento}"
+						maxlength="50" />
 
 					<p:outputLabel value="Bairro: *" maxlength="20" />
 					<p:inputText size="20"
-						value="#{MBRetirada.retirada.cliente.endereco.bairro}" required="true"
+						value="#{MBRetirada.retirada.cliente.endereco.bairro}"
+						required="true"
 						requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="20" />
 
+					<p:outputLabel value="UF: *" />
+
+					<p:selectOneMenu id="uf"
+						value="#{MBRetirada.retirada.cliente.endereco.cidade.estado.uf}"
+						required="true"
+						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+
+						<f:selectItem itemLabel="Selecione o Estado"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBRetirada.listaEstados}" var="estado"
+							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
+
+						<p:ajax update="cidade" listener="#{MBRetirada.atualizarCidades}" />
+
+
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Cidade: *" />
 
-					<p:selectOneMenu id="cidades"
+					<p:selectOneMenu id="cidade"
 						value="#{MBRetirada.retirada.cliente.endereco.cidade.nome}" required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
-						<f:selectItem itemLabel="Selecione uma Cidade"
+						<f:selectItem itemLabel="Selecione a Cidade"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBRetirada.listaCidades}" var="cidade"
 							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
 
 					</p:selectOneMenu>
 
-
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBRetirada.editar}"
-						onclick=":frmConsultaRetirada"
+						onclick=":frmConsultaRetirada :msgGlobal"
 						oncomplete="PF('dlgClienteEditar').hide();" />
 
 					<p:commandButton value="Cancelar"

@@ -1,6 +1,5 @@
 package br.com.dealercar.bean;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +23,8 @@ import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
 @SessionScoped
-public class ReservaBean extends AbstractBean implements Serializable {
+public class ReservaBean extends AbstractBean {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	private Reserva reserva = new Reserva();
 

@@ -73,13 +73,6 @@
 							<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
 						</p:inputText>
 
-						<h:outputText value="Quilometragem*: " />
-						<p:inputMask value="#{MBDevolucao.devolucao.quilometragem}"
-							required="true" mask="999999"
-							requiredMessage="A quilometragem deve ser preenchida.">
-							<f:validateLength minimum="1" maximum="7" />
-						</p:inputMask>
-						
 						<h:outputText value="Taxas Adicionais" />
 						<p:selectManyCheckbox id="taxasSelects"
 							value="#{MBDevolucao.selectedTaxas}" layout="grid" columns="1">
@@ -91,9 +84,9 @@
 						<h:panelGrid columns="2">
 							<p:commandButton value="Efetuar Devolução"
 								actionListener="#{MBDevolucao.prepararDevolucao}"
-								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
 								onclick="PF('dlgDevolucaoEfetuar').show();"
-								update=":fmrDevolucao:pnlDevolucao :msgGlobal" />
+								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
+								update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal" />
 						</h:panelGrid>
 
 
@@ -106,8 +99,7 @@
 		<!-- Caixa de Dialogo Efetuar Devolução-->
 		<p:dialog widgetVar="dlgDevolucaoEfetuar" closable="false"
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
-			header="Efetuar Devolução"
-			rendered="#{MBDevolucao.devolucao.quilometragem >0}">
+			header="Efetuar Devolução">
 
 			<h:form id="fmrDevolucao">
 				<h:panelGrid id="pnlDevolucao" columns="2">
@@ -115,6 +107,13 @@
 					<h:outputText value="ID: " />
 					<p:inputText value="#{MBDevolucao.devolucao.retirada.id}"
 						readonly="true" />
+
+					<h:outputText value="Quilometragem*: " />
+					<p:inputMask value="#{MBDevolucao.devolucao.quilometragem}"
+						required="true" mask="999999"
+						requiredMessage="A quilometragem deve ser preenchida.">
+						<f:validateLength minimum="1" maximum="7" />
+					</p:inputMask>
 
 					<h:outputText value="Data Devolucao: " />
 					<p:inputText value="#{MBDevolucao.devolucao.dataDevolucao}"
@@ -141,9 +140,9 @@
 				<h:panelGrid columns="2">
 
 					<p:commandButton value="Salvar"
-						update=":novaDevolucao:frmDevolucaoEfetuar :msgGlobal"
+						update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal"
 						actionListener="#{MBDevolucao.efetuarDevolucao}"
-						onsuccess="PF('dlgDevolucaoEfetuar').hide();" />
+						action="/pages/devolucao.xhtml"/>
 
 
 					<p:commandButton value="Cancelar"

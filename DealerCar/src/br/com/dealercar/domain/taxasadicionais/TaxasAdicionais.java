@@ -47,7 +47,7 @@ public class TaxasAdicionais extends EntidadeDominio {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.trim();
 	}
 	public double getValor() {
 		return valor;

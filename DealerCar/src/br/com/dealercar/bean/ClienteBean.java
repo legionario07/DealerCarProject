@@ -97,6 +97,9 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		setTotalClientes(listaClientes.size());
 	}
 	
+	/**
+	 * Carrega a lista de cidades de acordo com o Estado selecionado
+	 */
 	public void atualizarCidades(){
 		
 		cliente.getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
@@ -112,6 +115,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	 */
 	public void cadastrar() {
 
+		//valida a cidade do cliente pelo nome
 		cliente.getEndereco().setCidade((Cidade) new ValidaCidade().validar(cliente.getEndereco().getCidade()));
 
 		// Verifica se o Cliente eh maior de idade

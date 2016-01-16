@@ -41,7 +41,7 @@ public class Seguro extends EntidadeDominio{
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.trim();
 	}
 
 	public double getValor() {

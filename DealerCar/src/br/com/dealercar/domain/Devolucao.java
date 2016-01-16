@@ -59,7 +59,7 @@ public class Devolucao extends EntidadeDominio {
 	}
 
 	public void setQuilometragem(String quilometragem) {
-		this.quilometragem = quilometragem;
+		this.quilometragem = quilometragem.trim();
 	}
 
 	public int getQtdeDiarias() {

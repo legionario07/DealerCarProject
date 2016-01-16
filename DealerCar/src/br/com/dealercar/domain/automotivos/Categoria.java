@@ -41,7 +41,7 @@ public class Categoria extends EntidadeDominio implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome.toUpperCase();
+		this.nome = nome.trim().toUpperCase();
 	}
 
 	public String getDescricao() {
@@ -49,7 +49,7 @@ public class Categoria extends EntidadeDominio implements Serializable {
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao.toUpperCase();
+		this.descricao = descricao.trim().toUpperCase();
 	}
 
 	public Double getValorDiaria() {

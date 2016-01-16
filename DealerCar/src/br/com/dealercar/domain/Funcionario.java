@@ -33,14 +33,14 @@ public class Funcionario extends Pessoa {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		this.telefone = telefone.trim();
 	}
 	public String getCelular() {
 		return celular;
 	}
 
 	public void setCelular(String celular) {
-		this.celular = celular;
+		this.celular = celular.trim();
 	}
 	public String getCargo() {
 		return cargo;
@@ -55,7 +55,7 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setCargo(String cargo) {
-			this.cargo = cargo;
+			this.cargo = cargo.trim();
 	}
 
 	public Double getSalario() {

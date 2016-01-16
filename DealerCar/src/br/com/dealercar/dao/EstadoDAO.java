@@ -1,5 +1,6 @@
 package br.com.dealercar.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +17,12 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class EstadoDAO implements IDAO<Estado> {
+public class EstadoDAO implements IDAO<Estado>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Connection con = null;
 	
 	@Override
