@@ -30,11 +30,11 @@ public class Gps extends Itens {
 	}
 
 	public String getIdioma() {
-		return idioma.toUpperCase();
+		return idioma;
 	}
 
 	public void setIdioma(String idioma) {
-		this.idioma = idioma.toUpperCase();
+		this.idioma = idioma.trim().toUpperCase();
 	}
 
 	@Override

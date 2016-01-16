@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
@@ -21,10 +22,11 @@ import br.com.dealercar.domain.itensopcionais.Itens;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
+import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBOpcionais")
 @ViewScoped
-public class OpcionaisBean implements IBean, Serializable{
+public class OpcionaisBean implements IBean, Serializable {
 
 	/**
 	 * 
@@ -37,9 +39,11 @@ public class OpcionaisBean implements IBean, Serializable{
 	private RadioPlayer radioPlayer = new RadioPlayer();
 	private Seguro seguro = new Seguro();
 
+	private Itens item = new Itens();
+
 	private List<Opcional> opcionais = new ArrayList<Opcional>();
 	private List<Itens> listaItens = new ArrayList<Itens>();
-	
+
 	private List<ArCondicionado> listaArCondicionados = new ArrayList<ArCondicionado>();
 	private List<BebeConforto> listaBebeConfortos = new ArrayList<BebeConforto>();
 	private List<CadeirinhaBebe> listaCadeirinhaBebes = new ArrayList<CadeirinhaBebe>();
@@ -47,12 +51,22 @@ public class OpcionaisBean implements IBean, Serializable{
 	private List<RadioPlayer> listaRadioPlayers = new ArrayList<RadioPlayer>();
 	private List<Seguro> listaSeguros = new ArrayList<Seguro>();
 
+	private int indice;
+
 	public ArCondicionado getArCondicionado() {
 		return arCondicionado;
 	}
 
 	public void setArCondicionado(ArCondicionado arCondicionado) {
 		this.arCondicionado = arCondicionado;
+	}
+
+	public Itens getItem() {
+		return item;
+	}
+
+	public void setItem(Itens item) {
+		this.item = item;
 	}
 
 	public BebeConforto getBebeConforto() {
@@ -75,6 +89,14 @@ public class OpcionaisBean implements IBean, Serializable{
 		return gps;
 	}
 
+	public int getIndice() {
+		return indice;
+	}
+
+	public void setIndice(int indice) {
+		this.indice = indice;
+	}
+
 	public void setGps(Gps gps) {
 		this.gps = gps;
 	}
@@ -94,7 +116,7 @@ public class OpcionaisBean implements IBean, Serializable{
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
 	}
-	
+
 	public List<ArCondicionado> getListaArCondicionados() {
 		return listaArCondicionados;
 	}
@@ -161,20 +183,215 @@ public class OpcionaisBean implements IBean, Serializable{
 
 	@Override
 	public void carregarListagem() {
+
+		listaArCondicionados = new ArCondicionadoDAO().listarTodos();
+		listaBebeConfortos = new BebeConfortoDAO().listarTodos();
+		listaCadeirinhaBebes = new CadeirinhaBebeDAO().listarTodos();
+		listaGps = new GpsDAO().listarTodos();
+		listaRadioPlayers = new RadioPlayerDAO().listarTodos();
+		listaSeguros = new SeguroDAO().listarApenasNomesDiferentes();
+
+		listaItens.addAll(listaBebeConfortos);
+		listaItens.addAll(listaCadeirinhaBebes);
+		listaItens.addAll(listaGps);
+		listaItens.addAll(listaRadioPlayers);
+
+	}
+
+	/**
+	 * Prepara para Cadastrar um novo Opcional
+	 */
+	public void prepararCadastrar(ActionEvent event) {
+		
+		indice = 0;
 		
 		
-		listaArCondicionados   = new ArCondicionadoDAO().listarTodos();
-		listaBebeConfortos     = new BebeConfortoDAO().listarTodos();
-		listaCadeirinhaBebes   = new CadeirinhaBebeDAO().listarTodos();
-		listaGps               = new GpsDAO().listarTodos();
-		listaRadioPlayers      = new RadioPlayerDAO().listarTodos();
-		listaSeguros           = new SeguroDAO().listarApenasNomesDiferentes();
+		if (event.getComponent().getId().equals("botaoBebeConforto")) {
+			indice = 2;
+		}
+
+		if (event.getComponent().getId().equals("botaoCadeirinhaBebe")) {
+			indice = 3;
+		}
+
+		if (event.getComponent().getId().equals("botaoGps")) {
+			indice = 4;
+		}
+
+		if (event.getComponent().getId().equals("botaoRadioPlayer")) {
+			indice = 5;
+		}
+
+	}
+
+	
+	/**
+	 * Cadastra um novo Opcional
+	 */
+	public void cadastrar(ActionEvent event) {
+
+		if (indice == 2) {
+			bebeConforto.setCodigo(item.getCodigo());
+			bebeConforto.setDescricao(item.getDescricao());
+			bebeConforto.setValor(item.getValor());
+			bebeConforto.setNumeroPatrimonio(item.getNumeroPatrimonio());
+			bebeConforto.setMarca(item.getMarca());
+			
+			new BebeConfortoDAO().cadastrar(bebeConforto);
+			
+			bebeConforto = new BebeConforto();
+			
+			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
+		}
+
+		if (indice == 3) {
+			cadeirinhaBebe.setCodigo(item.getCodigo());
+			cadeirinhaBebe.setDescricao(item.getDescricao());
+			cadeirinhaBebe.setValor(item.getValor());
+			cadeirinhaBebe.setNumeroPatrimonio(item.getNumeroPatrimonio());
+			cadeirinhaBebe.setMarca(item.getMarca());
+			
+			new CadeirinhaBebeDAO().cadastrar(cadeirinhaBebe);
+			
+			cadeirinhaBebe = new CadeirinhaBebe();
+			
+			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
+		}
+
+		if (indice == 4) {
+			gps.setCodigo(item.getCodigo());
+			gps.setDescricao(item.getDescricao());
+			gps.setValor(item.getValor());
+			gps.setNumeroPatrimonio(item.getNumeroPatrimonio());
+			gps.setMarca(item.getMarca());
+			
+			new GpsDAO().cadastrar(gps);
+			
+			gps = new Gps();
+			
+			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
+		}
+
+		if (indice == 5) {
+			radioPlayer.setCodigo(item.getCodigo());
+			radioPlayer.setDescricao(item.getDescricao());
+			radioPlayer.setValor(item.getValor());
+			radioPlayer.setNumeroPatrimonio(item.getNumeroPatrimonio());
+			radioPlayer.setMarca(item.getMarca());
+			
+			new RadioPlayerDAO().cadastrar(radioPlayer);
+			
+			radioPlayer = new RadioPlayer();
+
+			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
+		}
+
+		indice = 0;
+
+	}
+
+	/**
+	 * Edita o Item Opcional clicado na View
+	 */
+	public void editar() {
+
+		if (item instanceof BebeConforto) {
+			bebeConforto = (BebeConforto) item;
+			new BebeConfortoDAO().editar(bebeConforto);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+
+		}
+
+		if (item instanceof CadeirinhaBebe) {
+			cadeirinhaBebe = (CadeirinhaBebe) item;
+			new CadeirinhaBebeDAO().editar(cadeirinhaBebe);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+
+		}
+
+		if (item instanceof Gps) {
+			gps = (Gps) item;
+			new GpsDAO().editar(gps);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+
+		}
+
+		if (item instanceof RadioPlayer) {
+			radioPlayer = (RadioPlayer) item;
+			new RadioPlayerDAO().editar(radioPlayer);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+
+		}
+
+		indice = 0;
+	}
+
+	/**
+	 * Exclui o Item Opcional clicado na View
+	 */
+	public void excluir() {
+
+		if (item instanceof BebeConforto) {
+			bebeConforto = (BebeConforto) item;
+			new BebeConfortoDAO().excluir(bebeConforto);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
+
+		}
+
+		if (item instanceof CadeirinhaBebe) {
+			cadeirinhaBebe = (CadeirinhaBebe) item;
+			new CadeirinhaBebeDAO().excluir(cadeirinhaBebe);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
+
+		}
+
+		if (item instanceof Gps) {
+			gps = (Gps) item;
+			new GpsDAO().excluir(gps);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
+
+		}
+
+		if (item instanceof RadioPlayer) {
+			radioPlayer = (RadioPlayer) item;
+			new RadioPlayerDAO().excluir(radioPlayer);
+			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
+
+		}
 		
-		opcionais.add((Opcional) listaBebeConfortos);
-		opcionais.add((Opcional) listaCadeirinhaBebes);
-		opcionais.add((Opcional) listaGps);
-		opcionais.add((Opcional) listaRadioPlayers);
-		
+		indice = 0;
+
+	}
+
+	/**
+	 * Verifica qual o opcional clicado
+	 */
+	public void verificarOpcional() {
+
+		if (item instanceof BebeConforto) {
+			indice = 2;
+			bebeConforto.setCodigo(item.getCodigo());
+			bebeConforto = new BebeConfortoDAO().pesquisarPorCodigo(bebeConforto);
+		}
+
+		if (item instanceof CadeirinhaBebe) {
+			indice = 3;
+			cadeirinhaBebe.setCodigo(item.getCodigo());
+			cadeirinhaBebe = new CadeirinhaBebeDAO().pesquisarPorCodigo(cadeirinhaBebe);
+		}
+
+		if (item instanceof Gps) {
+			indice = 4;
+			gps.setCodigo(item.getCodigo());
+			gps = new GpsDAO().pesquisarPorCodigo(gps);
+		}
+
+		if (item instanceof RadioPlayer) {
+			indice = 5;
+			radioPlayer.setCodigo(item.getCodigo());
+			radioPlayer = new RadioPlayerDAO().pesquisarPorCodigo(radioPlayer);
+		}
+
 	}
 
 }

@@ -67,7 +67,7 @@ public class Itens extends EntidadeDominio {
 	}
 
 	public String getNumeroPatrimonio() {
-		return numeroPatrimonio.toUpperCase();
+		return numeroPatrimonio;
 	}
 
 	public void setNumeroPatrimonio(String numeroPatrimonio) {

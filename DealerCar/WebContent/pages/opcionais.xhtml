@@ -12,23 +12,453 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBTaxasAdicionais.carregarListagem}"
+		<f:event listener="#{MBOpcionais.carregarListagem}"
 			type="preRenderView" />
 
-		<p:tabView value="#{MBOpcionais.opcionais}" var="opcional">
-			<p:tab title="Car - #{opcional.itens.codigo}">
-				<h:panelGrid columns="2" cellpadding="5">
-					<f:facet name="header">
-					</f:facet>
-					<h:outputText value="Brand:" style="font-weight: bold" />
-					<h:outputText value="#{opcional.itens.codigo}" />
+		<p:tabView orientation="left" id="tbViewOpcionais">
+			<p:tab title="Cadeirinha Bebê">
+				<h:form id="frmCadeirinhaBebe">
+					<p:dataTable id="tblListaCadeirinhas"
+						value="#{MBOpcionais.listaCadeirinhaBebes}"
+						widgetVar="tabelaListagemCadeirinha" var="itemCadeirinhas"
+						style="width:70%" sortBy="#{itemCadeirinhas.codigo}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
 
-					<h:outputText value="Year:" style="font-weight: bold" />
-					<h:outputText value="#{opcional.itens.descricao}" />
+						<p:column headerText="Código" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemCadeirinhas.codigo}">
+							<h:outputText value="#{itemCadeirinhas.codigo}" />
+						</p:column>
 
-				</h:panelGrid>
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemCadeirinhas.descricao}">
+							<h:outputText value="#{itemCadeirinhas.descricao}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemCadeirinhas.valor}">
+							<h:outputText value="#{itemCadeirinhas.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Patrimônio" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemCadeirinhas.numeroPatrimonio}">
+							<h:outputText value="#{itemCadeirinhas.numeroPatrimonio}" />
+						</p:column>
+
+						<p:column headerText="Peso (Kg)" width="10%"
+							style="font-size:11px" sortBy="#{itemCadeirinhas.pesoBebe}">
+							<h:outputText value="#{itemCadeirinhas.pesoBebe}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoCadeirinhaBebe"
+									actionListener="#{MBOpcionais.prepararCadastrar}"
+									onclick="PF('dlgItensOpcionaisNova').show();"
+									update=":frmNovoItensOpcionais :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBOpcionais.verificarOpcional}"
+								onclick="PF('dlgItensOpcionaisEditar').show();"
+								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:setPropertyActionListener value="#{itemCadeirinhas}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgItensOpcionaisExcluir').show();"
+								update=":frmExcluirItensOpcionais :msgGlobal">
+								<f:setPropertyActionListener value="#{itemCadeirinhas}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="Bebê Conforto">
+				<h:form id="frmBebeConforto">
+					<p:dataTable id="tblListaBebeConforto"
+						value="#{MBOpcionais.listaBebeConfortos}"
+						widgetVar="tabelaListagemCadeirinha" var="itemBebe"
+						style="width:70%" sortBy="#{itemBebe.codigo}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="Código" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemBebe.codigo}">
+							<h:outputText value="#{itemBebe.codigo}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemBebe.descricao}">
+							<h:outputText value="#{itemBebe.descricao}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemBebe.valor}">
+							<h:outputText value="#{itemBebe.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Patrimônio" width="15%"
+							style="font-size:11px" sortBy="#{itemBebe.numeroPatrimonio}">
+							<h:outputText value="#{itemBebe.numeroPatrimonio}" />
+						</p:column>
+
+						<p:column headerText="Tamanho (Meses)" width="10%"
+							style="font-size:11px" sortBy="#{itemBebe.mesesBebe}">
+							<h:outputText value="#{itemBebe.mesesBebe}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoBebeConforto"
+									actionListener="#{MBOpcionais.prepararCadastrar}"
+									onclick="PF('dlgItensOpcionaisNova').show();"
+									update=":frmNovoItensOpcionais :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBOpcionais.verificarOpcional}"
+								onclick="PF('dlgItensOpcionaisEditar').show();"
+								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:setPropertyActionListener value="#{itemBebe}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgItensOpcionaisExcluir').show();"
+								update=":frmExcluirItensOpcionais :msgGlobal">
+								<f:setPropertyActionListener value="#{itemBebe}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+						</p:column>
+
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+			<p:tab title="GPS">
+				<h:form id="frmGps">
+					<p:dataTable id="tblListaGps" value="#{MBOpcionais.listaGps}"
+						widgetVar="tabelaListagemGps" var="itemGps" style="width:70%"
+						sortBy="#{itemGps.codigo}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="Código" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemGps.codigo}">
+							<h:outputText value="#{itemGps.codigo}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemGps.descricao}">
+							<h:outputText value="#{itemGps.descricao}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemGps.valor}">
+							<h:outputText value="#{itemGps.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Patrimônio" width="15%"
+							style="font-size:11px" sortBy="#{itemGps.numeroPatrimonio}">
+							<h:outputText value="#{itemGps.numeroPatrimonio}" />
+						</p:column>
+
+						<p:column headerText="Idioma" width="10%" style="font-size:11px"
+							sortBy="#{itemGps.idioma}">
+							<h:outputText value="#{itemGps.idioma}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoGps"
+									actionListener="#{MBOpcionais.prepararCadastrar}"
+									onclick="PF('dlgItensOpcionaisNova').show();"
+									update=":frmNovoItensOpcionais :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBOpcionais.verificarOpcional}"
+								onclick="PF('dlgItensOpcionaisEditar').show();"
+								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:setPropertyActionListener value="#{itemGps}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgItensOpcionaisExcluir').show();"
+								update=":frmExcluirItensOpcionais :msgGlobal">
+								<f:setPropertyActionListener value="#{itemGps}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+						</p:column>
+
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+			<p:tab title="Radio Player">
+				<h:form id="frmRadioPlayer">
+					<p:dataTable id="tblListaRadios"
+						value="#{MBOpcionais.listaRadioPlayers}"
+						widgetVar="tabelaListagemRadios" var="itemRadio" style="width:70%"
+						sortBy="#{itemRadio.codigo}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="Código" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemRadio.codigo}">
+							<h:outputText value="#{itemRadio.codigo}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemRadio.descricao}">
+							<h:outputText value="#{itemRadio.descricao}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemRadio.valor}">
+							<h:outputText value="#{itemRadio.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Patrimônio" width="15%"
+							style="font-size:11px" sortBy="#{itemRadio.numeroPatrimonio}">
+							<h:outputText value="#{itemRadio.numeroPatrimonio}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="10%" style="font-size:11px"
+							sortBy="#{itemRadio.marca}">
+							<h:outputText value="#{itemRadio.marca}" />
+						</p:column>
+
+						<p:column headerText="Modelo" width="10%" style="font-size:11px"
+							sortBy="#{itemRadio.modelo}">
+							<h:outputText value="#{itemRadio.modelo}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoRadioPlayer"
+									actionListener="#{MBOpcionais.prepararCadastrar}"
+									onclick="PF('dlgItensOpcionaisNova').show();"
+									update=":frmNovoItensOpcionais :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBOpcionais.verificarOpcional}"
+								onclick="PF('dlgItensOpcionaisEditar').show();"
+								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:setPropertyActionListener value="#{itemRadio}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgItensOpcionaisExcluir').show();"
+								update=":frmExcluirItensOpcionais :msgGlobal">
+								<f:setPropertyActionListener value="#{itemRadio}"
+									target="#{MBOpcionais.item}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
 			</p:tab>
 		</p:tabView>
+
+		<!-- Caixa de Dialogo Confimar Editar ItensOpcionais-->
+		<p:dialog widgetVar="dlgItensOpcionaisEditar" closable="false"
+			width="30%" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)" header="ItensOpcionais - Editar">
+
+			<h:form id="frmItensOpcionaisEditar">
+				<h:panelGrid id="pnlItensOpcionaisEditar" columns="2">
+
+					<h:outputText value="Código: " />
+					<p:inputText value="#{MBOpcionais.item.codigo}" readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBOpcionais.item.descricao}" required="true"
+						requiredMessage="Favor digitar uma descrição" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBOpcionais.item.valor}" required="true"
+						requiredMessage="Favor digitar um valor" />
+
+					<h:outputText value="Número Patrimônio: *" />
+					<p:inputText value="#{MBOpcionais.item.numeroPatrimonio}"
+						required="true"
+						requiredMessage="Favor digitar um Número de Patrimônio" />
+
+					<h:outputText value="Marca: *" />
+					<p:inputText value="#{MBOpcionais.item.marca}" required="true"
+						requiredMessage="Favor digitar a Marca:" />
+
+					<h:outputText value="Meses: *"
+						rendered="#{MBOpcionais.indice == 2}" />
+					<p:inputText value="#{MBOpcionais.bebeConforto.mesesBebe}"
+						rendered="#{MBOpcionais.indice == 2}" required="true"
+						requiredMessage="Favor digitar a idade em Meses Suportado" />
+
+					<h:outputText value="Peso Suportado: *"
+						rendered="#{MBOpcionais.indice == 3}" />
+					<p:inputText value="#{MBOpcionais.cadeirinhaBebe.pesoBebe}"
+						rendered="#{MBOpcionais.indice == 3}" required="true"
+						requiredMessage="Favor digitar o Peso (Kg) Suportado" />
+
+					<h:outputText value="Idioma: *"
+						rendered="#{MBOpcionais.indice == 4}" />
+					<p:inputText value="#{MBOpcionais.gps.idioma}"
+						rendered="#{MBOpcionais.indice == 4}" required="true"
+						requiredMessage="Favor digitar o Idioma" />
+
+					<h:outputText value="Modelo: *"
+						rendered="#{MBOpcionais.indice == 5}" />
+					<p:inputText value="#{MBOpcionais.radioPlayer.modelo}"
+						rendered="#{MBOpcionais.indice == 5}" required="true"
+						requiredMessage="Favor digitar o Modelo" />
+
+					<p:commandButton value="Salvar" update="tbViewOpcionais :msgGlobal"
+						actionListener="#{MBOpcionais.editar}"
+						oncomplete="PF('dlgItensOpcionaisEditar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgItensOpcionaisEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir ItensOpcionais -->
+		<p:dialog widgetVar="dlgItensOpcionaisExcluir" closable="false"
+			width="30%" id="dlgExcluir" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="Itens Opcionais - Excluir">
+			<h:form id="frmExcluirItensOpcionais">
+
+				<h:panelGrid id="pnlExcluirItensOpcionais" columns="2">
+
+					<h:outputText value="Código: " />
+					<p:inputText value="#{MBOpcionais.item.codigo}" readonly="true" />
+
+					<h:outputText value="Descrição: " />
+					<p:inputText value="#{MBOpcionais.item.descricao}" readonly="true" />
+
+					<h:outputText value="Marca " />
+					<p:inputText value="#{MBOpcionais.item.marca}"
+						readonly="true" />
+						
+					<h:outputText value="Núm. Patrimônio " />
+					<p:inputText value="#{MBOpcionais.item.numeroPatrimonio}"
+						readonly="true" />
+
+
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBOpcionais.excluir}"
+						update="tbViewOpcionais :msgGlobal"
+						onclick="PF('dlgItensOpcionaisExcluir').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgItensOpcionaisExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Cadastrar Itens Opcionais -->
+		<p:dialog widgetVar="dlgItensOpcionaisNova" closable="false"
+			width="30%" id="dlgNova" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="Itens Opcionais - Cadastrar">
+			<h:form id="frmNovoItensOpcionais">
+
+				<h:panelGrid id="pnlNovaItensOpcionais2" columns="2">
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBOpcionais.item.descricao}" required="true"
+						requiredMessage="Favor digitar uma descrição" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBOpcionais.item.valor}" required="true"
+						requiredMessage="Favor digitar um valor" />
+
+					<h:outputText value="Número Patrimônio: *" />
+					<p:inputText value="#{MBOpcionais.item.numeroPatrimonio}"
+						required="true"
+						requiredMessage="Favor digitar um Número de Patrimônio" />
+
+					<h:outputText value="Marca: *" />
+					<p:inputText value="#{MBOpcionais.item.marca}" required="true"
+						requiredMessage="Favor digitar a Marca" />
+
+					<h:outputText value="Meses: *"
+						rendered="#{MBOpcionais.indice == 2}" />
+					<p:inputText value="#{MBOpcionais.bebeConforto.mesesBebe}"
+						rendered="#{MBOpcionais.indice == 2}" required="true"
+						requiredMessage="Favor digitar a idade em Meses Suportado" />
+
+					<h:outputText value="Peso Suportado: *"
+						rendered="#{MBOpcionais.indice == 3}" />
+					<p:inputText value="#{MBOpcionais.cadeirinhaBebe.pesoBebe}"
+						rendered="#{MBOpcionais.indice == 3}" required="true"
+						requiredMessage="Favor digitar o Peso (Kg) Suportado" />
+
+					<h:outputText value="Idioma: *"
+						rendered="#{MBOpcionais.indice == 4}" />
+					<p:inputText value="#{MBOpcionais.gps.idioma}"
+						rendered="#{MBOpcionais.indice == 4}" required="true"
+						requiredMessage="Favor digitar o Idioma" />
+
+					<h:outputText value="Modelo: *"
+						rendered="#{MBOpcionais.indice == 5}" />
+					<p:inputText value="#{MBOpcionais.radioPlayer.modelo}"
+						rendered="#{MBOpcionais.indice == 5}" required="true"
+						requiredMessage="Favor digitar o Modelo" />
+
+					<p:commandButton value="Salvar" update="tbViewOpcionais :msgGlobal"
+						actionListener="#{MBOpcionais.cadastrar}"
+						oncomplete="PF('dlgItensOpcionaisNova').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgItensOpcionaisNova').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
 
 
 

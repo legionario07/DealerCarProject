@@ -3,6 +3,8 @@ package br.com.dealercar.teste;
 import java.io.File;
 import java.text.ParseException;
 
+import br.com.dealercar.domain.itensopcionais.Opcional;
+
 public class TestaGeral {
 
 	public static void main(String[] args) throws ParseException {
@@ -20,6 +22,8 @@ public class TestaGeral {
 			System.out.println("Ja existe");
 		}
 		
+	Opcional opcional = new Opcional();
+	opcional.getItens().get(1).getNumeroPatrimonio();
 		
 	}
 }
