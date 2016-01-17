@@ -16,6 +16,7 @@ import br.com.dealercar.dao.EstadoDAO;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.Estado;
+import br.com.dealercar.relatorios.GeraRelatorio;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaEstado;
@@ -240,4 +241,11 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		setJaPesquisei(false);
 	}
 
+	public void exportarPDF(){
+		
+		GeraRelatorio<Cliente> geraRelatorio = new GeraRelatorio<Cliente>();
+		
+		geraRelatorio.PDF(listaClientes);
+		
+	}
 }

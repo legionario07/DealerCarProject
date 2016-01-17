@@ -1,6 +1,5 @@
 package br.com.dealercar.bean;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class CategoriaBean implements Serializable {
 	private CategoriaDAO catDao = new CategoriaDAO();
 	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
 	private int totalCategoria;
-	
-	private final String CAMINHO = "C:\\Users\\Paulinho\\workspace\\J2ee\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\DealerCar\\resources\\images\\";
 
 	public Categoria getCategoria() {
 		return categoria;
@@ -86,9 +83,6 @@ public class CategoriaBean implements Serializable {
 
 		catDao.cadastrar(categoria);
 
-		// criando a nova pasta da categoria
-		criarDiretorio();
-
 		JSFUtil.adicionarMensagemSucesso("Categoria Cadastrada com Sucesso.");
 
 		listaCategoria = catDao.listarTodos();
@@ -103,12 +97,10 @@ public class CategoriaBean implements Serializable {
 
 		catDao.excluir(categoria);
 
-		excluirDiretorio();
-
 		listaCategoria = catDao.listarTodos();
 
 		JSFUtil.adicionarMensagemSucesso("Categoria Excluida com Sucesso.");
-		
+
 		categoria = new Categoria();
 
 	}
@@ -119,73 +111,12 @@ public class CategoriaBean implements Serializable {
 	 */
 	public void editar() {
 
-		Categoria categoriaOld = new CategoriaDAO().pesquisarPorID(categoria);
-		
 		catDao.editar(categoria);
 
-		
-		// criando a nova pasta da categoria
-		editarDiretorio(categoriaOld);
-
 		listaCategoria = catDao.listarTodos();
-		
+
 		JSFUtil.adicionarMensagemSucesso("Categoria Alterada com Sucesso.");
-		
+
 		categoria = new Categoria();
-
 	}
-
-	private void criarDiretorio() {
-		
-		StringBuffer pasta = new StringBuffer();
-		pasta.append(CAMINHO);
-		pasta.append(categoria.getNome().toLowerCase());
-
-		File diretorio = new File(pasta.toString());
-
-		if (!diretorio.exists()) {
-			diretorio.mkdir();
-
-		}
-
-	}
-
-	private void excluirDiretorio() {
-
-		StringBuffer pasta = new StringBuffer();
-		pasta.append(CAMINHO);
-		pasta.append(categoria.getNome().toLowerCase());
-
-		File diretorio = new File(pasta.toString());
-
-		if (diretorio.exists()) {
-			diretorio.delete();
-
-		}
-
-	}
-
-	private void editarDiretorio(Categoria categoriaOld) {
-		
-		
-		StringBuffer pastaAntiga = new StringBuffer();
-		pastaAntiga.append(CAMINHO);
-		pastaAntiga.append(categoriaOld.getNome().toLowerCase());
-		
-		StringBuffer pastaNova = new StringBuffer();
-		pastaNova.append(CAMINHO);
-		pastaNova.append(categoria.getNome().toLowerCase());
-		
-		
-
-		File diretorio = new File(pastaAntiga.toString());
-		File diretorioNovo = new File(pastaNova.toString());
-
-		if (diretorio.exists()) {
-			diretorio.renameTo(diretorioNovo);
-
-		}
-
-	}
-
 }

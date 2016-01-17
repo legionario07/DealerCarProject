@@ -74,6 +74,9 @@
 				</p:column>
 
 				<f:facet name="footer">
+					<p:commandButton value="Exportar para PDF" 
+						actionListener="#{MBCliente.exportarPDF}"/>
+				
 					<h:outputText value="Exitem " />
 					<h:outputText value="#{MBCliente.totalClientes}" />
 					<h:outputText value=" clientes cadastrados." />

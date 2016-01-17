@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -58,7 +59,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 	private List<SituacaoType> listaSituacao = new ArrayList<SituacaoType>();
 
 	private StringBuffer caminho = new StringBuffer();
-
+	
 	private int totalCarros;
 	
 	private UploadedFile file;
@@ -182,13 +183,15 @@ public class CarroBean extends AbstractBean implements Serializable {
 
 		// valida os dados do carro
 		consultarDadosCarroLocalizado();
+		
+		//setando a url da imagem
+		carro.setUrlImagem(caminho.toString());
 
 		carDao.cadastrar(carro);
 
 		JSFUtil.adicionarMensagemSucesso("Carro Cadastrado com Sucesso.");
 		
 		caminho = new StringBuffer();
-
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 	}
@@ -198,7 +201,6 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void limparPesquisa() {
 		carro = new Carro();
-		caminho = new StringBuffer();
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 	}
@@ -226,12 +228,12 @@ public class CarroBean extends AbstractBean implements Serializable {
 
 		// valida os dados do carro
 		consultarDadosCarroLocalizado();
-
-		//verificando se foi escolhida alguma foto
-		if(caminho.toString().equals(null)){
-			carro.setUrlImagem("null");	
+		
+		//setando a url da imagem
+		if(caminho.toString().equals("carros/") || caminho.length() < 2){
+			caminho = new StringBuffer();
+			caminho.append(carro.getUrlImagem());
 		}
-		//atualizando o caminho da foto
 		carro.setUrlImagem(caminho.toString());
 
 		carDao.editar(carro);
@@ -271,8 +273,6 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void upload(FileUploadEvent event){
 
-		String url = "C:\\Users\\Paulinho\\workspace\\J2ee\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\DealerCar\\";
-		
 		file = event.getFile();
 		InputStream in = null;
 		try {
@@ -281,8 +281,8 @@ public class CarroBean extends AbstractBean implements Serializable {
 			e1.printStackTrace();
 		}
 
-		String CAMINHO = "resources\\images\\" + carro.getCategoria().getNome().toLowerCase();
-		File pastaDestino = new File(url+CAMINHO);
+		String CAMINHO = "resources\\images\\carros\\";
+		File pastaDestino = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("")+"\\"+CAMINHO);
 
 		try {
 			OutputStream out = new FileOutputStream(new File(pastaDestino, event.getFile().getFileName()));
@@ -300,13 +300,12 @@ public class CarroBean extends AbstractBean implements Serializable {
 		}
 
 		if (file != null) {
+			caminho.append("carros/");
+			caminho.append(event.getFile().getFileName());
 			JSFUtil.adicionarMensagemSucesso("Imagem Carregada com Sucesso");
 
-			caminho.append(carro.getCategoria().getNome().toLowerCase());
-			caminho.append("/");
-
-			caminho.append(file.getFileName());
-
+		}else{
+			caminho.append("carros/");
 		}
 
 	}
