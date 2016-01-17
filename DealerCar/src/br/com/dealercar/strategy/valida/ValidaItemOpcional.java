@@ -3,7 +3,6 @@ package br.com.dealercar.strategy.valida;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
 import br.com.dealercar.dao.itensopcionais.CadeirinhaBebeDAO;
 import br.com.dealercar.dao.itensopcionais.GpsDAO;
@@ -11,7 +10,6 @@ import br.com.dealercar.dao.itensopcionais.RadioPlayerDAO;
 import br.com.dealercar.dao.itensopcionais.SeguroDAO;
 import br.com.dealercar.dao.itensopcionais.TipoSeguroDAO;
 import br.com.dealercar.domain.EntidadeDominio;
-import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -34,26 +32,6 @@ public class ValidaItemOpcional implements IValidacaoStrategy {
 	public EntidadeDominio validar(EntidadeDominio entDominio) {
 		
 			
-		//Verifica se a classe passada no Parametro eh um objeto ArCondicionado
-		if (entDominio instanceof ArCondicionado) {
-
-			
-			ArCondicionado retorno = (ArCondicionado) entDominio;
-			
-			ArCondicionadoDAO dao = new ArCondicionadoDAO();
-
-			List<ArCondicionado> lista = new ArrayList<ArCondicionado>();
-			lista = dao.listarTodos();
-
-			for (ArCondicionado c : lista) {
-				if (retorno.getDescricao().toUpperCase().equals(c.getDescricao())) {
-					entDominio = c;
-					return entDominio;
-
-				}
-			}
-		
-		}
 		
 		//Verifica se a classe passada no Parametro eh um objeto BebeConforto
 		if (entDominio instanceof BebeConforto) {

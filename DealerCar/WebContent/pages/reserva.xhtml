@@ -106,8 +106,6 @@
 				</p:column>
 
 
-
-
 				<f:facet name="footer">
 					<h:panelGrid>
 						<p:commandButton value="Novo"
@@ -176,7 +174,7 @@
 
 				</h:panelGrid>
 
-				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
+				<h:panelGrid id="pnlComandos" columns="3" >
 					<p:commandButton action="#{MBReserva.pesquisarPorCPF}"
 						rendered="#{MBReserva.ehCadastrado==false}" value="Pesquisar"
 						update="frmNovaReserva :frmListaReserva:tblListaReserva :msgGlobal" />

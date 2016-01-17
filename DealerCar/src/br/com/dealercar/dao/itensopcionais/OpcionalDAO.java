@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.IDAO;
-import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -32,15 +31,15 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
+	Connection con = null;
 
 	public void cadastrar(Opcional opcional) {
 
 		StringBuffer sql = new StringBuffer();
 
 		sql.append("insert into itens_opcionais ");
-		sql.append("(id_seguro, id_arcondicionado, id_bebeconforto, id_caderinhasbebe, ");
-		sql.append("id_gps, id_radioplayer) values (?, ?, ?, ?, ?, ?)");
+		sql.append("(id_seguro, id_bebeconforto, id_caderinhasbebe, ");
+		sql.append("id_gps, id_radioplayer) values (?, ?, ?, ?, ?)");
 
 		boolean bebe = false;
 		boolean cadeirinha = false;
@@ -58,25 +57,25 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 				if (itens instanceof BebeConforto) {
 					if (itens.getCodigo() > 0) {
-						pstm.setInt(3, itens.getCodigo());
+						pstm.setInt(2, itens.getCodigo());
 						bebe = true;
 					}
 				}
 				if (itens instanceof CadeirinhaBebe) {
 					if (itens.getCodigo() > 0) {
-						pstm.setInt(4, itens.getCodigo());
+						pstm.setInt(3, itens.getCodigo());
 						cadeirinha = true;
 					}
 				}
 				if (itens instanceof Gps) {
 					if (itens.getCodigo() > 0) {
-						pstm.setInt(5, itens.getCodigo());
+						pstm.setInt(4, itens.getCodigo());
 						gps = true;
 					}
 				}
 				if (itens instanceof RadioPlayer) {
 					if (itens.getCodigo() > 0) {
-						pstm.setInt(6, itens.getCodigo());
+						pstm.setInt(5, itens.getCodigo());
 						radio = true;
 					}
 				}
@@ -86,23 +85,18 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 			// verificando quais opcionais não foi incluido
 			// incluindo o id 99 para o opcional que nao foi incluido (99 =
 			// null)
-			if (opcional.getArCondicionado().getCodigo() < 1) {
-				pstm.setInt(2, 99);
-			} else {
-				pstm.setInt(2, opcional.getArCondicionado().getCodigo());
-			}
-
+			
 			if (bebe == false) {
-				pstm.setInt(3, 99);
+				pstm.setInt(2, 99);
 			}
 			if (cadeirinha == false) {
-				pstm.setInt(4, 99);
+				pstm.setInt(3, 99);
 			}
 			if (gps == false) {
-				pstm.setInt(5, 99);
+				pstm.setInt(4, 99);
 			}
 			if (radio == false) {
-				pstm.setInt(6, 99);
+				pstm.setInt(5, 99);
 			}
 
 			pstm.executeUpdate();
@@ -137,7 +131,7 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 	public List<Opcional> listarTodos() {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, id_seguro, id_arcondicionado, id_bebeconforto, id_caderinhasbebe, ");
+		sql.append("select id, id_seguro, id_bebeconforto, id_caderinhasbebe, ");
 		sql.append("id_gps, id_radioplayer from itens_opcionais ");
 
 		List<Opcional> listaOpcionais = new ArrayList<Opcional>();
@@ -157,11 +151,6 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 				seguro.setCodigo(rSet.getInt("id_seguro"));
 				seguro = new SeguroDAO().pesquisarPorCodigo(seguro);
 				opcional.setSeguro(seguro);
-
-				ArCondicionado ar = new ArCondicionado();
-				ar.setCodigo(rSet.getInt("id_arcondicionado"));
-				ar = new ArCondicionadoDAO().pesquisarPorCodigo(ar);
-				opcional.setArCondicionado(ar);
 
 				BebeConforto bebe = new BebeConforto();
 				bebe.setCodigo(rSet.getInt("id_bebeconforto"));
@@ -202,11 +191,14 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 	}
 
+	/**
+	 * Pesquisa nas TAbelas  de OpcionalDAO cadastrados pelo seu ID
+	 */
 	@Override
 	public Opcional pesquisarPorID(Opcional entidade) {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, id_seguro, id_arcondicionado, id_bebeconforto, id_caderinhasbebe, ");
+		sql.append("select id, id_seguro, id_bebeconforto, id_caderinhasbebe, ");
 		sql.append("id_gps, id_radioplayer from itens_opcionais where id = ?");
 
 		Opcional opcional = null;
@@ -227,11 +219,6 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 				seguro.setCodigo(rSet.getInt("id_seguro"));
 				seguro = new SeguroDAO().pesquisarPorCodigo(seguro);
 				opcional.setSeguro(seguro);
-
-				ArCondicionado ar = new ArCondicionado();
-				ar.setCodigo(rSet.getInt("id_arcondicionado"));
-				ar = new ArCondicionadoDAO().pesquisarPorCodigo(ar);
-				opcional.setArCondicionado(ar);
 
 				BebeConforto bebe = new BebeConforto();
 				bebe.setCodigo(rSet.getInt("id_bebeconforto"));
@@ -272,7 +259,7 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 	public Opcional pesquisarPorUltimoCadastrado() {
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, id_seguro, id_arcondicionado, id_bebeconforto, id_caderinhasbebe, ");
+		sql.append("select id, id_seguro, id_bebeconforto, id_caderinhasbebe, ");
 		sql.append("id_gps, id_radioplayer from itens_opcionais");
 
 		Opcional opcional = null;
@@ -294,11 +281,6 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 					seguro.setCodigo(rSet.getInt("id_seguro"));
 					seguro = new SeguroDAO().pesquisarPorCodigo(seguro);
 					opcional.setSeguro(seguro);
-
-					ArCondicionado ar = new ArCondicionado();
-					ar.setCodigo(rSet.getInt("id_arcondicionado"));
-					ar = new ArCondicionadoDAO().pesquisarPorID(ar);
-					opcional.setArCondicionado(ar);
 
 					BebeConforto bebe = new BebeConforto();
 					bebe.setCodigo(rSet.getInt("id_bebeconforto"));

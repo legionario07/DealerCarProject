@@ -8,13 +8,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
-import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
 import br.com.dealercar.dao.itensopcionais.CadeirinhaBebeDAO;
 import br.com.dealercar.dao.itensopcionais.GpsDAO;
 import br.com.dealercar.dao.itensopcionais.RadioPlayerDAO;
 import br.com.dealercar.dao.itensopcionais.SeguroDAO;
-import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -32,7 +30,6 @@ public class OpcionaisBean implements IBean, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArCondicionado arCondicionado = new ArCondicionado();
 	private BebeConforto bebeConforto = new BebeConforto();
 	private CadeirinhaBebe cadeirinhaBebe = new CadeirinhaBebe();
 	private Gps gps = new Gps();
@@ -44,7 +41,6 @@ public class OpcionaisBean implements IBean, Serializable {
 	private List<Opcional> opcionais = new ArrayList<Opcional>();
 	private List<Itens> listaItens = new ArrayList<Itens>();
 
-	private List<ArCondicionado> listaArCondicionados = new ArrayList<ArCondicionado>();
 	private List<BebeConforto> listaBebeConfortos = new ArrayList<BebeConforto>();
 	private List<CadeirinhaBebe> listaCadeirinhaBebes = new ArrayList<CadeirinhaBebe>();
 	private List<Gps> listaGps = new ArrayList<Gps>();
@@ -53,13 +49,6 @@ public class OpcionaisBean implements IBean, Serializable {
 
 	private int indice;
 
-	public ArCondicionado getArCondicionado() {
-		return arCondicionado;
-	}
-
-	public void setArCondicionado(ArCondicionado arCondicionado) {
-		this.arCondicionado = arCondicionado;
-	}
 
 	public Itens getItem() {
 		return item;
@@ -115,14 +104,6 @@ public class OpcionaisBean implements IBean, Serializable {
 
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
-	}
-
-	public List<ArCondicionado> getListaArCondicionados() {
-		return listaArCondicionados;
-	}
-
-	public void setListaArCondicionados(List<ArCondicionado> listaArCondicionados) {
-		this.listaArCondicionados = listaArCondicionados;
 	}
 
 	public List<BebeConforto> getListaBebeConfortos() {
@@ -184,7 +165,6 @@ public class OpcionaisBean implements IBean, Serializable {
 	@Override
 	public void carregarListagem() {
 
-		listaArCondicionados = new ArCondicionadoDAO().listarTodos();
 		listaBebeConfortos = new BebeConfortoDAO().listarTodos();
 		listaCadeirinhaBebes = new CadeirinhaBebeDAO().listarTodos();
 		listaGps = new GpsDAO().listarTodos();

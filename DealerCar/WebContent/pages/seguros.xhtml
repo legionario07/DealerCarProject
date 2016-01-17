@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBSeguro.carregarListagem}" type="preRenderView" />
+
+		<h:form id="frmListaSeguros">
+
+			<p:dataTable id="tblListaSeguros" value="#{MBSeguro.listaSeguros}"
+				widgetVar="tabelaListagem" var="itemSeguros" style="width:70%"
+				sortBy="#{itemSeguros.descricao}"
+				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+				rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Seguros - Listagem" style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Código" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemSeguros.codigo}">
+					<h:outputText value="#{itemSeguros.codigo}" />
+				</p:column>
+
+				<p:column headerText="Descrição" width="15%" style="font-size:11px"
+					sortBy="#{itemSeguros.descricao}">
+					<h:outputText value="#{itemSeguros.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor Seguro" width="15%"
+					style="font-size:11px" sortBy="#{itemSeguros.valor}">
+					<h:outputText value="#{itemSeguros.valor}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Nome" width="15%" style="font-size:11px"
+					sortBy="#{itemSeguros.tipoSeguro.nome}">
+					<h:outputText value="#{itemSeguros.tipoSeguro.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor Acrescido" width="15%"
+					style="font-size:11px" sortBy="#{itemSeguros.tipoSeguro.valorAcrescido}">
+					<h:outputText value="#{itemSeguros.tipoSeguro.valorAcrescido}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Opções" width="10%" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgSegurosEditar').show();"
+						update=":frmSegurosEditar:pnlSegurosEditar :msgGlobal">
+						<f:setPropertyActionListener value="#{itemSeguros}"
+							target="#{MBSeguro.seguro}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgSegurosExcluir').show();"
+						update="frmExcluirSeguros :msgGlobal">
+						<f:setPropertyActionListener value="#{itemSeguros}"
+							target="#{MBSeguro.seguro}" />
+					</p:commandButton>
+
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Novo"
+							onclick="PF('dlgSegurosNovo').show();"
+							update=":frmNovoSeguros :msgGlobal" />
+					</h:panelGrid>
+
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<!--  Caixa de Dialogo Cadastrar Seguros -->
+		<p:dialog widgetVar="dlgSegurosNovo" closable="false" width="30%"
+			id="dlgNovo" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Seguros - Cadastrar">
+			<h:form id="frmNovoSeguros">
+
+				<h:panelGrid id="pnlNovoSeguros2" columns="2">
+
+					<h:outputText value="Nome: *" />
+					<p:inputText value="#{MBSeguro.seguro.descricao}" rendered="true"
+						requiredMessage="Favor informar o nome da nova Taxa Adicional" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBSeguro.seguro.valor}" rendered="true"
+						requiredMessage="Favor informar o valor da nova Taxa Adicional" />
+
+					<h:outputText value="Tipo Seguro: *" />
+					<p:selectOneMenu id="TipoSeguro"
+						value="#{MBSeguro.seguro.tipoSeguro.id}" required="true"
+						requiredMessage="Favor informar o Tipo de Seguro. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:210px">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBSeguro.listaTiposSeguros}"
+							var="tipoSeguro" itemLabel="#{tipoSeguro.nome}"
+							itemValue="#{tipoSeguro.id}" />
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+
+					<p:commandButton value="Salvar"
+						actionListener="#{MBSeguro.cadastrar}"
+						update="frmListaSeguros:tblListaSeguros :msgGlobal"
+						onclick="PF('dlgSegurosNovo').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgSegurosNovo').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Confimar Editar  Seguros-->
+		<p:dialog widgetVar="dlgSegurosEditar" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Seguros - Editar">
+
+			<h:form id="frmSegurosEditar">
+				<h:panelGrid id="pnlSegurosEditar" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBSeguro.seguro.codigo}" readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBSeguro.seguro.descricao}" required="true"
+						requiredMessage="Favor digitar uma Descrição para o novo Seguro" />
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBSeguro.seguro.valor}" required="true"
+						requiredMessage="Favor digitar o Valor para o Seguro" />
+
+					<h:outputText value="Tipo Seguro: *" />
+					<p:selectOneMenu id="TipoSeguro"
+						value="#{MBSeguro.seguro.tipoSeguro.id}" required="true"
+						requiredMessage="Favor informar o Tipo de Seguro. Campo de preenchimento obrigatório"
+						panelStyle="width:180px" effect="fade" style="width:210px">
+
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{MBSeguro.listaTiposSeguros}"
+							var="tipoSeguro" itemLabel="#{tipoSeguro.nome}"
+							itemValue="#{tipoSeguro.id}" />
+					</p:selectOneMenu>
+
+
+					<p:commandButton value="Salvar" actionListener="#{MBSeguro.editar}"
+						update=":frmListaSeguros:tblListaSeguros :msgGlobal"
+						oncomplete="PF('dlgSegurosEditar').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgSegurosEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir Seguros -->
+		<p:dialog widgetVar="dlgSegurosExcluir" closable="false" width="30%"
+			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Seguros - Excluir">
+			<h:form id="frmExcluirSeguros">
+
+
+				<h:panelGrid id="pnlExcluirSeguros" columns="2">
+
+					<h:outputText value="Código: " />
+					<p:inputText value="#{MBSeguro.seguro.codigo}" readonly="true" />
+
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBSeguro.seguro.descricao}" readonly="true" />
+
+					<h:outputText value="Valor " />
+					<p:inputText value="#{MBSeguro.seguro.valor}" readonly="true" />
+
+					<h:outputText value="Tipo Seguro " />
+					<p:inputText value="#{MBSeguro.seguro.tipoSeguro.nome}"
+						readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBSeguro.excluir}"
+						update="frmListaSeguros:tblListaSeguros :msgGlobal"
+						onclick="PF('dlgSegurosExcluir').hide();" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgSegurosExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

@@ -30,7 +30,6 @@
 
 					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
 
-
 						<h:outputLabel value="Digite o CPF para Localizar o Cliente"
 							rendered="#{MBDevolucao.cliente.CPF == null}" />
 						<p:inputMask mask="999.999.999-99"
@@ -39,12 +38,10 @@
 
 					</h:panelGrid>
 
-
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton actionListener="#{MBDevolucao.pesquisarPorCPF}"
 							update="frmConsultaDevolucao :msgGlobal"
 							rendered="#{MBDevolucao.cliente.CPF == null}" value="Pesquisar" />
-
 
 
 					</h:panelGrid>

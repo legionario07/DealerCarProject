@@ -3,14 +3,12 @@ package br.com.dealercar.teste.itensopcionais;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
 import br.com.dealercar.dao.itensopcionais.CadeirinhaBebeDAO;
 import br.com.dealercar.dao.itensopcionais.GpsDAO;
 import br.com.dealercar.dao.itensopcionais.OpcionalDAO;
 import br.com.dealercar.dao.itensopcionais.RadioPlayerDAO;
 import br.com.dealercar.dao.itensopcionais.SeguroDAO;
-import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -21,14 +19,12 @@ import br.com.dealercar.domain.itensopcionais.Seguro;
 
 public class OpcionalDAOTest {
 
-	private static ArCondicionado ar = new ArCondicionado();
 	private static BebeConforto bebe = new BebeConforto();
 	private static CadeirinhaBebe cadeirinha = new CadeirinhaBebe();
 	private static Gps gps = new Gps();
 	private static RadioPlayer radio = new RadioPlayer();
 	private static Seguro seguro = new Seguro();
 	
-	private static ArCondicionadoDAO arDao = new ArCondicionadoDAO();
 	private static BebeConfortoDAO bebeDao = new BebeConfortoDAO();
 	private static CadeirinhaBebeDAO cadeDao = new CadeirinhaBebeDAO();
 	private static GpsDAO gpsDao = new GpsDAO();
@@ -37,9 +33,6 @@ public class OpcionalDAOTest {
 	
 	public static void preencherObjetos(){
 	
-		ar.setCodigo(3);
-		ar = arDao.pesquisarPorID(ar);
-		
 		bebe.setCodigo(1);
 		bebe = bebeDao.pesquisarPorCodigo(bebe);
 		
@@ -69,7 +62,6 @@ public class OpcionalDAOTest {
 		
 		itemOpcional.setSeguro(seguro);
 	
-		itemOpcional.setArCondicionado(ar);
 		itens.add(cadeirinha);
 		itens.add(radio);
 	
@@ -117,9 +109,9 @@ public class OpcionalDAOTest {
 	
 	public static void main(String[] args) {
 
-		//cadastrar();
+		cadastrar();
 		//pesquisarPorId();
-		listarTodos();
+		//listarTodos();
 		//pesquisarPorUltimoCadastrado();
 		
 	}

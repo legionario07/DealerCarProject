@@ -81,9 +81,9 @@ public class SeguroDAOTest {
 
 		//cadastrar();
 		//editar();
-		pesquisarPorCodigo();
+		//pesquisarPorCodigo();
 		//excluir();
-		//listarTodos();
+		listarTodos();
 		//listarApenasNomesDiferentes();
 	}
 

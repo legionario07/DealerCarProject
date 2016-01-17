@@ -28,7 +28,7 @@
 			<p:tab title="Retirada" id="tabRetiradaConsulta">
 				<h:form id="frmConsultaRetirada">
 
-					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
+					<h:panelGrid id="pnlClienteDados" columns="2">
 
 
 						<h:outputLabel value="Digite o CPF para Localizar o Cliente"
@@ -38,7 +38,6 @@
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
 
 					</h:panelGrid>
-
 
 
 					<h:panelGrid id="pnlClienteDados2" columns="2"
@@ -115,7 +114,7 @@
 
 
 
-					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+					<h:panelGrid id="pnlComandos" columns="5">
 						<p:commandButton actionListener="#{MBRetirada.pesquisarPorCPF}"
 							update="frmConsultaRetirada :msgGlobal"
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}"
@@ -235,40 +234,6 @@
 
 				<h:panelGrid columns="1">
 					<h:outputText value="Itens Opcionais" style="font-weight:bold" />
-
-
-				</h:panelGrid>
-
-				<h:panelGrid id="arCondicionado" columns="3"
-					styleClass="estilos.css" columnClasses="coluna1,coluna2,coluna3">
-
-					<p:outputLabel value="Ar Condicionado" />
-
-					<h:panelGrid columns="2">
-						<p:selectOneMenu id="ar" value="#{MBRetirada.selectAr}"
-							panelStyle="width:180px" effect="fade" style="width:70px">
-
-							<f:selectItem itemValue="false" itemLabel="NÃO" />
-							<f:selectItem itemValue="true" itemLabel="SIM" />
-
-							<p:ajax update="arCondicionado"
-								listener="#{MBRetirada.carregarItensOpcionais}" />
-						</p:selectOneMenu>
-
-
-						<p:selectOneMenu id="tipoAr"
-							rendered="#{MBRetirada.selectAr == true}"
-							value="#{MBRetirada.retirada.opcional.arCondicionado.descricao}"
-							required="true"
-							requiredMessage="Favor informar o ArCondicionado Desejado"
-							panelStyle="width:180px" effect="fade" style="width:160px"
-							filter="true" filterMatchMode="startsWith">
-
-							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-							<f:selectItems value="#{MBRetirada.listaArCondicionado}" var="ar"
-								itemLabel="#{ar.descricao}" itemValue="#{ar.descricao}" />
-						</p:selectOneMenu>
-					</h:panelGrid>
 
 
 				</h:panelGrid>

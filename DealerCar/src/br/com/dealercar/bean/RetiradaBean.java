@@ -14,7 +14,6 @@ import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.RetiradaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.dao.automotivos.ModeloDAO;
-import br.com.dealercar.dao.itensopcionais.ArCondicionadoDAO;
 import br.com.dealercar.dao.itensopcionais.BebeConfortoDAO;
 import br.com.dealercar.dao.itensopcionais.CadeirinhaBebeDAO;
 import br.com.dealercar.dao.itensopcionais.GpsDAO;
@@ -30,7 +29,6 @@ import br.com.dealercar.domain.Reserva;
 import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Modelo;
-import br.com.dealercar.domain.itensopcionais.ArCondicionado;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -81,7 +79,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private List<Carro> listaPlacasDisponiveis = new ArrayList<Carro>();
 	private List<Seguro> listaSeguros = new ArrayList<Seguro>();
 	private List<TipoSeguro> listaTipoSeguros = new ArrayList<TipoSeguro>();
-	private List<ArCondicionado> listaArCondicionado = new ArrayList<ArCondicionado>();
 	private List<BebeConforto> listaBebeConforto = new ArrayList<BebeConforto>();
 	private List<CadeirinhaBebe> listaCadeirinhaBebe = new ArrayList<CadeirinhaBebe>();
 	private List<Gps> listaGps = new ArrayList<Gps>();
@@ -254,14 +251,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.listaTipoSeguros = listaTipoSeguros;
 	}
 
-	public List<ArCondicionado> getListaArCondicionado() {
-		return listaArCondicionado;
-	}
-
-	public void setListaArCondicionado(List<ArCondicionado> listaArCondicionado) {
-		this.listaArCondicionado = listaArCondicionado;
-	}
-
 	public List<BebeConforto> getListaBebeConforto() {
 		return listaBebeConforto;
 	}
@@ -335,7 +324,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void carregarItensOpcionais() {
 
-		listaArCondicionado = new ArCondicionadoDAO().listarTodos();
 		listaBebeConforto = new BebeConfortoDAO().listarTodos();
 		listaCadeirinhaBebe = new CadeirinhaBebeDAO().listarTodos();
 		listaGps = new GpsDAO().listarTodos();
@@ -347,16 +335,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 * Efetua a retirada validando os itens selecionados na VIEW
 	 */
 	public void efetuarRetirada() {
-
-		//Validando Itens Opcionais
-		if (retirada.getOpcional().getArCondicionado().getDescricao() != null)
-			retirada.getOpcional().setArCondicionado(
-					(ArCondicionado) new ValidaItemOpcional().validar(retirada.getOpcional().getArCondicionado()));
-		else{
-			retirada.getOpcional().getArCondicionado().setCodigo(99);
-			retirada.getOpcional().setArCondicionado(new ArCondicionadoDAO().pesquisarPorCodigo(
-					retirada.getOpcional().getArCondicionado()));
-		}
 
 		//valida o tipo de seguro escolhido na view
 		retirada.getOpcional().getSeguro().setTipoSeguro(

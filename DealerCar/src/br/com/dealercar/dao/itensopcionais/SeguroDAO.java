@@ -42,9 +42,10 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setString(1, seguro.getDescricao());
-			pstm.setDouble(2, seguro.getValor());
-			pstm.setInt(3, seguro.getTipoSeguro().getId());
+			int i=0;
+			pstm.setString(++i, seguro.getDescricao());
+			pstm.setDouble(++i, seguro.getValor());
+			pstm.setInt(++i, seguro.getTipoSeguro().getId());
 			pstm.executeUpdate();
 
 			pstm.close();

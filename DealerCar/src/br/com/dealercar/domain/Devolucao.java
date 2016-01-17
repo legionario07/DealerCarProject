@@ -144,12 +144,6 @@ public class Devolucao extends EntidadeDominio {
 
 		double valorItensAdicionais = 0;
 
-		// Verificando se for escolhido Carro com ARcondicionado e somado o
-		// valor
-		if (retirada.getOpcional().getArCondicionado().getCodigo() != 99
-				&& retirada.getOpcional().getArCondicionado().getDescricao() != null)
-			valorItensAdicionais += retirada.getOpcional().getArCondicionado().getValor();
-
 		// Verificando se há mais Itens Opcionais
 		for (Itens i : retirada.getOpcional().getItens()) {
 			if (i.getCodigo() != 99 && i.getDescricao() != null)

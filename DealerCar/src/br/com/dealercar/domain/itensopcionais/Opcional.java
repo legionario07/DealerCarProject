@@ -18,24 +18,14 @@ public class Opcional extends EntidadeDominio {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Itens> itens = new ArrayList<Itens>();
-	private ArCondicionado arCondicionado;
 	private Seguro seguro;
 
 	public Opcional() {
-		arCondicionado = new ArCondicionado();
 		seguro = new Seguro();
 	}
 
 	public Opcional(int id) {
 		this.setId(id);
-	}
-
-	public ArCondicionado getArCondicionado() {
-		return arCondicionado;
-	}
-
-	public void setArCondicionado(ArCondicionado arCondicionado) {
-		this.arCondicionado = arCondicionado;
 	}
 
 	public Seguro getSeguro() {
@@ -63,11 +53,6 @@ public class Opcional extends EntidadeDominio {
 		retorno.append("\n");
 		retorno.append(this.getSeguro().toString());
 		retorno.append("\n");
-		if (this.arCondicionado.getCodigo() > 0) {
-			retorno.append(this.getArCondicionado());
-			retorno.append("\n");
-		}
-		
 		for (Itens i : itens) {
 			if (i.getCodigo() != 0) {
 				retorno.append(i.toString());
