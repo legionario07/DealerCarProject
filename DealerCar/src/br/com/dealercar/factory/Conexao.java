@@ -13,7 +13,7 @@ import br.com.dealercar.util.JSFUtil;
  */
 public abstract class Conexao {
 
-	private static final String url = "jdbc:mysql://localhost:3306/dealercar2";
+	private static final String url = "jdbc:mysql://localhost:3306/dealercar";
 	private static final String usuario = "root";
 	private static final String senha = "root";
 	
