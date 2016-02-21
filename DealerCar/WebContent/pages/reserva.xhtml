@@ -106,11 +106,16 @@
 				</p:column>
 
 
-				<f:facet name="footer">
-					<h:panelGrid>
+				<f:facet name="footer" >
+					<h:panelGrid columns="2" styleClass="semBorda">
 						<p:commandButton value="Novo"
+						style="text-align:right ;float:right" 
 							onclick="PF('dlgReservaNova').show();"
 							update=":frmNovaReserva:pnlNovaReserva" />
+						<p:commandButton icon="ui-icon-info" title="Gráfico de Informações"
+						style="float:left" 
+							onclick="PF('dlgReservaGrafico').show();"
+							update=":frmGraficoReserva:pnlGraficoReserva" />
 					</h:panelGrid>
 
 					<p:outputLabel value="Exitem " />
@@ -174,7 +179,7 @@
 
 				</h:panelGrid>
 
-				<h:panelGrid id="pnlComandos" columns="3" >
+				<h:panelGrid id="pnlComandos" columns="3">
 					<p:commandButton action="#{MBReserva.pesquisarPorCPF}"
 						rendered="#{MBReserva.ehCadastrado==false}" value="Pesquisar"
 						update="frmNovaReserva :frmListaReserva:tblListaReserva :msgGlobal" />
@@ -182,7 +187,7 @@
 					<p:commandButton value="Salvar"
 						rendered="#{MBReserva.ehCadastrado == true}"
 						actionListener="#{MBReserva.cadastrar}"
-						update="frmListaReserva:tblListaReserva :msgGlobal"	/>
+						update="frmListaReserva:tblListaReserva :msgGlobal" />
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgReservaNova').hide();" />
@@ -249,14 +254,14 @@
 			header="Reserva - Editar">
 
 			<h:form id="frmReservaEditar">
-				
+
 				<h:panelGrid id="validadores" columns="4">
 					<p:message for="data" />
 					<h:outputText value="#{MBReserva.reserva.dataFim}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</h:panelGrid>
-				
+
 				<h:panelGrid id="pnlReservaEditar" columns="2">
 
 					<h:outputText value="ID: " />
@@ -313,6 +318,33 @@
 
 			</h:form>
 		</p:dialog>
+
+
+		<!--  Caixa de Dialogo Grafico Reserva -->
+		<p:dialog widgetVar="dlgReservaGrafico" closable="false" width="30%"
+			id="dlgNovoGrafico" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Reserva - Gráfico">
+			<h:form id="frmGraficoReserva">
+
+				<h:panelGrid id="pnlGraficoReserva" columns="2">
+
+
+					<p:chart type="pie" model="#{MBReserva.pieReserva}"
+						style="width:400px;height:300px" />
+
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="3">
+					<p:commandButton value="Voltar"
+						onclick="PF('dlgReservaGrafico').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
 
 	</ui:define>
 

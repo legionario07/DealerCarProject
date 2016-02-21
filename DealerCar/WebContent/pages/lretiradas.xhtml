@@ -108,6 +108,12 @@
 
 
 				<f:facet name="footer">
+					<h:panelGrid styleClass="semBorda">
+						<p:commandButton icon="ui-icon-info"
+							title="Gráfico de Informações"
+							onclick="PF('dlgRetiradaGrafico').show();"
+							update=":frmGraficoRetirada:pnlGraficoRetirada" />
+					</h:panelGrid>
 					<p:outputLabel value="Exitem " />
 					<p:outputLabel value="#{MBRetirada.totalRetiradas}" />
 					<p:outputLabel value=" retiradas cadastradas." />
@@ -116,6 +122,35 @@
 			</p:dataTable>
 		</h:form>
 
+		<!--  Caixa de Dialogo Grafico Retirada -->
+		<p:dialog widgetVar="dlgRetiradaGrafico" closable="false" width="55%"
+			id="dlgNovoGrafico" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Retirada - Gráfico">
+			<h:form id="frmGraficoRetirada">
+
+				<h:panelGrid id="pnlGraficoRetirada" columns="2">
+
+
+					<p:chart type="pie" model="#{MBRetirada.pieRetiradaModelos}"
+						style="width:400px;height:300px" />
+
+					<p:chart type="pie" model="#{MBRetirada.pieRetiradaCarrosLocados}"
+						style="width:400px;height:300px" />
+						
+					<p:chart type="pie" model="#{MBRetirada.pieRetiradaCategoriasLocadas}"
+						style="width:400px;height:300px" />
+
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="3">
+					<p:commandButton value="Voltar"
+						onclick="PF('dlgRetiradaGrafico').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
 
 	</ui:define>
 

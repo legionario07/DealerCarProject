@@ -66,9 +66,9 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 			pstm.setInt(++i, revisao.getFuncionario().getId());
 
 			// colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataRevisao = stf.format(revisao.getDataRevisao());
-			pstm.setString(++i, strDataRevisao);
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataRevisao = stf.format(revisao.getDataRevisao());
+			pstm.setString(++i, dataRevisao);
 
 			pstm.setString(++i, String.valueOf(revisao.getQuilometragem()));
 			pstm.setString(++i, revisao.getCarro().getPlaca());
@@ -141,16 +141,7 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				revisaoRetorno = new Revisao();
 
 				revisaoRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					revisaoRetorno.setDataRevisao(stf.parse(rSet.getString("data_revisao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				revisaoRetorno.setDataRevisao(rSet.getDate("data_revisao"));
 				revisaoRetorno.setQuilometragem(Long.parseLong(rSet.getString("quilometragem")));
 				revisaoRetorno.setDescricao(rSet.getString("descricao"));
 
@@ -174,35 +165,34 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
-				Bateria bateria             = new Bateria(rSet.getString("bateria"));
-				Embreagem embreagem         = new Embreagem(rSet.getString("embreagem"));
-				Freio freio                 = new Freio(rSet.getString("freio"));
-				Lanterna lanterna           = new Lanterna(rSet.getString("lanterna"));
-				Motor motor                 = new Motor(rSet.getString("motor"));
-				Suspensao suspensao         = new Suspensao(rSet.getString("suspensao"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
 
 				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
 				pneus.add(dianteiroDireito);
-				
+
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(dianteiroEsquerdo);
-				
+
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
 				pneus.add(traseiroDireito);
-				
+
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(traseiroEsquerdo);
-				
+
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
 				pneus.add(estepe);
-				
-				
+
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
 				componente.setEmbreagem(embreagem);
@@ -252,16 +242,7 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				revisaoRetorno = new Revisao();
 
 				revisaoRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					revisaoRetorno.setDataRevisao(stf.parse(rSet.getString("data_revisao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				revisaoRetorno.setDataRevisao(rSet.getDate("data_revisao"));
 				revisaoRetorno.setQuilometragem(Long.parseLong(rSet.getString("quilometragem")));
 				revisaoRetorno.setDescricao(rSet.getString("descricao"));
 
@@ -285,35 +266,35 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
-				Bateria bateria             = new Bateria(rSet.getString("bateria"));
-				Embreagem embreagem         = new Embreagem(rSet.getString("embreagem"));
-				Freio freio                 = new Freio(rSet.getString("freio"));
-				Lanterna lanterna           = new Lanterna(rSet.getString("lanterna"));
-				Motor motor                 = new Motor(rSet.getString("motor"));
-				Suspensao suspensao         = new Suspensao(rSet.getString("suspensao"));
-				
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+
 				List<Pneu> pneus = new ArrayList<Pneu>();
-				
+
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
 				pneus.add(dianteiroDireito);
-				
+
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(dianteiroEsquerdo);
-				
+
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
 				pneus.add(traseiroDireito);
-				
+
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(traseiroEsquerdo);
-				
+
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
 				pneus.add(estepe);
-				
+
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
 				componente.setEmbreagem(embreagem);
@@ -362,16 +343,7 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				revisaoRetorno = new Revisao();
 
 				revisaoRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					revisaoRetorno.setDataRevisao(stf.parse(rSet.getString("data_revisao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				revisaoRetorno.setDataRevisao(rSet.getDate("data_revisao"));
 				revisaoRetorno.setQuilometragem(Long.parseLong(rSet.getString("quilometragem")));
 				revisaoRetorno.setDescricao(rSet.getString("descricao"));
 
@@ -395,34 +367,34 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				Componentes componente = new Componentes();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
-				Bateria bateria             = new Bateria(rSet.getString("bateria"));
-				Embreagem embreagem         = new Embreagem(rSet.getString("embreagem"));
-				Freio freio                 = new Freio(rSet.getString("freio"));
-				Lanterna lanterna           = new Lanterna(rSet.getString("lanterna"));
-				Motor motor                 = new Motor(rSet.getString("motor"));
-				Suspensao suspensao         = new Suspensao(rSet.getString("suspensao"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
 
 				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
 				pneus.add(dianteiroDireito);
-				
+
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(dianteiroEsquerdo);
-				
+
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
 				pneus.add(traseiroDireito);
-				
+
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
 				pneus.add(traseiroEsquerdo);
-				
+
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
 				pneus.add(estepe);
-				
+
 				componente.setArrefecimento(arrefecimento);
 				componente.setBateria(bateria);
 				componente.setEmbreagem(embreagem);

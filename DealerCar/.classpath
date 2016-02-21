@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/TIBCOJaspersoftStudio-6.2.0.final-windows-x86/jaspersoftstudio/plugins/org.apache.commons.lang_2.6.0.v201404270220.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/TIBCOJaspersoftStudio-6.2.0.final-windows-x86/jaspersoftstudio/plugins/org.apache.commons.pool_1.6.0.v201204271246.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/Libs/Jasper Reports/com.lowagie.text-2.1.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Paulinho/Documents/Programas/Editores de Codigo/TIBCOJaspersoftStudio-6.2.0.final-windows-x86/jaspersoftstudio/plugins/net.sf.jasperreports.samples_6.2.0.final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

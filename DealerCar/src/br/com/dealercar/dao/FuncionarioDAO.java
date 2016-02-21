@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,22 +18,24 @@ import br.com.dealercar.util.JSFUtil;
 
 /**
  * Classe responsável por persistir os Funcionários no BD
+ * 
  * @author Paulinho
  *
  */
-public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements Serializable {
-	
+public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements Serializable {
+
 	Connection con = Conexao.getConnection();
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	/**
 	 * 
-	 * @param funcionario Recebe um funcionario e uma Cidade e cadastra no Banco de Dados
+	 * @param funcionario
+	 *            Recebe um funcionario e uma Cidade e cadastra no Banco de
+	 *            Dados
 	 * @param cidade
 	 */
 	public void cadastrar(Funcionario funcionario) {
@@ -45,18 +46,18 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		sql.append("id_cidade, id_usuario, cargo, salario) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		con = Conexao.getConnection();
-		
+
 		try {
 
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			pstm.setString(++i, funcionario.getNome().toUpperCase());
-			
-			//colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(funcionario.getDataNasc());
-			pstm.setString(++i, strDataCadastro);
-			
+
+			// colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataNascimento = stf.format(funcionario.getDataNasc());
+			pstm.setString(++i, dataNascimento);
+
 			pstm.setString(++i, funcionario.getSexo());
 			pstm.setString(++i, funcionario.getEndereco().getRua());
 			pstm.setString(++i, funcionario.getEndereco().getNumero());
@@ -70,7 +71,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			pstm.setDouble(++i, funcionario.getSalario());
 
 			pstm.executeUpdate();
-			
+
 			pstm.close();
 			con.close();
 
@@ -82,8 +83,10 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 	/**
 	 * 
-	 * @param funcionario Recebe um Funcionario e uma Cidade e edita seus dados do Banco de Dados
-	 * @param 
+	 * @param funcionario
+	 *            Recebe um Funcionario e uma Cidade e edita seus dados do Banco
+	 *            de Dados
+	 * @param
 	 */
 	public void editar(Funcionario funcionario) {
 
@@ -101,13 +104,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 			pstm.setString(++i, funcionario.getNome().toUpperCase());
-			
-			//colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(funcionario.getDataNasc());
-			
-			pstm.setString(++i, strDataCadastro);
-			
+
+			// colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataNascimento = stf.format(funcionario.getDataNasc());
+			pstm.setString(++i, dataNascimento);
+
 			pstm.setString(++i, funcionario.getSexo());
 			pstm.setString(++i, funcionario.getEndereco().getRua());
 			pstm.setString(++i, funcionario.getEndereco().getNumero());
@@ -120,15 +122,15 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			pstm.setInt(++i, funcionario.getEndereco().getCidade().getId());
 			pstm.setInt(++i, funcionario.getUsuario().getId());
 			pstm.setInt(++i, funcionario.getId());
-			
-			//editando o Usuario do Funcionario
+
+			// editando o Usuario do Funcionario
 			new UsuarioDAO().editar(funcionario.getUsuario());
-			
+
 			pstm.executeUpdate();
-			
+
 			pstm.close();
 			con.close();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -136,22 +138,23 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 	/**
 	 * 
-	 * @param funcionario Recebe um Funcionario e exclui do Banco de dados
-	 *  localizando pelo seu Id
+	 * @param funcionario
+	 *            Recebe um Funcionario e exclui do Banco de dados localizando
+	 *            pelo seu Id
 	 */
 	public void excluir(Funcionario funcionario) {
 
 		String sql = "delete from funcionarios where id = ?";
 
 		con = Conexao.getConnection();
-		
+
 		try {
 
 			PreparedStatement pstm = con.prepareStatement(sql);
 			pstm.setInt(1, funcionario.getId());
 
 			pstm.executeUpdate();
-			
+
 			pstm.close();
 			con.close();
 
@@ -164,18 +167,19 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 	/**
 	 * 
-	 * @return Retorna todos os funcionarios do Banco de dados em forma de List<Funcionario>
+	 * @return Retorna todos os funcionarios do Banco de dados em forma de List
+	 *         <Funcionario>
 	 */
 	public List<Funcionario> listarTodos() {
 
-		StringBuffer sql = new StringBuffer(); 
+		StringBuffer sql = new StringBuffer();
 		sql.append("select * from funcionarios ");
 		sql.append("order by nome asc");
 
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
 		con = Conexao.getConnection();
-		
+
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			ResultSet rSet = pstm.executeQuery();
@@ -186,43 +190,34 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 				funcionarioRetorno.setId(rSet.getInt("id"));
 				funcionarioRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				try {
-					funcionarioRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				funcionarioRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("telefone"));
-				
+
 				Endereco end = new Endereco();
 				end.setRua(rSet.getString("rua"));
 				end.setNumero(rSet.getString("numero"));
 				end.setComplemento(rSet.getString("complemento"));
 				end.setBairro(rSet.getString("bairro"));
-				
+
 				Cidade cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id_cidade"));
 				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
-				
+
 				end.setCidade(cidadeRetorno);
-				funcionarioRetorno.setEndereco(end);				
-				
+				funcionarioRetorno.setEndereco(end);
+
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
 				funcionarioRetorno.setCargo(rSet.getString("cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
-				
+
 				Usuario usuario = new Usuario(rSet.getInt("id_usuario"));
 				usuario = new UsuarioDAO().pesquisarPorID(usuario);
-				
+
 				funcionarioRetorno.setUsuario(usuario);
 
 				funcionarios.add(funcionarioRetorno);
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -235,17 +230,18 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 	/**
 	 * 
-	 * @param funcionario Recebe um funcionario e localiza pelo Id no Banco de Dados
+	 * @param funcionario
+	 *            Recebe um funcionario e localiza pelo Id no Banco de Dados
 	 * @return Retorna um Objeto de Funcionario
 	 */
 	public Funcionario pesquisarPorID(Funcionario funcionario) {
 
-		StringBuffer sql = new StringBuffer(); 
+		StringBuffer sql = new StringBuffer();
 		sql.append("select * from funcionarios ");
 		sql.append("where id = ?");
 
 		Funcionario funcionarioRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -255,47 +251,38 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				
+
 				funcionarioRetorno = new Funcionario();
 				funcionarioRetorno.setId(rSet.getInt("id"));
 				funcionarioRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				try {
-					funcionarioRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				funcionarioRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("telefone"));
-				
+
 				Endereco end = new Endereco();
 				end.setRua(rSet.getString("rua"));
 				end.setNumero(rSet.getString("numero"));
 				end.setComplemento(rSet.getString("complemento"));
 				end.setBairro(rSet.getString("bairro"));
-				
+
 				Cidade cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id_cidade"));
 				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
-				
+
 				end.setCidade(cidadeRetorno);
-				funcionarioRetorno.setEndereco(end);				
-				
+				funcionarioRetorno.setEndereco(end);
+
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
 				funcionarioRetorno.setCargo(rSet.getString("cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
-				
+
 				Usuario usuario = new Usuario(rSet.getInt("id_usuario"));
 				usuario = new UsuarioDAO().pesquisarPorID(usuario);
-				
+
 				funcionarioRetorno.setUsuario(usuario);
 
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -304,11 +291,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		return funcionarioRetorno;
 
 	}
-	
 
 	/**
 	 * 
-	 * @param funcionarios Recebe um objeto do Tipo Funcionario e localiza no Banco pelo nome
+	 * @param funcionarios
+	 *            Recebe um objeto do Tipo Funcionario e localiza no Banco pelo
+	 *            nome
 	 * @return Retorna um Objeto do tipo Funcionario
 	 */
 	public List<Funcionario> pesquisarPorNome(Funcionario funcionario) {
@@ -318,7 +306,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		sql.append("where nome like ? order by nome asc");
 
 		List<Funcionario> lista = new ArrayList<Funcionario>();
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -334,45 +322,36 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 				funcionarioRetorno.setId(rSet.getInt("id"));
 				funcionarioRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				try {
-					funcionarioRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				funcionarioRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("telefone"));
-				
+
 				Endereco end = new Endereco();
 				end.setRua(rSet.getString("rua"));
 				end.setNumero(rSet.getString("numero"));
 				end.setComplemento(rSet.getString("complemento"));
 				end.setBairro(rSet.getString("bairro"));
-				
+
 				Cidade cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id_cidade"));
 				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
-				
+
 				end.setCidade(cidadeRetorno);
-				funcionarioRetorno.setEndereco(end);				
-				
+				funcionarioRetorno.setEndereco(end);
+
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
 				funcionarioRetorno.setCargo(rSet.getString("cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
-				
+
 				Usuario usuario = new Usuario(rSet.getInt("id_usuario"));
 				usuario = new UsuarioDAO().pesquisarPorID(usuario);
-				
+
 				funcionarioRetorno.setUsuario(usuario);
 
 				lista.add(funcionarioRetorno);
 
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -380,22 +359,22 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 
 		return lista;
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param funcionario Recebe um funcionario e localiza pelo Id no Banco de Dados
+	 * @param funcionario
+	 *            Recebe um funcionario e localiza pelo Id no Banco de Dados
 	 * @return Retorna um Objeto de Funcionario
 	 */
 	public Funcionario pesquisarPorUsuario(Usuario usuario) {
 
-		StringBuffer sql = new StringBuffer(); 
+		StringBuffer sql = new StringBuffer();
 		sql.append("select * from funcionarios ");
 		sql.append("inner join usuarios on usuarios.id = funcionarios.id_usuario ");
 		sql.append("where login = ?");
 
 		Funcionario funcionarioRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -405,48 +384,39 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				
+
 				funcionarioRetorno = new Funcionario();
 
 				funcionarioRetorno.setId(rSet.getInt("id"));
 				funcionarioRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				try {
-					funcionarioRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				funcionarioRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				funcionarioRetorno.setSexo(rSet.getString("sexo"));
 				funcionarioRetorno.setTelefone(rSet.getString("telefone"));
-				
+
 				Endereco end = new Endereco();
 				end.setRua(rSet.getString("rua"));
 				end.setNumero(rSet.getString("numero"));
 				end.setComplemento(rSet.getString("complemento"));
 				end.setBairro(rSet.getString("bairro"));
-				
+
 				Cidade cidadeRetorno = new Cidade();
 				cidadeRetorno.setId(rSet.getInt("id_cidade"));
 				cidadeRetorno = new CidadeDAO().pesquisarPorID(cidadeRetorno);
-				
+
 				end.setCidade(cidadeRetorno);
-				funcionarioRetorno.setEndereco(end);				
-				
+				funcionarioRetorno.setEndereco(end);
+
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
 				funcionarioRetorno.setCargo(rSet.getString("cargo"));
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
-				
+
 				Usuario usuarioRetorno = new Usuario(rSet.getInt("id_usuario"));
 				usuarioRetorno = new UsuarioDAO().pesquisarPorID(usuarioRetorno);
-				
+
 				funcionarioRetorno.setUsuario(usuarioRetorno);
 
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -455,7 +425,5 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario> implements 
 		return funcionarioRetorno;
 
 	}
-	
-
 
 }

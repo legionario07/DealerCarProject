@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +58,14 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 			pstm.setString(++i, reserva.getSituacao().getDescricao());
 
 			// colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(reserva.getDataCadastroReserva());
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataCadastro = stf.format(reserva.getDataCadastroReserva());
+			pstm.setString(++i, dataCadastro);
 
 			// colocando formato string para armazenar no banco de dados
 			String strDataFim = stf.format(reserva.getDataFim());
-
-			pstm.setString(++i, strDataCadastro);
 			pstm.setString(++i, strDataFim);
+
 			pstm.setInt(++i, reserva.getModelo().getId());
 			pstm.setInt(++i, reserva.getCliente().getId());
 			pstm.setInt(++i, reserva.getFuncionario().getId());
@@ -106,13 +105,12 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 			pstm.setString(++i, reserva.getSituacao().getDescricao());
 
 			// colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(reserva.getDataCadastroReserva());
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataCadastro = stf.format(reserva.getDataCadastroReserva());
+			pstm.setString(++i, dataCadastro);
 
 			// colocando formato string para armazenar no banco de dados
 			String strDataFim = stf.format(reserva.getDataFim());
-
-			pstm.setString(++i, strDataCadastro);
 			pstm.setString(++i, strDataFim);
 
 			pstm.setInt(++i, reserva.getModelo().getId());
@@ -183,20 +181,11 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				Reserva reservaRetorno = new Reserva();
 
 				// se a reserva nao for a de id 99 então salva
-				if (rSet.getInt("id")!= 99) {
+				if (rSet.getInt("id") != 99) {
 
 					reservaRetorno.setId(rSet.getInt("id"));
-
-					// recebendo string do BD e armazenando em DATE
-					SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-					try {
-						reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-						reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
+					reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+					reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 					reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 					Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -210,7 +199,7 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 					Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
 					funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
 					reservaRetorno.setFuncionario(funcionario);
-					
+
 					listaReservas.add(reservaRetorno);
 
 				} else {
@@ -253,20 +242,11 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				reservaRetorno = new Reserva();
 
 				// se a reserva nao for a de id 99 então salva
-				if (rSet.getInt("id")!= 99) {
+				if (rSet.getInt("id") != 99) {
 
 					reservaRetorno.setId(rSet.getInt("id"));
-
-					// recebendo string do BD e armazenando em DATE
-					SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-					try {
-						reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-						reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
+					reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+					reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 					reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 					Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -324,17 +304,8 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-					reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -389,17 +360,8 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-					reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -444,7 +406,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 		sql.append("inner join clientes on clientes.id = reservas.id_cliente ");
 		sql.append("where clientes.cpf = ? order by clientes.nome asc");
 
-
 		List<Reserva> listaReserva = new ArrayList<Reserva>();
 
 		con = Conexao.getConnection();
@@ -459,17 +420,8 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-					reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -507,14 +459,13 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 		sql.append("inner join clientes on clientes.id = reservas.id_cliente ");
 		sql.append("where clientes.nome like ? order by clientes.nome asc");
 
-
 		List<Reserva> lista = new ArrayList<Reserva>();
 
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setString(1, "%" + reserva.getCliente().getNome()+ "%");
+			pstm.setString(1, "%" + reserva.getCliente().getNome() + "%");
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
@@ -522,17 +473,8 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				Reserva reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("id"));
-
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					reservaRetorno.setDataCadastroReserva(stf.parse(rSet.getString("data_inicio")));
-					reservaRetorno.setDataFim(stf.parse(rSet.getString("data_fim")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
 				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
 
 				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));

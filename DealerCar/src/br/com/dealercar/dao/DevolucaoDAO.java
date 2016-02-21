@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +55,10 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			// colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataDevolucao = stf.format(devolucao.getDataDevolucao());
-			pstm.setString(++i, strDataDevolucao);
+			//colocando formato string para armazenar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataNascimento = stf.format(devolucao.getDataDevolucao());
+			pstm.setString(++i, dataNascimento);
 			
 			pstm.setString(++i, devolucao.getQuilometragem());
 			pstm.setString(++i, devolucao.getRetirada().getCarro().getPlaca());
@@ -165,17 +164,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			while (rSet.next()) {
 				Devolucao devolucaoRetorno = new Devolucao();
 
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
 				devolucaoRetorno.setId(rSet.getInt("id"));
-
-				try {
-					devolucaoRetorno.setDataDevolucao(stf.parse(rSet.getString("data")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				devolucaoRetorno.setDataDevolucao(rSet.getDate("data"));
 				devolucaoRetorno.setQuilometragem(rSet.getString("quilometragem"));
 				devolucaoRetorno.setQtdeDiarias(rSet.getInt("qtde_diarias"));
 				devolucaoRetorno.setObservacao(rSet.getString("observacao"));
@@ -241,17 +231,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			while (rSet.next()) {
 				devolucaoRetorno = new Devolucao();
 
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
 				devolucaoRetorno.setId(rSet.getInt("id"));
-
-				try {
-					devolucaoRetorno.setDataDevolucao(stf.parse(rSet.getString("data")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				devolucaoRetorno.setDataDevolucao(rSet.getDate("data"));
 				devolucaoRetorno.setQuilometragem(rSet.getString("quilometragem"));
 				devolucaoRetorno.setQtdeDiarias(rSet.getInt("qtde_diarias"));
 				devolucaoRetorno.setValorFinal(rSet.getDouble("vlr_total"));
@@ -319,17 +300,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			while (rSet.next()) {
 				Devolucao devolucaoRetorno = new Devolucao();
 
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
 				devolucaoRetorno.setId(rSet.getInt("id"));
-
-				try {
-					devolucaoRetorno.setDataDevolucao(stf.parse(rSet.getString("data")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				devolucaoRetorno.setDataDevolucao(rSet.getDate("data"));
 				devolucaoRetorno.setQuilometragem(rSet.getString("quilometragem"));
 				devolucaoRetorno.setQtdeDiarias(rSet.getInt("qtde_diarias"));
 				devolucaoRetorno.setValorFinal(rSet.getDouble("vlr_total"));
@@ -390,17 +362,8 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 			while (rSet.next()) {
 				Devolucao devolucaoRetorno = new Devolucao();
 
-				// recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
 				devolucaoRetorno.setId(rSet.getInt("id"));
-
-				try {
-					devolucaoRetorno.setDataDevolucao(stf.parse(rSet.getString("data")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
+				devolucaoRetorno.setDataDevolucao(rSet.getDate("data"));
 				devolucaoRetorno.setQuilometragem(rSet.getString("quilometragem"));
 				devolucaoRetorno.setQtdeDiarias(rSet.getInt("qtde_diarias"));
 				devolucaoRetorno.setObservacao(rSet.getString("observacao"));

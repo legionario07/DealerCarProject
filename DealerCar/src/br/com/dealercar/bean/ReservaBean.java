@@ -7,6 +7,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.model.chart.PieChartModel;
+
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.domain.Cliente;
@@ -18,13 +20,13 @@ import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
+import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
 @SessionScoped
 public class ReservaBean extends AbstractBean {
-
 
 	private Reserva reserva = new Reserva();
 
@@ -33,6 +35,8 @@ public class ReservaBean extends AbstractBean {
 
 	private List<Reserva> listaReservas = new ArrayList<Reserva>();
 	private List<Carro> listaModelosDisponiveis = new ArrayList<Carro>();
+
+	private PieChartModel pieReserva;
 
 	private int totalReservas;
 
@@ -60,6 +64,14 @@ public class ReservaBean extends AbstractBean {
 		this.listaReservas = listaReservas;
 	}
 
+	public PieChartModel getPieReserva() {
+		return pieReserva;
+	}
+
+	public void setPieReserva(PieChartModel pieReserva) {
+		this.pieReserva = pieReserva;
+	}
+
 	public List<Carro> getListaModelosDisponiveis() {
 		return listaModelosDisponiveis;
 	}
@@ -83,41 +95,42 @@ public class ReservaBean extends AbstractBean {
 	@Override
 	public void carregarListagem() {
 
+		//inicializando os gráficos
+		gerarGrafico();
 		
 		listaReservas = reservaDao.listarTodos();
-		
+
 		int atualizouReservas = atualizarStatusReserva();
-		if(atualizouReservas > 0){
+		if (atualizouReservas > 0) {
 			listaReservas = reservaDao.listarTodos();
 		}
-		
-		
+
 		listaModelosDisponiveis = carroDao.listarApenasDisponiveis();
 
 		setTotalReservas(listaReservas.size());
 
 	}
-	
+
 	/**
-	 * Atualiza o Status das Reservas Ativas assim que abre a pagina
-	 * Se passou o dia Ela cancela automaticamente
+	 * Atualiza o Status das Reservas Ativas assim que abre a pagina Se passou o
+	 * dia Ela cancela automaticamente
 	 */
-	private int atualizarStatusReserva(){
+	private int atualizarStatusReserva() {
 		int entrouNoLoop = 0;
-		
-		for(Reserva r : listaReservas){
-			if(r.getSituacao().equals("ATIVO")){
-				//verifica se ja passou a data
+
+		for (Reserva r : listaReservas) {
+			if (r.getSituacao().equals("ATIVO")) {
+				// verifica se ja passou a data
 				int i = DataUtil.compararDatas(DataUtil.pegarDataAtualDoSistema(), r.getDataFim());
-				if(i == -1){
+				if (i == -1) {
 					entrouNoLoop += 1;
-					//como passou a data Fim é alterado o Status para Cancelado
+					// como passou a data Fim é alterado o Status para Cancelado
 					r.setSituacao(SituacaoReserva.CANCELADO);
 					new ReservaDAO().editar(r);
 				}
 			}
 		}
-		
+
 		return entrouNoLoop;
 	}
 
@@ -183,7 +196,7 @@ public class ReservaBean extends AbstractBean {
 		JSFUtil.adicionarMensagemSucesso("Reserva Cadastrada com Sucesso.");
 
 		// Se não houve nenhum erro fecha o <p:Dialog>
-		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaNova').hide();"); 
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaNova').hide();");
 	}
 
 	/**
@@ -213,14 +226,14 @@ public class ReservaBean extends AbstractBean {
 
 		// setando o funcionario que realizou a reserva
 		reserva.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
-		
+
 		reservaDao.editar(reserva);
 		reserva = new Reserva();
 
 		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
-		
+
 		// Se não houve nenhum erro fecha o <p:Dialog>
-		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaEditar').hide();"); 
+		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaEditar').hide();");
 
 	}
 
@@ -233,6 +246,33 @@ public class ReservaBean extends AbstractBean {
 		reservaDao.excluir(reserva);
 
 		JSFUtil.adicionarMensagemSucesso("Reserva excluida com Sucesso.");
+
+	}
+
+	/**
+	 * Gerando o gráfico de Reserva
+	 */
+	private void gerarGrafico() {
+
+		pieReserva = new PieChartModel();
+	
+		//lista que recebe todos os itens do BD 
+		List<Reserva> lista = new ArrayList<Reserva>(); 
+		
+		lista = new ReservaDAO().listarTodos();
+		// passando apenas os nomes para a lista de String
+		
+		List<String> listaString = new ArrayList<String>(); // Lista que ira
+		for (Reserva r : lista) {
+			listaString.add(r.getModelo().getNome());
+		}
+		
+		pieReserva = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+		
+		pieReserva.setTitle("Modelos Mais Reservados");
+		pieReserva.setLegendPosition("w");
+
+		
 
 	}
 

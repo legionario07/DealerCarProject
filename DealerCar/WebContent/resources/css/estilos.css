@@ -29,3 +29,8 @@
 .destaque{
 	font-weight: bold;
 }
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+

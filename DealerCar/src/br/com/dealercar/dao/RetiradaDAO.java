@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			Reserva reserva = null;
 			
 			//colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
 			String dataRetirada = stf.format(retirada.getDataRetirada());
 			pstm.setString(++i, dataRetirada);
 			
@@ -171,17 +170,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			while (rSet.next()) {
 				Retirada retirada = new Retirada();
 
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
 				retirada.setId(rSet.getInt("id"));
 				
-				try {
-					retirada.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
-					retirada.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				retirada.setDataRetirada(rSet.getDate("data_retirada"));
+				retirada.setDataDevolucao(rSet.getDate("data_devolucao"));
 				
 				retirada.setQuilometragem(rSet.getString("quilometragem"));
 
@@ -243,19 +235,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			while (rSet.next()) {
 				retiradaRetorno = new Retirada();
 				
-
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-
 				retiradaRetorno.setId(rSet.getInt("id"));
 				
-				try {
-					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
-					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				retirada.setDataRetirada(rSet.getDate("data_retirada"));
+				retirada.setDataDevolucao(rSet.getDate("data_devolucao"));
 				
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 
@@ -321,19 +304,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			while (rSet.next()) {
 				retiradaRetorno = new Retirada();
 				
-
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-
 				retiradaRetorno.setId(rSet.getInt("id"));
 				
-				try {
-					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
-					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				retiradaRetorno.setDataRetirada(rSet.getDate("data_retirada"));
+				retiradaRetorno.setDataDevolucao(rSet.getDate("data_devolucao"));
 				
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 
@@ -401,18 +375,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			while (rSet.next()) {
 				retiradaRetorno = new Retirada();
 
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-
 				retiradaRetorno.setId(rSet.getInt("id"));
 				
-				try {
-					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
-					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				retiradaRetorno.setDataRetirada(rSet.getDate("data_retirada"));
+				retiradaRetorno.setDataDevolucao(rSet.getDate("data_devolucao"));
 				
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 
@@ -480,18 +446,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				retiradaRetorno = new Retirada();
 				
 
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-
 				retiradaRetorno.setId(rSet.getInt("id"));
 				
-				try {
-					retiradaRetorno.setDataRetirada(stf.parse(rSet.getString("data_retirada")));
-					retiradaRetorno.setDataDevolucao(stf.parse(rSet.getString("data_devolucao")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				retiradaRetorno.setDataRetirada(rSet.getDate("data_retirada"));
+				retiradaRetorno.setDataDevolucao(rSet.getDate("data_devolucao"));
 				
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 

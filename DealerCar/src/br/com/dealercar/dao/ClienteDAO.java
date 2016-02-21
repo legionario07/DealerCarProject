@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +47,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			pstm.setString(++i, cliente.getNome().toUpperCase());
 			
 			//colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(cliente.getDataNasc());
-			
-			pstm.setString(++i, strDataCadastro);
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataNascimento = stf.format(cliente.getDataNasc());
+			pstm.setString(++i, dataNascimento);
 			
 			pstm.setString(++i, cliente.getNomeMae().toUpperCase());
 			pstm.setString(++i, cliente.getSexo());
@@ -101,10 +99,9 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			pstm.setString(++i, cliente.getNome().toUpperCase());
 			
 			//colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-			String strDataCadastro = stf.format(cliente.getDataNasc());
-			
-			pstm.setString(++i, strDataCadastro);
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataNascimento = stf.format(cliente.getDataNasc());
+			pstm.setString(++i, dataNascimento);
 			
 			pstm.setString(++i, cliente.getNomeMae().toUpperCase());
 			pstm.setString(++i, cliente.getSexo());
@@ -184,16 +181,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				clienteRetorno.setId(rSet.getInt("id"));
 				clienteRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				clienteRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("sexo"));
 				clienteRetorno.setTelefone(rSet.getString("telefone"));
@@ -254,16 +242,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				clienteRetorno.setId(rSet.getInt("id"));
 				clienteRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				clienteRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("sexo"));
 				clienteRetorno.setTelefone(rSet.getString("telefone"));
@@ -325,16 +304,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				clienteRetorno.setId(rSet.getInt("id"));
 				clienteRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				clienteRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("sexo"));
 				clienteRetorno.setTelefone(rSet.getString("telefone"));
@@ -397,16 +367,7 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 				clienteRetorno.setId(rSet.getInt("id"));
 				clienteRetorno.setNome(rSet.getString("nome"));
-				
-				//recebendo string do BD e armazenando em DATE
-				SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-				
-				try {
-					clienteRetorno.setDataNasc(stf.parse(rSet.getString("data_nasc")));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
+				clienteRetorno.setDataNasc(rSet.getDate("data_nasc"));
 				clienteRetorno.setNomeMae(rSet.getString("nome_mae"));
 				clienteRetorno.setSexo(rSet.getString("sexo"));
 				clienteRetorno.setTelefone(rSet.getString("telefone"));
