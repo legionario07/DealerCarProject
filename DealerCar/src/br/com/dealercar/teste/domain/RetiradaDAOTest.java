@@ -114,6 +114,29 @@ public class RetiradaDAOTest {
 		}
 		System.out.println(stf.format(dataRetirada));
 	}
+	
+	public static void pesquisarPorIntervalo(){
+		
+		Retirada retirada = new Retirada();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String dataRetirada = "01/01/2016";
+		String dataDevolucao = "22/02/2016";
+		try {
+			retirada.setDataRetirada(sdf.parse(dataRetirada));
+			retirada.setDataDevolucao(sdf.parse(dataDevolucao));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<Retirada> lista = new ArrayList<Retirada>();
+		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
+
+		for(Retirada r : lista){
+			System.out.println(r.getDataRetirada());
+			System.out.println(r.getDataDevolucao());
+		}
+		
+	}
 
 	public static void main(String[] args) {
 
@@ -123,7 +146,8 @@ public class RetiradaDAOTest {
 		// setarDataDeCadastro();
 		//pesquisarPorPlaca();
 		//pesquisarPorCPF();
-		pesquisarRetiradaAtivaPorCPF();
+		//pesquisarRetiradaAtivaPorCPF();
+		pesquisarPorIntervalo();
 
 	}
 

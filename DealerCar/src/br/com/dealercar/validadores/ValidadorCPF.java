@@ -36,6 +36,19 @@ public class ValidadorCPF implements Validator{
 		if (totalPosicoes != 11) {
 			return false;
 		}
+		
+		if(novoCpf.equals("11111111111") ||
+				novoCpf.equals("22222222222") ||
+				novoCpf.equals("33333333333") ||
+				novoCpf.equals("44444444444") ||
+				novoCpf.equals("55555555555") ||
+				novoCpf.equals("66666666666") ||
+				novoCpf.equals("77777777777") ||
+				novoCpf.equals("88888888888") ||
+				novoCpf.equals("99999999999") ||
+				novoCpf.equals("00000000000")) {
+			return false;
+		}
 
 		// efetua o calculo do primeiro Digito
 		for (int i = 0; i < 9; i++) {

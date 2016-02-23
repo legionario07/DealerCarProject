@@ -97,22 +97,49 @@
 						title="Efetuar Devolução"
 						rendered="#{itemRetirada.ehAtivo == true}"
 						action="/pages/efetuadevolucao.xhtml"
-						update=":frmListaRetirada:tblListaRetirada">
+						update=":frmListaRetirada:tblListaRetirada :msgGlobal">
 						<f:setPropertyActionListener
 							target="#{MBDevolucao.devolucao.retirada}"
 							value="#{itemRetirada}" />
 					</p:commandButton>
 
-
 				</p:column>
 
-
 				<f:facet name="footer">
-					<h:panelGrid styleClass="semBorda">
-						<p:commandButton icon="ui-icon-info"
-							title="Gráfico de Informações"
-							onclick="PF('dlgRetiradaGrafico').show();"
-							update=":frmGraficoRetirada:pnlGraficoRetirada" />
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+
+						<p:splitButton icon="ui-icon-info" title="Gráficos" ajax="false">
+							<p:menuitem value="Carros Mais Locados"
+								onclick="PF('dlgGraficoCarrosLocados').show()" />
+							<p:menuitem value="Modelos Mais Locados"
+								onclick="PF('dlgGraficoModelosLocados').show()" />
+							<p:menuitem value="Categorias Mais Locadas"
+								onclick="PF('dlgGraficoCategoriasLocadas').show()" />
+
+							<p:separator />
+
+							<p:menuitem >
+								<p:outputLabel value="Intervalo Personalizado" />
+								<h:panelGrid columns="2" cellspacing="2" >
+									<p:outputLabel value="Inicio " />
+									<p:calendar id="dataentrada"
+										value="#{MBRetirada.retirada.dataRetirada}"
+										pattern="dd/MM/yyyy" size="9" required="true"
+										requiredMessage="Favor informar a Data Inicio" />
+
+									<p:outputLabel value="Fim" />
+									<p:calendar id="datasaida" 
+										value="#{MBRetirada.retirada.dataDevolucao}"
+										pattern="dd/MM/yyyy" size="9" required="true"
+										requiredMessage="Favor informar a Data Final" />
+									<p:commandButton value="Gerar" 
+									title="Gráfico de Informações" 
+									actionListener="#{MBRetirada.gerarGraficoPorIntervalo}" 
+									oncomplete="PF('dlgGraficoCarrosLocados').show();"/>
+								</h:panelGrid>
+
+							</p:menuitem>
+						</p:splitButton>
 					</h:panelGrid>
 					<p:outputLabel value="Exitem " />
 					<p:outputLabel value="#{MBRetirada.totalRetiradas}" />
@@ -122,30 +149,77 @@
 			</p:dataTable>
 		</h:form>
 
-		<!--  Caixa de Dialogo Grafico Retirada -->
-		<p:dialog widgetVar="dlgRetiradaGrafico" closable="false" width="55%"
-			id="dlgNovoGrafico" height="40%" resizable="false" appendTo="@(body)"
+
+		<!--  Caixa de Dialogo Grafico Modelos Mais Locados -->
+		<p:dialog widgetVar="dlgGraficoModelosLocados" closable="false"
+			width="40%" height="40%" resizable="false" appendTo="@(body)"
 			modal="true" header="Retirada - Gráfico">
-			<h:form id="frmGraficoRetirada">
+			<h:form id="frmGraficoRetiradaModelos">
 
-				<h:panelGrid id="pnlGraficoRetirada" columns="2">
-
-
-					<p:chart type="pie" model="#{MBRetirada.pieRetiradaModelos}"
-						style="width:400px;height:300px" />
-
-					<p:chart type="pie" model="#{MBRetirada.pieRetiradaCarrosLocados}"
-						style="width:400px;height:300px" />
-						
-					<p:chart type="pie" model="#{MBRetirada.pieRetiradaCategoriasLocadas}"
-						style="width:400px;height:300px" />
-
-
-				</h:panelGrid>
+				<p:chart type="pie" model="#{MBRetirada.pieRetiradaModelos}"
+					style="width:500px;height:400px" />
 
 				<h:panelGrid id="pnlComandos" columns="3">
 					<p:commandButton value="Voltar"
-						onclick="PF('dlgRetiradaGrafico').hide();" />
+						onclick="PF('dlgGraficoModelosLocados').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!--  Caixa de Dialogo Grafico Carros Mais Locadas -->
+		<p:dialog widgetVar="dlgGraficoCarrosLocados" closable="false"
+			width="40%" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Retirada - Gráfico">
+			<h:form id="frmGraficoRetiradaCarros">
+
+				<p:chart type="pie" model="#{MBRetirada.pieRetiradaCarrosLocados}"
+					style="width:500px;height:400px" />
+
+				<h:panelGrid id="pnlComandos" columns="3">
+					<p:commandButton value="Voltar"
+						onclick="PF('dlgGraficoCarrosLocados').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Grafico Categorias Mais Locadas -->
+		<p:dialog widgetVar="dlgGraficoCategoriasLocadas" closable="false"
+			width="40%" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Retirada - Gráfico">
+			<h:form id="frmGraficoRetiradaCategorias">
+
+				<p:chart type="pie"
+					model="#{MBRetirada.pieRetiradaCategoriasLocadas}"
+					style="width:500px;height:400px" />
+
+				<h:panelGrid id="pnlComandos" columns="3">
+					<p:commandButton value="Voltar"
+						onclick="PF('dlgGraficoCategoriasLocadas').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Grafico Modelos (Personalizados -->
+		<p:dialog widgetVar="dlgGraficoModelosPersonalizados" closable="false"
+			width="40%" height="40%" resizable="false" appendTo="@(body)" 
+			modal="true" header="Retirada - Gráfico" dynamic="true">
+			<h:form id="frmGraficoRetiradaModelosPersonalizados">
+
+			
+				<p:chart type="pie"
+					model="#{MBRetirada.pieRetiradaModelosPersonalizados}"
+					style="width:500px;height:400px" />
+
+				<h:panelGrid id="pnlComandos" columns="3">
+					<p:commandButton value="Voltar"
+						onclick="PF('dlgGraficoModelosPersonalizados').hide();" />
 
 				</h:panelGrid>
 

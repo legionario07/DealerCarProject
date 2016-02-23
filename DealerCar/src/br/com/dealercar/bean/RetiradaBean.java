@@ -1,6 +1,8 @@
 package br.com.dealercar.bean;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private boolean selectGps = false;
 	private boolean selectCadeirinha = false;
 	private boolean selectRadio = false;
-	
+
 	private int totalRetiradas;
 
 	private List<Estado> listaEstados = new ArrayList<Estado>();
@@ -91,10 +93,11 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private CadeirinhaBebe cadeirinhaBebe = new CadeirinhaBebe();
 	private Gps gps = new Gps();
 	private RadioPlayer radioPlayer = new RadioPlayer();
-	
+
 	private PieChartModel pieRetiradaModelos;
 	private PieChartModel pieRetiradaCarrosLocados;
 	private PieChartModel pieRetiradaCategoriasLocadas;
+	private PieChartModel pieRetiradaModelosPersonalizados;
 
 	public Retirada getRetirada() {
 		return retirada;
@@ -103,7 +106,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void setRetirada(Retirada retirada) {
 		this.retirada = retirada;
 	}
-
 
 	public PieChartModel getPieRetiradaModelos() {
 		return pieRetiradaModelos;
@@ -127,6 +129,14 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	public void setPieRetiradaCategoriasLocadas(PieChartModel pieRetiradaCategoriasLocadas) {
 		this.pieRetiradaCategoriasLocadas = pieRetiradaCategoriasLocadas;
+	}
+
+	public PieChartModel getPieRetiradaModelosPersonalizados() {
+		return pieRetiradaModelosPersonalizados;
+	}
+
+	public void setPieRetiradaModelosPersonalizados(PieChartModel pieRetiradaModelosPersonalizados) {
+		this.pieRetiradaModelosPersonalizados = pieRetiradaModelosPersonalizados;
 	}
 
 	public int getTotalRetiradas() {
@@ -176,7 +186,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void setSelectRadio(boolean selectRadio) {
 		this.selectRadio = selectRadio;
 	}
-
 
 	public BebeConforto getBebeConforto() {
 		return bebeConforto;
@@ -258,7 +267,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.listaClientes = listaClientes;
 	}
 
-
 	public List<Modelo> getListaModelosDisponiveis() {
 		return listaModelosDisponiveis;
 	}
@@ -327,31 +335,31 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		listaEstados = new EstadoDAO().listarTodos();
 
 		setTotalRetiradas(listaRetirada.size());
-		
-		/*verifica se ja ja tem uma reserva preenchida
-		 * Se tiver significa que foi clicado para locar na View Reserva.xhtml 
+
+		/*
+		 * verifica se ja ja tem uma reserva preenchida Se tiver significa que
+		 * foi clicado para locar na View Reserva.xhtml
 		 */
-		if(retirada.getReserva().getId()>0){
+		if (retirada.getReserva().getId() > 0) {
 			retirada.setCliente(retirada.getReserva().getCliente());
 			pesquisarPorCPF();
 		}
-		
-		//gerando os graficos
+
+		// gerando os graficos
 		gerarGrafico();
-		
+
 	}
 
 	/**
-	 * Método que carrega as placas de acordo com o modelo de veiculo selecionado
+	 * Método que carrega as placas de acordo com o modelo de veiculo
+	 * selecionado
 	 */
 	public void carregarPlacas() {
 
-		retirada.getCarro().setModelo((Modelo) new ValidaModelo().validar(
-				retirada.getCarro().getModelo()));
-		
-		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(
-				retirada.getCarro().getModelo());
-		
+		retirada.getCarro().setModelo((Modelo) new ValidaModelo().validar(retirada.getCarro().getModelo()));
+
+		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(retirada.getCarro().getModelo());
+
 	}
 
 	/**
@@ -371,14 +379,12 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void efetuarRetirada() {
 
-		//valida o tipo de seguro escolhido na view
+		// valida o tipo de seguro escolhido na view
 		retirada.getOpcional().getSeguro().setTipoSeguro(
 				(TipoSeguro) new ValidaItemOpcional().validar(retirada.getOpcional().getSeguro().getTipoSeguro()));
-		//valida o seguro escolhido na view
-		retirada.getOpcional().setSeguro((Seguro) new ValidaItemOpcional().validar(
-				retirada.getOpcional().getSeguro()));
+		// valida o seguro escolhido na view
+		retirada.getOpcional().setSeguro((Seguro) new ValidaItemOpcional().validar(retirada.getOpcional().getSeguro()));
 
-		
 		if (bebeConforto.getDescricao() != null)
 			bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
 		else {
@@ -409,8 +415,8 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		retirada.getOpcional().getItens().add(cadeirinhaBebe);
 		retirada.getOpcional().getItens().add(gps);
 		retirada.getOpcional().getItens().add(radioPlayer);
-		
-		//validando o carro
+
+		// validando o carro
 		retirada.setCarro((Carro) new ValidaCarro().validar(retirada.getCarro()));
 
 		new OpcionalDAO().cadastrar(retirada.getOpcional());
@@ -427,17 +433,17 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		}
 
 		/**
-		 *  Recebendo o funcionario Logado
+		 * Recebendo o funcionario Logado
 		 */
 		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
 		retirada.setFuncionario(funcionario);
 
-		//setando retirada como ativa
+		// setando retirada como ativa
 		retirada.setEhAtivo(true);
 
 		new RetiradaDAO().cadastrar(retirada);
-		
-		//atualizando a lista de carros disponiveis
+
+		// atualizando a lista de carros disponiveis
 		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
 
 		limparPesquisa();
@@ -446,27 +452,26 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	}
 
-	
 	/**
 	 * Verifica se o cliente tem alguma locação em seu CPF
 	 */
-	public void verificaPendenciaCliente(){
-		
+	public void verificaPendenciaCliente() {
+
 		List<Retirada> listaClientesComLocacao = new ArrayList<Retirada>();
 		listaClientesComLocacao = new RetiradaDAO().pesquisarPorCPF(retirada.getCliente());
-		
-		for(Retirada r : listaClientesComLocacao){
-			if(retirada.getCliente().getCPF().equals(r.getCliente().getCPF())){
+
+		for (Retirada r : listaClientesComLocacao) {
+			if (retirada.getCliente().getCPF().equals(r.getCliente().getCPF())) {
 				JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
 				return;
 			}
 		}
 
-		//Se o cliente não tem pendencia abre o <p:Dialog>
+		// Se o cliente não tem pendencia abre o <p:Dialog>
 		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgEfetuarRetirada').show();");
-		
+
 	}
-	
+
 	/**
 	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
 	 * TEla
@@ -476,16 +481,15 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		//Validando o cliente 
+		// Validando o cliente
 		retirada.setCliente((Cliente) new ValidaCliente().validar(retirada.getCliente()));
-		
-		//veficando se o cliente foi encontrado
-		if(retirada.getCliente()!=null){
+
+		// veficando se o cliente foi encontrado
+		if (retirada.getCliente() != null) {
 			setEhCadastrado(true);
 			setJaPesquisei(false);
 			return;
 		}
-		
 
 		if (isEhCadastrado() == false) {
 			retirada.setCliente(new Cliente());
@@ -495,16 +499,15 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	}
 
-
 	/**
 	 * Limpa o inputbox de Pesquisar
 	 */
 	public void limparPesquisa() {
 		retirada.setCliente(new Cliente());
 		setEhCadastrado(false);
-	
+
 		limparObjetos();
-		
+
 	}
 
 	/**
@@ -515,9 +518,8 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
 		// sendo editado
-		retirada.getCliente().getEndereco().setCidade((Cidade) new ValidaCidade().validar(
-				retirada.getCliente().getEndereco().getCidade()));
-
+		retirada.getCliente().getEndereco()
+				.setCidade((Cidade) new ValidaCidade().validar(retirada.getCliente().getEndereco().getCidade()));
 
 		new ClienteDAO().editar(retirada.getCliente());
 
@@ -525,48 +527,48 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	}
 
 	/**
-	 * Limpa os Objetos 
+	 * Limpa os Objetos
 	 */
 	public void limparObjetos() {
 
 		retirada = new Retirada();
-		
+
 		bebeConforto = new BebeConforto();
 		cadeirinhaBebe = new CadeirinhaBebe();
 		gps = new Gps();
 		radioPlayer = new RadioPlayer();
-		
+
 		selectAr = false;
 		selectBebe = false;
 		selectGps = false;
 		selectCadeirinha = false;
 		selectRadio = false;
-		
+
 	}
-	
+
 	/**
 	 * Carrega a lista de cidades de acordo com o Estado selecionado
 	 */
-	public void atualizarCidades(){
-		
-		retirada.getCliente().getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
-				retirada.getCliente().getEndereco().getCidade().getEstado()));
-		
-		listaCidades = new CidadeDAO().pesquisarPorUFEstado(retirada.getCliente().getEndereco().getCidade().getEstado());
-		
+	public void atualizarCidades() {
+
+		retirada.getCliente().getEndereco().getCidade().setEstado(
+				(Estado) new ValidaEstado().validar(retirada.getCliente().getEndereco().getCidade().getEstado()));
+
+		listaCidades = new CidadeDAO()
+				.pesquisarPorUFEstado(retirada.getCliente().getEndereco().getCidade().getEstado());
+
 	}
-	
+
 	/**
 	 * Gerando o gráfico de Retirada
 	 */
 	private void gerarGrafico() {
 
-		
 		gerarGraficoModelos();
 		gerarGraficoCarrosLocados();
 		gerarGraficoCategoriasLocadas();
 	}
-	
+
 	/**
 	 * Gerando o gráfico dos Modelos mais Locados
 	 */
@@ -574,23 +576,23 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaModelos = new PieChartModel();
 
-		//lista que recebe todos os itens do BD 
-		List<Retirada> lista = new ArrayList<Retirada>(); 
-		
+		// lista que recebe todos os itens do BD
+		List<Retirada> lista = new ArrayList<Retirada>();
+
 		lista = new RetiradaDAO().listarTodos();
 		// passando apenas os nomes para a lista de String
-		
+
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
 		for (Retirada r : lista) {
 			listaString.add(r.getCarro().getModelo().getNome());
 		}
 
 		pieRetiradaModelos = GraficoUtil.gerarListOrdenadaDistinta(listaString);
-		
+
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
 		pieRetiradaModelos.setLegendPosition("w");
 	}
-	
+
 	/**
 	 * Gerando o gráfico dos carros mais locados
 	 */
@@ -598,48 +600,95 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaCarrosLocados = new PieChartModel();
 
-		//lista que recebe todos os itens do BD 
-		List<Retirada> lista = new ArrayList<Retirada>(); 
-		
+		// lista que recebe todos os itens do BD
+		List<Retirada> lista = new ArrayList<Retirada>();
+
 		lista = new RetiradaDAO().listarTodos();
 		// passando apenas os nomes para a lista de String
-		
+
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
 		for (Retirada r : lista) {
 			listaString.add(r.getCarro().getPlaca());
 		}
-		
+
 		pieRetiradaCarrosLocados = GraficoUtil.gerarListOrdenadaDistinta(listaString);
 
 		pieRetiradaCarrosLocados.setTitle("Carros Mais Locados");
 		pieRetiradaCarrosLocados.setLegendPosition("w");
 
 	}
-	
+
 	/**
 	 * Gerando o gráfico das Categorias mais locadas
 	 */
 	private void gerarGraficoCategoriasLocadas() {
 
 		pieRetiradaCategoriasLocadas = new PieChartModel();
-		
-		//lista que recebe todos os itens do BD 
-		List<Retirada> lista = new ArrayList<Retirada>(); 
-		
+
+		// lista que recebe todos os itens do BD
+		List<Retirada> lista = new ArrayList<Retirada>();
+
 		lista = new RetiradaDAO().listarTodos();
 		// passando apenas os nomes para a lista de String
-		
+
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
 		for (Retirada r : lista) {
 			listaString.add(r.getCarro().getCategoria().getNome());
 		}
 
 		pieRetiradaCategoriasLocadas = GraficoUtil.gerarListOrdenadaDistinta(listaString);
-		
+
 		pieRetiradaCategoriasLocadas.setTitle("Categorias Mais Locadas");
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");
 
 	}
 
+	/*
+	/**
+	 * Gerando o gráfico das Categorias mais locadas
+	 */
+	public void gerarGraficoPorIntervalo() {
+		
+		System.out.println("Entrou aki");
+
+		pieRetiradaModelosPersonalizados = new PieChartModel();
+		
+		String dataInicio = "31/07/1015";
+		String dataFinal = "01/02/2016";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+			retirada.setDataRetirada(sdf.parse(dataInicio));
+			retirada.setDataDevolucao(sdf.parse(dataFinal));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(retirada.getDataRetirada());
+		System.out.println(retirada.getDataDevolucao());
+		
+		if (DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao()) != 1) {
+			JSFUtil.adicionarMensagemErro("A data Final deve ser Maior que a data Inicio");
+			return;
+		}
+
+		// lista que recebe todos os itens do BD
+		List<Retirada> lista = new ArrayList<Retirada>();
+
+		lista = new RetiradaDAO().listarTodos();
+		// passando apenas os nomes para a lista de String
+
+		List<String> listaString = new ArrayList<String>(); // Lista que ira
+		for (Retirada r : lista) {
+			listaString.add(r.getCarro().getCategoria().getNome());
+		}
+
+		pieRetiradaModelosPersonalizados = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+
+		pieRetiradaModelosPersonalizados.setTitle("Grafico das Modelos (Personalizado)");
+		pieRetiradaModelosPersonalizados.setLegendPosition("w");
+
+
+	}
 
 }

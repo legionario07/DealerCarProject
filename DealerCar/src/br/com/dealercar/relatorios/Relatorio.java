@@ -17,7 +17,7 @@ public class Relatorio<T extends EntidadeDominio> {
 
 	public void gerarRelatorio(List<T> lista){
 		
-		String relat = "c:\\testerelatorio.pdf";
+		//String relat = "c:\\testerelatorio.pdf";
 		
 		
 		InputStream fonte = Relatorio.class.getResourceAsStream("/reports/rep_clientes.jrxml");
