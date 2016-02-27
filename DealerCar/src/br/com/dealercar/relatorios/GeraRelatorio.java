@@ -1,60 +1,49 @@
 package br.com.dealercar.relatorios;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Map;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.Funcionario;
+import br.com.dealercar.viewhelper.SessionHelper;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 
 public class GeraRelatorio<T extends EntidadeDominio> {
 
-/*
-	
-	public void exportarPDF(List<T> lista){
+	public static void exportarPDF(Map<String, Object> parametros, Connection con){
 		
-		String caminhoAP = FacesContext.getCurrentInstance().getExternalContext().getRealPath("");
-		String caminhoRelatorio = caminhoAP + File.separator + "WEB-INF/relatorios/clientes.jasper";
-
-		List<Cliente> clientes = new ArrayList<Cliente>();
 		
-		Cliente cli = new Cliente();
-		cli.setCelular("1241241234");
-		cli.setNome("Teste");
-		cli.setCPF("12341341324");
-		cli.setNomeMae("Maria");
+		parametros.put("nomeGerador", ((Funcionario)SessionHelper.getParam("usuarioLogado")).getNome());
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/persona2.jasper"));		
 		
-		clientes.add(cli);
-		
-		Cliente cli2 = new Cliente();
-		cli.setCelular("a213241");
-		cli.setNome("Teste2 ");
-		cli.setCPF("12341341324");
-		cli.setNomeMae("Maria2");
-		
-		clientes.add(cli2);
-		
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
-		parameters.put("txtUsuario", funcionario.getNome());
-		
-		File jasper = new File(caminhoRelatorio);
+		JasperPrint jasperPrint;
 		try {
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, new JRBeanCollectionDataSource(clientes));
-			
+			jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, con);
 			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-			response.addHeader("Conten-disposition", "attachment; filename=rep_clientes.pdf");
+			response.addHeader("Content-disposition", "attachment; filename=report.pdf");
 			ServletOutputStream stream = response.getOutputStream();
 			
 			JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-			
 			stream.flush();
 			stream.close();
-			
+			con.close();
 			FacesContext.getCurrentInstance().responseComplete();
 			
-		} catch (JRException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (JRException | IOException | SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 		
 	}
-	*/
 
 }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/templates/modelo.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/modelo.xhtml">
+
 
 	<ui:define name="menu">
 		<ui:include src="/includes/menuPrincipal.xhtml" />
@@ -13,7 +15,12 @@
 
 	<ui:define name="conteudo">
 
+	
 		<f:event listener="#{MBCliente.carregarListagem}" type="preRenderView" />
+	<h:form>
+		<p:commandButton value="Impressao Relatorio" ajax="false"
+			actionListener="#{MBPersona.exportarPDF}" />
+	</h:form>
 
 		<h:panelGrid width="100%" style="text-align:center">
 			<h:outputText
@@ -22,7 +29,6 @@
 
 		</h:panelGrid>
 
-	<h:commandButton value="Impressao Relatorio" actionListener="#{MBPersona.exportarPDF5}"/>
 
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Cliente" id="tabClienteConsulta">
@@ -108,8 +114,8 @@
 
 						<h:outputText value="Estado: " />
 						<p:inputText size="50"
-							value="#{MBCliente.cliente.endereco.cidade.estado.nome}" readonly="true"
-							maxlength="65" />
+							value="#{MBCliente.cliente.endereco.cidade.estado.nome}"
+							readonly="true" maxlength="65" />
 					</h:panelGrid>
 					<br></br>
 
@@ -314,3 +320,4 @@
 	</ui:define>
 
 </ui:composition>
+</html>
