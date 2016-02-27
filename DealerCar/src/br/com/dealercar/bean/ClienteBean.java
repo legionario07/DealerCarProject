@@ -19,7 +19,6 @@ import br.com.dealercar.domain.Estado;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaEstado;
-import br.com.dealercar.teste.PersonaBean;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.viewhelper.ViewHelper;
@@ -241,10 +240,4 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		setJaPesquisei(false);
 	}
 
-	public void exportarPDF(){
-
-		PersonaBean p = new PersonaBean();
-		p.exportarPDF();
-		
-	}
 }

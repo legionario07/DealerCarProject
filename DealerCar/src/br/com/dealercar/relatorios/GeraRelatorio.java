@@ -1,29 +1,11 @@
 package br.com.dealercar.relatorios;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
-import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
-import br.com.dealercar.domain.Funcionario;
-import br.com.dealercar.viewhelper.SessionHelper;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 
 public class GeraRelatorio<T extends EntidadeDominio> {
 
-
+/*
 	
 	public void exportarPDF(List<T> lista){
 		
@@ -73,5 +55,6 @@ public class GeraRelatorio<T extends EntidadeDominio> {
 		}		
 		
 	}
+	*/
 
 }
