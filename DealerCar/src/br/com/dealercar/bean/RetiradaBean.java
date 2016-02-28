@@ -585,7 +585,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getModelo().getNome());
 		}
 
-		pieRetiradaModelos = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+		pieRetiradaModelos = GraficoUtil.gerarGrafico(listaString);
 
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
 		pieRetiradaModelos.setLegendPosition("w");
@@ -609,7 +609,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getPlaca());
 		}
 
-		pieRetiradaCarrosLocados = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+		pieRetiradaCarrosLocados = GraficoUtil.gerarGrafico(listaString);
 
 		pieRetiradaCarrosLocados.setTitle("Carros Mais Locados");
 		pieRetiradaCarrosLocados.setLegendPosition("w");
@@ -634,7 +634,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getCategoria().getNome());
 		}
 
-		pieRetiradaCategoriasLocadas = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+		pieRetiradaCategoriasLocadas = GraficoUtil.gerarGrafico(listaString);
 
 		pieRetiradaCategoriasLocadas.setTitle("Categorias Mais Locadas");
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");

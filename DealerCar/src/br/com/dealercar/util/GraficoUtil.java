@@ -24,7 +24,7 @@ public class GraficoUtil {
 	 *            Desordenada e com duplicatas
 	 * @return uma PieChartModel
 	 */
-	public static PieChartModel gerarListOrdenadaDistinta(List<String> listaStringDesordenada) {
+	public static PieChartModel gerarGrafico(List<String> listaStringDesordenada) {
 		
 		PieChartModel graficoRetorno = new PieChartModel();
 		

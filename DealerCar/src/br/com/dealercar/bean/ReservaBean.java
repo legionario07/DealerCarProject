@@ -267,7 +267,7 @@ public class ReservaBean extends AbstractBean {
 			listaString.add(r.getModelo().getNome());
 		}
 		
-		pieReserva = GraficoUtil.gerarListOrdenadaDistinta(listaString);
+		pieReserva = GraficoUtil.gerarGrafico(listaString);
 		
 		pieReserva.setTitle("Modelos Mais Reservados");
 		pieReserva.setLegendPosition("w");
