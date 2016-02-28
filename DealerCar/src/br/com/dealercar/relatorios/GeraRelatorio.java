@@ -18,11 +18,20 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-
+/**
+ * 
+ * @author Paulinho
+ * Classe responsável por Gerar Relatórios
+ * @param <T> 
+ */
 public class GeraRelatorio<T extends EntidadeDominio> {
 
+	/**
+	 * Método responsavel por gerar Relatório
+	 * @param parametros Recebe uma Map<String, Object>
+	 * @param con Recebe uma conexao com o Banco de Dados
+	 */
 	public static void exportarPDF(Map<String, Object> parametros, Connection con){
-		
 		
 		parametros.put("nomeGerador", ((Funcionario)SessionHelper.getParam("usuarioLogado")).getNome());
 		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/persona2.jasper"));		

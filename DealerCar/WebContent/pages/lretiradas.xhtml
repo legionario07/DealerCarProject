@@ -113,32 +113,10 @@
 								onclick="PF('dlgGraficoCarrosLocados').show()" />
 							<p:menuitem value="Modelos Mais Locados"
 								onclick="PF('dlgGraficoModelosLocados').show()" />
+
 							<p:menuitem value="Categorias Mais Locadas"
 								onclick="PF('dlgGraficoCategoriasLocadas').show()" />
-
-							<p:separator />
-
-							<p:menuitem >
-								<p:outputLabel value="Intervalo Personalizado" />
-								<h:panelGrid columns="2" cellspacing="2" >
-									<p:outputLabel value="Inicio " />
-									<p:calendar id="dataentrada"
-										value="#{MBRetirada.retirada.dataRetirada}"
-										pattern="dd/MM/yyyy" size="9" required="true"
-										requiredMessage="Favor informar a Data Inicio" />
-
-									<p:outputLabel value="Fim" />
-									<p:calendar id="datasaida" 
-										value="#{MBRetirada.retirada.dataDevolucao}"
-										pattern="dd/MM/yyyy" size="9" required="true"
-										requiredMessage="Favor informar a Data Final" />
-									<p:commandButton value="Gerar" 
-									title="Gráfico de Informações" 
-									actionListener="#{MBRetirada.gerarGraficoPorIntervalo}" 
-									oncomplete="PF('dlgGraficoCarrosLocados').show();"/>
-								</h:panelGrid>
-
-							</p:menuitem>
+								
 						</p:splitButton>
 					</h:panelGrid>
 					<p:outputLabel value="Exitem " />
@@ -206,25 +184,6 @@
 			</h:form>
 		</p:dialog>
 
-		<!--  Caixa de Dialogo Grafico Modelos (Personalizados -->
-		<p:dialog widgetVar="dlgGraficoModelosPersonalizados" closable="false"
-			width="40%" height="40%" resizable="false" appendTo="@(body)" 
-			modal="true" header="Retirada - Gráfico" dynamic="true">
-			<h:form id="frmGraficoRetiradaModelosPersonalizados">
-
-			
-				<p:chart type="pie"
-					model="#{MBRetirada.pieRetiradaModelosPersonalizados}"
-					style="width:500px;height:400px" />
-
-				<h:panelGrid id="pnlComandos" columns="3">
-					<p:commandButton value="Voltar"
-						onclick="PF('dlgGraficoModelosPersonalizados').hide();" />
-
-				</h:panelGrid>
-
-			</h:form>
-		</p:dialog>
 
 	</ui:define>
 

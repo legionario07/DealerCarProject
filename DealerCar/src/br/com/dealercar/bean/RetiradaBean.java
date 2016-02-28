@@ -1,8 +1,6 @@
 package br.com.dealercar.bean;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -647,13 +645,14 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	/**
 	 * Gerando o gráfico das Categorias mais locadas
 	 */
+	/*
 	public void gerarGraficoPorIntervalo() {
 		
 		System.out.println("Entrou aki");
 
 		pieRetiradaModelosPersonalizados = new PieChartModel();
 		
-		String dataInicio = "31/07/1015";
+		String dataInicio = "01/12/2015";
 		String dataFinal = "01/02/2016";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -664,7 +663,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(retirada.getDataRetirada());
 		System.out.println(retirada.getDataDevolucao());
 		
 		if (DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao()) != 1) {
@@ -675,7 +673,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		// lista que recebe todos os itens do BD
 		List<Retirada> lista = new ArrayList<Retirada>();
 
-		lista = new RetiradaDAO().listarTodos();
+		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
 		// passando apenas os nomes para a lista de String
 
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
@@ -684,11 +682,11 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		}
 
 		pieRetiradaModelosPersonalizados = GraficoUtil.gerarListOrdenadaDistinta(listaString);
-
 		pieRetiradaModelosPersonalizados.setTitle("Grafico das Modelos (Personalizado)");
 		pieRetiradaModelosPersonalizados.setLegendPosition("w");
-
+		
 
 	}
+	*/
 
 }

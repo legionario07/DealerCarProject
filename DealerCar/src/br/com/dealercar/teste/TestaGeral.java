@@ -1,15 +1,6 @@
 package br.com.dealercar.teste;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import br.com.dealercar.dao.ReservaDAO;
-import br.com.dealercar.domain.Reserva;
 
 public class TestaGeral {
 
@@ -39,7 +30,7 @@ public class TestaGeral {
 		 * Opcional opcional = new Opcional();
 		 * opcional.getItens().get(1).getNumeroPatrimonio();
 		 */
-
+/*
 		List<Reserva> lista = new ArrayList<Reserva>(); //lista que recebe todos os itens do BD
 		List<String> listaString = new ArrayList<String>(); //Lista que ira receber apenas os nomes
 		lista = new ReservaDAO().listarTodos();
@@ -73,5 +64,8 @@ public class TestaGeral {
         System.out.println(grafico.entrySet());
         
        System.out.println(grafico.size());
+       */
+		
+		
 	}
 }

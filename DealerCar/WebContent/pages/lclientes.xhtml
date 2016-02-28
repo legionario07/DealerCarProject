@@ -24,7 +24,7 @@
 					<h:outputText value="Clientes - Listagem" style="font-size:14px" />
 				</f:facet>
 
-				<p:column headerText="Id" width="5%"
+				<p:column headerText="Id" width="5%" exportable="false"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemCliente.id}">
 					<h:outputText value="#{itemCliente.id}" />
@@ -67,7 +67,7 @@
 					<h:outputText value="#{itemCliente.email}" />
 				</p:column>
 
-				<p:column headerText="Cidade" width="15%"
+				<p:column headerText="Cidade" width="15%" exportable="false"
 					style="font-size:11px; text-align:center"
 					sortBy="#{itemCliente.endereco.cidade.nome}">
 					<h:outputText value="#{itemCliente.endereco.cidade.nome}" />
@@ -79,7 +79,6 @@
 					<h:outputText value=" clientes cadastrados." />
 				</f:facet>
 			</p:dataTable>
-
 		</h:form>
 
 	</ui:define>
