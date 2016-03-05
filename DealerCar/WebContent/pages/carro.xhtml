@@ -26,7 +26,7 @@
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Carro" id="tabCarroConsulta">
 				<h:form id="frmConsultaCarro">
-					<h:panelGrid id="pnlCarrosDados" columns="2" cellpadding="5">
+					<h:panelGrid id="pnlCarrosDados" columns="2">
 
 						<h:outputLabel value="Digite o Placa para Localizar"
 							rendered="#{MBCarro.carro.placa == null}" />
@@ -52,7 +52,7 @@
 					</div>
 
 
-					<h:panelGrid id="pnlCarrosDados3" columns="2" cellpadding="5"
+					<h:panelGrid id="pnlCarrosDados3" columns="2"
 						rendered="#{MBCarro.ehCadastrado == true}">
 						<h:outputLabel value="Placa: " />
 						<p:inputText value="#{MBCarro.carro.placa}" readonly="true"

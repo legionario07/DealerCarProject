@@ -28,7 +28,7 @@
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Funcionario" id="tabFuncionarioConsulta">
 				<h:form id="frmConsultaFuncionario">
-					<h:panelGrid id="pnlFuncionarioDados" columns="2" cellpadding="10">
+					<h:panelGrid id="pnlFuncionarioDados" columns="2">
 
 						<h:outputLabel value="Digite o ID para Localizar"
 							rendered="#{MBFuncionario.funcionario.id == 0}" />
@@ -122,7 +122,7 @@
 					<br></br>
 
 
-					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+					<h:panelGrid id="pnlComandos" columns="5">
 						<p:commandButton action="#{MBFuncionario.pesquisarPorID}"
 							value="Pesquisar" update="frmConsultaFuncionario :msgGlobal"
 							rendered="#{MBFuncionario.funcionario.nome == null}" />
@@ -135,6 +135,7 @@
 
 						<p:commandButton value="Editar"
 							rendered="#{MBFuncionario.ehCadastrado == true}"
+							actionListener="#{MBFuncionario.atualizarCidades}"
 							onclick="PF('dlgFuncionarioEditar').show();"
 							update="frmFuncionarioEditar:pnlFuncionarioEditar :msgGlobal" />
 
@@ -153,7 +154,7 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgFuncionarioEditar" closable="false"
-			width="630" height="450" draggable="false" modal="true"
+			width="630" height="500" draggable="false" modal="true"
 			appendTo="@(body)" resizable="false" header="Funcionario - Editar">
 
 			<h:form id="frmFuncionarioEditar">
@@ -175,7 +176,7 @@
 
 					<h:outputText value="DataNasc: *" />
 					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
-						pattern="dd-MM-yyyy" mask="true" required="true"
+						pattern="dd/MM/yyyy" mask="true" required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
 
 					</p:calendar>
@@ -278,10 +279,6 @@
 					<p:inputText size="15"
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
-					<p:outputLabel value="Senha*: " maxlength="15" />
-					<p:password size="15"
-						value="#{MBFuncionario.funcionario.usuario.senha}" />
-
 					<p:outputLabel value="Permissão:* " />
 					<p:selectOneMenu id="permissoes"
 						value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
@@ -305,13 +302,17 @@
 					</p:selectOneMenu>
 				</h:panelGrid>
 
-				<h:panelGrid id="comandos" columns="2">
-					<p:commandButton value="Salvar"
+				<h:panelGrid id="comandos" columns="3">
+					<p:commandButton value="Salvar" id="salvar"
 						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal"
 						actionListener="#{MBFuncionario.editar}" />
-						
+
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioEditar').hide();" />
+
+					<p:commandButton value="Alterar Senha"
+						onclick="PF('dlgFuncionarioAlterarSenha').show();"
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal" />
 				</h:panelGrid>
 
 			</h:form>
@@ -319,7 +320,7 @@
 
 		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgFuncionarioCadastrar" closable="false"
-			width="630" height="450" draggable="false" modal="true"
+			width="630" height="500" draggable="false" modal="true"
 			appendTo="@(body)" resizable="false" header="Funcionario - Cadastrar">
 
 			<h:form id="frmFuncionarioCadastrar">
@@ -341,7 +342,7 @@
 
 					<h:outputText value="DataNasc: *" />
 					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
-						pattern="dd-MM-yyyy" mask="true" required="true"
+						pattern="dd/MM/yyyy" mask="true" required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
 
 					</p:calendar>
@@ -448,7 +449,7 @@
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
 					<p:outputLabel value="Senha*: " maxlength="15" />
-					<p:inputText size="15" type="password"
+					<p:inputText type="password"
 						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
 
 					<p:outputLabel value="Permissão:* " />
@@ -483,6 +484,38 @@
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />
+
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!-- Caixa de Dialogo Alterar Senha -->
+		<p:dialog widgetVar="dlgFuncionarioAlterarSenha" closable="false"
+			width="630" height="500" draggable="false" modal="true"
+			appendTo="@(body)" resizable="false"
+			header="Funcionario - Alterar Senha">
+
+			<h:form id="frmFuncionarioAlterarSenha">
+
+				<h:panelGrid id="pnlFuncionarioAlterarSenha" columns="2">
+
+					<p:outputLabel value="Senha*: " maxlength="15" />
+					<p:inputText value="#{MBFuncionario.funcionario.usuario.senha}"
+						maxlength="15" />
+
+				</h:panelGrid>
+
+
+				<h:panelGrid id="comandos" columns="2">
+					<p:commandButton value="Alterar Senha"
+						actionListener="#{MBFuncionario.editar}"
+						onclick="PF('dlgFuncionarioAlterarSenha').hide();"
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgFuncionarioAlterarSenha').hide();" />
 				</h:panelGrid>
 
 			</h:form>

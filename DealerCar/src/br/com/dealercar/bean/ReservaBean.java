@@ -1,11 +1,14 @@
 package br.com.dealercar.bean;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
 
@@ -26,7 +29,8 @@ import br.com.dealercar.viewhelper.SessionHelper;
 
 @ManagedBean(name = "MBReserva")
 @SessionScoped
-public class ReservaBean extends AbstractBean {
+public class ReservaBean extends AbstractBean{
+
 
 	private Reserva reserva = new Reserva();
 
@@ -95,9 +99,9 @@ public class ReservaBean extends AbstractBean {
 	@Override
 	public void carregarListagem() {
 
-		//inicializando os gráficos
+		// inicializando os gráficos
 		gerarGrafico();
-		
+
 		listaReservas = reservaDao.listarTodos();
 
 		int atualizouReservas = atualizarStatusReserva();
@@ -255,24 +259,41 @@ public class ReservaBean extends AbstractBean {
 	private void gerarGrafico() {
 
 		pieReserva = new PieChartModel();
-	
-		//lista que recebe todos os itens do BD 
-		List<Reserva> lista = new ArrayList<Reserva>(); 
-		
+
+		// lista que recebe todos os itens do BD
+		List<Reserva> lista = new ArrayList<Reserva>();
+
 		lista = new ReservaDAO().listarTodos();
 		// passando apenas os nomes para a lista de String
-		
+
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
 		for (Reserva r : lista) {
 			listaString.add(r.getModelo().getNome());
 		}
-		
+
 		pieReserva = GraficoUtil.gerarGrafico(listaString);
-		
 		pieReserva.setTitle("Modelos Mais Reservados");
 		pieReserva.setLegendPosition("w");
 
-		
+	}
+
+	/**
+	 * Limpa os objetos
+	 */
+	public void limparObjetos() {
+
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBReserva");
+
+		// Encaminha o usuario para a pagina de Cadastrar novo cliente
+		FacesContext faces = FacesContext.getCurrentInstance();
+		ExternalContext exContext = faces.getExternalContext();
+
+		try {
+			exContext.redirect("ncliente.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
 
 	}
 

@@ -123,10 +123,13 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements S
 			pstm.setInt(++i, funcionario.getUsuario().getId());
 			pstm.setInt(++i, funcionario.getId());
 
-			// editando o Usuario do Funcionario
-			new UsuarioDAO().editar(funcionario.getUsuario());
 
 			pstm.executeUpdate();
+			pstm.close();
+			con.close();
+			
+			// editando o Usuario do Funcionario
+			new UsuarioDAO().editar(funcionario.getUsuario());
 
 			pstm.close();
 			con.close();

@@ -1,5 +1,7 @@
 package br.com.dealercar.teste.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,6 +143,27 @@ public class ReservaDAOTest {
 			System.out.println(r);
 		}
 	}
+	
+	public static void pesquisarPorIntervalo(){
+		
+		Reserva reserva = new Reserva();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String dataInicio = "01/01/2016";
+		String dataFim = "22/02/2016";
+		try {
+			reserva.setDataCadastroReserva(sdf.parse(dataInicio));
+			reserva.setDataFim(sdf.parse(dataFim));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<Reserva> lista = new ArrayList<Reserva>();
+		lista = new ReservaDAO().pesquisarPorIntervaloData(reserva);
+
+		for(Reserva r : lista){
+			System.out.println(r);
+		}
+	}
 
 	public static void main(String[] args) {
 
@@ -154,7 +177,7 @@ public class ReservaDAOTest {
 		//listarTodos();
 		//pesquisarReservasAtivas();
 		//pesquisarPorNome();
-
+		//pesquisarPorIntervalo();
 	}
 
 }

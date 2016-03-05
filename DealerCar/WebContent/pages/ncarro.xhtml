@@ -26,7 +26,7 @@
 		<p:tabView id="tabCarro">
 			<p:tab title="Dados" id="tabCarroNovo">
 				<h:form id="frmNovoCarro">
-					<h:panelGrid id="pnlCarroDados" columns="2" cellpadding="10">
+					<h:panelGrid id="pnlCarroDados" columns="2">
 
 						<p:outputLabel value="Placa: *" />
 						<p:inputMask value="#{MBCarro.carro.placa}" size="8"
@@ -123,7 +123,7 @@
 					<h:panelGrid columns="2">
 						<p:commandButton value="Salvar"
 							actionListener="#{MBCarro.cadastrar}"
-							onclick="PF('dlgCarroFoto').show();"
+							oncomplete="PF('dlgCarroFoto').show();"
 							update="frmCarroFoto :msgGlobal" />
 					</h:panelGrid>
 				</h:form>

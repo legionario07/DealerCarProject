@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/modelo.xhtml">
+
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<p:tabView id="tabViewGrafico">
+			<p:tab title="Gráfico Retirada" id="tabGrafico">
+
+				<h:form>
+
+					<h:panelGrid id="validadores" columns="4">
+
+						<p:message for="dataInicio" />
+						<h:outputText value="#{MBRetiradaGrafico.retirada.dataRetirada}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<p:message for="dataFim" />
+						<h:outputText value="#{MBRetiradaGrafico.retirada.dataDevolucao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" id="pnlTipoGrafico">
+						<p:outputLabel value="Gráfico sobre: " />
+						<p:selectOneMenu id="selectTipoDeDadosGrafico"
+							value="#{MBRetiradaGrafico.tipoDeDadosGraficos}"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItem itemValue="Categoria" itemLabel="Categoria" />
+							<f:selectItem itemValue="Modelo" itemLabel="Modelo" />
+							<f:selectItem itemValue="Carro" itemLabel="Carro" />
+
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Data Inicio*: " />
+						<p:calendar id="dataInicio"
+							value="#{MBRetiradaGrafico.retirada.dataRetirada}"
+							pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Favor informar a Data Inicio">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:calendar>
+						<p:outputLabel value="Data Fim*: " />
+						<p:calendar id="dataFim"
+							value="#{MBRetiradaGrafico.retirada.dataDevolucao}"
+							pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Favor informar a Data Final">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:calendar>
+
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+
+					<h:panelGrid id="pnlComandos" columns="3">
+						<p:commandButton value="Gerar"
+							actionListener="#{MBRetiradaGrafico.gerarGraficoPersonalizado}"
+							action="#{MBRetiradaGrafico.exibirGraficoPersonalizado}"
+							rendered="#{MBRetiradaGrafico.pieRetiradaPersonalizado == null}"
+							update="pnlGrafico pnlComandos :msgGlobal" />
+
+						<p:commandButton value="Limpar Gráfico"
+							action="#{MBRetiradaGrafico.limparGrafico}"
+							rendered="#{MBRetiradaGrafico.pieRetiradaPersonalizado != null}"
+							update="pnlGrafico pnlComandos pnlTipoGrafico validadores" />
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+
+					<h:panelGrid id="pnlGrafico">
+						<p:chart type="pie"
+							model="#{MBRetiradaGrafico.pieRetiradaPersonalizado}"
+							rendered="#{MBRetiradaGrafico.pieRetiradaPersonalizado != null}"
+							style="width:520px;height:420px" />
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+</ui:composition>
+</html>

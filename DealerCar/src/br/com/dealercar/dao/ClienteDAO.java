@@ -207,6 +207,10 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 				clientes.add(clienteRetorno);
 			}
 			
+			rSet.close();
+			pstm.close();
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

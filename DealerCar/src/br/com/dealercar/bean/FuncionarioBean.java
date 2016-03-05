@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import br.com.dealercar.autenticacao.Permissao;
 import br.com.dealercar.dao.CidadeDAO;
@@ -90,8 +91,8 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	public void carregarListagem() {
 
 		listaFuncionario = new FuncionarioDAO().listarTodos();
-		listaEstados     = new EstadoDAO().listarTodos();
-		listaPermissoes  = new PermissaoDAO().listarTodos();
+		listaEstados = new EstadoDAO().listarTodos();
+		listaPermissoes = new PermissaoDAO().listarTodos();
 		totalFuncionario = listaFuncionario.size();
 
 	}
@@ -150,7 +151,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 		JSFUtil.adicionarMensagemSucesso("Funcionário Cadastrado com Sucesso.");
 
 		funcionario = new Funcionario();
-		
+
 		// Se não houve nenhum erro fecha o <p:Dialog>
 		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgFuncionarioCadastrar').hide();");
 
@@ -159,7 +160,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	/**
 	 * Edita o Funcionario selecionado na tela
 	 */
-	public void editar() {
+	public void editar(ActionEvent event) {
 
 		// Verifica a cidade escolhida para ser adicionado ao Funcionario
 		funcionario.getEndereco().setCidade((Cidade) new ValidaCidade().validar(funcionario.getEndereco().getCidade()));
@@ -178,8 +179,11 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 
 		JSFUtil.adicionarMensagemSucesso("Funcionario Editado com Sucesso.");
 
-		// Se não houve nenhum erro fecha o <p:Dialog>
-		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgFuncionarioEditar').hide();");
+		// Se não houve nenhum erro e o commandButton foi o "salvar" fecha o
+		// <p:Dialog>
+		if (event.getComponent().getId().equals("salvar")) {
+			org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgFuncionarioEditar').hide();");
+		}
 	}
 
 	/**
@@ -190,17 +194,17 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 		funcionario = new Funcionario();
 		setEhCadastrado(false);
 	}
-	
+
 	/**
 	 * Carrega a lista de cidades de acordo com o Estado selecionado
 	 */
-	public void atualizarCidades(){
-		
-		funcionario.getEndereco().getCidade().setEstado((Estado) new ValidaEstado().validar(
-				funcionario.getEndereco().getCidade().getEstado()));
-		
+	public void atualizarCidades() {
+
+		funcionario.getEndereco().getCidade()
+				.setEstado((Estado) new ValidaEstado().validar(funcionario.getEndereco().getCidade().getEstado()));
+
 		listaCidades = new CidadeDAO().pesquisarPorUFEstado(funcionario.getEndereco().getCidade().getEstado());
-		
+
 	}
 
 }

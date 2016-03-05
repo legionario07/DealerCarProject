@@ -22,13 +22,12 @@
 
 		</h:panelGrid>
 
-	<h:commandButton value="Impressao Relatorio" actionListener="#{MBPersona.exportarPDF5}"/>
-
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Cliente" id="tabClienteConsulta">
 				<h:form id="frmConsultaCliente">
+				
+				
 					<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
-
 
 						<h:outputLabel value="Digite o CPF para Localizar"
 							rendered="#{MBCliente.cliente.CPF == null}" />
@@ -114,7 +113,7 @@
 					<br></br>
 
 
-					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
+					<h:panelGrid id="pnlComandos" columns="5" >
 						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
 							value="Pesquisar" update="frmConsultaCliente :msgGlobal"
 							rendered="#{MBCliente.cliente.CPF == null}" />
@@ -127,6 +126,7 @@
 
 						<p:commandButton value="Editar"
 							rendered="#{MBCliente.ehCadastrado == true}"
+							actionListener="#{MBCliente.atualizarCidades}"
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmClienteEditar:pnlClienteEditar" />
 
@@ -163,22 +163,16 @@
 			height="450" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)" header="Cliente - Editar">
 
-
 			<h:form id="frmClienteEditar">
-
 				<h:panelGrid id="validadores" columns="4">
 					<p:message for="data" />
-
 					<h:outputText value="#{MBCliente.cliente.dataNasc}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
-
 					<p:message for="cpf" />
-
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlClienteEditar" columns="2">
-
 					<p:outputLabel value="Nome: *" />
 					<p:inputText value="#{MBCliente.cliente.nome}" size="70"
 						required="true"
@@ -186,9 +180,8 @@
 
 					<h:outputText value="DataNasc: *" />
 					<p:calendar id="data" value="#{MBCliente.cliente.dataNasc}"
-						mask="true" required="true" pattern="dd-MM-yyyy"
+						mask="true" required="true" pattern="dd/MM/yyyy"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
-
 					</p:calendar>
 
 					<p:outputLabel value="Nome da Mãe: " />
@@ -258,7 +251,7 @@
 
 					<p:outputLabel value="UF: *" />
 
-					<p:selectOneMenu id="uf"
+					<p:selectOneMenu id="uf" 
 						value="#{MBCliente.cliente.endereco.cidade.estado.uf}"
 						required="true"
 						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
@@ -267,17 +260,16 @@
 
 						<f:selectItem itemLabel="Selecione o Estado"
 							noSelectionOption="true" />
-						<f:selectItems value="#{MBCliente.listaEstados}" var="estado"
+						<f:selectItems value="#{MBCliente.listaEstados}" var="estado" 
 							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
 
-						<p:ajax update="cidade" listener="#{MBCliente.atualizarCidades}" />
-
+						<p:ajax  update="cidade" listener="#{MBCliente.atualizarCidades}" />
 
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cidade: *" />
 
-					<p:selectOneMenu id="cidade"
+					<p:selectOneMenu id="cidade" 
 						value="#{MBCliente.cliente.endereco.cidade.nome}" required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"

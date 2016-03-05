@@ -1,5 +1,7 @@
 package br.com.dealercar.teste.automotivos;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,13 +121,41 @@ public class RevisaoDAOTest {
 		
 		
 	}
+	
+	public static void pesquisarPorIntervalo(){
+		
+		Revisao revisao = new Revisao();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String dataRevisao = "01/01/2016";
+		String dataFinal = "22/02/2016";
+		try {
+			revisao.setDataRevisao(sdf.parse(dataRevisao));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<Revisao> lista = new ArrayList<Revisao>();
+		try {
+			lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao, sdf.parse(dataFinal));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for(Revisao r : lista){
+			System.out.println(r.getDataRevisao());
+		}
+	}
+	
+	
 
 	public static void main(String[] args) {
 
 		// cadastrar();
 		//listarTodos();
-		procurarPorPlaca();
+		//procurarPorPlaca();
 		//procurarPorID();
+		pesquisarPorIntervalo();
 	}
 
 }

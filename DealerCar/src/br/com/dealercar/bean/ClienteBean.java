@@ -239,5 +239,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 	}
+	
 
 }

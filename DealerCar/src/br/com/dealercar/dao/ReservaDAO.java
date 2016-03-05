@@ -207,6 +207,10 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				}
 			}
 
+			rSet.close();
+			pstm.close();
+			con.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -323,6 +327,10 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				listaReserva.add(reservaRetorno);
 			}
 
+			rSet.close();
+			pstm.close();
+			con.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -382,6 +390,10 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 					rSet.next();
 				}
 			}
+
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -491,6 +503,144 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 				lista.add(reservaRetorno);
 			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return lista;
+
+	}
+
+	/**
+	 * Retorna todas as Reservas cadastradas no Banco de Dados em um determinado
+	 * intervalo de Tempo
+	 * 
+	 * @return uma lista de Reserva
+	 */
+	public List<Reserva> pesquisarPorIntervaloData(Reserva reserva) {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from reservas ");
+		sql.append("where data_inicio between ? and ? ");
+
+		List<Reserva> lista = new ArrayList<Reserva>();
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			// colocando formato string para buscar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataInicio = stf.format(reserva.getDataCadastroReserva());
+			String dataFim = stf.format(reserva.getDataFim());
+
+			pstm.setString(++i, dataInicio);
+			pstm.setString(++i, dataFim);
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				Reserva reservaRetorno = new Reserva();
+
+				reservaRetorno.setId(rSet.getInt("id"));
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
+				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
+
+				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
+				modelo = new ModeloDAO().pesquisarPorID(modelo);
+				reservaRetorno.setModelo(modelo);
+
+				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
+				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				reservaRetorno.setCliente(cliente);
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				reservaRetorno.setFuncionario(funcionario);
+
+				lista.add(reservaRetorno);
+			}
+			rSet.close();
+			pstm.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return lista;
+
+	}
+
+	/**
+	 * Retorna todas as Reservas cadastradas no Banco de Dados em um determinado
+	 * intervalo de Tempo
+	 * 
+	 * @return uma lista de Reserva
+	 */
+	public List<Reserva> pesquisarPorIntervaloECriterios(Reserva reserva, String sqlCriterios,
+			boolean modeloIsSelecionado, boolean situacaoIsSelecionado, boolean cpfIsSelecionado) {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from reservas ");
+		sql.append("inner join modelos on reservas.id_modelo = modelos.id ");
+		sql.append("where (reservas.data_inicio between ? and ?) ");
+		sql.append(sqlCriterios);
+
+		List<Reserva> lista = new ArrayList<Reserva>();
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			// colocando formato string para buscar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataInicio = stf.format(reserva.getDataCadastroReserva());
+			String dataFim = stf.format(reserva.getDataFim());
+
+			pstm.setString(++i, dataInicio);
+			pstm.setString(++i, dataFim);
+			if (modeloIsSelecionado)
+				pstm.setInt(++i, reserva.getModelo().getId());
+
+			if (situacaoIsSelecionado)
+				pstm.setString(++i, reserva.getSituacao().getDescricao());
+
+			if (cpfIsSelecionado)
+				pstm.setString(++i, reserva.getCliente().getCPF());
+
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				Reserva reservaRetorno = new Reserva();
+
+				reservaRetorno.setId(rSet.getInt("id"));
+				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));
+				reservaRetorno.setDataFim(rSet.getDate("data_fim"));
+				reservaRetorno.setSituacao(SituacaoReserva.valueOf(rSet.getString("situacao")));
+
+				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
+				modelo = new ModeloDAO().pesquisarPorID(modelo);
+				reservaRetorno.setModelo(modelo);
+
+				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
+				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				reservaRetorno.setCliente(cliente);
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				reservaRetorno.setFuncionario(funcionario);
+
+				lista.add(reservaRetorno);
+			}
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

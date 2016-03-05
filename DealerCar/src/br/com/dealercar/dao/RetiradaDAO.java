@@ -199,6 +199,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retirada);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -262,7 +266,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
 
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -333,6 +337,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -403,6 +408,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -545,6 +551,10 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

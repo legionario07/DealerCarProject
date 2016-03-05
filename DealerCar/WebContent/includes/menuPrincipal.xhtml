@@ -8,9 +8,6 @@
 
 	<h:form id="frmMenuPrincipal">
 		<p:menubar>
-			<p:submenu label="Arquivo">
-				<p:menuitem value="Logout" />
-			</p:submenu>
 
 			<p:submenu label="Cadastros"
 				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
@@ -44,13 +41,15 @@
 				<p:menuitem value="Cores" outcome="/pages/cores.xhtml"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 
-				<p:submenu label="Opcionais" 
+				<p:submenu label="Opcionais"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
-					<p:menuitem value="Itens Opcionais" outcome="/pages/opcionais.xhtml"/>
-					<p:menuitem value="Seguros" outcome="/pages/seguros.xhtml"/>
+					<p:menuitem value="Itens Opcionais"
+						outcome="/pages/opcionais.xhtml" />
+					<p:menuitem value="Seguros" outcome="/pages/seguros.xhtml" />
 				</p:submenu>
 
-				<p:menuitem value="Taxas Adicionais" outcome="/pages/taxas_adicionais.xhtml"
+				<p:menuitem value="Taxas Adicionais"
+					outcome="/pages/taxas_adicionais.xhtml"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 			</p:submenu>
 
@@ -77,20 +76,28 @@
 					outcome="/pages/devolucao.xhtml" />
 
 			</p:submenu>
-			
+
 			<p:submenu label="Revisão"
-				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
-				
-				<p:menuitem value="Efetuar Revisão"
-					outcome="/pages/revisao.xhtml" />
-					<p:menuitem value="Lista de Revisões a Efetuar"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id != 2}">
+
+				<p:menuitem value="Efetuar Revisão" outcome="/pages/revisao.xhtml" />
+				<p:menuitem value="Lista de Revisões a Efetuar"
 					outcome="/pages/filarevisao.xhtml" />
-					<p:menuitem value="Revisões Efetuadas"
+				<p:menuitem value="Revisões Efetuadas"
 					outcome="/pages/lrevisao.xhtml" />
 
 			</p:submenu>
 
-			<p:submenu label="Relatórios">
+			<p:submenu label="Gráficos"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id == 1}">
+				<p:menuitem value="Retiradas" outcome="/pages/graficosretiradas.xhtml" />
+				<p:menuitem value="Reservas" outcome="/pages/graficosreservas.xhtml" />
+				<p:menuitem value="Revisões" outcome="/pages/graficosrevisoes.xhtml" />
+
+			</p:submenu>
+
+			<p:submenu label="Relatórios"
+				rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
 				<p:menuitem value="Listar Reservas" />
 			</p:submenu>
 

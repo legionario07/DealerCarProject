@@ -31,7 +31,7 @@
 					<h:panelGrid id="pnlClienteDados" columns="2">
 
 
-						<h:outputLabel value="Digite o CPF para Localizar o Cliente"
+						<h:outputLabel value="Digite o CPF para Localizar o Cliente "
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
 						<p:inputMask mask="999.999.999-99"
 							value="#{MBRetirada.retirada.cliente.CPF}"
@@ -109,6 +109,11 @@
 						<p:inputText size="50"
 							value="#{MBRetirada.retirada.cliente.endereco.cidade.nome}"
 							readonly="true" maxlength="65" />
+
+						<h:outputText value="Uf " />
+						<p:inputText size="50"
+							value="#{MBRetirada.retirada.cliente.endereco.cidade.estado.uf}"
+							readonly="true" maxlength="20" />
 					</h:panelGrid>
 					<br></br>
 
@@ -120,7 +125,8 @@
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}"
 							value="Pesquisar" />
 
-						<p:commandButton action="/pages/ncliente.xhtml"
+						<p:commandButton
+							actionListener="#{MBRetirada.cadastrarNovoCliente}"
 							rendered="#{MBRetirada.jaPesquisei == true}"
 							value="Cadastrar Novo Cliente" />
 
@@ -133,6 +139,7 @@
 
 						<p:commandButton value="Editar Dados"
 							rendered="#{MBRetirada.ehCadastrado == true}"
+							actionListener="#{MBRetirada.atualizarCidades}"
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmConsultaRetirada: frmClienteEditar:pnlClienteEditar" />
 
@@ -141,14 +148,11 @@
 							rendered="#{MBRetirada.ehCadastrado == true}"
 							update="frmConsultaRetirada: frmConsultaRetirada:pnlClienteDados" />
 
-
-
 					</h:panelGrid>
 
 				</h:form>
 			</p:tab>
 		</p:tabView>
-
 
 
 		<!-- Caixa de Dialogo Efetuar Retirada -->
@@ -372,8 +376,8 @@
 					required="true"
 					requiredMessage="Favor informar a Data da Devolução" />
 
-
 				<br></br>
+				
 				<h:panelGrid columns="2">
 					<p:commandButton value="Efetuar Retirada"
 						actionListener="#{MBRetirada.efetuarRetirada}"
@@ -381,7 +385,6 @@
 						update="frmEfetuarRetirada :msgGlobal"
 						oncomplete="PF('dlgEfetuarRetirada').hide();">
 					</p:commandButton>
-
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgEfetuarRetirada').hide();" />
@@ -398,8 +401,15 @@
 
 			<h:form id="frmClienteEditar">
 
-				<h:panelGrid id="pnlClienteEditar" columns="2">
+				<h:panelGrid id="validadores" columns="4">
+					<p:message for="data" />
+					<h:outputText value="#{MBCliente.cliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+					<p:message for="cpf" />
+				</h:panelGrid>
 
+				<h:panelGrid id="pnlClienteEditar" columns="2">
 					<p:outputLabel value="Nome: *" />
 					<p:inputText value="#{MBRetirada.retirada.cliente.nome}" size="70"
 						required="true"
@@ -435,9 +445,11 @@
 
 					<p:outputLabel value="CPF: *" />
 					<p:inputMask value="#{MBRetirada.retirada.cliente.CPF}" size="20"
-						mask="999.999.999-99" required="true"
+						id="cpf" mask="999.999.999-99" required="true"
+						validatorMessage="CPF inválido" immediate="true"
 						requiredMessage="Favor informar o CPF. Campo de preenchimento obrigatório">
 						<f:validateLength minimum="14" maximum="14" />
+						<f:validator validatorId="CpfValidator" />
 					</p:inputMask>
 
 					<p:outputLabel value="Telefone: *" />
@@ -503,7 +515,8 @@
 					<p:outputLabel value="Cidade: *" />
 
 					<p:selectOneMenu id="cidade"
-						value="#{MBRetirada.retirada.cliente.endereco.cidade.nome}" required="true"
+						value="#{MBRetirada.retirada.cliente.endereco.cidade.nome}"
+						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">

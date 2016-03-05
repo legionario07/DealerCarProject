@@ -79,6 +79,10 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			
 			pstm.executeUpdate();
 			
+			pstm.close();
+			
+			con.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -255,7 +259,7 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 		StringBuffer sql = new StringBuffer();
 		
 		sql.append("select * from usuarios ");
-		sql.append("where login = ? and senha = md5(?) ");
+		sql.append("where login = ? and senha = md5(?) and ativo = 'SIM'");
 		
 		Usuario usuarioRetorno = null;
 

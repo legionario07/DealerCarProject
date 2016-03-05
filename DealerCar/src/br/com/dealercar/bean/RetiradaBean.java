@@ -1,11 +1,14 @@
 package br.com.dealercar.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
 
@@ -95,7 +98,8 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private PieChartModel pieRetiradaModelos;
 	private PieChartModel pieRetiradaCarrosLocados;
 	private PieChartModel pieRetiradaCategoriasLocadas;
-	private PieChartModel pieRetiradaModelosPersonalizados;
+
+	private String tipoDeDadosGraficos;
 
 	public Retirada getRetirada() {
 		return retirada;
@@ -129,20 +133,20 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.pieRetiradaCategoriasLocadas = pieRetiradaCategoriasLocadas;
 	}
 
-	public PieChartModel getPieRetiradaModelosPersonalizados() {
-		return pieRetiradaModelosPersonalizados;
-	}
-
-	public void setPieRetiradaModelosPersonalizados(PieChartModel pieRetiradaModelosPersonalizados) {
-		this.pieRetiradaModelosPersonalizados = pieRetiradaModelosPersonalizados;
-	}
-
 	public int getTotalRetiradas() {
 		return totalRetiradas;
 	}
 
 	public void setTotalRetiradas(int totalRetiradas) {
 		this.totalRetiradas = totalRetiradas;
+	}
+
+	public String getTipoDeDadosGraficos() {
+		return tipoDeDadosGraficos;
+	}
+
+	public void setTipoDeDadosGraficos(String tipoDeDadosGraficos) {
+		this.tipoDeDadosGraficos = tipoDeDadosGraficos;
 	}
 
 	public boolean isSelectAr() {
@@ -586,9 +590,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		}
 
 		pieRetiradaModelos = GraficoUtil.gerarGrafico(listaString);
-
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
 		pieRetiradaModelos.setLegendPosition("w");
+
 	}
 
 	/**
@@ -610,7 +614,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		}
 
 		pieRetiradaCarrosLocados = GraficoUtil.gerarGrafico(listaString);
-
 		pieRetiradaCarrosLocados.setTitle("Carros Mais Locados");
 		pieRetiradaCarrosLocados.setLegendPosition("w");
 
@@ -635,58 +638,32 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		}
 
 		pieRetiradaCategoriasLocadas = GraficoUtil.gerarGrafico(listaString);
-
 		pieRetiradaCategoriasLocadas.setTitle("Categorias Mais Locadas");
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");
 
 	}
 
-	/*
+
 	/**
-	 * Gerando o gráfico das Categorias mais locadas
+	 * Envia o usuario para a pagina de cadastrar um novo cliente e limpa a
+	 * SessionScope
 	 */
-	/*
-	public void gerarGraficoPorIntervalo() {
-		
-		System.out.println("Entrou aki");
+	public void cadastrarNovoCliente() {
 
-		pieRetiradaModelosPersonalizados = new PieChartModel();
-		
-		String dataInicio = "01/12/2015";
-		String dataFinal = "01/02/2016";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
+		// Limpando a SessionScope
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBRetirada");
+
+		// Encaminha o usuario para a pagina de Cadastrar novo cliente
+		FacesContext faces = FacesContext.getCurrentInstance();
+		ExternalContext exContext = faces.getExternalContext();
+
 		try {
-			retirada.setDataRetirada(sdf.parse(dataInicio));
-			retirada.setDataDevolucao(sdf.parse(dataFinal));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			exContext.redirect("ncliente.xhtml");
+		} catch (IOException e) {
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
-		System.out.println(retirada.getDataDevolucao());
-		
-		if (DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao()) != 1) {
-			JSFUtil.adicionarMensagemErro("A data Final deve ser Maior que a data Inicio");
-			return;
-		}
-
-		// lista que recebe todos os itens do BD
-		List<Retirada> lista = new ArrayList<Retirada>();
-
-		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
-		// passando apenas os nomes para a lista de String
-
-		List<String> listaString = new ArrayList<String>(); // Lista que ira
-		for (Retirada r : lista) {
-			listaString.add(r.getCarro().getCategoria().getNome());
-		}
-
-		pieRetiradaModelosPersonalizados = GraficoUtil.gerarListOrdenadaDistinta(listaString);
-		pieRetiradaModelosPersonalizados.setTitle("Grafico das Modelos (Personalizado)");
-		pieRetiradaModelosPersonalizados.setLegendPosition("w");
-		
-
 	}
-	*/
+
 
 }

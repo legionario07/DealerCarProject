@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.dealercar.dao.automotivos.CarroDAO;
@@ -415,6 +416,117 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 		}
 
 		return listaRetorno;
+	}
+	
+	/**
+	 * Retorna todas as revisao cadastradas no Banco de Dados em um intervalo de data
+	 * @param uma Revisao, e uma Data final
+	 * @return uma lista de Revisao
+	 */
+	public List<Revisao> pesquisarPorIntervaloData(Revisao revisao, Date dataFinal) {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from revisao ");
+		sql.append("where data_revisao between ? and ? ");
+
+		List<Revisao> lista = new ArrayList<Revisao>();
+		Revisao revisaoRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			// colocando formato string para buscar no banco de dados
+			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
+			String dataRevisao = stf.format(revisao.getDataRevisao());
+			String strDataFinal = stf.format(dataFinal);
+
+			pstm.setString(++i, dataRevisao);
+			pstm.setString(++i, strDataFinal);
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				revisaoRetorno = new Revisao();
+
+				revisaoRetorno.setId(rSet.getInt("id"));
+				revisaoRetorno.setDataRevisao(rSet.getDate("data_revisao"));
+				revisaoRetorno.setQuilometragem(Long.parseLong(rSet.getString("quilometragem")));
+				revisaoRetorno.setDescricao(rSet.getString("descricao"));
+
+				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
+				funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
+				revisaoRetorno.setFuncionario(funcionario);
+
+				Carro carro = new Carro(rSet.getString("placa"));
+				carro = new CarroDAO().pesquisarPorPlaca(carro);
+
+				Devolucao devolucao = new Devolucao();
+				if (rSet.getInt("id_devolucao") > 0) {
+					devolucao.setId(rSet.getInt("id_devolucao"));
+					devolucao = new DevolucaoDAO().pesquisarPorID(devolucao);
+
+				}
+				revisaoRetorno.setDevolucao(devolucao);
+
+				revisaoRetorno.setCarro(carro);
+
+				Componentes componente = new Componentes();
+
+				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				Freio freio = new Freio(rSet.getString("freio"));
+				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				Motor motor = new Motor(rSet.getString("motor"));
+				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+
+				List<Pneu> pneus = new ArrayList<Pneu>();
+				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
+				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
+				pneus.add(dianteiroDireito);
+
+				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
+				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
+				pneus.add(dianteiroEsquerdo);
+
+				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
+				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
+				pneus.add(traseiroDireito);
+
+				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
+				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
+				pneus.add(traseiroEsquerdo);
+
+				Pneu estepe = new Pneu(rSet.getString("estepe"));
+				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
+				pneus.add(estepe);
+
+				componente.setArrefecimento(arrefecimento);
+				componente.setBateria(bateria);
+				componente.setEmbreagem(embreagem);
+				componente.setFreio(freio);
+				componente.setLanterna(lanterna);
+				componente.setMotor(motor);
+				componente.setPneus(pneus);
+				componente.setSuspensao(suspensao);
+
+				revisaoRetorno.setComponentes(componente);
+
+				lista.add(revisaoRetorno);
+			}
+			
+			rSet.close();
+			pstm.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return lista;
+
 	}
 
 }
