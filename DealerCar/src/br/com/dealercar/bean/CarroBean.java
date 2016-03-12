@@ -161,7 +161,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 
 		// verificando se o carro foi encontrado
 		if (carro != null) {
-
+			setJaPesquisei(false);
 			setEhCadastrado(true);
 			return;
 

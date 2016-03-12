@@ -21,7 +21,7 @@ import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
-import br.com.dealercar.viewhelper.SessionHelper;
+import br.com.dealercar.util.SessionUtil;
 
 /**
  * Classe Controller responsavel pela View devolucao.xhtml
@@ -161,7 +161,7 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		Reserva reserva = new Reserva();
 		devolucao.getRetirada().setReserva(reserva);
 
-		devolucao.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
+		devolucao.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
 
 
 	}

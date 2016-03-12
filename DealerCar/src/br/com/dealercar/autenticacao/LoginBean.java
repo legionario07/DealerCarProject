@@ -18,80 +18,89 @@ import br.com.dealercar.util.JSFUtil;
 @RequestScoped
 /**
  * Controller responsavel por realizar a autenticação do Usuario
+ * 
  * @author Paulinho
  *
  */
 public class LoginBean {
-	
+
 	/**
 	 * 
 	 */
 	private static Funcionario funcionario = new Funcionario();
 	private Usuario usuario = new Usuario();
-	private boolean estaLogado = false; 
+	private boolean estaLogado = false;
 	private FacesContext faces = FacesContext.getCurrentInstance();
 	private ExternalContext exContext = faces.getExternalContext();
-		
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
+
 	public boolean isEstaLogado() {
 		return estaLogado;
 	}
+
 	public void setLogado(boolean isLogado) {
 		this.estaLogado = isLogado;
 	}
+
 	public void setFuncionario(Funcionario funcionario) {
 		LoginBean.funcionario = funcionario;
 	}
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	/**
 	 * Verifica se o usuario eh valida e add o mesmo na sessão.
+	 * 
 	 * @throws IOException
 	 */
-	public void autenticar(){
+	public void autenticar() {
 		usuario = new UsuarioDAO().autenticar(usuario);
 		estaLogado = false;
-		
-		if(usuario != null){
+
+		if (usuario != null) {
 			funcionario = new FuncionarioDAO().pesquisarPorUsuario(usuario);
 			JSFUtil.adicionarMensagemSucesso(usuario.getLogin() + " Autenticado!");
-			JSFUtil.adicionarMensagemSucesso("Bem vindo "+ funcionario.getNome());
-			
+			JSFUtil.adicionarMensagemSucesso("Bem vindo " + funcionario.getNome());
+
 			estaLogado = true;
-			
-			//add usuario na Session
+
+			// add usuario na Session
 			HttpSession sessao = (HttpSession) faces.getExternalContext().getSession(false);
 			sessao.setAttribute("usuarioLogado", funcionario);
-			
-			
-			
-			//encaminha para tela de Reserva
+
+			// encaminha para tela de Reserva
 			try {
-				exContext.redirect("reserva.xhtml");
+				if (funcionario.getUsuario().getPermissao().getId() == 3) {
+					exContext.redirect("filarevisao.xhtml");
+				} else {
+					exContext.redirect("reserva.xhtml");
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				JSFUtil.adicionarMensagemErro(e.getMessage());
 			}
-			
-			
-		}else{
+
+		} else {
 			JSFUtil.adicionarMensagemErro("Login ou Usuario invalido!");
 		}
 	}
-	
+
 	/**
 	 * Efetua logout removendo Usuario da Session
+	 * 
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void efetuarLogout() throws IOException{
+	public void efetuarLogout() throws IOException {
 		exContext.invalidateSession();
 		JSFUtil.adicionarMensagemSucesso(funcionario.getNome() + " saiu com sucesso!");
 		funcionario = new Funcionario();

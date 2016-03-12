@@ -587,14 +587,19 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from reservas ");
+		sql.append("inner join clientes on reservas.id_cliente = clientes.id ");
 		sql.append("inner join modelos on reservas.id_modelo = modelos.id ");
-		sql.append("where (reservas.data_inicio between ? and ?) ");
+		sql.append("where reservas.data_inicio between ? and ? ");
 		sql.append(sqlCriterios);
 
 		List<Reserva> lista = new ArrayList<Reserva>();
 
+		Reserva reservaRetorno = null;
+		
 		con = Conexao.getConnection();
 
+		System.out.println(sql.toString());
+	
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
@@ -603,21 +608,25 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 			String dataInicio = stf.format(reserva.getDataCadastroReserva());
 			String dataFim = stf.format(reserva.getDataFim());
 
-			pstm.setString(++i, dataInicio);
-			pstm.setString(++i, dataFim);
+			System.out.println(dataInicio);
+			System.out.println(dataFim);
+			System.out.println(reserva.getCliente().getCPF());
+			
+			pstm.setDate(++i, new java.sql.Date(reserva.getDataCadastroReserva().getTime()));
+			pstm.setDate(++i, new java.sql.Date(reserva.getDataFim().getTime()));
 			if (modeloIsSelecionado)
 				pstm.setInt(++i, reserva.getModelo().getId());
-
-			if (situacaoIsSelecionado)
-				pstm.setString(++i, reserva.getSituacao().getDescricao());
-
 			if (cpfIsSelecionado)
 				pstm.setString(++i, reserva.getCliente().getCPF());
+			if (situacaoIsSelecionado){
+				pstm.setString(++i, reserva.getSituacao().getDescricao());
+			}
+
 
 			ResultSet rSet = pstm.executeQuery();
-
+			System.out.println(rSet.next());
 			while (rSet.next()) {
-				Reserva reservaRetorno = new Reserva();
+				reservaRetorno = new Reserva();
 
 				reservaRetorno.setId(rSet.getInt("id"));
 				reservaRetorno.setDataCadastroReserva(rSet.getDate("data_inicio"));

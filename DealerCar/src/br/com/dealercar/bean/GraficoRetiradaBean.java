@@ -154,6 +154,7 @@ public class GraficoRetiradaBean implements Serializable {
 		pieRetiradaPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(retirada.getDataRetirada())
 				+ " à " + sdf.format(retirada.getDataDevolucao()));
 		pieRetiradaPersonalizado.setLegendPosition("w");
+		pieRetiradaPersonalizado.setShowDataLabels(true);
 
 	}
 

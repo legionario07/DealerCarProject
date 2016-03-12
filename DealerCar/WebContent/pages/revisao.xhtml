@@ -76,7 +76,7 @@
 						<p:commandButton value="Efetuar Revisão"
 							onclick="PF('dlgRevisaoEfetuar').show();"
 							rendered="#{MBRevisao.ehCadastrado == true}"
-							update=":frmNovaRevisao:pnlNovaRevisao :msgGlobal" />
+							update=":frmNovaRevisao:pnlNovaRevisao pnlRevisaoDados pnlRevisaoDados2 :msgGlobal" />
 
 
 						<p:commandButton value="Limpar Pesquisa"
@@ -280,7 +280,7 @@
 				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBRevisao.efetuarRevisao}" update=":msgGlobal"
+						actionListener="#{MBRevisao.efetuarRevisao}" update=":tabViewConsultar:frmConsultaRevisao :msgGlobal"
 						onclick="PF('dlgRevisaoEfetuar').hide();" />
 
 					<p:commandButton value="Cancelar"

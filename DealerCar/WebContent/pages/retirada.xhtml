@@ -377,17 +377,18 @@
 					requiredMessage="Favor informar a Data da Devolução" />
 
 				<br></br>
-				
-				<h:panelGrid columns="2">
+
+				<h:panelGrid id="pnlComandosRetirada" columns="3">
 					<p:commandButton value="Efetuar Retirada"
 						actionListener="#{MBRetirada.efetuarRetirada}"
 						onclick=":frmConsultaRetirada:pnlEfetuarRetirada"
-						update="frmEfetuarRetirada :msgGlobal"
+						update="frmEfetuarRetirada pnlComandosRetirada tabViewConsultar:frmConsultaRetirada:pnlComandos :msgGlobal"
 						oncomplete="PF('dlgEfetuarRetirada').hide();">
 					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
+					<p:commandButton value="Voltar"
 						onclick="PF('dlgEfetuarRetirada').hide();" />
+
 				</h:panelGrid>
 
 			</h:form>
@@ -418,7 +419,7 @@
 					<p:outputLabel value="DataNasc: *" />
 					<p:calendar id="data"
 						value="#{MBRetirada.retirada.cliente.dataNasc}"
-						pattern="dd-MM-yyyy" mask="true" required="true"
+						pattern="dd/MM/yyyy" mask="true" required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
 					</p:calendar>
 

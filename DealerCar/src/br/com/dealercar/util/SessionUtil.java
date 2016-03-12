@@ -1,11 +1,11 @@
-package br.com.dealercar.viewhelper;
+package br.com.dealercar.util;
 
 import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-public class SessionHelper implements Serializable {
+public class SessionUtil implements Serializable {
 
 	
 	/**

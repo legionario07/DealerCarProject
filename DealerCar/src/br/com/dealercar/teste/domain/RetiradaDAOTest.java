@@ -137,17 +137,23 @@ public class RetiradaDAOTest {
 		}
 		
 	}
+	
+	public static void pesquisarPorUltimo(){
+		int i = new RetiradaDAO().pesquisarPorUltimoID();
+		System.out.println(i);
+	}
 
 	public static void main(String[] args) {
 
 		// cadastrar();
 		// listarTodos();
-		// pesquisarPorId();
+		//pesquisarPorId();
 		// setarDataDeCadastro();
 		//pesquisarPorPlaca();
 		//pesquisarPorCPF();
 		//pesquisarRetiradaAtivaPorCPF();
-		pesquisarPorIntervalo();
+		//pesquisarPorIntervalo();
+		pesquisarPorUltimo();
 
 	}
 

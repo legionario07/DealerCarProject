@@ -45,6 +45,13 @@ public class GraficoReservaBean implements Serializable {
 	private List<Reserva> lista = new ArrayList<Reserva>();
 	private List<String> listaString = new ArrayList<String>();
 	private List<DataMenu> listaData = new ArrayList<DataMenu>();
+	private List<String> listaStringClientes = new ArrayList<String>();
+	private List<String> listaStringModelos = new ArrayList<String>();
+	private List<String> listaStringSituacao = new ArrayList<String>();
+	
+	private boolean modeloIsSelecionado = false;
+	private boolean situacaoIsSelecionado = false;
+	private boolean cpfIsSelecionado = false;
 
 	public String getStrModelo() {
 		return strModelo;
@@ -94,6 +101,30 @@ public class GraficoReservaBean implements Serializable {
 		this.situacao = situacao;
 	}
 
+	public List<String> getListaClientes() {
+		return listaStringClientes;
+	}
+
+	public void setListaClientes(List<String> listaClientes) {
+		this.listaStringClientes = listaClientes;
+	}
+
+	public List<String> getListaStringModelos() {
+		return listaStringModelos;
+	}
+
+	public void setListaStringModelos(List<String> listaStringModelos) {
+		this.listaStringModelos = listaStringModelos;
+	}
+
+	public List<String> getListaSituacao() {
+		return listaStringSituacao;
+	}
+
+	public void setListaSituacao(List<String> listaSituacao) {
+		this.listaStringSituacao = listaSituacao;
+	}
+
 	public String getMesSelecionado() {
 		return mesSelecionado;
 	}
@@ -104,6 +135,30 @@ public class GraficoReservaBean implements Serializable {
 
 	public String getAnoSelecionado() {
 		return anoSelecionado;
+	}
+
+	public boolean isModeloIsSelecionado() {
+		return modeloIsSelecionado;
+	}
+
+	public void setModeloIsSelecionado(boolean modeloIsSelecionado) {
+		this.modeloIsSelecionado = modeloIsSelecionado;
+	}
+
+	public boolean isSituacaoIsSelecionado() {
+		return situacaoIsSelecionado;
+	}
+
+	public void setSituacaoIsSelecionado(boolean situacaoIsSelecionado) {
+		this.situacaoIsSelecionado = situacaoIsSelecionado;
+	}
+
+	public boolean isCpfIsSelecionado() {
+		return cpfIsSelecionado;
+	}
+
+	public void setCpfIsSelecionado(boolean cpfIsSelecionado) {
+		this.cpfIsSelecionado = cpfIsSelecionado;
 	}
 
 	public void setAnoSelecionado(String anoSelecionado) {
@@ -240,63 +295,156 @@ public class GraficoReservaBean implements Serializable {
 		pieReservaPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(reserva.getDataCadastroReserva())
 				+ " à " + sdf.format(reserva.getDataFim()));
 		pieReservaPersonalizado.setLegendPosition("w");
+		pieReservaPersonalizado.setShowDataLabels(true);
 
 	}
 
+	/**
+	 * Gera o grafico Avançado com os dados da View
+	 */
 	public void gerarGraficoAvancado() {
 
-		String diaSelecionado = "01";
 		lineReservaAvancado = new LineChartModel();
 
+		String diaSelecionado = "01";
 		reserva.setDataCadastroReserva(
 				DataUtil.getPrimeiroDiaDoMesAtual(anoSelecionado, mesSelecionado, diaSelecionado));
 		reserva.setDataFim(DataUtil.getUltimoDiaDoMesAtual(anoSelecionado, mesSelecionado, diaSelecionado));
 
-		boolean modeloIsSelecionado = false;
-		boolean situacaoIsSelecionado = false;
-		boolean cpfIsSelecionado = false;
-
 		StringBuffer sqlCriterios = new StringBuffer();
+		// List<String> listaDistintaModelo = new ArrayList<String>();
+		// List<String> listaDistintaSituacao = new ArrayList<String>();
+		// <String> listaDistintaClientes = new ArrayList<String>();
 
 		if (!strModelo.equals("Todos")) {
 			sqlCriterios.append("and reservas.id_modelo = ? ");
 			reserva.getModelo().setId(Integer.parseInt(strModelo));
 			modeloIsSelecionado = true;
 		}
-		if (!situacao.equals("Todos")) {
-			sqlCriterios.append("and reservas.situacao = ? ");
-			reserva.setSituacao(SituacaoReserva.valueOf(situacao));
-			situacaoIsSelecionado = true;
-		}
 		if (!reserva.getCliente().getCPF().equals("")) {
 			sqlCriterios.append("and clientes.cpf = ? ");
 			cpfIsSelecionado = true;
 		}
-
-		lista = new ReservaDAO().pesquisarPorIntervaloECriterios(reserva, sqlCriterios.toString(), modeloIsSelecionado,
-				situacaoIsSelecionado, cpfIsSelecionado);
-
-		for (Reserva r : lista) {
-			System.out.println(r);
+		if (!situacao.equals("Todos")) {
+			sqlCriterios.append("and reservas.situacao = ? ");
+			reserva.setSituacao(SituacaoReserva.valueOf(situacao));
+			situacaoIsSelecionado = true;
+		} else {
+			reserva.setSituacao(SituacaoReserva.ATIVO);
+			situacaoIsSelecionado = false;
 		}
 
+		lista = new ReservaDAO().pesquisarPorIntervaloECriterios(reserva, sqlCriterios.toString(), modeloIsSelecionado,
+				cpfIsSelecionado, situacaoIsSelecionado);
+
+		System.out.println(lista.size());
+		
+
+		for (Reserva r : lista) {
+			listaStringModelos.add(r.getModelo().getNome());
+		}
+
+		
+		if (modeloIsSelecionado) {
+			for (Reserva r : lista) {
+				listaStringModelos.add(r.getModelo().getNome());
+			}
+		}
+		if (cpfIsSelecionado) {
+			for (Reserva r : lista) {
+				listaStringClientes.add(r.getCliente().getCPF());
+			}
+		}
+		if (situacaoIsSelecionado) {
+			for (Reserva r : lista) {
+				listaStringSituacao.add(r.getSituacao().getDescricao());
+			}
+		}
+
+		// limpando os atributos
 		sqlCriterios = new StringBuffer();
 	}
 
+	/*
+	/**
+	 * Chama o grafico para ser exibido na view
+	public void exibirGraficoAvancado() {
+
+		 * // Gerou erro no ActionListener if (lista == null) {
+		 * lineReservaAvancado = null; reserva = new Reserva();
+		 * org.primefaces.context.RequestContext.getCurrentInstance() .update(
+		 * "pnlGrafico pnlComandos pnlTipoGrafico validadores"); return; }
+
+		// Não houve dados disponiveis para gerar o gráfico
+		if (lista.isEmpty()) {
+			JSFUtil.adicionarMensagemErro(
+					"Não houve há Dados disponiveis para o Intervalo solicitado");
+			limparGraficoAvancado();
+			org.primefaces.context.RequestContext.getCurrentInstance().update(
+					"pnlGraficoAvancado pnlComandos pnlTipoGrafico");
+			return;
+		}
+
+		lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringModelos, reserva);
+		
+		if(modeloIsSelecionado){
+			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringModelos, reserva);
+		}
+		if(cpfIsSelecionado){
+			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringClientes, reserva);
+		}
+		if(situacaoIsSelecionado){
+			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringSituacao, reserva);
+		}
+		
+		
+		// lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaString);
+		lineReservaAvancado.setTitle("Grafico Linha");
+		//ChartSeries chartSeries = new ChartSeries();
+		/*
+		chartSeries.setLabel("Teste");
+		chartSeries.set("2015-01-01", 15);
+		chartSeries.set("2015-01-05", 10);
+		chartSeries.set("2015-01-10", 9);
+		chartSeries.set("2015-01-20", 20);
+		chartSeries.set("2015-01-26", 5);
+		*/
+
+		//lineReservaAvancado.addSeries(chartSeries);
+		/*lineReservaAvancado.setShowPointLabels(true);
+		lineReservaAvancado.setZoom(true);
+		lineReservaAvancado.setLegendPosition("ne");
+		Axis yAxis = lineReservaAvancado.getAxis(AxisType.Y);
+		yAxis.setLabel("Quantidade");
+		DateAxis axis = new DateAxis("Dates");
+		axis.setTickAngle(-50);
+		axis.setMax("2015-01-01");
+		axis.setMax("2015-01-31");
+		axis.setTickFormat("%b %#d, %y");
+		lineReservaAvancado.getAxes().put(AxisType.X, axis);
+		System.out.println(lineReservaAvancado.getTitle());
+		System.out.println(lineReservaAvancado.getLegendPosition());
+		System.out.println(lineReservaAvancado.getLegendPosition());
+
+	}
+
+	public void limparGraficoAvancado() {
+
+		lista.clear();
+		listaString.clear();
+		reserva = new Reserva();
+		lineReservaAvancado = null;
+	}
+*/
 	/**
 	 * Limpa o Grafico Personalizado da VIew
 	 */
 	public void limparGrafico() {
-		;
 
 		pieReservaPersonalizado = null;
 		lista.clear();
 		listaString.clear();
 		reserva = new Reserva();
-	}
-
-	public void limparGraficoAvancado() {
-
 	}
 
 }

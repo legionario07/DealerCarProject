@@ -25,7 +25,7 @@ import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
-import br.com.dealercar.viewhelper.SessionHelper;
+import br.com.dealercar.util.SessionUtil;
 
 @ManagedBean(name = "MBReserva")
 @SessionScoped
@@ -191,7 +191,7 @@ public class ReservaBean extends AbstractBean{
 		}
 
 		// setando o funcionario que realizou a reserva
-		reserva.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
+		reserva.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
 
 		reservaDao.cadastrar(reserva);
 
@@ -229,7 +229,7 @@ public class ReservaBean extends AbstractBean{
 		}
 
 		// setando o funcionario que realizou a reserva
-		reserva.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
+		reserva.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
 
 		reservaDao.editar(reserva);
 		reserva = new Reserva();
@@ -273,6 +273,7 @@ public class ReservaBean extends AbstractBean{
 
 		pieReserva = GraficoUtil.gerarGrafico(listaString);
 		pieReserva.setTitle("Modelos Mais Reservados");
+		pieReserva.setShowDataLabels(true);
 		pieReserva.setLegendPosition("w");
 
 	}

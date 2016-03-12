@@ -21,7 +21,6 @@ import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaEstado;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
-import br.com.dealercar.viewhelper.ViewHelper;
 
 @ManagedBean(name = "MBCliente")
 @ViewScoped
@@ -126,7 +125,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 			return;
 		}
 
-		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
+		if (DataUtil.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
 
 			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida.");
 			cliente.setDataNasc(null);
@@ -169,7 +168,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 		//valida o cpf
 		
-		if (ViewHelper.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
+		if (DataUtil.validarIdadeMaxima(cliente.getDataNasc()) == -1) {
 			
 			JSFUtil.adicionarMensagemErro("A data de Nascimento é inválida");
 			return;

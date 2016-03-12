@@ -25,7 +25,7 @@ import br.com.dealercar.enums.PosicaoPneu;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.JSFUtil;
-import br.com.dealercar.viewhelper.SessionHelper;
+import br.com.dealercar.util.SessionUtil;
 
 @ManagedBean(name = "MBRevisao")
 @SessionScoped
@@ -286,7 +286,7 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		revisao.setDataRevisao(DataUtil.pegarDataAtualDoSistema());
 
 		// pega o funcionario que realizou a Revisão
-		revisao.setFuncionario((Funcionario) SessionHelper.getParam("usuarioLogado"));
+		revisao.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
 
 		if(revisao.getDevolucao().getId()>0){
 			revisao.getDevolucao().setAguardaRevisao(false);
@@ -308,6 +308,7 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	public void limparPesquisa() {
 		
 		revisao = new Revisao();
+		revisao.setCarro(new Carro());
 		
 		arrefecimento = new Arrefecimento();
 		bateria = new Bateria();
@@ -324,6 +325,7 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		pneus.clear();
 		
 		setEhCadastrado(false);
+		setJaPesquisei(false);
 
 	}
 

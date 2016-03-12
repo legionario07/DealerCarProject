@@ -199,7 +199,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retirada);
 
 			}
-			
+
 			rSet.close();
 			pstm.close();
 			con.close();
@@ -238,8 +238,8 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 
 				retiradaRetorno.setId(rSet.getInt("id"));
 
-				retirada.setDataRetirada(rSet.getDate("data_retirada"));
-				retirada.setDataDevolucao(rSet.getDate("data_devolucao"));
+				retiradaRetorno.setDataRetirada(rSet.getDate("data_retirada"));
+				retiradaRetorno.setDataDevolucao(rSet.getDate("data_devolucao"));
 
 				retiradaRetorno.setQuilometragem(rSet.getString("quilometragem"));
 
@@ -266,7 +266,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
 
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -337,7 +337,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -408,7 +407,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -551,7 +549,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
-			
+
 			rSet.close();
 			pstm.close();
 			con.close();
@@ -565,4 +563,37 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 
 	}
 
+	/**
+	 * @param void
+	 *            Realiza uma pesquisa no BD e retorno o ultimo id cadastrado
+	 * @return Retorna um int
+	 */
+	public int pesquisarPorUltimoID() {
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("select max(id) from retiradas ");
+
+		Retirada retiradaRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+				retiradaRetorno = new Retirada();
+
+				retiradaRetorno.setId(rSet.getInt("max(id)"));
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return retiradaRetorno.getId();
+
+	}
 }

@@ -10,9 +10,6 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.relatorios.GeraRelatorio;
-
 @ManagedBean(name = "MBPersona")
 @ViewScoped
 public class PersonaBean implements Serializable {
@@ -61,7 +58,7 @@ public class PersonaBean implements Serializable {
 		parametros.put("nomeRelatorio", "CARROS LOCADOS");
 		
 		
-		GeraRelatorio.exportarPDF(parametros, Conexao.getConnection());
+		//GeraRelatorio.exportarPDF(parametros, Conexao.getConnection());
 		
 	}
 

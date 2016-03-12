@@ -1,8 +1,10 @@
 package br.com.dealercar.bean;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -40,6 +42,7 @@ import br.com.dealercar.domain.itensopcionais.Gps;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
+import br.com.dealercar.relatorios.GeraRelatorio;
 import br.com.dealercar.strategy.valida.ValidaCarro;
 import br.com.dealercar.strategy.valida.ValidaCidade;
 import br.com.dealercar.strategy.valida.ValidaCliente;
@@ -49,7 +52,7 @@ import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
 import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
-import br.com.dealercar.viewhelper.SessionHelper;
+import br.com.dealercar.util.SessionUtil;
 
 /**
  * Classe Controller responsavel pela View Retirada
@@ -100,6 +103,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private PieChartModel pieRetiradaCategoriasLocadas;
 
 	private String tipoDeDadosGraficos;
+	private Retirada retiradaImpressao;
 
 	public Retirada getRetirada() {
 		return retirada;
@@ -203,6 +207,14 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	public void setCadeirinhaBebe(CadeirinhaBebe cadeirinhaBebe) {
 		this.cadeirinhaBebe = cadeirinhaBebe;
+	}
+
+	public Retirada getRetiradaImpressao() {
+		return retiradaImpressao;
+	}
+
+	public void setRetiradaImpressao(Retirada retiradaImpressao) {
+		this.retiradaImpressao = retiradaImpressao;
 	}
 
 	public Gps getGps() {
@@ -373,7 +385,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		listaCadeirinhaBebe = new CadeirinhaBebeDAO().listarTodos();
 		listaGps = new GpsDAO().listarTodos();
 		listaRadioPlayer = new RadioPlayerDAO().listarTodos();
-
 	}
 
 	/**
@@ -437,20 +448,30 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		/**
 		 * Recebendo o funcionario Logado
 		 */
-		Funcionario funcionario = (Funcionario) SessionHelper.getParam("usuarioLogado");
+		Funcionario funcionario = (Funcionario) SessionUtil.getParam("usuarioLogado");
 		retirada.setFuncionario(funcionario);
 
 		// setando retirada como ativa
 		retirada.setEhAtivo(true);
 
-		new RetiradaDAO().cadastrar(retirada);
-
 		// atualizando a lista de carros disponiveis
 		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
 
-		limparPesquisa();
-
+		new RetiradaDAO().cadastrar(retirada);
 		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
+
+		List<Retirada> retiradas = new ArrayList<Retirada>();
+		retirada.setId(new RetiradaDAO().pesquisarPorUltimoID());
+		retirada = new RetiradaDAO().pesquisarPorID(retirada);
+		retiradas.add(retirada);
+		
+		
+		File jasper = new File(
+				FacesContext.getCurrentInstance().getExternalContext().getRealPath("/relatorioRetirada.jasper"));
+
+		GeraRelatorio.exportarListPDF(new HashMap<String, Object>(), jasper, retiradas);
+
+		limparPesquisa();
 
 	}
 
@@ -534,7 +555,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void limparObjetos() {
 
 		retirada = new Retirada();
-
+		
 		bebeConforto = new BebeConforto();
 		cadeirinhaBebe = new CadeirinhaBebe();
 		gps = new Gps();
@@ -546,6 +567,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		selectCadeirinha = false;
 		selectRadio = false;
 
+		// Limpando a SessionScope
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBRetirada");
+		
 	}
 
 	/**
@@ -591,6 +615,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaModelos = GraficoUtil.gerarGrafico(listaString);
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
+		pieRetiradaModelos.setShowDataLabels(true);
 		pieRetiradaModelos.setLegendPosition("w");
 
 	}
@@ -615,6 +640,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaCarrosLocados = GraficoUtil.gerarGrafico(listaString);
 		pieRetiradaCarrosLocados.setTitle("Carros Mais Locados");
+		pieRetiradaCarrosLocados.setShowDataLabels(true);
 		pieRetiradaCarrosLocados.setLegendPosition("w");
 
 	}
@@ -639,10 +665,10 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaCategoriasLocadas = GraficoUtil.gerarGrafico(listaString);
 		pieRetiradaCategoriasLocadas.setTitle("Categorias Mais Locadas");
+		pieRetiradaCategoriasLocadas.setShowDataLabels(true);
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");
 
 	}
-
 
 	/**
 	 * Envia o usuario para a pagina de cadastrar um novo cliente e limpa a
@@ -664,6 +690,5 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-
 
 }

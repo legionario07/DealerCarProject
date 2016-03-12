@@ -165,6 +165,7 @@ public class GraficoRevisaoBean implements Serializable {
 		pieRevisaoPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(revisao.getDataRevisao())
 				+ " à " + sdf.format(dataFinal));
 		pieRevisaoPersonalizado.setLegendPosition("w");
+		pieRevisaoPersonalizado.setShowDataLabels(true);
 
 	}
 

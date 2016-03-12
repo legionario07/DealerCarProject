@@ -76,8 +76,11 @@ public class DataUtil {
 
 	/**
 	 * Retorna o primeiro dia do mes de uma data Passada
-	 * @param ano String com o Ano
-	 * @param mes String com o Mes - de 0(Janeiro) a 11(Dezembro)
+	 * 
+	 * @param ano
+	 *            String com o Ano
+	 * @param mes
+	 *            String com o Mes - de 0(Janeiro) a 11(Dezembro)
 	 * @param dia
 	 * @return Um Date com o Primeiro dia do Mes
 	 */
@@ -100,11 +103,13 @@ public class DataUtil {
 
 	}
 
-	
 	/**
 	 * Retorna o ultimo dia do mes de uma data Passada
-	 * @param ano String com o Ano
-	 * @param mes String com o Mes - de 0(Janeiro) a 11(Dezembro)
+	 * 
+	 * @param ano
+	 *            String com o Ano
+	 * @param mes
+	 *            String com o Mes - de 0(Janeiro) a 11(Dezembro)
 	 * @param dia
 	 * @return Um Date com o ultimo dia do Mes
 	 */
@@ -124,6 +129,32 @@ public class DataUtil {
 		} catch (ParseException e) {
 			return null;
 		}
+
+	}
+
+	/**
+	 * Valida a idade maxima do Cliente, não podendo ter nascido depois de
+	 * 01/01/1900
+	 * 
+	 * @param data
+	 * @return um inteiro devendo ser diferente de -1 1 a data de nascimento é
+	 *         posterior a 01/01/1900 0 a data de nascimento é igual a
+	 *         01/01/1900 -1 a data de nascimento é inferior a 01/01/1900
+	 */
+	public static int validarIdadeMaxima(Date data) {
+		int i;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String minData = "01/01/1900";
+		Date dataMin = null;
+		try {
+			dataMin = sdf.parse(minData);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		i = DataUtil.compararDatas(dataMin, data);
+
+		return i;
 
 	}
 
