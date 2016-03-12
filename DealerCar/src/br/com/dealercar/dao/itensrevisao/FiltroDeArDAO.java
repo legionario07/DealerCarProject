@@ -10,14 +10,16 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
  * Classe responsavel pelo gerenciamento dos filtros de Ar no Banco
+ * 
  * @author Paulinho
  *
  */
-public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
+public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 
 	/**
 	 * 
@@ -33,7 +35,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 		sql.append("insert into filtro_de_ar ");
 		sql.append("(descricao, marca, tipo, id_forma_de_venda, valor, quantidade) ");
 		sql.append("values ( ? , ? , ? , ? , ? , ? ) ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -65,7 +67,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from filtro_de_ar ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -93,7 +95,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 		sql.append("descricao = ?, marca = ?, tipo = ?, id_forma_de_venda = ?, ");
 		sql.append("valor = ?, quantidade = ? ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -126,17 +128,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 
 		FiltroDeAr filtroDeArRetorno = null;
 
-		boolean flagConnetionWasActive = true; // true = metodo foi chamado de
-												// outro DAO
-
-		/**
-		 * Verifica se a con esta nula, se SIM - metodo nao teve origem de outro
-		 * DAO
-		 */
-		if (con == null) {
-			con = Conexao.getConnection();
-			flagConnetionWasActive = false;
-		}
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,10 +155,10 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 			}
 
 			/**
-			 * Se flagConnectionWasActive = true a connection será fechada no
-			 * DAO de chamador
+			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
+			 * de chamador
 			 */
-			if (flagConnetionWasActive == false) {
+			if (DaoUtil.isCallFromDao() == -1) {
 				rSet.close();
 				pstm.close();
 				con.close();
@@ -191,7 +183,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 
 		List<FiltroDeAr> lista = new ArrayList<FiltroDeAr>();
 		FiltroDeAr filtroDeArRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -237,7 +229,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr>{
 
 		List<FiltroDeAr> lista = new ArrayList<FiltroDeAr>();
 		FiltroDeAr filtroDeArRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {

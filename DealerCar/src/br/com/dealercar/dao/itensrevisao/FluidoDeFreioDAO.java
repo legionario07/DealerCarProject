@@ -10,14 +10,16 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
  * Classe responsavel pelo gerenciamento dos Fluido de freio no Banco
+ * 
  * @author Paulinho
  *
  */
-public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio>{
+public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio> {
 
 	/**
 	 * 
@@ -33,7 +35,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 		sql.append("insert into fluido_freio ");
 		sql.append("(descricao, marca, tipo, id_forma_de_venda, valor, quantidade) ");
 		sql.append("values ( ? , ? , ? , ? , ? , ? ) ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -65,7 +67,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from fluido_freio ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -93,7 +95,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 		sql.append("descricao = ?, marca = ?, tipo = ?, id_forma_de_venda = ?, ");
 		sql.append("valor = ?, quantidade = ? ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -126,17 +128,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 		FluidoDeFreio fluidoDeFreioRetorno = null;
 
-		boolean flagConnetionWasActive = true; // true = metodo foi chamado de
-												// outro DAO
-
-		/**
-		 * Verifica se a con esta nula, se SIM - metodo nao teve origem de outro
-		 * DAO
-		 */
-		if (con == null) {
-			con = Conexao.getConnection();
-			flagConnetionWasActive = false;
-		}
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,10 +155,10 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 			}
 
 			/**
-			 * Se flagConnectionWasActive = true a connection será fechada no
-			 * DAO de chamador
+			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
+			 * de chamador
 			 */
-			if (flagConnetionWasActive == false) {
+			if (DaoUtil.isCallFromDao() == -1) {
 				rSet.close();
 				pstm.close();
 				con.close();
@@ -191,7 +183,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 		List<FluidoDeFreio> lista = new ArrayList<FluidoDeFreio>();
 		FluidoDeFreio fluidoDeFreioRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -237,7 +229,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 		List<FluidoDeFreio> lista = new ArrayList<FluidoDeFreio>();
 		FluidoDeFreio fluidoDeFreioRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {

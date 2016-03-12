@@ -10,14 +10,16 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
  * Classe responsavel pelo gerenciamento dos correia_dentada no Banco
+ * 
  * @author Paulinho
  *
  */
-public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDentada>{
+public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDentada> {
 
 	/**
 	 * 
@@ -33,7 +35,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 		sql.append("insert into correia_dentada ");
 		sql.append("(descricao, marca, tipo, id_forma_de_venda, valor, quantidade) ");
 		sql.append("values ( ? , ? , ? , ? , ? , ? ) ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -65,7 +67,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 		StringBuffer sql = new StringBuffer();
 		sql.append("delete from correia_dentada ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -93,7 +95,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 		sql.append("descricao = ?, marca = ?, tipo = ?, id_forma_de_venda = ?, ");
 		sql.append("valor = ?, quantidade = ? ");
 		sql.append("where id = ? ");
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -126,17 +128,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 		CorreiaDentada correiaDentadaRetorno = null;
 
-		boolean flagConnetionWasActive = true; // true = metodo foi chamado de
-												// outro DAO
-
-		/**
-		 * Verifica se a con esta nula, se SIM - metodo nao teve origem de outro
-		 * DAO
-		 */
-		if (con == null) {
-			con = Conexao.getConnection();
-			flagConnetionWasActive = false;
-		}
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -163,10 +155,10 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 			}
 
 			/**
-			 * Se flagConnectionWasActive = true a connection será fechada no
+			 * /** Se DaoUtil.isCallFromDao != -1 a connection será fechada no
 			 * DAO de chamador
 			 */
-			if (flagConnetionWasActive == false) {
+			if (DaoUtil.isCallFromDao() == -1) {
 				rSet.close();
 				pstm.close();
 				con.close();
@@ -191,7 +183,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 		List<CorreiaDentada> lista = new ArrayList<CorreiaDentada>();
 		CorreiaDentada correiaDentadaRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {
@@ -237,7 +229,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 		List<CorreiaDentada> lista = new ArrayList<CorreiaDentada>();
 		CorreiaDentada correiaDentadaRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		try {

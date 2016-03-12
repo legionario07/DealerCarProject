@@ -10,6 +10,7 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.Amortecedor;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
+import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -127,17 +128,7 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 
 		Amortecedor amortecedorRetorno = null;
 
-		boolean flagConnetionWasActive = true; // true = metodo foi chamado de
-												// outro DAO
-
-		/**
-		 * Verifica se a con esta nula, se SIM - metodo nao teve origem de outro
-		 * DAO
-		 */
-		if (con == null) {
-			con = Conexao.getConnection();
-			flagConnetionWasActive = false;
-		}
+		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
@@ -164,14 +155,15 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 			}
 
 			/**
-			 * Se flagConnectionWasActive = true a connection será fechada no
+			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no
 			 * DAO de chamador
 			 */
-			if (flagConnetionWasActive == false) {
+			if(DaoUtil.isCallFromDao() == -1) {
 				rSet.close();
 				pstm.close();
 				con.close();
 			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();

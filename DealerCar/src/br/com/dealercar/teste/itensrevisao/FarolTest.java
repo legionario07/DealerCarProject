@@ -93,12 +93,12 @@ public class FarolTest {
 	
 	public static void main(String[] args) {
 		
-		cadastrar();
+		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
-		//listar();
+		listar();
 		
 	}
 	
