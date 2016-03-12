@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-03-07T15:58:43 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprovanteRetirada" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ee09179-3891-4af3-a11d-9d454f689a56">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="funcionario.nome" class="java.lang.String"/>
+	<field name="dataRetirada" class="java.util.Date"/>
+	<field name="dataDevolucao" class="java.util.Date"/>
+	<field name="quilometragem" class="java.lang.String"/>
+	<field name="cliente.nome" class="java.lang.String"/>
+	<field name="carro.placa" class="java.lang.String"/>
+	<field name="cliente.endereco.rua" class="java.lang.String"/>
+	<field name="cliente.endereco.bairro" class="java.lang.String"/>
+	<field name="cliente.endereco.cidade.nome" class="java.lang.String"/>
+	<field name="cliente.endereco.numero" class="java.lang.String"/>
+	<field name="cliente.endereco.complemento" class="java.lang.String"/>
+	<field name="cliente.CPF" class="java.lang.String"/>
+	<field name="opcional.seguro.descricao" class="java.lang.String"/>
+	<field name="opcional.seguro.tipoSeguro.nome.descricao" class="java.lang.String"/>
+	<field name="cliente.endereco.cidade.estado.uf" class="java.lang.String"/>
+	<field name="carro.ano" class="java.lang.String"/>
+	<field name="carro.modelo.nome" class="java.lang.String"/>
+	<field name="carro.categoria.nome" class="java.lang.String"/>
+	<field name="carro.categoria.valorDiaria" class="java.lang.Double"/>
+	<field name="carro.cor.nome" class="java.lang.String"/>
+	<field name="carro.modelo.fabricante.nome" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="431" y="1" width="124" height="30" uuid="b8ea57b9-fe46-4da6-9e41-41d90914cb2d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DealerCar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="33" width="161" height="20" uuid="5d17ca4c-df36-4af9-bb32-d1b9fd498ba8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Locadora de Veículos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="33" width="150" height="-44" uuid="d161ae0c-e6eb-446a-8c77-52b96a35b23e">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bairro: " + $F{cliente.endereco.bairro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="718ce3a7-4624-4062-b448-ff5179702dd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROVANTE DE LOCAÇÃO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="34" width="555" height="1" uuid="1154a528-a8c3-44f2-970f-e9a2e4fd558e"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="03d59f7c-6bb7-4713-921f-febfa8276568"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Dados do Cliente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="277" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="0" y="110" width="555" height="1" uuid="3ab4e436-448d-4d21-88b4-5560d2ced6b7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20" uuid="a80b57fe-2645-4be6-8aae-f1c651466bea">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Número da Retirada: " + $F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="280" height="20" uuid="099a875e-cede-4d5e-9544-35e63da77d9e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Atendente: " + $F{funcionario.nome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="60" width="554" height="20" uuid="a07436d4-d010-46d2-af52-e6bae7d6c6f5">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Endereço: " + $F{cliente.endereco.rua} + ", " + $F{cliente.endereco.numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="330" height="20" uuid="f264615f-0089-4a92-b58f-65eb42d5595b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cliente: " + $F{cliente.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="80" width="150" height="20" uuid="c8973839-cc0d-4164-8e16-ddbf1e56b721">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cidade: " + $F{cliente.endereco.cidade.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="40" width="150" height="20" uuid="dadab974-779b-4039-b32d-91256fbde597">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CPF: " + $F{cliente.CPF}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="186" y="0" width="94" height="20" uuid="665fa1ad-4a3a-4156-8aa8-88efabd1c83f">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data da Retirada: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="80" width="150" height="20" uuid="c6b12df2-ee1b-425d-b1f7-d5eba866ede2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["UF: " + $F{cliente.endereco.cidade.estado.uf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="80" width="150" height="20" uuid="ca388667-882d-4c1e-8e90-367c4e546d6f">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bairro: " + $F{cliente.endereco.bairro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="110" width="100" height="20" uuid="53de4e58-e4cb-47ac-8618-57c6edb7f5f3">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Dados do Veículo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="130" width="150" height="20" uuid="b551a686-dc87-4a03-a9da-1b0a279308ae">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Veículo: " + $F{carro.modelo.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="150" width="150" height="20" uuid="1be6344e-68da-4e13-8a75-2bac21b41588">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ano: " + $F{carro.ano}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="190" width="150" height="20" uuid="7035450e-84fa-43a6-87b6-00a1d4eb8b8d">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Valor Diária: R$ " + $F{carro.categoria.valorDiaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="190" width="150" height="20" uuid="2e15f6af-e950-4d92-9e60-76139ba0f829">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["KM Saída: " + $F{quilometragem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="150" width="150" height="20" uuid="b66a914d-8c0b-4551-8f8a-c8c5518b5d77">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Categoria: " + $F{carro.categoria.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="130" width="150" height="20" uuid="d5a638cd-ee7e-4183-b7d9-fbbfa2c1ea8a">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Placa: " + $F{carro.placa}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="232" width="555" height="1" uuid="1e434c5a-e763-4bdd-b9af-7b066cf4d6cb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="243" width="150" height="20" uuid="d0e39cc5-6572-4b66-b34d-cf01c0ee73fb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Seguro: " + $F{opcional.seguro.descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="243" width="170" height="20" uuid="5c5743ae-d70b-4825-8edf-ed9184972f22">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tipo de Seguro: " + $F{opcional.seguro.tipoSeguro.nome.descricao}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="275" width="555" height="1" uuid="c7daa153-0a28-4d6f-96f8-f9ecbe9c1a6b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="290" y="170" width="150" height="20" uuid="462b2434-423d-43f8-96b0-796f99d555c6">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cor do Veículo: " + $F{carro.cor.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="170" width="150" height="20" uuid="667bd5f6-d3da-4e20-bf93-bd58dd1952a8">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fabricante: " +$F{carro.modelo.fabricante.nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="366" y="0" width="90" height="20" uuid="d4fa6950-35c2-4776-806d-acddf29767f0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data Devolução: "]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="280" y="0" width="86" height="20" uuid="03eb881f-fc4e-413c-8f55-4c3d35e64690">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataRetirada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="456" y="0" width="98" height="20" uuid="4b40a60c-2639-47e5-80ce-ed4931c2361d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataDevolucao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="164">
+			<staticText>
+				<reportElement x="0" y="6" width="555" height="63" uuid="951dce17-373e-4e39-a81a-a85e089548dd"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[O CLIENTE INDICADO declara, neste ato, que recebeu da LOCADORA o veículo e que após verificação concorda que o mesmo se encontra de acordo com a vistoria preenchida, completamente equipado, em perfeitas condições de asseio, funcionamento e conservação, comprometendo-se a entregá-lo à LOCADORA, dentro do horário de funcionamento da loja, no mesmo estado e condições em que o recebeu, até no máximo no prazo final deste contrato, excluindo-se apenas os desgastes dos pneumáticos oriundos do uso normal do veículo.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="202" y="102" width="150" height="1" uuid="7ae37be6-66d0-4af2-bb52-61a457e9b379">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="227" y="103" width="100" height="20" uuid="a5a3f409-3f0e-48dc-a43d-2a7fe45698a3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Assinatura do Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="131" width="223" height="15" uuid="306027ad-7f6c-4c72-90fc-379faae88ea8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[Estou ciente dos dados acima mencionados.
+
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="76" y="149" width="299" height="15" uuid="4345d1db-3514-4b4f-ac4d-a9567c50e02d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Mogi das Cruzes, "]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy">
+				<reportElement x="267" y="148" width="100" height="15" uuid="37ee2aef-785b-4cc9-a6e4-601d6908dd29">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="176" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="70" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>
