@@ -41,9 +41,9 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, amortecedor.getDescricao());
-			pstm.setString(++i, amortecedor.getMarca());
-			pstm.setString(++i, amortecedor.getTipo());
+			pstm.setString(++i, amortecedor.getDescricao().toUpperCase());
+			pstm.setString(++i, amortecedor.getMarca().toUpperCase());
+			pstm.setString(++i, amortecedor.getTipo().toUpperCase());
 			pstm.setInt(++i, amortecedor.getFormaDeVenda().getId());
 			pstm.setDouble(++i, amortecedor.getValor());
 			pstm.setInt(++i, amortecedor.getQuantidade());
@@ -102,9 +102,9 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, amortecedor.getDescricao());
-			pstm.setString(++i, amortecedor.getMarca());
-			pstm.setString(++i, amortecedor.getTipo());
+			pstm.setString(++i, amortecedor.getDescricao().toUpperCase());
+			pstm.setString(++i, amortecedor.getMarca().toUpperCase());
+			pstm.setString(++i, amortecedor.getTipo().toUpperCase());
 			pstm.setInt(++i, amortecedor.getFormaDeVenda().getId());
 			pstm.setDouble(++i, amortecedor.getValor());
 			pstm.setInt(++i, amortecedor.getQuantidade());
@@ -190,7 +190,7 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, amortecedor.getMarca());
+			pstm.setString(++i, amortecedor.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

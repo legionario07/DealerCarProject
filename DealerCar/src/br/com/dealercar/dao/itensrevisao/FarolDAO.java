@@ -40,9 +40,9 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, farol.getDescricao());
-			pstm.setString(++i, farol.getMarca());
-			pstm.setString(++i, farol.getTipo());
+			pstm.setString(++i, farol.getDescricao().toUpperCase());
+			pstm.setString(++i, farol.getMarca().toUpperCase());
+			pstm.setString(++i, farol.getTipo().toUpperCase());
 			pstm.setInt(++i, farol.getFormaDeVenda().getId());
 			pstm.setDouble(++i, farol.getValor());
 			pstm.setInt(++i, farol.getQuantidade());
@@ -101,9 +101,9 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, farol.getDescricao());
-			pstm.setString(++i, farol.getMarca());
-			pstm.setString(++i, farol.getTipo());
+			pstm.setString(++i, farol.getDescricao().toUpperCase());
+			pstm.setString(++i, farol.getMarca().toUpperCase());
+			pstm.setString(++i, farol.getTipo().toUpperCase());
 			pstm.setInt(++i, farol.getFormaDeVenda().getId());
 			pstm.setDouble(++i, farol.getValor());
 			pstm.setInt(++i, farol.getQuantidade());
@@ -188,7 +188,7 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, farol.getMarca());
+			pstm.setString(++i, farol.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

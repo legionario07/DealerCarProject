@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBProdutoRevisao.carregarListagem}"
+			type="preRenderView" />
+
+		<p:tabView orientation="left" id="tbViewProdutoRevisao">
+			<p:tab title="Amortecedor">
+				<h:form id="frmAmortecedor">
+					<p:dataTable id="tblListaAmortecedor"
+						value="#{MBProdutoRevisao.listaAmortecedores}"
+						widgetVar="tabelaListagemAmortecedores" var="itemAmortecedor"
+						style="width:70%" sortBy="#{itemAmortecedor.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemAmortecedor.id}">
+							<h:outputText value="#{itemAmortecedor.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemAmortecedor.descricao}">
+							<h:outputText value="#{itemAmortecedor.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemAmortecedor.marca}">
+							<h:outputText value="#{itemAmortecedor.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemAmortecedor.tipo}">
+							<h:outputText value="#{itemAmortecedor.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemAmortecedor.formaDeVenda.descricao}">
+							<h:outputText value="#{itemAmortecedor.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemAmortecedor.quantidade}">
+							<h:outputText value="#{itemAmortecedor.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemAmortecedor.valor}">
+							<h:outputText value="#{itemAmortecedor.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoAmortecedor"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemAmortecedor}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemAmortecedor}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="Correia Dentada">
+				<h:form id="frmCorreiaDentada">
+					<p:dataTable id="tblListaCorreiaDentada"
+						value="#{MBProdutoRevisao.listaCorreiaDentada}"
+						widgetVar="tabelaListagemCorreiaDentada" var="itemCorreiaDentada"
+						style="width:70%" sortBy="#{itemCorreiaDentada.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemCorreiaDentada.id}">
+							<h:outputText value="#{itemCorreiaDentada.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemCorreiaDentada.descricao}">
+							<h:outputText value="#{itemCorreiaDentada.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemCorreiaDentada.marca}">
+							<h:outputText value="#{itemCorreiaDentada.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemCorreiaDentada.tipo}">
+							<h:outputText value="#{itemCorreiaDentada.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemCorreiaDentada.formaDeVenda.descricao}">
+							<h:outputText
+								value="#{itemCorreiaDentada.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemCorreiaDentada.quantidade}">
+							<h:outputText value="#{itemCorreiaDentada.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemCorreiaDentada.valor}">
+							<h:outputText value="#{itemCorreiaDentada.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoCorreiaDentada"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemCorreiaDentada}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemCorreiaDentada}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="Embreagem">
+				<h:form id="frmEmbreagem">
+					<p:dataTable id="tblListaEmbreagem"
+						value="#{MBProdutoRevisao.listaEmbreagem}"
+						widgetVar="tabelaListagemEmbreagem" var="itemEmbreagem"
+						style="width:70%" sortBy="#{itemEmbreagem.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemEmbreagem.id}">
+							<h:outputText value="#{itemEmbreagem.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemEmbreagem.descricao}">
+							<h:outputText value="#{itemEmbreagem.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemEmbreagem.marca}">
+							<h:outputText value="#{itemEmbreagem.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemEmbreagem.tipo}">
+							<h:outputText value="#{itemEmbreagem.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemEmbreagem.formaDeVenda.descricao}">
+							<h:outputText value="#{itemEmbreagem.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemEmbreagem.quantidade}">
+							<h:outputText value="#{itemEmbreagem.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemEmbreagem.valor}">
+							<h:outputText value="#{itemEmbreagem.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoEmbreagem"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemEmbreagem}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemEmbreagem}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="Farol">
+				<h:form id="frmFarol">
+					<p:dataTable id="tblListaFarol"
+						value="#{MBProdutoRevisao.listaFarol}"
+						widgetVar="tabelaListagemFarol" var="itemFarol" style="width:70%"
+						sortBy="#{itemFarol.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemFarol.id}">
+							<h:outputText value="#{itemFarol.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemFarol.descricao}">
+							<h:outputText value="#{itemFarol.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemFarol.marca}">
+							<h:outputText value="#{itemFarol.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemFarol.tipo}">
+							<h:outputText value="#{itemFarol.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFarol.formaDeVenda.descricao}">
+							<h:outputText value="#{itemFarol.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemFarol.quantidade}">
+							<h:outputText value="#{itemFarol.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemFarol.valor}">
+							<h:outputText value="#{itemFarol.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoFarol"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFarol}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFarol}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+
+			<p:tab title="Filtro De Ar">
+				<h:form id="frmFiltroDeAr">
+					<p:dataTable id="tblListaFiltroDeAr"
+						value="#{MBProdutoRevisao.listaFiltroDeAr}"
+						widgetVar="tabelaListagemFiltroDeAr" var="itemFiltroDeAr"
+						style="width:70%" sortBy="#{itemFiltroDeAr.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemFiltroDeAr.id}">
+							<h:outputText value="#{itemFiltroDeAr.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemFiltroDeAr.descricao}">
+							<h:outputText value="#{itemFiltroDeAr.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeAr.marca}">
+							<h:outputText value="#{itemFiltroDeAr.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeAr.tipo}">
+							<h:outputText value="#{itemFiltroDeAr.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFiltroDeAr.formaDeVenda.descricao}">
+							<h:outputText value="#{itemFiltroDeAr.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemFiltroDeAr.quantidade}">
+							<h:outputText value="#{itemFiltroDeAr.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeAr.valor}">
+							<h:outputText value="#{itemFiltroDeAr.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoFiltroDeAr"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFiltroDeAr}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFiltroDeAr}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+
+			<p:tab title="Filtro De Oleo (Motor)">
+				<h:form id="frmFiltroDeOleoMotor">
+					<p:dataTable id="tblListaFiltroDeOleoMotor"
+						value="#{MBProdutoRevisao.listaFiltroDeOleoMotor}"
+						widgetVar="tabelaListagemFiltroDeOleoMotor"
+						var="itemFiltroDeOleoMotor" style="width:70%"
+						sortBy="#{itemFiltroDeOleoMotor.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemFiltroDeOleoMotor.id}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.descricao}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.marca}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.tipo}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.formaDeVenda.descricao}">
+							<h:outputText
+								value="#{itemFiltroDeOleoMotor.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.quantidade}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemFiltroDeOleoMotor.valor}">
+							<h:outputText value="#{itemFiltroDeOleoMotor.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoFiltroDeOleoMotor"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFiltroDeOleoMotor}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFiltroDeOleoMotor}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+
+			<p:tab title="Fluido De Freio">
+				<h:form id="frmFluidoDeFreio">
+					<p:dataTable id="tblListaFluidoDeFreio"
+						value="#{MBProdutoRevisao.listaFluidoDeFreio}"
+						widgetVar="tabelaListagemFluidoDeFreio" var="itemFluidoDeFreio"
+						style="width:70%" sortBy="#{itemFluidoDeFreio.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemFluidoDeFreio.id}">
+							<h:outputText value="#{itemFluidoDeFreio.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemFluidoDeFreio.descricao}">
+							<h:outputText value="#{itemFluidoDeFreio.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemFluidoDeFreio.marca}">
+							<h:outputText value="#{itemFluidoDeFreio.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemFluidoDeFreio.tipo}">
+							<h:outputText value="#{itemFluidoDeFreio.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemFluidoDeFreio.formaDeVenda.descricao}">
+							<h:outputText value="#{itemFluidoDeFreio.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemFluidoDeFreio.quantidade}">
+							<h:outputText value="#{itemFluidoDeFreio.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemFluidoDeFreio.valor}">
+							<h:outputText value="#{itemFluidoDeFreio.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoFluidoDeFreio"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFluidoDeFreio}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemFluidoDeFreio}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+
+			<p:tab title="Pastilha De Freio">
+				<h:form id="frmPastilhaDeFreio">
+					<p:dataTable id="tblListaPastilhaDeFreio"
+						value="#{MBProdutoRevisao.listaPastilhaFreio}"
+						widgetVar="tabelaListagemPastilhaFreio" var="itemPastilhaFreio"
+						style="width:70%" sortBy="#{itemPastilhaFreio.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemPastilhaFreio.id}">
+							<h:outputText value="#{itemPastilhaFreio.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemPastilhaFreio.descricao}">
+							<h:outputText value="#{itemPastilhaFreio.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemPastilhaFreio.marca}">
+							<h:outputText value="#{itemPastilhaFreio.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemPastilhaFreio.tipo}">
+							<h:outputText value="#{itemPastilhaFreio.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemPastilhaFreio.formaDeVenda.descricao}">
+							<h:outputText value="#{itemPastilhaFreio.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemPastilhaFreio.quantidade}">
+							<h:outputText value="#{itemPastilhaFreio.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemPastilhaFreio.valor}">
+							<h:outputText value="#{itemPastilhaFreio.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoPastilhaFreio"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemPastilhaFreio}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemPastilhaFreio}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+
+			<p:tab title="Velas De Ignição">
+				<h:form id="frmVelasIgnicao">
+					<p:dataTable id="tblListaVelasIgnicao"
+						value="#{MBProdutoRevisao.listaVelasIgnicao}"
+						widgetVar="tabelaListagemVelasIgnicao" var="itemVelasIgnicao"
+						style="width:70%" sortBy="#{itemVelasIgnicao.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center"
+							sortBy="#{itemVelasIgnicao.id}">
+							<h:outputText value="#{itemVelasIgnicao.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%"
+							style="font-size:11px" sortBy="#{itemVelasIgnicao.descricao}">
+							<h:outputText value="#{itemVelasIgnicao.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemVelasIgnicao.marca}">
+							<h:outputText value="#{itemVelasIgnicao.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemVelasIgnicao.tipo}">
+							<h:outputText value="#{itemVelasIgnicao.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="15%"
+							style="font-size:11px"
+							sortBy="#{itemVelasIgnicao.formaDeVenda.descricao}">
+							<h:outputText value="#{itemVelasIgnicao.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="15%"
+							style="font-size:11px" sortBy="#{itemVelasIgnicao.quantidade}">
+							<h:outputText value="#{itemVelasIgnicao.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" style="font-size:11px"
+							sortBy="#{itemVelasIgnicao.valor}">
+							<h:outputText value="#{itemVelasIgnicao.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoVelasIgnicao"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemVelasIgnicao}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemVelasIgnicao}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+
+		<!-- Caixa de Dialogo Confimar Editar Produtos Revisões-->
+		<p:dialog widgetVar="dlgEditarProdutoRevisao" closable="false"
+			width="30%" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)" header="Produtos Revisão - Editar">
+
+			<h:form id="frmEditarProdutoRevisao">
+				<h:panelGrid id="pnlEditarProdutoRevisao" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.id}"
+						readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.descricao}"
+						required="true" requiredMessage="Favor digitar uma descrição" />
+
+					<h:outputText value="Marca: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.marca}"
+						required="true" requiredMessage="Favor digitar a Marca:" />
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 2 or MBProdutoRevisao.indice == 4 or	MBProdutoRevisao.indice ==9}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 2 or MBProdutoRevisao.indice == 4 or	MBProdutoRevisao.indice ==9}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Dianteiro" itemValue="DIANTEIRO" />
+						<f:selectItem itemLabel="Traseiro" itemValue="TRASEIRO" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 3 or MBProdutoRevisao.indice == 5 or MBProdutoRevisao.indice == 6 or	MBProdutoRevisao.indice == 10}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 3 or MBProdutoRevisao.indice == 5 or MBProdutoRevisao.indice == 6 or	MBProdutoRevisao.indice == 10}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Motor em Geral"
+							itemValue="MOTOR EM GERAL" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 11}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 11}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Mecânica" itemValue="MECÂNICA" />
+						<f:selectItem itemLabel="Hidráulica" itemValue="HIDRÁULICA" />
+						<f:selectItem itemLabel="Pneumática" itemValue="PNEUMÁTICA" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 7}" required="true" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 7}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="DOT 3" itemValue="DOT 3" />
+						<f:selectItem itemLabel="DOT 4" itemValue="DOT 4" />
+						<f:selectItem itemLabel="DOT 5" itemValue="DOT 5" />
+						<f:selectItem itemLabel="DOT 5.1" itemValue="DOT 5.1" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Forma De Venda: *" />
+					<p:selectOneMenu
+						value="#{MBProdutoRevisao.produtoRevisao.formaDeVenda.id}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione uma Forma De Venda" />
+						<f:selectItems value="#{MBProdutoRevisao.listaFormaDeVenda}"
+							itemLabel="#{formaDeVenda.descricao}" var="formaDeVenda"
+							itemValue="#{formaDeVenda.id}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.valor}"
+						required="true" requiredMessage="Favor digitar um valor" />
+
+					<h:outputText value="Quantidade: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.quantidade}"
+						required="true" requiredMessage="Favor digitar um quantidade" />
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+					<p:commandButton value="Salvar"
+						update="tbViewProdutoRevisao :msgGlobal"
+						actionListener="#{MBProdutoRevisao.editar}"
+						oncomplete="PF('dlgEditarProdutoRevisao').hide();" />
+
+					<p:commandButton value="Cancelar"
+						action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgEditarProdutoRevisao').hide();"
+						update="tbViewProdutoRevisao" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir ItensOpcionais -->
+		<p:dialog widgetVar="dlgExcluirProdutoRevisao" closable="false"
+			width="30%" id="dlgExcluir" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="Produto Revisao - Excluir">
+			<h:form id="frmExcluirProdutoRevisao">
+
+				<h:panelGrid id="pnlExcluirProdutoRevisao" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.id}"
+						readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.descricao}"
+						readonly="true" />
+
+					<h:outputText value="Marca:" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.marca}"
+						readonly="true" />
+
+					<h:outputText value="Tipo:" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						readonly="true" />
+
+					<h:outputText value="Forma De Venda:" />
+					<p:inputText
+						value="#{MBProdutoRevisao.produtoRevisao.formaDeVenda.descricao}"
+						readonly="true" />
+
+					<h:outputText value="Valor:" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.valor}"
+						readonly="true" />
+
+					<h:outputText value="Quantidade:" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.quantidade}"
+						readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBProdutoRevisao.excluir}"
+						update="tbViewProdutoRevisao :msgGlobal"
+						onclick="PF('dlgExcluirProdutoRevisao').hide();" />
+
+					<p:commandButton value="Cancelar"
+						action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgExcluirProdutoRevisao').hide();"
+						update="tbViewProdutoRevisao" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Cadastrar Itens Opcionais -->
+		<p:dialog widgetVar="dlgNovoProdutoRevisao" closable="false"
+			width="30%" id="dlgNova" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="Produto Revisao - Cadastrar">
+			<h:form id="frmNovoProdutoRevisao">
+
+				<h:panelGrid id="pnlNovaProdutoRevisao2" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.id}"
+						readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.descricao}"
+						required="true" requiredMessage="Favor digitar uma descrição" />
+
+					<h:outputText value="Marca: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.marca}"
+						required="true" requiredMessage="Favor digitar a Marca:" />
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 2 or MBProdutoRevisao.indice == 4 or	MBProdutoRevisao.indice ==9}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 2 or MBProdutoRevisao.indice == 4 or	MBProdutoRevisao.indice ==9}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Dianteiro" itemValue="DIANTEIRO" />
+						<f:selectItem itemLabel="Traseiro" itemValue="TRASEIRO" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 3 or MBProdutoRevisao.indice == 5 or MBProdutoRevisao.indice == 6 or	MBProdutoRevisao.indice == 10}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 3 or MBProdutoRevisao.indice == 5 or MBProdutoRevisao.indice == 6 or	MBProdutoRevisao.indice == 10}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Motor em Geral"
+							itemValue="MOTOR EM GERAL" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 7}" required="true" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 7}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="DOT 3" itemValue="DOT 3" />
+						<f:selectItem itemLabel="DOT 4" itemValue="DOT 4" />
+						<f:selectItem itemLabel="DOT 5" itemValue="DOT 5" />
+						<f:selectItem itemLabel="DOT 5.1" itemValue="DOT 5.1" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 11}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 11}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Mecânica" itemValue="MECÂNICA" />
+						<f:selectItem itemLabel="Hidráulica" itemValue="HIDRÁULICA" />
+						<f:selectItem itemLabel="Pneumática" itemValue="PNEUMÁTICA" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Forma De Venda: *" />
+					<p:selectOneMenu
+						value="#{MBProdutoRevisao.produtoRevisao.formaDeVenda.id}"
+						required="true" requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione uma Forma De Venda" />
+						<f:selectItems value="#{MBProdutoRevisao.listaFormaDeVenda}"
+							itemLabel="#{formaDeVenda.descricao}" var="formaDeVenda"
+							itemValue="#{formaDeVenda.id}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Valor: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.valor}"
+						required="true" requiredMessage="Favor digitar um valor" />
+
+					<h:outputText value="Quantidade: *" />
+					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.quantidade}"
+						required="true" requiredMessage="Favor digitar um quantidade" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+					<p:commandButton value="Salvar"
+						update="tbViewProdutoRevisao :msgGlobal"
+						actionListener="#{MBProdutoRevisao.cadastrar}"
+						oncomplete="PF('dlgNovoProdutoRevisao').hide();" />
+
+					<p:commandButton value="Cancelar"
+						action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgNovoProdutoRevisao').hide();"
+						update="tbViewProdutoRevisao" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

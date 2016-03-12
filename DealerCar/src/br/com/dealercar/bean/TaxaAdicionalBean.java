@@ -93,4 +93,8 @@ public class TaxaAdicionalBean implements Serializable, IBean{
 		
 	}
 	
+	public void limparObjetos(){
+		taxasAdicionais = new TaxasAdicionais();
+	}
+	
 }

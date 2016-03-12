@@ -41,9 +41,9 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, correiaDentada.getDescricao());
-			pstm.setString(++i, correiaDentada.getMarca());
-			pstm.setString(++i, correiaDentada.getTipo());
+			pstm.setString(++i, correiaDentada.getDescricao().toUpperCase());
+			pstm.setString(++i, correiaDentada.getMarca().toUpperCase());
+			pstm.setString(++i, correiaDentada.getTipo().toUpperCase());
 			pstm.setInt(++i, correiaDentada.getFormaDeVenda().getId());
 			pstm.setDouble(++i, correiaDentada.getValor());
 			pstm.setInt(++i, correiaDentada.getQuantidade());
@@ -102,9 +102,9 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, correiaDentada.getDescricao());
-			pstm.setString(++i, correiaDentada.getMarca());
-			pstm.setString(++i, correiaDentada.getTipo());
+			pstm.setString(++i, correiaDentada.getDescricao().toUpperCase());
+			pstm.setString(++i, correiaDentada.getMarca().toUpperCase());
+			pstm.setString(++i, correiaDentada.getTipo().toUpperCase());
 			pstm.setInt(++i, correiaDentada.getFormaDeVenda().getId());
 			pstm.setDouble(++i, correiaDentada.getValor());
 			pstm.setInt(++i, correiaDentada.getQuantidade());
@@ -189,7 +189,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, correiaDentada.getMarca());
+			pstm.setString(++i, correiaDentada.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

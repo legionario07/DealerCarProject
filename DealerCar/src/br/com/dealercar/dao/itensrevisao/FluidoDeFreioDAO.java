@@ -41,9 +41,9 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, fluidoDeFreio.getDescricao());
-			pstm.setString(++i, fluidoDeFreio.getMarca());
-			pstm.setString(++i, fluidoDeFreio.getTipo());
+			pstm.setString(++i, fluidoDeFreio.getDescricao().toUpperCase());
+			pstm.setString(++i, fluidoDeFreio.getMarca().toUpperCase());
+			pstm.setString(++i, fluidoDeFreio.getTipo().toUpperCase());
 			pstm.setInt(++i, fluidoDeFreio.getFormaDeVenda().getId());
 			pstm.setDouble(++i, fluidoDeFreio.getValor());
 			pstm.setInt(++i, fluidoDeFreio.getQuantidade());
@@ -102,9 +102,9 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, fluidoDeFreio.getDescricao());
-			pstm.setString(++i, fluidoDeFreio.getMarca());
-			pstm.setString(++i, fluidoDeFreio.getTipo());
+			pstm.setString(++i, fluidoDeFreio.getDescricao().toUpperCase());
+			pstm.setString(++i, fluidoDeFreio.getMarca().toUpperCase());
+			pstm.setString(++i, fluidoDeFreio.getTipo().toUpperCase());
 			pstm.setInt(++i, fluidoDeFreio.getFormaDeVenda().getId());
 			pstm.setDouble(++i, fluidoDeFreio.getValor());
 			pstm.setInt(++i, fluidoDeFreio.getQuantidade());
@@ -189,7 +189,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, fluidoDeFreio.getMarca());
+			pstm.setString(++i, fluidoDeFreio.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

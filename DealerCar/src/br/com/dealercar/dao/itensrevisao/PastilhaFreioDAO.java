@@ -39,9 +39,9 @@ public class PastilhaFreioDAO extends AbstractPesquisaItensRevisao<PastilhaFreio
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, pastilhaFreio.getDescricao());
-			pstm.setString(++i, pastilhaFreio.getMarca());
-			pstm.setString(++i, pastilhaFreio.getTipo());
+			pstm.setString(++i, pastilhaFreio.getDescricao().toUpperCase());
+			pstm.setString(++i, pastilhaFreio.getMarca().toUpperCase());
+			pstm.setString(++i, pastilhaFreio.getTipo().toUpperCase());
 			pstm.setInt(++i, pastilhaFreio.getFormaDeVenda().getId());
 			pstm.setDouble(++i, pastilhaFreio.getValor());
 			pstm.setInt(++i, pastilhaFreio.getQuantidade());
@@ -100,9 +100,9 @@ public class PastilhaFreioDAO extends AbstractPesquisaItensRevisao<PastilhaFreio
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, pastilhaFreio.getDescricao());
-			pstm.setString(++i, pastilhaFreio.getMarca());
-			pstm.setString(++i, pastilhaFreio.getTipo());
+			pstm.setString(++i, pastilhaFreio.getDescricao().toUpperCase());
+			pstm.setString(++i, pastilhaFreio.getMarca().toUpperCase());
+			pstm.setString(++i, pastilhaFreio.getTipo().toUpperCase());
 			pstm.setInt(++i, pastilhaFreio.getFormaDeVenda().getId());
 			pstm.setDouble(++i, pastilhaFreio.getValor());
 			pstm.setInt(++i, pastilhaFreio.getQuantidade());
@@ -197,7 +197,7 @@ public class PastilhaFreioDAO extends AbstractPesquisaItensRevisao<PastilhaFreio
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, pastilhaFreio.getMarca());
+			pstm.setString(++i, pastilhaFreio.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

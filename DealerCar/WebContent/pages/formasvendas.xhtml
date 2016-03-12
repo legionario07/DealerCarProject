@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBProdutoRevisao.carregarListagem}" type="preRenderView" />
+
+		<h:form id="frmFormaDeVenda">
+
+			<p:dataTable id="tblFormaVenda" value="#{MBProdutoRevisao.listaFormaDeVenda}"
+				widgetVar="tabelaListagem" var="itemFormaDeVenda" style="width:70%"
+				sortBy="#{itemFormaDeVenda.descricao}"
+				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+				rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="FormaDeVenda - Listagem" style="font-size:14px" />
+				</f:facet>
+
+				<p:column headerText="ID" width="5%"
+					style="font-size:11px; text-align:center"
+					sortBy="#{itemFormaDeVenda.id}">
+					<h:outputText value="#{itemFormaDeVenda.id}" />
+				</p:column>
+
+				<p:column headerText="Descrição" width="15%" style="font-size:11px"
+					sortBy="#{itemFormaDeVenda.descricao}">
+					<h:outputText value="#{itemFormaDeVenda.descricao}" />
+				</p:column>
+
+				<p:column headerText="Opções" width="10%" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgEditarFormaDeVenda').show();"
+						update=":frmEditarFormaDeVenda:pnlEditarFormaDeVenda :msgGlobal">
+						<f:setPropertyActionListener value="#{itemFormaDeVenda}"
+							target="#{MBProdutoRevisao.formaDeVenda}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgExcluirFormaDeVenda').show();"
+						update="frmExcluirFormaDeVenda :msgGlobal">
+						<f:setPropertyActionListener value="#{itemFormaDeVenda}"
+							target="#{MBProdutoRevisao.formaDeVenda}" />
+					</p:commandButton>
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Novo" id="botaoFormaDeVenda"
+							actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+							onclick="PF('dlgNovoFormaDeVenda').show();"
+							update=":frmNovoFormaDeVenda :msgGlobal" />
+					</h:panelGrid>
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<!--  Caixa de Dialogo Cadastrar Forma De Venda -->
+		<p:dialog widgetVar="dlgNovoFormaDeVenda" closable="false" width="30%"
+			id="dlgNovo" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Produto Revisao - Cadastrar">
+			<h:form id="frmNovoFormaDeVenda">
+
+				<h:panelGrid id="pnlNovoFormaDeVenda2" columns="2">
+
+					<h:outputText value="Descrição: *" />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" required="true" 
+						requiredMessage="Favor informar o descrição para essa Forma De Venda" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{MBProdutoRevisao.cadastrar}"
+						update=":frmFormaDeVenda :msgGlobal"
+						onclick="PF('dlgNovoFormaDeVenda').hide();" />
+
+					<p:commandButton value="Cancelar"
+					action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgNovoFormaDeVenda').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Confimar Editar Forma De Venda-->
+		<p:dialog widgetVar="dlgEditarFormaDeVenda" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Forma de Venda - Editar">
+
+			<h:form id="frmEditarFormaDeVenda">
+				<h:panelGrid id="pnlEditarFormaDeVenda" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}" readonly="true" />
+
+					<h:outputText value="Descrição:*  " />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" required="true"
+						requiredMessage="Favor digitar uma Descrição para a Forma De Venda" />
+
+					<p:commandButton value="Salvar" actionListener="#{MBProdutoRevisao.editar}"
+						update=":frmFormaDeVenda :msgGlobal"
+						oncomplete="PF('dlgEditarFormaDeVenda').hide();" />
+
+					<p:commandButton value="Cancelar"
+					action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgEditarFormaDeVenda').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir Forma De Venda -->
+		<p:dialog widgetVar="dlgExcluirFormaDeVenda" closable="false" width="30%"
+			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Forma De Venda - Excluir">
+			<h:form id="frmExcluirFormaDeVenda">
+
+
+				<h:panelGrid id="pnlExcluirFormaDeVenda" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}" readonly="true" />
+
+					<h:outputText value="Descrição: " />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{MBProdutoRevisao.excluir}"
+						update="frmFormaDeVenda :msgGlobal"
+						onclick="PF('dlgExcluirFormaDeVenda').hide();" />
+
+					<p:commandButton value="Cancelar"
+					action="#{MBProdutoRevisao.limparObjetos}"
+						onclick="PF('dlgExcluirFormaDeVenda').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

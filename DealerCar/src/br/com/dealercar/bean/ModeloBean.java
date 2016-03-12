@@ -113,4 +113,8 @@ public class ModeloBean implements Serializable, IBean{
 		
 	}
 	
+	public void limparObjetos(){
+		modelo = new Modelo();
+	}
+	
 }

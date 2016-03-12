@@ -99,6 +99,7 @@
 						onclick="PF('dlgCorNova').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorNova').hide();" />
 
 				</h:panelGrid>
@@ -107,7 +108,7 @@
 		</p:dialog>
 
 
-		<!-- Caixa de Dialogo Confimar Editar  Cor-->
+		<!-- Caixa de Dialogo Confimar Editar Cor-->
 		<p:dialog widgetVar="dlgCorEditar" closable="false"
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Cor - Editar">
@@ -128,6 +129,7 @@
 
 
 					<p:commandButton value="Cancelar"
+					action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorEditar').hide();" />
 
 				</h:panelGrid>
@@ -162,6 +164,7 @@
 						onclick="PF('dlgCorExcluir').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorExcluir').hide();" />
 
 				</h:panelGrid>

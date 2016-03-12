@@ -93,4 +93,8 @@ public class CorBean implements Serializable, IBean{
 		
 	}
 	
+	public void limparObjetos(){
+		cor = new Cor();
+	}
+	
 }

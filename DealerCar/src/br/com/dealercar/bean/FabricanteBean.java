@@ -92,4 +92,8 @@ public class FabricanteBean implements Serializable, IBean{
 		
 	}
 	
+	public void limparObjetos(){
+		fabricante = new Fabricante();
+	}
+	
 }

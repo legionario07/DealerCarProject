@@ -98,11 +98,11 @@
 				<h:panelGrid id="pnlNovoSeguros2" columns="2">
 
 					<h:outputText value="Nome: *" />
-					<p:inputText value="#{MBSeguro.seguro.descricao}" rendered="true"
+					<p:inputText value="#{MBSeguro.seguro.descricao}" required="true"
 						requiredMessage="Favor informar o nome da nova Taxa Adicional" />
 
 					<h:outputText value="Valor: *" />
-					<p:inputText value="#{MBSeguro.seguro.valor}" rendered="true"
+					<p:inputText value="#{MBSeguro.seguro.valor}" required="true"
 						requiredMessage="Favor informar o valor da nova Taxa Adicional" />
 
 					<h:outputText value="Tipo Seguro: *" />
@@ -128,6 +128,7 @@
 						onclick="PF('dlgSegurosNovo').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBSeguro.limparObjetos}"
 						onclick="PF('dlgSegurosNovo').hide();" />
 
 				</h:panelGrid>
@@ -173,6 +174,7 @@
 						oncomplete="PF('dlgSegurosEditar').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBSeguro.limparObjetos}"
 						onclick="PF('dlgSegurosEditar').hide();" />
 
 				</h:panelGrid>
@@ -212,6 +214,7 @@
 						onclick="PF('dlgSegurosExcluir').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBSeguro.limparObjetos}"
 						onclick="PF('dlgSegurosExcluir').hide();" />
 
 				</h:panelGrid>

@@ -188,17 +188,11 @@ public class OpcionaisBean implements IBean, Serializable {
 		
 		if (event.getComponent().getId().equals("botaoBebeConforto")) {
 			indice = 2;
-		}
-
-		if (event.getComponent().getId().equals("botaoCadeirinhaBebe")) {
+		} else	if (event.getComponent().getId().equals("botaoCadeirinhaBebe")) {
 			indice = 3;
-		}
-
-		if (event.getComponent().getId().equals("botaoGps")) {
+		} else if (event.getComponent().getId().equals("botaoGps")) {
 			indice = 4;
-		}
-
-		if (event.getComponent().getId().equals("botaoRadioPlayer")) {
+		} else if (event.getComponent().getId().equals("botaoRadioPlayer")) {
 			indice = 5;
 		}
 
@@ -221,10 +215,7 @@ public class OpcionaisBean implements IBean, Serializable {
 			
 			bebeConforto = new BebeConforto();
 			
-			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
-		}
-
-		if (indice == 3) {
+		} else if (indice == 3) {
 			cadeirinhaBebe.setCodigo(item.getCodigo());
 			cadeirinhaBebe.setDescricao(item.getDescricao());
 			cadeirinhaBebe.setValor(item.getValor());
@@ -235,10 +226,7 @@ public class OpcionaisBean implements IBean, Serializable {
 			
 			cadeirinhaBebe = new CadeirinhaBebe();
 			
-			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
-		}
-
-		if (indice == 4) {
+		} else if (indice == 4) {
 			gps.setCodigo(item.getCodigo());
 			gps.setDescricao(item.getDescricao());
 			gps.setValor(item.getValor());
@@ -249,10 +237,7 @@ public class OpcionaisBean implements IBean, Serializable {
 			
 			gps = new Gps();
 			
-			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
-		}
-
-		if (indice == 5) {
+		} else if (indice == 5) {
 			radioPlayer.setCodigo(item.getCodigo());
 			radioPlayer.setDescricao(item.getDescricao());
 			radioPlayer.setValor(item.getValor());
@@ -263,10 +248,11 @@ public class OpcionaisBean implements IBean, Serializable {
 			
 			radioPlayer = new RadioPlayer();
 
-			JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
 		}
 
+		item = new Itens();
 		indice = 0;
+		JSFUtil.adicionarMensagemSucesso("Item Opcional cadastrado com sucesso!");
 
 	}
 
@@ -278,32 +264,31 @@ public class OpcionaisBean implements IBean, Serializable {
 		if (item instanceof BebeConforto) {
 			bebeConforto = (BebeConforto) item;
 			new BebeConfortoDAO().editar(bebeConforto);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+			
+			bebeConforto = new BebeConforto();
 
-		}
-
-		if (item instanceof CadeirinhaBebe) {
+		} else if (item instanceof CadeirinhaBebe) {
 			cadeirinhaBebe = (CadeirinhaBebe) item;
 			new CadeirinhaBebeDAO().editar(cadeirinhaBebe);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
 
-		}
-
-		if (item instanceof Gps) {
+		} else if (item instanceof Gps) {
 			gps = (Gps) item;
 			new GpsDAO().editar(gps);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+			
+			gps = new Gps();
 
-		}
-
-		if (item instanceof RadioPlayer) {
+		} else if (item instanceof RadioPlayer) {
 			radioPlayer = (RadioPlayer) item;
 			new RadioPlayerDAO().editar(radioPlayer);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
+			
+			radioPlayer = new RadioPlayer();
 
 		}
 
 		indice = 0;
+		item = new Itens();
+		
+		JSFUtil.adicionarMensagemSucesso("Item Opcional editado com Sucesso!");
 	}
 
 	/**
@@ -314,32 +299,23 @@ public class OpcionaisBean implements IBean, Serializable {
 		if (item instanceof BebeConforto) {
 			bebeConforto = (BebeConforto) item;
 			new BebeConfortoDAO().excluir(bebeConforto);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
 
-		}
-
-		if (item instanceof CadeirinhaBebe) {
+		} else if (item instanceof CadeirinhaBebe) {
 			cadeirinhaBebe = (CadeirinhaBebe) item;
 			new CadeirinhaBebeDAO().excluir(cadeirinhaBebe);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
 
-		}
-
-		if (item instanceof Gps) {
+		} else if (item instanceof Gps) {
 			gps = (Gps) item;
 			new GpsDAO().excluir(gps);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
 
-		}
-
-		if (item instanceof RadioPlayer) {
+		} else if (item instanceof RadioPlayer) {
 			radioPlayer = (RadioPlayer) item;
 			new RadioPlayerDAO().excluir(radioPlayer);
-			JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
 
-		}
+		} 
 		
 		indice = 0;
+		JSFUtil.adicionarMensagemSucesso("Item Opcional excluido com sucesso!");
 
 	}
 
@@ -352,26 +328,32 @@ public class OpcionaisBean implements IBean, Serializable {
 			indice = 2;
 			bebeConforto.setCodigo(item.getCodigo());
 			bebeConforto = new BebeConfortoDAO().pesquisarPorCodigo(bebeConforto);
-		}
-
-		if (item instanceof CadeirinhaBebe) {
+			
+		} else if (item instanceof CadeirinhaBebe) {
 			indice = 3;
 			cadeirinhaBebe.setCodigo(item.getCodigo());
 			cadeirinhaBebe = new CadeirinhaBebeDAO().pesquisarPorCodigo(cadeirinhaBebe);
-		}
-
-		if (item instanceof Gps) {
+			
+		} else if (item instanceof Gps) {
 			indice = 4;
 			gps.setCodigo(item.getCodigo());
 			gps = new GpsDAO().pesquisarPorCodigo(gps);
-		}
-
-		if (item instanceof RadioPlayer) {
+			
+		} else if (item instanceof RadioPlayer) {
 			indice = 5;
 			radioPlayer.setCodigo(item.getCodigo());
 			radioPlayer = new RadioPlayerDAO().pesquisarPorCodigo(radioPlayer);
 		}
 
+	}
+	
+	public void limparObjetos(){
+		item = new Itens();
+		indice = 0;
+		bebeConforto = new BebeConforto();
+		cadeirinhaBebe = new CadeirinhaBebe();
+		gps = new Gps();
+		radioPlayer = new RadioPlayer();
 	}
 
 }

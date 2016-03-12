@@ -116,6 +116,7 @@
 						onclick="PF('dlgModeloNovo').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBModelo.limparObjetos}"
 						onclick="PF('dlgModeloNovo').hide();" />
 
 				</h:panelGrid>
@@ -158,6 +159,7 @@
 
 
 					<p:commandButton value="Cancelar"
+					action="#{MBModelo.limparObjetos}"
 						onclick="PF('dlgModeloEditar').hide();" />
 
 				</h:panelGrid>
@@ -196,6 +198,7 @@
 						onclick="PF('dlgModeloExcluir').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBModelo.limparObjetos}"
 						onclick="PF('dlgModeloExcluir').hide();" />
 
 				</h:panelGrid>

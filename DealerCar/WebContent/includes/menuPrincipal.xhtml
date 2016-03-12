@@ -47,6 +47,13 @@
 						outcome="/pages/opcionais.xhtml" />
 					<p:menuitem value="Seguros" outcome="/pages/seguros.xhtml" />
 				</p:submenu>
+				
+				<p:submenu label="Produtos (Revisão)"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
+					<p:menuitem value="Produtos"
+						outcome="/pages/produtosrevisoes.xhtml" />
+					<p:menuitem value="Formas de Venda" outcome="/pages/formasvendas.xhtml" />
+				</p:submenu>
 
 				<p:menuitem value="Taxas Adicionais"
 					outcome="/pages/taxas_adicionais.xhtml"
@@ -57,7 +64,6 @@
 				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Gerenciar Reservas"
 					outcome="/pages/reserva.xhtml" />
-
 			</p:submenu>
 
 			<p:submenu label="Retirada"
@@ -65,7 +71,6 @@
 				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml" />
 				<p:menuitem value="Gerenciar Retiradas"
 					outcome="/pages/lretiradas.xhtml" />
-
 			</p:submenu>
 
 			<p:submenu label="Devolução"
@@ -74,7 +79,6 @@
 					outcome="/pages/pesqdevcpf.xhtml" />
 				<p:menuitem value="Gerenciar Devoluções"
 					outcome="/pages/devolucao.xhtml" />
-
 			</p:submenu>
 
 			<p:submenu label="Revisão"
@@ -85,15 +89,14 @@
 					outcome="/pages/filarevisao.xhtml" />
 				<p:menuitem value="Revisões Efetuadas"
 					outcome="/pages/lrevisao.xhtml" />
-
 			</p:submenu>
 
 			<p:submenu label="Gráficos"
 				rendered="#{MBlogin.funcionario.usuario.permissao.id == 1}">
-				<p:menuitem value="Retiradas" outcome="/pages/graficosretiradas.xhtml" />
+				<p:menuitem value="Retiradas"
+					outcome="/pages/graficosretiradas.xhtml" />
 				<p:menuitem value="Reservas" outcome="/pages/graficosreservas.xhtml" />
 				<p:menuitem value="Revisões" outcome="/pages/graficosrevisoes.xhtml" />
-
 			</p:submenu>
 
 			<p:submenu label="Ajuda">

@@ -41,9 +41,9 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, velasIgnicao.getDescricao());
-			pstm.setString(++i, velasIgnicao.getMarca());
-			pstm.setString(++i, velasIgnicao.getTipo());
+			pstm.setString(++i, velasIgnicao.getDescricao().toUpperCase());
+			pstm.setString(++i, velasIgnicao.getMarca().toUpperCase());
+			pstm.setString(++i, velasIgnicao.getTipo().toUpperCase());
 			pstm.setInt(++i, velasIgnicao.getFormaDeVenda().getId());
 			pstm.setDouble(++i, velasIgnicao.getValor());
 			pstm.setInt(++i, velasIgnicao.getQuantidade());
@@ -102,9 +102,9 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, velasIgnicao.getDescricao());
-			pstm.setString(++i, velasIgnicao.getMarca());
-			pstm.setString(++i, velasIgnicao.getTipo());
+			pstm.setString(++i, velasIgnicao.getDescricao().toUpperCase());
+			pstm.setString(++i, velasIgnicao.getMarca().toUpperCase());
+			pstm.setString(++i, velasIgnicao.getTipo().toUpperCase());
 			pstm.setInt(++i, velasIgnicao.getFormaDeVenda().getId());
 			pstm.setDouble(++i, velasIgnicao.getValor());
 			pstm.setInt(++i, velasIgnicao.getQuantidade());
@@ -189,7 +189,7 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, velasIgnicao.getMarca());
+			pstm.setString(++i, velasIgnicao.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {

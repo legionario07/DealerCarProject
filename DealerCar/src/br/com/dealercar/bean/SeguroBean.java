@@ -105,5 +105,9 @@ public class SeguroBean implements IBean, Serializable{
 		
 		JSFUtil.adicionarMensagemSucesso("Seguro excluido com Sucesso");
 	}
+	
+	public void limparObjetos(){
+		seguro = new Seguro();
+	}
 
 }

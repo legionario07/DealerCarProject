@@ -113,6 +113,7 @@
 						onclick="PF('dlgTaxasAdicionaisNova').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBTaxasAdicionais.limparObjetos}"
 						onclick="PF('dlgTaxasAdicionaisNova').hide();" />
 
 				</h:panelGrid>
@@ -145,8 +146,8 @@
 						update=":frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
 						oncomplete="PF('dlgTaxasAdicionaisEditar').hide();" />
 
-
 					<p:commandButton value="Cancelar"
+					action="#{MBTaxasAdicionais.limparObjetos}"
 						onclick="PF('dlgTaxasAdicionaisEditar').hide();" />
 
 				</h:panelGrid>
@@ -163,7 +164,6 @@
 
 				<h:panelGrid id="pnlExcluirTaxasAdicionais" columns="2">
 
-
 					<h:outputText value="Id: " />
 					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.id}"
 						readonly="true" />
@@ -171,7 +171,6 @@
 					<h:outputText value="Nome: " />
 					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.descricao}"
 						readonly="true" />
-
 
 					<h:outputText value="Valor " />
 					<p:inputText value="#{MBTaxasAdicionais.taxasAdicionais.valor}"
@@ -187,6 +186,7 @@
 						onclick="PF('dlgTaxasAdicionaisExcluir').hide();" />
 
 					<p:commandButton value="Cancelar"
+					action="#{MBTaxasAdicionais.limparObjetos}"
 						onclick="PF('dlgTaxasAdicionaisExcluir').hide();" />
 
 				</h:panelGrid>

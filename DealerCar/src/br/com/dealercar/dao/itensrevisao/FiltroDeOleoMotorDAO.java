@@ -41,9 +41,9 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, filtroDeOleoMotor.getDescricao());
-			pstm.setString(++i, filtroDeOleoMotor.getMarca());
-			pstm.setString(++i, filtroDeOleoMotor.getTipo());
+			pstm.setString(++i, filtroDeOleoMotor.getDescricao().toUpperCase());
+			pstm.setString(++i, filtroDeOleoMotor.getMarca().toUpperCase());
+			pstm.setString(++i, filtroDeOleoMotor.getTipo().toUpperCase());
 			pstm.setInt(++i, filtroDeOleoMotor.getFormaDeVenda().getId());
 			pstm.setDouble(++i, filtroDeOleoMotor.getValor());
 			pstm.setInt(++i, filtroDeOleoMotor.getQuantidade());
@@ -102,9 +102,9 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
 
-			pstm.setString(++i, filtroDeOleoMotor.getDescricao());
-			pstm.setString(++i, filtroDeOleoMotor.getMarca());
-			pstm.setString(++i, filtroDeOleoMotor.getTipo());
+			pstm.setString(++i, filtroDeOleoMotor.getDescricao().toUpperCase());
+			pstm.setString(++i, filtroDeOleoMotor.getMarca().toUpperCase());
+			pstm.setString(++i, filtroDeOleoMotor.getTipo().toUpperCase());
 			pstm.setInt(++i, filtroDeOleoMotor.getFormaDeVenda().getId());
 			pstm.setDouble(++i, filtroDeOleoMotor.getValor());
 			pstm.setInt(++i, filtroDeOleoMotor.getQuantidade());
@@ -189,7 +189,7 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setString(++i, filtroDeOleoMotor.getMarca());
+			pstm.setString(++i, filtroDeOleoMotor.getMarca().toUpperCase());
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
