@@ -20,7 +20,7 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * 

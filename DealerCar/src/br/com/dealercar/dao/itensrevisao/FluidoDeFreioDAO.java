@@ -226,6 +226,7 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 	public List<FluidoDeFreio> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from fluido_freio ");
+		sql.append("where id <> 99");
 
 		List<FluidoDeFreio> lista = new ArrayList<FluidoDeFreio>();
 		FluidoDeFreio fluidoDeFreioRetorno = null;

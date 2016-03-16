@@ -24,9 +24,7 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
-	
-	
+	private Connection con = null;
 
 	/**
 	 * 

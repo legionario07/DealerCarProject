@@ -24,7 +24,7 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * 

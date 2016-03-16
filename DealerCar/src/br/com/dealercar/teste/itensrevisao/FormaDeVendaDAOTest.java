@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.dealercar.dao.itensrevisao.FormaDeVendaDAO;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class FormaDeVendaTest {
+public class FormaDeVendaDAOTest {
 
 	public static void cadastrar(){
 		FormaDeVenda formaDeVenda =  new FormaDeVenda();

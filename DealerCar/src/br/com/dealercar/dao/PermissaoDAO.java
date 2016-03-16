@@ -23,7 +23,7 @@ public class PermissaoDAO implements IDAO<Permissao>, Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 	
 	/**
 	 * Cadastra uma nova Permissão no Banco de Dados

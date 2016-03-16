@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.PastilhaFreioDAO;
 import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class PastilhaFreioTest {
+public class PastilhaFreioDAOTest {
 
 	public static void cadastrar(){
 		PastilhaFreio pastilhaFreio = new PastilhaFreio();

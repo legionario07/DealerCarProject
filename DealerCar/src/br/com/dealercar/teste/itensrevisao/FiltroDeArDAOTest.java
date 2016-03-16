@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.FiltroDeArDAO;
 import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class FiltroDeArTest {
+public class FiltroDeArDAOTest {
 
 	public static void cadastrar(){
 		FiltroDeAr filtroDeAr = new FiltroDeAr();

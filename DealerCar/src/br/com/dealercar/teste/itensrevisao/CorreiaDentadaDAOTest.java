@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.CorreiaDentadaDAO;
 import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class CorreiaDentadaTest {
+public class CorreiaDentadaDAOTest {
 
 	public static void cadastrar(){
 		CorreiaDentada correiaDentada = new CorreiaDentada();

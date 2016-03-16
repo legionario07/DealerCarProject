@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.FarolDAO;
 import br.com.dealercar.domain.produtosrevisao.Farol;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class FarolTest {
+public class FarolDAOTest {
 
 	public static void cadastrar(){
 		Farol farol = new Farol();

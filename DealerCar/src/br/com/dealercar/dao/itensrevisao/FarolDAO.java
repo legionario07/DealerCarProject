@@ -225,6 +225,7 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 	public List<Farol> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from farol ");
+		sql.append("where id <> 99");
 
 		List<Farol> lista = new ArrayList<Farol>();
 		Farol farolRetorno = null;

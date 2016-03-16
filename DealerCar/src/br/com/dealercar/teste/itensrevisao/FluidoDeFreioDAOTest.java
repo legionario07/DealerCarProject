@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.FluidoDeFreioDAO;
 import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class FluidoDeFreioTest {
+public class FluidoDeFreioDAOTest {
 
 	public static void cadastrar(){
 		FluidoDeFreio fluidoDeFreio = new FluidoDeFreio();

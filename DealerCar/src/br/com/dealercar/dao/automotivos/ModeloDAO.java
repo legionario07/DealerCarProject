@@ -26,7 +26,7 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	
 	/**

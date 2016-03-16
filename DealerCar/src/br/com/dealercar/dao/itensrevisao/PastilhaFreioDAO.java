@@ -234,6 +234,7 @@ public class PastilhaFreioDAO extends AbstractPesquisaItensRevisao<PastilhaFreio
 	public List<PastilhaFreio> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from pastilhas_freios ");
+		sql.append("where id <> 99");
 
 		List<PastilhaFreio> lista = new ArrayList<PastilhaFreio>();
 		PastilhaFreio pastilhaFreioRetorno = null;

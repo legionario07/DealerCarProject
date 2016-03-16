@@ -14,7 +14,7 @@ import br.com.dealercar.util.JSFUtil;
 
 public class CorDAO implements IDAO<Cor>, Serializable{
 
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * 

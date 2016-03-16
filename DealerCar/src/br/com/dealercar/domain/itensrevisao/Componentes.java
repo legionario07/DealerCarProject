@@ -34,7 +34,7 @@ public class Componentes implements Serializable {
 		return situacao;
 	}
 	public void setSituacao(String situacao) {
-		this.situacao = situacao.trim();
+		this.situacao = situacao;
 	}
 	public List<Pneu> getPneus() {
 		return pneus;

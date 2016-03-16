@@ -5,14 +5,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dealercar.dao.DevolucaoDAO;
+import br.com.dealercar.dao.FuncionarioDAO;
 import br.com.dealercar.dao.RevisaoDAO;
+import br.com.dealercar.dao.itensrevisao.ProdutoRevisaoDAO;
+import br.com.dealercar.domain.Devolucao;
+import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.itensrevisao.Arrefecimento;
+import br.com.dealercar.domain.itensrevisao.Bateria;
+import br.com.dealercar.domain.itensrevisao.Componentes;
+import br.com.dealercar.domain.itensrevisao.Embreagem;
+import br.com.dealercar.domain.itensrevisao.Freio;
+import br.com.dealercar.domain.itensrevisao.Lanterna;
+import br.com.dealercar.domain.itensrevisao.Motor;
+import br.com.dealercar.domain.itensrevisao.Pneu;
+import br.com.dealercar.domain.itensrevisao.Suspensao;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
+import br.com.dealercar.enums.PosicaoPneu;
+import br.com.dealercar.util.DataUtil;
 
 public class RevisaoDAOTest {
 
 	public static void cadastrar() {
-		/*
 		Revisao revisao = new Revisao();
 
 		Devolucao devolucao = new Devolucao();
@@ -23,29 +39,42 @@ public class RevisaoDAOTest {
 		Componentes componente = new Componentes();
 
 		Arrefecimento arrefecimento = new Arrefecimento();
-		arrefecimento.setOk(true);
+		arrefecimento.setSituacao("Ok");
 
 		Bateria bateria = new Bateria();
-		bateria.setOk(true);
+		bateria.setSituacao("OK");
 
 		Embreagem embreagem = new Embreagem();
-		embreagem.setOk(true);
+		embreagem.setSituacao("Ok");
 
 		Freio freio = new Freio();
-		freio.setOk(true);
+		freio.setSituacao("Ok");
 
 		Lanterna lanterna = new Lanterna();
-		lanterna.setOk(true);
+		lanterna.setSituacao("Ok");
 
 		Motor motor = new Motor();
-		motor.setOk(true);
+		motor.setSituacao("Ok");
 
 		Suspensao suspensao = new Suspensao();
-		suspensao.setOk(true);
+		suspensao.setSituacao("Ok");
 
 		Pneu pneu = new Pneu();
-		pneu.getPosicaoPneu();
-		pneu.setOk(true);
+		pneu.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
+		Pneu pneu2 = new Pneu();
+		pneu.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
+		Pneu pneu3 = new Pneu();
+		pneu.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
+		Pneu pneu4 = new Pneu();
+		pneu.setPosicaoPneu(PosicaoPneu.TRASEIRO_ESQUERDO);
+		Pneu pneu5 = new Pneu();
+		pneu.setPosicaoPneu(PosicaoPneu.ESTEPE);
+		List<Pneu> pneus = new ArrayList<Pneu>();
+		pneus.add(pneu);
+		pneus.add(pneu2);
+		pneus.add(pneu3);
+		pneus.add(pneu4);
+		pneus.add(pneu5);
 
 		componente.setArrefecimento(arrefecimento);
 		componente.setBateria(bateria);
@@ -54,9 +83,9 @@ public class RevisaoDAOTest {
 		componente.setLanterna(lanterna);
 		componente.setMotor(motor);
 		componente.setSuspensao(suspensao);
-		componente.setPneu(pneu);
+		componente.setPneus(pneus);
 
-		//revisao.setItensParaVerificar(componente);
+		revisao.setComponentes(componente);
 
 		Funcionario funcionario = new Funcionario(7);
 		funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);
@@ -65,12 +94,16 @@ public class RevisaoDAOTest {
 		revisao.setCarro(devolucao.getRetirada().getCarro());
 		revisao.setDataRevisao(DataUtil.pegarDataAtualDoSistema());
 		revisao.setQuilometragem(200000L);
-
+		
 		revisao.setDescricao("Todos os componentes foram revisados. Todos Ok");
+		
+		List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
+		produtos = new ProdutoRevisaoDAO().pesquisarPorUltimoCadastrado();
+		
+		revisao.setListaProdutoRevisao(produtos);
 
 		RevisaoDAO revisaoDao = new RevisaoDAO();
 		revisaoDao.cadastrar(revisao);
-		*/
 
 	}
 
@@ -151,11 +184,11 @@ public class RevisaoDAOTest {
 
 	public static void main(String[] args) {
 
-		// cadastrar();
+		 cadastrar();
 		//listarTodos();
 		//procurarPorPlaca();
 		//procurarPorID();
-		pesquisarPorIntervalo();
+		//pesquisarPorIntervalo();
 	}
 
 }

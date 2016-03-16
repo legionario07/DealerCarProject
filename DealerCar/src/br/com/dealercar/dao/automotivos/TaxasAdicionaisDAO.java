@@ -25,8 +25,7 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Connection con = Conexao.getConnection();
-
+	private Connection con = null;
 	
 	/**
 	 * Cadastra as Taxas adicionais no Banco de DAdos

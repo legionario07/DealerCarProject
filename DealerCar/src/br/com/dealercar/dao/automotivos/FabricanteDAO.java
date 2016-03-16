@@ -25,7 +25,7 @@ public class FabricanteDAO implements IDAO<Fabricante>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 	
 	/**
 	 * 

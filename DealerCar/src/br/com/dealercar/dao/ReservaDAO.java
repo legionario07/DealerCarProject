@@ -26,7 +26,7 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializable {
 
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * 

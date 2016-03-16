@@ -24,7 +24,7 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements Serializable {
 
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * 

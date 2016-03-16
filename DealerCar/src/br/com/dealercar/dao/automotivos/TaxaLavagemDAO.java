@@ -19,9 +19,7 @@ public class TaxaLavagemDAO implements IDAO<TaxaLavagem>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
-	
-	
+	private Connection con = null;
 
 	@Override
 	public void cadastrar(TaxaLavagem taxaLavagem) {

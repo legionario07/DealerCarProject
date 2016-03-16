@@ -227,6 +227,7 @@ public class AmortecedorDAO extends AbstractPesquisaItensRevisao<Amortecedor> {
 	public List<Amortecedor> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from amortecedores ");
+		sql.append("where id <> 99");
 
 		List<Amortecedor> lista = new ArrayList<Amortecedor>();
 		Amortecedor amortecedorRetorno = null;

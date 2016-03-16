@@ -23,7 +23,7 @@ public class EstadoDAO implements IDAO<Estado>, Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Connection con = null;
+	private Connection con = null;
 	
 	@Override
 	public void cadastrar(Estado entidade) {

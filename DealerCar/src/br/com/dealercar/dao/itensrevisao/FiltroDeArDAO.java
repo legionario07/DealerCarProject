@@ -226,6 +226,7 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 	public List<FiltroDeAr> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from filtro_de_ar ");
+		sql.append("where id <> 99");
 
 		List<FiltroDeAr> lista = new ArrayList<FiltroDeAr>();
 		FiltroDeAr filtroDeArRetorno = null;

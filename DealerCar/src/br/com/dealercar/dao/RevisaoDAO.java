@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.dealercar.dao.automotivos.CarroDAO;
+import br.com.dealercar.dao.itensrevisao.ProdutoRevisaoDAO;
 import br.com.dealercar.domain.Devolucao;
 import br.com.dealercar.domain.Funcionario;
 import br.com.dealercar.domain.Revisao;
@@ -24,6 +25,7 @@ import br.com.dealercar.domain.itensrevisao.Lanterna;
 import br.com.dealercar.domain.itensrevisao.Motor;
 import br.com.dealercar.domain.itensrevisao.Pneu;
 import br.com.dealercar.domain.itensrevisao.Suspensao;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 import br.com.dealercar.enums.PosicaoPneu;
 import br.com.dealercar.factory.Conexao;
 import br.com.dealercar.util.JSFUtil;
@@ -41,7 +43,7 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * Cadastra uma revisao no BD
@@ -52,11 +54,11 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into revisao ");
 		sql.append("(id_funcionario, data_revisao, quilometragem, placa, id_devolucao, ");
-		sql.append("arreferecimento, bateria, embreagem, ");
+		sql.append("id_produtos_utilizados, arreferecimento, bateria, embreagem, ");
 		sql.append("freio, lanterna, motor, suspensao, ");
 		sql.append("dianteiro_direito, dianteiro_esquerdo, traseiro_direito, traseiro_esquerdo, estepe, ");
 		sql.append("descricao) ");
-		sql.append("values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		sql.append("values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 		con = Conexao.getConnection();
 
@@ -75,6 +77,8 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 
 			// verificando se a revisão é logo após uma devolução
 			pstm.setInt(++i, revisao.getDevolucao().getId());
+			
+			pstm.setInt(++i, revisao.getListaProdutoRevisao().get(0).getId());
 
 			pstm.setString(++i, revisao.getComponentes().getArrefecimento().getSituacao());
 			pstm.setString(++i, revisao.getComponentes().getBateria().getSituacao());
@@ -203,6 +207,14 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				componente.setSuspensao(suspensao);
 
 				revisaoRetorno.setComponentes(componente);
+				
+				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
+				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
+				
+				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
+				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
+				
+				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				listaRetorno.add(revisaoRetorno);
 
@@ -305,6 +317,14 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				componente.setSuspensao(suspensao);
 
 				revisaoRetorno.setComponentes(componente);
+				
+				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
+				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
+				
+				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
+				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
+				
+				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 			}
 
@@ -405,6 +425,14 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				componente.setSuspensao(suspensao);
 
 				revisaoRetorno.setComponentes(componente);
+				
+				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
+				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
+				
+				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
+				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
+				
+				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				listaRetorno.add(revisaoRetorno);
 
@@ -512,6 +540,14 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 				componente.setSuspensao(suspensao);
 
 				revisaoRetorno.setComponentes(componente);
+				
+				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
+				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
+				
+				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
+				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
+				
+				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				lista.add(revisaoRetorno);
 			}

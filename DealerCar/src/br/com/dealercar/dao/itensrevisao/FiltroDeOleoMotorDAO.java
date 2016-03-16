@@ -226,6 +226,7 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 	public List<FiltroDeOleoMotor> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from filtro_de_oleo_motor ");
+		sql.append("where id <> 99");
 
 		List<FiltroDeOleoMotor> lista = new ArrayList<FiltroDeOleoMotor>();
 		FiltroDeOleoMotor filtroDeOleoMotorRetorno = null;

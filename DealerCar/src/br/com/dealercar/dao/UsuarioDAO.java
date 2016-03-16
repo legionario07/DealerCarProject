@@ -25,7 +25,7 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 	
 	/**
 	 * 

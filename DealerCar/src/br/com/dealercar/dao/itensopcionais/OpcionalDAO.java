@@ -31,7 +31,7 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Connection con = null;
+	private Connection con = null;
 
 	public void cadastrar(Opcional opcional) {
 

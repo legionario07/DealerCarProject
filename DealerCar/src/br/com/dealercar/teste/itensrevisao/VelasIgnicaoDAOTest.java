@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.VelasIgnicaoDAO;
 import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class VelasIgnicaoTest {
+public class VelasIgnicaoDAOTest {
 
 	public static void cadastrar(){
 		VelasIgnicao velasIgnicao = new VelasIgnicao();

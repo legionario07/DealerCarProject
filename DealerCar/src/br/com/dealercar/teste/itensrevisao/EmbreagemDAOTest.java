@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.EmbreagemDAO;
 import br.com.dealercar.domain.produtosrevisao.Embreagem;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class EmbreagemTest {
+public class EmbreagemDAOTest {
 
 	public static void cadastrar(){
 		Embreagem embreagem = new Embreagem();

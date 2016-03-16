@@ -226,6 +226,7 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 	public List<VelasIgnicao> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from velas_ignicao ");
+		sql.append("where id <> 99");
 
 		List<VelasIgnicao> lista = new ArrayList<VelasIgnicao>();
 		VelasIgnicao velasIgnicaoRetorno = null;

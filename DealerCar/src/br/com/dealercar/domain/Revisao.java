@@ -1,9 +1,12 @@
 package br.com.dealercar.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.itensrevisao.Componentes;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 
 /**
  * 
@@ -29,6 +32,7 @@ public class Revisao extends EntidadeDominio{
 	private Carro carro;
 	private Funcionario funcionario;
 	private Devolucao devolucao;
+	private List<ProdutoRevisao> listaProdutoRevisao = new ArrayList<ProdutoRevisao>();
 	
 	public Revisao() {
 		
@@ -65,6 +69,14 @@ public class Revisao extends EntidadeDominio{
 	public void setQuilometragem(Long quilometragem) {
 		this.quilometragem = quilometragem;
 	}
+	public List<ProdutoRevisao> getListaProdutoRevisao() {
+		return listaProdutoRevisao;
+	}
+
+	public void setListaProdutoRevisao(List<ProdutoRevisao> listaProdutoRevisao) {
+		this.listaProdutoRevisao = listaProdutoRevisao;
+	}
+
 	public Componentes getComponentes() {
 		return componentes;
 	}

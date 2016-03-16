@@ -21,7 +21,7 @@
 					<p:dataTable id="tblListaAmortecedor"
 						value="#{MBProdutoRevisao.listaAmortecedores}"
 						widgetVar="tabelaListagemAmortecedores" var="itemAmortecedor"
-						style="width:70%" sortBy="#{itemAmortecedor.id}"
+						style="width:80%" sortBy="#{itemAmortecedor.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -31,7 +31,7 @@
 							<h:outputText value="#{itemAmortecedor.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemAmortecedor.descricao}">
 							<h:outputText value="#{itemAmortecedor.descricao}" />
 						</p:column>
@@ -46,18 +46,17 @@
 							<h:outputText value="#{itemAmortecedor.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemAmortecedor.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemAmortecedor.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemAmortecedor.quantidade}">
 							<h:outputText value="#{itemAmortecedor.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemAmortecedor.valor}">
 							<h:outputText value="#{itemAmortecedor.valor}">
 								<f:convertNumber type="currency" />
@@ -101,7 +100,7 @@
 					<p:dataTable id="tblListaCorreiaDentada"
 						value="#{MBProdutoRevisao.listaCorreiaDentada}"
 						widgetVar="tabelaListagemCorreiaDentada" var="itemCorreiaDentada"
-						style="width:70%" sortBy="#{itemCorreiaDentada.id}"
+						style="width:80%" sortBy="#{itemCorreiaDentada.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -111,7 +110,7 @@
 							<h:outputText value="#{itemCorreiaDentada.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemCorreiaDentada.descricao}">
 							<h:outputText value="#{itemCorreiaDentada.descricao}" />
 						</p:column>
@@ -126,19 +125,18 @@
 							<h:outputText value="#{itemCorreiaDentada.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemCorreiaDentada.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText
 								value="#{itemCorreiaDentada.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemCorreiaDentada.quantidade}">
 							<h:outputText value="#{itemCorreiaDentada.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemCorreiaDentada.valor}">
 							<h:outputText value="#{itemCorreiaDentada.valor}">
 								<f:convertNumber type="currency" />
@@ -182,7 +180,7 @@
 					<p:dataTable id="tblListaEmbreagem"
 						value="#{MBProdutoRevisao.listaEmbreagem}"
 						widgetVar="tabelaListagemEmbreagem" var="itemEmbreagem"
-						style="width:70%" sortBy="#{itemEmbreagem.id}"
+						style="width:80%" sortBy="#{itemEmbreagem.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -192,7 +190,7 @@
 							<h:outputText value="#{itemEmbreagem.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemEmbreagem.descricao}">
 							<h:outputText value="#{itemEmbreagem.descricao}" />
 						</p:column>
@@ -207,18 +205,17 @@
 							<h:outputText value="#{itemEmbreagem.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemEmbreagem.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemEmbreagem.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemEmbreagem.quantidade}">
 							<h:outputText value="#{itemEmbreagem.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemEmbreagem.valor}">
 							<h:outputText value="#{itemEmbreagem.valor}">
 								<f:convertNumber type="currency" />
@@ -261,7 +258,7 @@
 				<h:form id="frmFarol">
 					<p:dataTable id="tblListaFarol"
 						value="#{MBProdutoRevisao.listaFarol}"
-						widgetVar="tabelaListagemFarol" var="itemFarol" style="width:70%"
+						widgetVar="tabelaListagemFarol" var="itemFarol" style="width:80%"
 						sortBy="#{itemFarol.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
@@ -272,7 +269,7 @@
 							<h:outputText value="#{itemFarol.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemFarol.descricao}">
 							<h:outputText value="#{itemFarol.descricao}" />
 						</p:column>
@@ -287,18 +284,17 @@
 							<h:outputText value="#{itemFarol.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemFarol.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemFarol.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemFarol.quantidade}">
 							<h:outputText value="#{itemFarol.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemFarol.valor}">
 							<h:outputText value="#{itemFarol.valor}">
 								<f:convertNumber type="currency" />
@@ -343,7 +339,7 @@
 					<p:dataTable id="tblListaFiltroDeAr"
 						value="#{MBProdutoRevisao.listaFiltroDeAr}"
 						widgetVar="tabelaListagemFiltroDeAr" var="itemFiltroDeAr"
-						style="width:70%" sortBy="#{itemFiltroDeAr.id}"
+						style="width:80%" sortBy="#{itemFiltroDeAr.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -353,7 +349,7 @@
 							<h:outputText value="#{itemFiltroDeAr.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemFiltroDeAr.descricao}">
 							<h:outputText value="#{itemFiltroDeAr.descricao}" />
 						</p:column>
@@ -368,18 +364,17 @@
 							<h:outputText value="#{itemFiltroDeAr.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemFiltroDeAr.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemFiltroDeAr.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemFiltroDeAr.quantidade}">
 							<h:outputText value="#{itemFiltroDeAr.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemFiltroDeAr.valor}">
 							<h:outputText value="#{itemFiltroDeAr.valor}">
 								<f:convertNumber type="currency" />
@@ -424,7 +419,7 @@
 					<p:dataTable id="tblListaFiltroDeOleoMotor"
 						value="#{MBProdutoRevisao.listaFiltroDeOleoMotor}"
 						widgetVar="tabelaListagemFiltroDeOleoMotor"
-						var="itemFiltroDeOleoMotor" style="width:70%"
+						var="itemFiltroDeOleoMotor" style="width:80%"
 						sortBy="#{itemFiltroDeOleoMotor.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
@@ -435,7 +430,7 @@
 							<h:outputText value="#{itemFiltroDeOleoMotor.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px"
 							sortBy="#{itemFiltroDeOleoMotor.descricao}">
 							<h:outputText value="#{itemFiltroDeOleoMotor.descricao}" />
@@ -451,20 +446,19 @@
 							<h:outputText value="#{itemFiltroDeOleoMotor.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemFiltroDeOleoMotor.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText
 								value="#{itemFiltroDeOleoMotor.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px"
 							sortBy="#{itemFiltroDeOleoMotor.quantidade}">
 							<h:outputText value="#{itemFiltroDeOleoMotor.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemFiltroDeOleoMotor.valor}">
 							<h:outputText value="#{itemFiltroDeOleoMotor.valor}">
 								<f:convertNumber type="currency" />
@@ -509,7 +503,7 @@
 					<p:dataTable id="tblListaFluidoDeFreio"
 						value="#{MBProdutoRevisao.listaFluidoDeFreio}"
 						widgetVar="tabelaListagemFluidoDeFreio" var="itemFluidoDeFreio"
-						style="width:70%" sortBy="#{itemFluidoDeFreio.id}"
+						style="width:80%" sortBy="#{itemFluidoDeFreio.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -519,7 +513,7 @@
 							<h:outputText value="#{itemFluidoDeFreio.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemFluidoDeFreio.descricao}">
 							<h:outputText value="#{itemFluidoDeFreio.descricao}" />
 						</p:column>
@@ -534,18 +528,17 @@
 							<h:outputText value="#{itemFluidoDeFreio.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemFluidoDeFreio.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemFluidoDeFreio.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemFluidoDeFreio.quantidade}">
 							<h:outputText value="#{itemFluidoDeFreio.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemFluidoDeFreio.valor}">
 							<h:outputText value="#{itemFluidoDeFreio.valor}">
 								<f:convertNumber type="currency" />
@@ -590,7 +583,7 @@
 					<p:dataTable id="tblListaPastilhaDeFreio"
 						value="#{MBProdutoRevisao.listaPastilhaFreio}"
 						widgetVar="tabelaListagemPastilhaFreio" var="itemPastilhaFreio"
-						style="width:70%" sortBy="#{itemPastilhaFreio.id}"
+						style="width:80%" sortBy="#{itemPastilhaFreio.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -600,7 +593,7 @@
 							<h:outputText value="#{itemPastilhaFreio.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemPastilhaFreio.descricao}">
 							<h:outputText value="#{itemPastilhaFreio.descricao}" />
 						</p:column>
@@ -615,18 +608,17 @@
 							<h:outputText value="#{itemPastilhaFreio.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemPastilhaFreio.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemPastilhaFreio.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemPastilhaFreio.quantidade}">
 							<h:outputText value="#{itemPastilhaFreio.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemPastilhaFreio.valor}">
 							<h:outputText value="#{itemPastilhaFreio.valor}">
 								<f:convertNumber type="currency" />
@@ -665,13 +657,91 @@
 				</h:form>
 			</p:tab>
 
+			<p:tab title="Pneu">
+				<h:form id="frmPneu">
+					<p:dataTable id="tblListaPneu"
+						value="#{MBProdutoRevisao.listaPneu}"
+						widgetVar="tabelaListagemPneu" var="itemPneu" style="width:80%"
+						sortBy="#{itemPneu.id}"
+						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+						rows="10">
+
+						<p:column headerText="ID" width="5%"
+							style="font-size:11px; text-align:center" sortBy="#{itemPneu.id}">
+							<h:outputText value="#{itemPneu.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="25%"
+							style="font-size:11px" sortBy="#{itemPneu.descricao}">
+							<h:outputText value="#{itemPneu.descricao}" />
+						</p:column>
+
+						<p:column headerText="Marca" width="15%" style="font-size:11px"
+							sortBy="#{itemPneu.marca}">
+							<h:outputText value="#{itemPneu.marca}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="15%" style="font-size:11px"
+							sortBy="#{itemPneu.tipo}">
+							<h:outputText value="#{itemPneu.tipo}" />
+						</p:column>
+
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
+							<h:outputText value="#{itemPneu.formaDeVenda.descricao}" />
+						</p:column>
+
+						<p:column headerText="Quantidade" width="10%"
+							style="font-size:11px" sortBy="#{itemPneu.quantidade}">
+							<h:outputText value="#{itemPneu.quantidade}" />
+						</p:column>
+
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
+							sortBy="#{itemPneu.valor}">
+							<h:outputText value="#{itemPneu.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+
+						<f:facet name="footer">
+							<h:panelGrid>
+								<p:commandButton value="Novo" id="botaoPneu"
+									actionListener="#{MBProdutoRevisao.prepararCadastrar}"
+									onclick="PF('dlgNovoProdutoRevisao').show();"
+									update=":frmNovoProdutoRevisao :msgGlobal" />
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column headerText="Opções" width="10%"
+							style="text-align:center">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								action="#{MBProdutoRevisao.verificarProdutoClicado}"
+								onclick="PF('dlgEditarProdutoRevisao').show();"
+								update=":frmEditarProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemPneu}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								onclick="PF('dlgExcluirProdutoRevisao').show();"
+								update=":frmExcluirProdutoRevisao :msgGlobal">
+								<f:setPropertyActionListener value="#{itemPneu}"
+									target="#{MBProdutoRevisao.produtoRevisao}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
 
 			<p:tab title="Velas De Ignição">
 				<h:form id="frmVelasIgnicao">
 					<p:dataTable id="tblListaVelasIgnicao"
 						value="#{MBProdutoRevisao.listaVelasIgnicao}"
 						widgetVar="tabelaListagemVelasIgnicao" var="itemVelasIgnicao"
-						style="width:70%" sortBy="#{itemVelasIgnicao.id}"
+						style="width:80%" sortBy="#{itemVelasIgnicao.id}"
 						emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 						rows="10">
 
@@ -681,7 +751,7 @@
 							<h:outputText value="#{itemVelasIgnicao.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%"
+						<p:column headerText="Descrição" width="25%"
 							style="font-size:11px" sortBy="#{itemVelasIgnicao.descricao}">
 							<h:outputText value="#{itemVelasIgnicao.descricao}" />
 						</p:column>
@@ -696,18 +766,17 @@
 							<h:outputText value="#{itemVelasIgnicao.tipo}" />
 						</p:column>
 
-						<p:column headerText="Forma de Venda" width="15%"
-							style="font-size:11px"
-							sortBy="#{itemVelasIgnicao.formaDeVenda.descricao}">
+						<p:column headerText="Forma de Venda" width="13%"
+							style="font-size:11px">
 							<h:outputText value="#{itemVelasIgnicao.formaDeVenda.descricao}" />
 						</p:column>
 
-						<p:column headerText="Quantidade" width="15%"
+						<p:column headerText="Quantidade" width="10%"
 							style="font-size:11px" sortBy="#{itemVelasIgnicao.quantidade}">
 							<h:outputText value="#{itemVelasIgnicao.quantidade}" />
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" style="font-size:11px"
+						<p:column headerText="Valor" width="10%" style="font-size:11px"
 							sortBy="#{itemVelasIgnicao.valor}">
 							<h:outputText value="#{itemVelasIgnicao.valor}">
 								<f:convertNumber type="currency" />
@@ -801,6 +870,23 @@
 						<f:selectItem itemLabel="Hidráulica" itemValue="HIDRÁULICA" />
 						<f:selectItem itemLabel="Pneumática" itemValue="PNEUMÁTICA" />
 					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 12}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 12}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Aro 13" itemValue="ARO 13" />
+						<f:selectItem itemLabel="Aro 14" itemValue="ARO 14" />
+						<f:selectItem itemLabel="Aro 15" itemValue="ARO 15" />
+						<f:selectItem itemLabel="Aro 16" itemValue="ARO 16" />
+						<f:selectItem itemLabel="Aro 17" itemValue="ARO 17" />
+						<f:selectItem itemLabel="Aro 18" itemValue="ARO 18" />
+						<f:selectItem itemLabel="Aro 19" itemValue="ARO 19" />
+					</p:selectOneMenu>
+
 
 					<h:outputText value="Tipo: *"
 						rendered="#{MBProdutoRevisao.indice == 7}" required="true" />
@@ -915,10 +1001,6 @@
 
 				<h:panelGrid id="pnlNovaProdutoRevisao2" columns="2">
 
-					<h:outputText value="ID: " />
-					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.id}"
-						readonly="true" />
-
 					<h:outputText value="Descrição:*  " />
 					<p:inputText value="#{MBProdutoRevisao.produtoRevisao.descricao}"
 						required="true" requiredMessage="Favor digitar uma descrição" />
@@ -972,6 +1054,22 @@
 						<f:selectItem itemLabel="Mecânica" itemValue="MECÂNICA" />
 						<f:selectItem itemLabel="Hidráulica" itemValue="HIDRÁULICA" />
 						<f:selectItem itemLabel="Pneumática" itemValue="PNEUMÁTICA" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo: *"
+						rendered="#{MBProdutoRevisao.indice == 12}" />
+					<p:selectOneMenu value="#{MBProdutoRevisao.produtoRevisao.tipo}"
+						rendered="#{MBProdutoRevisao.indice == 12}" required="true"
+						requiredMessage="Favor escolher um Tipo">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo" />
+						<f:selectItem itemLabel="Aro 13" itemValue="ARO 13" />
+						<f:selectItem itemLabel="Aro 14" itemValue="ARO 14" />
+						<f:selectItem itemLabel="Aro 15" itemValue="ARO 15" />
+						<f:selectItem itemLabel="Aro 16" itemValue="ARO 16" />
+						<f:selectItem itemLabel="Aro 17" itemValue="ARO 17" />
+						<f:selectItem itemLabel="Aro 18" itemValue="ARO 18" />
+						<f:selectItem itemLabel="Aro 19" itemValue="ARO 19" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Forma De Venda: *" />

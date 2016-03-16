@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.FiltroDeOleoMotorDAO;
 import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class FiltroDeOleoMotorTest {
+public class FiltroDeOleoMotorDAOTest {
 
 	public static void cadastrar(){
 		FiltroDeOleoMotor filtroDeOleoMotor = new FiltroDeOleoMotor();

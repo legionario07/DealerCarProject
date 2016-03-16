@@ -27,7 +27,7 @@ import br.com.dealercar.util.JSFUtil;
  */
 public class CarroDAO implements IDAO<Carro>, Serializable{
 	
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	private static final long serialVersionUID = 1L;
 

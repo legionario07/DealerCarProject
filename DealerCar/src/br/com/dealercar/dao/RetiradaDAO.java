@@ -31,7 +31,7 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 
 	/**
 	 * Cadastra um Objeto Retirada no Banco de Dados

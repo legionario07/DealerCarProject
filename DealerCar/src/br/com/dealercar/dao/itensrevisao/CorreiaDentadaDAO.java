@@ -226,6 +226,7 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 	public List<CorreiaDentada> listarTodos() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from correia_dentada ");
+		sql.append("where id <> 99");
 
 		List<CorreiaDentada> lista = new ArrayList<CorreiaDentada>();
 		CorreiaDentada correiaDentadaRetorno = null;

@@ -32,7 +32,7 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Connection con = null;
+	private Connection con = null;
 	
 	/**
 	 * Persiste as devoluções realizadas no sistema no BD

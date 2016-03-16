@@ -15,7 +15,7 @@ import br.com.dealercar.util.JSFUtil;
 
 public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializable {
 
-	Connection con = Conexao.getConnection();
+	private Connection con = null;
 	
 	/**
 	 * 

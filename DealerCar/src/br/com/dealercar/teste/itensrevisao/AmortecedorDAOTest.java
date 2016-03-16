@@ -7,7 +7,7 @@ import br.com.dealercar.dao.itensrevisao.AmortecedorDAO;
 import br.com.dealercar.domain.produtosrevisao.Amortecedor;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 
-public class AmortecedorTest {
+public class AmortecedorDAOTest {
 
 	public static void cadastrar(){
 		Amortecedor amortecedor = new Amortecedor();

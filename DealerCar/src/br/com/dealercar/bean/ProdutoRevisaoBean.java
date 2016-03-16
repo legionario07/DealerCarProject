@@ -17,6 +17,7 @@ import br.com.dealercar.dao.itensrevisao.FiltroDeOleoMotorDAO;
 import br.com.dealercar.dao.itensrevisao.FluidoDeFreioDAO;
 import br.com.dealercar.dao.itensrevisao.FormaDeVendaDAO;
 import br.com.dealercar.dao.itensrevisao.PastilhaFreioDAO;
+import br.com.dealercar.dao.itensrevisao.PneuDAO;
 import br.com.dealercar.dao.itensrevisao.VelasIgnicaoDAO;
 import br.com.dealercar.domain.produtosrevisao.Amortecedor;
 import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
@@ -27,6 +28,7 @@ import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
 import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.util.JSFUtil;
@@ -49,6 +51,7 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 	private FormaDeVenda formaDeVenda = new FormaDeVenda();
 	private PastilhaFreio pastilhaFreio = new PastilhaFreio();
 	private VelasIgnicao velasIgnicao = new VelasIgnicao();
+	private Pneu pneu = new Pneu();
 
 	private ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 
@@ -62,6 +65,7 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 	private List<FormaDeVenda> listaFormaDeVenda = new ArrayList<FormaDeVenda>();
 	private List<PastilhaFreio> listaPastilhaFreio = new ArrayList<PastilhaFreio>();
 	private List<VelasIgnicao> listaVelasIgnicao = new ArrayList<VelasIgnicao>();
+	private List<Pneu> listaPneu = new ArrayList<Pneu>();
 
 	private int indice;
 
@@ -143,6 +147,22 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 
 	public void setPastilhaFreio(PastilhaFreio pastilhaFreio) {
 		this.pastilhaFreio = pastilhaFreio;
+	}
+
+	public Pneu getPneu() {
+		return pneu;
+	}
+
+	public void setPneu(Pneu pneu) {
+		this.pneu = pneu;
+	}
+
+	public List<Pneu> getListaPneu() {
+		return listaPneu;
+	}
+
+	public void setListaPneu(List<Pneu> listaPneu) {
+		this.listaPneu = listaPneu;
 	}
 
 	public VelasIgnicao getVelasIgnicao() {
@@ -254,17 +274,19 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 		listaFormaDeVenda = new FormaDeVendaDAO().listarTodos();
 		listaPastilhaFreio = new PastilhaFreioDAO().listarTodos();
 		listaVelasIgnicao = new VelasIgnicaoDAO().listarTodos();
+		listaPneu = new PneuDAO().listarTodos();
 
 	}
 
 	/**
 	 * Prepara para Cadastrar um novo Opcional
+	 * verifica na View qual o Opcional Clicado e seta um indice
 	 */
 	public void prepararCadastrar(ActionEvent event) {
 
 		indice = 0;
 
-		if (event.getComponent().getId().equals("botaAmortecedor")) {
+		if (event.getComponent().getId().equals("botaoAmortecedor")) {
 			indice = 2;
 		} else if (event.getComponent().getId().equals("botaoCorreiaDentada")) {
 			indice = 3;
@@ -284,12 +306,14 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 			indice = 10;
 		} else if (event.getComponent().getId().equals("botaoEmbreagem")) {
 			indice = 11;
+		} else if (event.getComponent().getId().equals("botaoPneu")){
+			indice = 12;
 		}
 
 	}
 
 	/**
-	 * Cadastra um novo Opcional
+	 * Cadastra um novo Opcional de Acordo com o Indice
 	 */
 	public void cadastrar(ActionEvent event) {
 
@@ -415,6 +439,19 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 
 			embreagem = new Embreagem();
 
+		} else if (indice == 12) {
+			pneu.setId(produtoRevisao.getId());
+			pneu.setDescricao(produtoRevisao.getDescricao());
+			pneu.setMarca(produtoRevisao.getMarca());
+			pneu.setTipo(produtoRevisao.getTipo());
+			pneu.setQuantidade(produtoRevisao.getQuantidade());
+			pneu.setFormaDeVenda(produtoRevisao.getFormaDeVenda());
+			pneu.setValor(produtoRevisao.getValor());
+
+			new PneuDAO().cadastrar(pneu);
+
+			pneu = new Pneu();
+			
 		}
 
 		indice = 0;
@@ -481,6 +518,12 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 			new EmbreagemDAO().editar(embreagem);
 
 			embreagem = new Embreagem();
+			
+		} else if (produtoRevisao instanceof Pneu) {
+			pneu = (Pneu) produtoRevisao;
+			new PneuDAO().editar(pneu);
+
+			pneu = new Pneu();
 
 		} else {
 			new FormaDeVendaDAO().editar(formaDeVenda);
@@ -551,6 +594,12 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 			new EmbreagemDAO().excluir(embreagem);
 
 			embreagem = new Embreagem();
+			
+		} else if (produtoRevisao instanceof Pneu) {
+			pneu = (Pneu) produtoRevisao;
+			new PneuDAO().excluir(pneu);
+
+			pneu = new Pneu();
 
 		} else {
 			new FormaDeVendaDAO().excluir(formaDeVenda);
@@ -613,6 +662,11 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 			indice = 11;
 			embreagem.setId(produtoRevisao.getId());
 			embreagem = new EmbreagemDAO().pesquisarPorID(embreagem);
+			
+		} else if (produtoRevisao instanceof Pneu) {
+			indice = 12;
+			pneu.setId(produtoRevisao.getId());
+			pneu = new PneuDAO().pesquisarPorID(pneu);
 		}
 
 	}
@@ -631,6 +685,7 @@ public class ProdutoRevisaoBean implements IBean, Serializable {
 		fluidoDeFreio = new FluidoDeFreio();
 		pastilhaFreio = new PastilhaFreio();
 		velasIgnicao = new VelasIgnicao();
+		pneu = new Pneu();
 		
 	}
 	
