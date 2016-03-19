@@ -9,7 +9,6 @@ import java.util.List;
 
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -42,9 +41,6 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 			pstm.setString(++i, formaDeVenda.getDescricao().toUpperCase());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -66,9 +62,6 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 			int i = 0;
 			pstm.setInt(++i, formaDeVenda.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,9 +86,6 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 			pstm.setString(++i, formaDeVenda.getDescricao().toUpperCase());
 			pstm.setInt(++i, formaDeVenda.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,9 +117,6 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,15 +150,6 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no
-			 * DAO de chamador
-			 */
-			if(DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -183,6 +161,12 @@ public class FormaDeVendaDAO extends AbstractPesquisaItensRevisao<FormaDeVenda> 
 
 	@Override
 	public List<FormaDeVenda> pesquisarPorMarca(FormaDeVenda formaDeVenda) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FormaDeVenda pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
 		// TODO Auto-generated method stub
 		return null;
 	}

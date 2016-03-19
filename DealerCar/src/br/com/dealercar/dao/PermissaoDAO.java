@@ -41,8 +41,6 @@ public class PermissaoDAO implements IDAO<Permissao>, Serializable{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, permissao.getNivel().toUpperCase());
 			pstm.executeUpdate();
-			pstm.close();
-			con.close();
 			
 			
 		} catch (SQLException e) {

@@ -68,22 +68,15 @@ public class ProdutoRevisao extends EntidadeDominio{
 	public String toString() {
 	
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("ID: ");
-		retorno.append(this.getId());
-		retorno.append("\nDescricao: ");
+		
 		retorno.append(this.getDescricao());
-		retorno.append("\nMarca: ");
+		retorno.append(" - ");
 		retorno.append(this.getMarca());
-		retorno.append("\nTipo: ");
+		retorno.append(" - ");
 		retorno.append(this.getTipo());
-		retorno.append(this.getFormaDeVenda().toString());
-		retorno.append("\nValor: ");
-		retorno.append(this.getValor());
-		retorno.append("\nQuantidade em Estoque: ");
-		retorno.append(this.getQuantidade());
-		retorno.append("\n");
 		
 		return retorno.toString();
 	}
 
+	
 }

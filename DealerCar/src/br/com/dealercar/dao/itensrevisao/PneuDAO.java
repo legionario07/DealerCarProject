@@ -7,10 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -49,9 +48,6 @@ public class PneuDAO extends AbstractPesquisaItensRevisao<Pneu> {
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar Pneu no Banco de Dados.");
@@ -74,9 +70,6 @@ public class PneuDAO extends AbstractPesquisaItensRevisao<Pneu> {
 			int i = 0;
 			pstm.setInt(++i, pneu.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,16 +146,6 @@ public class PneuDAO extends AbstractPesquisaItensRevisao<Pneu> {
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			e.printStackTrace();
@@ -210,9 +193,6 @@ public class PneuDAO extends AbstractPesquisaItensRevisao<Pneu> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -255,14 +235,63 @@ public class PneuDAO extends AbstractPesquisaItensRevisao<Pneu> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public Pneu pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from pneus ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		Pneu pneuRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				pneuRetorno = new Pneu();
+				pneuRetorno.setId(rSet.getInt("id"));
+				pneuRetorno.setDescricao(rSet.getString("descricao"));
+				pneuRetorno.setTipo(rSet.getString("tipo"));
+				pneuRetorno.setMarca(rSet.getString("marca"));
+				pneuRetorno.setValor(rSet.getDouble("valor"));
+				pneuRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				pneuRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return pneuRetorno;
 	}
 }

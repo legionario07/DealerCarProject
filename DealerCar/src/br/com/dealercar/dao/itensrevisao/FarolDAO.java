@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.Farol;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -49,9 +48,6 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar Farol no Banco de Dados.");
@@ -74,9 +70,6 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 			int i = 0;
 			pstm.setInt(++i, farol.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,16 +146,6 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			e.printStackTrace();
@@ -210,10 +193,6 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -255,14 +234,63 @@ public class FarolDAO extends AbstractPesquisaItensRevisao<Farol> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public Farol pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from farol ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		Farol farolRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				farolRetorno = new Farol();
+				farolRetorno.setId(rSet.getInt("id"));
+				farolRetorno.setDescricao(rSet.getString("descricao"));
+				farolRetorno.setTipo(rSet.getString("tipo"));
+				farolRetorno.setMarca(rSet.getString("marca"));
+				farolRetorno.setValor(rSet.getDouble("valor"));
+				farolRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				farolRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return farolRetorno;
 	}
 }

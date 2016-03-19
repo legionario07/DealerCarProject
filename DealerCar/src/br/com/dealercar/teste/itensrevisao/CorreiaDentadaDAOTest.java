@@ -88,6 +88,20 @@ public class CorreiaDentadaDAOTest {
 			System.out.println(a);
 		}
 		
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		CorreiaDentada correiaDentada = new CorreiaDentada();
+		
+		String stringCorreiaDentada = "CORREIA DENTADA - DAYCO - MOTOR EM GERAL";
+		
+		correiaDentada = new CorreiaDentadaDAO().pesquisarPorDescricaoMarcaTipo(stringCorreiaDentada);
+		
+		System.out.println(correiaDentada.getId());
+		System.out.println(correiaDentada.getDescricao());
+		System.out.println(correiaDentada.getMarca());
+		System.out.println(correiaDentada.getTipo());
+		System.out.println(correiaDentada.getValor());
 		
 	}
 	
@@ -96,9 +110,10 @@ public class CorreiaDentadaDAOTest {
 		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

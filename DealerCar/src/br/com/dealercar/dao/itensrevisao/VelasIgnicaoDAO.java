@@ -7,10 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
+import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -50,9 +49,6 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar VelasIgnicao no Banco de Dados.");
@@ -75,9 +71,6 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 			int i = 0;
 			pstm.setInt(++i, velasIgnicao.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,15 +147,6 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,9 +195,6 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -256,15 +237,63 @@ public class VelasIgnicaoDAO extends AbstractPesquisaItensRevisao<VelasIgnicao> 
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public VelasIgnicao pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from velas_ignicao ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		VelasIgnicao velasIgnicaoRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				velasIgnicaoRetorno = new VelasIgnicao();
+				velasIgnicaoRetorno.setId(rSet.getInt("id"));
+				velasIgnicaoRetorno.setDescricao(rSet.getString("descricao"));
+				velasIgnicaoRetorno.setTipo(rSet.getString("tipo"));
+				velasIgnicaoRetorno.setMarca(rSet.getString("marca"));
+				velasIgnicaoRetorno.setValor(rSet.getDouble("valor"));
+				velasIgnicaoRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				velasIgnicaoRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return velasIgnicaoRetorno;
 	}
 
 }

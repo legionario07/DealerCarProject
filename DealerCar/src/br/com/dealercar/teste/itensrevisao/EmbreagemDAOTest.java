@@ -88,17 +88,32 @@ public class EmbreagemDAOTest {
 			System.out.println(a);
 		}
 		
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		Embreagem embreagem = new Embreagem();
+		
+		String stringEmbreagem = "EMBREAGEM - LUK - HIDRÁULICA";
+		
+		embreagem = new EmbreagemDAO().pesquisarPorDescricaoMarcaTipo(stringEmbreagem);
+		
+		System.out.println(embreagem.getId());
+		System.out.println(embreagem.getDescricao());
+		System.out.println(embreagem.getMarca());
+		System.out.println(embreagem.getTipo());
+		System.out.println(embreagem.getValor());
 		
 	}
 	
 	public static void main(String[] args) {
 		
-		cadastrar();
+		//cadastrar();
 		//excluir();
 		//editar();
 		//pesquisarPorID();
 		//pesquisarPorMarca();
-		listar();
+		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

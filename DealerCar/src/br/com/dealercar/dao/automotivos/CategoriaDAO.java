@@ -46,9 +46,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 			pstm.setDouble(3, categoria.getValorDiaria());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,9 +74,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 			pstm.setInt(4, categoria.getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -104,9 +98,6 @@ public class CategoriaDAO implements IDAO<Categoria>, Serializable{
 			pstm.setInt(1, categoria.getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

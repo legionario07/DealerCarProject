@@ -24,7 +24,7 @@ import br.com.dealercar.util.JSFUtil;
  * @author Paulinho
  *
  */
-public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializable {
+public class ReservaDAO extends AbstractPesquisaDAO<Reserva> implements Serializable {
 
 	private Connection con = null;
 
@@ -72,9 +72,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -120,9 +117,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -146,9 +140,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 			pstm.setInt(1, reserva.getId());
 
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -206,10 +197,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 					rSet.next();
 				}
 			}
-
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -327,10 +314,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 				listaReserva.add(reservaRetorno);
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -390,10 +373,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 					rSet.next();
 				}
 			}
-
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -563,9 +542,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 				lista.add(reservaRetorno);
 			}
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -595,11 +571,11 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 		List<Reserva> lista = new ArrayList<Reserva>();
 
 		Reserva reservaRetorno = null;
-		
+
 		con = Conexao.getConnection();
 
 		System.out.println(sql.toString());
-	
+
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
@@ -611,17 +587,16 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 			System.out.println(dataInicio);
 			System.out.println(dataFim);
 			System.out.println(reserva.getCliente().getCPF());
-			
+
 			pstm.setDate(++i, new java.sql.Date(reserva.getDataCadastroReserva().getTime()));
 			pstm.setDate(++i, new java.sql.Date(reserva.getDataFim().getTime()));
 			if (modeloIsSelecionado)
 				pstm.setInt(++i, reserva.getModelo().getId());
 			if (cpfIsSelecionado)
 				pstm.setString(++i, reserva.getCliente().getCPF());
-			if (situacaoIsSelecionado){
+			if (situacaoIsSelecionado) {
 				pstm.setString(++i, reserva.getSituacao().getDescricao());
 			}
-
 
 			ResultSet rSet = pstm.executeQuery();
 			System.out.println(rSet.next());
@@ -647,9 +622,6 @@ public class ReservaDAO extends AbstractPesquisaDAO<Reserva>implements Serializa
 
 				lista.add(reservaRetorno);
 			}
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

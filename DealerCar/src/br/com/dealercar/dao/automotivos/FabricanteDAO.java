@@ -42,9 +42,6 @@ public class FabricanteDAO implements IDAO<Fabricante>, Serializable {
 			pstm.setString(1, fabricante.getNome().toUpperCase());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -71,9 +68,6 @@ public class FabricanteDAO implements IDAO<Fabricante>, Serializable {
 		
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -97,9 +91,6 @@ public class FabricanteDAO implements IDAO<Fabricante>, Serializable {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, fabricante.getId());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

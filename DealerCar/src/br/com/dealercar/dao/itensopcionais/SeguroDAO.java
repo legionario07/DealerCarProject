@@ -48,8 +48,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 			pstm.setInt(++i, seguro.getTipoSeguro().getId());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,9 +72,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 			pstm.setInt(1, seguro.getCodigo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -106,9 +101,6 @@ public class SeguroDAO extends AbstractPesquisaItensOpcionais<Seguro> {
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

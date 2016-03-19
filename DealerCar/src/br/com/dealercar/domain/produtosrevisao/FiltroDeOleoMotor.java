@@ -16,4 +16,21 @@ public class FiltroDeOleoMotor extends ProdutoRevisao {
 		return super.toString();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+			if (obj == null)
+			return false;
+			if (!(obj instanceof FiltroDeOleoMotor))
+			return false;
+			FiltroDeOleoMotor other = (FiltroDeOleoMotor) obj;
+			if (getDescricao() == null){
+			if (other.getDescricao() != null)
+			return false;
+			} else if (!getDescricao().equals(other.getDescricao()))
+			return false;
+			return true;
+	}
+	
 }

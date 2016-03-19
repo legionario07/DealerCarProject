@@ -101,9 +101,6 @@ public class OpcionalDAO implements IDAO<Opcional>, Serializable {
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (
 
 		SQLException e)

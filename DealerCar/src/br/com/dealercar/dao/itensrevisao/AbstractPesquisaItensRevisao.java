@@ -24,5 +24,11 @@ public abstract class AbstractPesquisaItensRevisao<T extends EntidadeDominio> im
 	 * @param entidade Recebe uma entidade Dominio e pesquisar pela Marca
 	 * @return Retorna uma Lista com a entidade dominio procurada
 	 */
-	public abstract List<T> pesquisarPorMarca(T entidade);
+	public abstract List<T> pesquisarPorMarca(T produtoRevisao);
+	/**
+	 * 
+	 * @param entidade recebe uma String
+	 * @return um ProdutoRevisao localizado pela Descricao, Marca e Tipo
+	 */
+	public abstract T pesquisarPorDescricaoMarcaTipo(String produtoRevisao);
 }

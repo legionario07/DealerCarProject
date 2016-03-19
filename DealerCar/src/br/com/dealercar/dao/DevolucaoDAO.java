@@ -89,9 +89,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 			// Alterando a retirada o campo Ativo da Retirada no BD para FALSE
 			devolucao.getRetirada().setEhAtivo(false);
 			//Fazendo as alterações no Banco de Dados
@@ -134,8 +131,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 		}catch(Exception e){
 			e.getMessage();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -195,10 +190,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -393,10 +384,6 @@ public class DevolucaoDAO extends AbstractPesquisaDAO<Devolucao> implements Seri
 
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

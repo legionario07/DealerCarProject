@@ -16,4 +16,21 @@ public class VelasIgnicao extends ProdutoRevisao {
 		return super.toString();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+			if (obj == null)
+			return false;
+			if (!(obj instanceof VelasIgnicao))
+			return false;
+			VelasIgnicao other = (VelasIgnicao) obj;
+			if (getDescricao() == null){
+			if (other.getDescricao() != null)
+			return false;
+			} else if (!getDescricao().equals(other.getDescricao()))
+			return false;
+			return true;
+	}
+	
 }

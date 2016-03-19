@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.builder.GraficoPizzaBuilder;
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.automotivos.CarroDAO;
 import br.com.dealercar.domain.Cliente;
@@ -23,7 +24,6 @@ import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.strategy.valida.ValidaCliente;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
-import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.util.SessionUtil;
 
@@ -271,7 +271,7 @@ public class ReservaBean extends AbstractBean{
 			listaString.add(r.getModelo().getNome());
 		}
 
-		pieReserva = GraficoUtil.gerarGrafico(listaString);
+		pieReserva = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieReserva.setTitle("Modelos Mais Reservados");
 		pieReserva.setShowDataLabels(true);
 		pieReserva.setLegendPosition("w");

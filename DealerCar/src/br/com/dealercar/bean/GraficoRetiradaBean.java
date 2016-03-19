@@ -11,10 +11,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.builder.GraficoPizzaBuilder;
 import br.com.dealercar.dao.RetiradaDAO;
 import br.com.dealercar.domain.Retirada;
 import br.com.dealercar.util.DataUtil;
-import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBRetiradaGrafico")
@@ -150,7 +150,7 @@ public class GraficoRetiradaBean implements Serializable {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		pieRetiradaPersonalizado = GraficoUtil.gerarGrafico(listaString);
+		pieRetiradaPersonalizado = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRetiradaPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(retirada.getDataRetirada())
 				+ " à " + sdf.format(retirada.getDataDevolucao()));
 		pieRetiradaPersonalizado.setLegendPosition("w");

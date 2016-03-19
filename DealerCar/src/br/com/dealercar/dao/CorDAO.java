@@ -39,8 +39,6 @@ public class CorDAO implements IDAO<Cor>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,9 +67,6 @@ public class CorDAO implements IDAO<Cor>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -100,9 +95,6 @@ public class CorDAO implements IDAO<Cor>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

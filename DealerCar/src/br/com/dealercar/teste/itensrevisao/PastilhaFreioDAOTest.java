@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.itensrevisao.PastilhaFreioDAO;
-import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
+import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
 
 public class PastilhaFreioDAOTest {
 
@@ -23,7 +23,6 @@ public class PastilhaFreioDAOTest {
 		pastilhaFreio.setFormaDeVenda(formaDeVenda);
 		
 		new PastilhaFreioDAO().cadastrar(pastilhaFreio);
-		
 		
 	}
 	
@@ -51,7 +50,6 @@ public class PastilhaFreioDAOTest {
 		
 		new PastilhaFreioDAO().editar(pastilhaFreio);
 		
-		
 	}
 	
 	public static void pesquisarPorID(){
@@ -75,6 +73,20 @@ public class PastilhaFreioDAOTest {
 		for(PastilhaFreio a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		PastilhaFreio pastilhaFreio = new PastilhaFreio();
+		
+		String stringPastilhaFreio = "PASTILHAS DE FREIO (MECÂNICA) - BOSH - DIANTEIRO";
+		
+		pastilhaFreio = new PastilhaFreioDAO().pesquisarPorDescricaoMarcaTipo(stringPastilhaFreio);
+		
+		System.out.println(pastilhaFreio.getId());
+		System.out.println(pastilhaFreio.getDescricao());
+		System.out.println(pastilhaFreio.getMarca());
+		System.out.println(pastilhaFreio.getTipo());
+		System.out.println(pastilhaFreio.getValor());
 		
 	}
 	
@@ -99,6 +111,7 @@ public class PastilhaFreioDAOTest {
 		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

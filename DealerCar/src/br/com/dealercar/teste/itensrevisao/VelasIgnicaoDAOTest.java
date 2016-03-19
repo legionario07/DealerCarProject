@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.itensrevisao.VelasIgnicaoDAO;
-import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
+import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 
 public class VelasIgnicaoDAOTest {
 
@@ -23,8 +23,6 @@ public class VelasIgnicaoDAOTest {
 		velasIgnicao.setFormaDeVenda(formaDeVenda);
 		
 		new VelasIgnicaoDAO().cadastrar(velasIgnicao);
-		
-		
 	}
 	
 	public static void excluir(){
@@ -87,7 +85,20 @@ public class VelasIgnicaoDAOTest {
 		for(VelasIgnicao a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		VelasIgnicao velasIgnicao = new VelasIgnicao();
 		
+		String stringVelasIgnicao = "VELAS DE IGNICAO - NGK - MOTOR EM GERAL";
+		
+		velasIgnicao = new VelasIgnicaoDAO().pesquisarPorDescricaoMarcaTipo(stringVelasIgnicao);
+		
+		System.out.println(velasIgnicao.getId());
+		System.out.println(velasIgnicao.getDescricao());
+		System.out.println(velasIgnicao.getMarca());
+		System.out.println(velasIgnicao.getTipo());
+		System.out.println(velasIgnicao.getValor());
 		
 	}
 	
@@ -96,9 +107,10 @@ public class VelasIgnicaoDAOTest {
 		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

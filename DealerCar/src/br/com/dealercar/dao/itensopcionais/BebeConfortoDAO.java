@@ -49,9 +49,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 			pstm.setInt(5, bebeConforto.getMesesBebe());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -77,9 +74,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 			pstm.setInt(1, bebeConforto.getCodigo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -108,9 +102,6 @@ public class BebeConfortoDAO extends AbstractPesquisaItensOpcionais<BebeConforto
 			pstm.setInt(6, bebeConforto.getCodigo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

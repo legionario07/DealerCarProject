@@ -48,9 +48,6 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 			pstm.setInt(2, modelo.getFabricante().getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,9 +75,6 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 			pstm.setLong(3, modelo.getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -103,9 +97,6 @@ public class ModeloDAO implements IDAO<Modelo>, Serializable{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, modelo.getId());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

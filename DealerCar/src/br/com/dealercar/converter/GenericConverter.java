@@ -1,4 +1,4 @@
-package br.com.dealercar.util;
+package br.com.dealercar.converter;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -21,6 +21,7 @@ public class GenericConverter implements Converter, Serializable {
 
 	public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
 		if (value != null) {
+
 			return value;
 		}
 		return null;
@@ -33,13 +34,13 @@ public class GenericConverter implements Converter, Serializable {
 			pneu = ((Pneu) value);
 
 			return pneu.getSituacao();
-			
+
 		}
-		
-		if(value instanceof Componentes){
+
+		if (value instanceof Componentes) {
 			Componentes componentes = new Componentes();
 			componentes = (Componentes) value;
-			
+
 			return componentes.getSituacao();
 		}
 

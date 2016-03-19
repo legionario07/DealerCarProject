@@ -79,10 +79,6 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 			
 			pstm.executeUpdate();
 			
-			pstm.close();
-			
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -150,9 +146,6 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -284,10 +277,6 @@ public class UsuarioDAO implements IDAO<Usuario>, Serializable{
 				usuarioRetorno.setPermissao(permissao);
 				
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

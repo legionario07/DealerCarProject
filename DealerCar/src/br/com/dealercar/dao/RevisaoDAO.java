@@ -100,8 +100,6 @@ public class RevisaoDAO implements IDAO<Revisao>, Serializable {
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

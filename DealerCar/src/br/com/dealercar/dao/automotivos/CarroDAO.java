@@ -59,9 +59,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -83,9 +80,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, carro.getPlaca());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (MySQLIntegrityConstraintViolationException e) {
 			e.printStackTrace();
@@ -241,9 +235,6 @@ public class CarroDAO implements IDAO<Carro>, Serializable{
 			pstm.setString(++i, carro.getPlaca());
 			
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

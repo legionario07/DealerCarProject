@@ -41,9 +41,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -69,9 +66,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -100,9 +94,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -335,10 +326,6 @@ public class CidadeDAO extends AbstractPesquisaDAO<Cidade> implements Serializab
 				lista.add(cidade);
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

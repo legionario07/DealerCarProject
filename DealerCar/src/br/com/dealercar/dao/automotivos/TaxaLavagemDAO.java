@@ -35,9 +35,6 @@ public class TaxaLavagemDAO implements IDAO<TaxaLavagem>, Serializable{
 			pstm.setDouble(++i, taxaLavagem.getValor());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -66,9 +63,6 @@ public class TaxaLavagemDAO implements IDAO<TaxaLavagem>, Serializable{
 			pstm.setInt(++i, taxaLavagem.getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

@@ -72,9 +72,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements S
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -125,14 +122,9 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements S
 
 
 			pstm.executeUpdate();
-			pstm.close();
-			con.close();
 			
 			// editando o Usuario do Funcionario
 			new UsuarioDAO().editar(funcionario.getUsuario());
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,9 +149,6 @@ public class FuncionarioDAO extends AbstractPesquisaDAO<Funcionario>implements S
 			pstm.setInt(1, funcionario.getId());
 
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

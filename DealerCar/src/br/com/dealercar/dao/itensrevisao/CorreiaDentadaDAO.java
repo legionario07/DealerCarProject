@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -50,9 +49,6 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar Correia Dentada no Banco de Dados.");
@@ -76,8 +72,6 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 			pstm.setInt(++i, correiaDentada.getId());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,15 +148,6 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 			}
 
-			/**
-			 * /** Se DaoUtil.isCallFromDao != -1 a connection será fechada no
-			 * DAO de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,10 +196,6 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -256,15 +237,64 @@ public class CorreiaDentadaDAO extends AbstractPesquisaItensRevisao<CorreiaDenta
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public CorreiaDentada pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from correia_dentada ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		CorreiaDentada correiaDentadaRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				correiaDentadaRetorno = new CorreiaDentada();
+				correiaDentadaRetorno.setId(rSet.getInt("id"));
+				correiaDentadaRetorno.setDescricao(rSet.getString("descricao"));
+				correiaDentadaRetorno.setTipo(rSet.getString("tipo"));
+				correiaDentadaRetorno.setMarca(rSet.getString("marca"));
+				correiaDentadaRetorno.setValor(rSet.getDouble("valor"));
+				correiaDentadaRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				correiaDentadaRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar o Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return correiaDentadaRetorno;
 	}
 
 }

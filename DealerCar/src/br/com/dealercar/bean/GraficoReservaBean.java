@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.builder.GraficoPizzaBuilder;
 import br.com.dealercar.dao.ReservaDAO;
 import br.com.dealercar.dao.automotivos.ModeloDAO;
 import br.com.dealercar.domain.Reserva;
@@ -19,7 +20,6 @@ import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.enums.SituacaoReserva;
 import br.com.dealercar.util.DataMenu;
 import br.com.dealercar.util.DataUtil;
-import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBReservaGrafico")
@@ -291,7 +291,7 @@ public class GraficoReservaBean implements Serializable {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		pieReservaPersonalizado = GraficoUtil.gerarGrafico(listaString);
+		pieReservaPersonalizado = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieReservaPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(reserva.getDataCadastroReserva())
 				+ " à " + sdf.format(reserva.getDataFim()));
 		pieReservaPersonalizado.setLegendPosition("w");
@@ -385,20 +385,20 @@ public class GraficoReservaBean implements Serializable {
 			return;
 		}
 
-		lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringModelos, reserva);
+		lineReservaAvancado = GraficoLinhaBuilder.gerarGrafico(listaStringModelos, reserva);
 		
 		if(modeloIsSelecionado){
-			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringModelos, reserva);
+			lineReservaAvancado = GraficoLinhaBuilder.gerarGrafico(listaStringModelos, reserva);
 		}
 		if(cpfIsSelecionado){
-			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringClientes, reserva);
+			lineReservaAvancado = GraficoLinhaBuilder.gerarGrafico(listaStringClientes, reserva);
 		}
 		if(situacaoIsSelecionado){
-			lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaStringSituacao, reserva);
+			lineReservaAvancado = GraficoLinhaBuilder.gerarGrafico(listaStringSituacao, reserva);
 		}
 		
 		
-		// lineReservaAvancado = GraficoUtil.gerarGraficoLine(listaString);
+		// lineReservaAvancado = GraficoLinhaBuilder.gerarGrafico(listaString);
 		lineReservaAvancado.setTitle("Grafico Linha");
 		//ChartSeries chartSeries = new ChartSeries();
 		/*

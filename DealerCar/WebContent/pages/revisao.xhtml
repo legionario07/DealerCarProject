@@ -30,7 +30,6 @@
 
 					<h:panelGrid id="pnlRevisaoDados" columns="2" cellpadding="10">
 
-
 						<h:outputLabel
 							value="Localize o carro para efetuar a Revisão.   Placa:"
 							rendered="#{MBRevisao.revisao.carro.placa == null}" />
@@ -62,11 +61,9 @@
 						<h:outputText value="Cor:" />
 						<p:inputText size="20" readonly="true"
 							value="#{MBRevisao.revisao.carro.cor.nome}" />
-
-
 					</h:panelGrid>
-					<br></br>
 
+					<br></br>
 
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBRevisao.pesquisarPorPlaca}"
@@ -78,11 +75,6 @@
 							rendered="#{MBRevisao.ehCadastrado == true}"
 							update=":frmNovaRevisaoTab:pnlNovaRevisao pnlRevisaoDados pnlRevisaoDados2 :msgGlobal" />
 
-						<p:commandButton value="Efetuar Revisão"
-							onclick="PF('dlgRevisaoEfetuar').show();"
-							rendered="#{MBRevisao.ehCadastrado == true}" />
-
-
 						<p:commandButton value="Limpar Pesquisa"
 							actionListener="#{MBRevisao.limparPesquisa}"
 							rendered="#{MBRevisao.ehCadastrado == true}"
@@ -91,215 +83,12 @@
 					</h:panelGrid>
 				</h:form>
 			</p:tab>
-
 		</p:tabView>
-
-		<!-- Caixa de Dialogo Efetuar Revisão -->
-		<p:dialog widgetVar="dlgRevisaoEfetuar" closable="false" width="70%"
-			id="dlgNovo" height="550" resizable="false" appendTo="@(body)"
-			draggable="false" modal="true" header="Revisão - Efetuar">
-			<h:form id="frmNovaRevisao">
-
-				<h:panelGrid id="pnlNovaRevisao" columns="2">
-
-					<h:outputLabel value="Placa: " />
-					<p:inputText value="#{MBRevisao.revisao.carro.placa}" size="15"
-						readonly="true" />
-
-					<h:outputLabel value="Quilometragem: " />
-					<p:inputMask value="#{MBRevisao.revisao.quilometragem}" size="15"
-						mask="999999" required="true"
-						rendered="#{MBRevisao.revisao.devolucao.id == 0}"
-						requiredMessage="Favor informar a Quilometragem. Campo de preenchimento obrigatório">
-						<f:validateLength minimum="1" maximum="7" />
-					</p:inputMask>
-
-					<p:inputText size="15" readonly="true"
-						rendered="#{MBRevisao.revisao.devolucao.id > 0}"
-						value="#{MBRevisao.revisao.quilometragem}" />
-
-				</h:panelGrid>
-
-				<br></br>
-
-				<h:panelGrid columns="1">
-					<p:outputLabel value="Componentes" style="font-weight:bold" />
-				</h:panelGrid>
-
-				<p:accordionPanel>
-
-					<p:tab title="Arrefecimento">
-
-						<h:panelGrid columns="2">
-							<h:outputLabel for="arrefecimento" value="Arrefecimento" />
-							<p:selectOneMenu id="arrefecimento" converter="generic"
-								value="#{MBRevisao.arrefecimento.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-
-					</p:tab>
-
-					<p:tab title="Bateria">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="bateria" value="Bateria" />
-							<p:selectOneMenu id="bateria" converter="generic"
-								value="#{MBRevisao.bateria.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Embreagem">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="embreagem" value="Embreagem" />
-							<p:selectOneMenu id="embreagem" converter="generic"
-								value="#{MBRevisao.embreagem.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Freio">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="freio" value="Freio" />
-							<p:selectOneMenu id="freio" converter="generic"
-								value="#{MBRevisao.freio.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Lanterna">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="lanterna" value="Lanterna" />
-							<p:selectOneMenu id="lanterna" converter="generic"
-								value="#{MBRevisao.lanterna.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Motor">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="motor" value="Motor" />
-							<p:selectOneMenu id="motor" converter="generic"
-								value="#{MBRevisao.motor.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Suspensão">
-						<h:panelGrid columns="2">
-							<h:outputLabel for="suspensao" value="Suspensão" />
-							<p:selectOneMenu id="suspensao" converter="generic"
-								value="#{MBRevisao.suspensao.situacao}">
-								<f:selectItem itemLabel="OK" itemValue="OK" />
-								<f:selectItem itemLabel="Necessita Reparo"
-									itemValue="Necessita Reparo" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:tab>
-
-					<p:tab title="Pneu">
-						<p:accordionPanel>
-							<p:tab title="Dianteiro Direito">
-								<h:panelGrid columns="2">
-									<h:outputLabel value="Dianteiro Direito" />
-									<p:selectOneMenu converter="generic"
-										value="#{MBRevisao.dianteiroDireito.situacao}">
-										<f:selectItem itemLabel="OK" itemValue="OK" />
-										<f:selectItem itemLabel="Necessita Reparo"
-											itemValue="Necessita Reparo" />
-									</p:selectOneMenu>
-								</h:panelGrid>
-							</p:tab>
-							<p:tab title="Dianteiro Esquerdo">
-								<h:panelGrid columns="2">
-									<h:outputLabel value="Dianteiro Esquerdo" />
-									<p:selectOneMenu converter="generic"
-										value="#{MBRevisao.dianteiroEsquerdo.situacao}">
-										<f:selectItem itemLabel="OK" itemValue="OK" />
-										<f:selectItem itemLabel="Necessita Reparo"
-											itemValue="Necessita Reparo" />
-									</p:selectOneMenu>
-								</h:panelGrid>
-							</p:tab>
-							<p:tab title="Traseiro Direito">
-								<h:panelGrid columns="2">
-									<h:outputLabel value="Traseiro Direito" />
-									<p:selectOneMenu converter="generic"
-										value="#{MBRevisao.traseiroDireito.situacao}">
-										<f:selectItem itemLabel="OK" itemValue="OK" />
-										<f:selectItem itemLabel="Necessita Reparo"
-											itemValue="Necessita Reparo" />
-									</p:selectOneMenu>
-								</h:panelGrid>
-							</p:tab>
-							<p:tab title="Traseiro Esquerdo">
-								<h:panelGrid columns="2">
-									<h:outputLabel value="Traseiro Esquerdo" />
-									<p:selectOneMenu converter="generic"
-										value="#{MBRevisao.traseiroEsquerdo.situacao}">
-										<f:selectItem itemLabel="OK" itemValue="OK" />
-										<f:selectItem itemLabel="Necessita Reparo"
-											itemValue="Necessita Reparo" />
-									</p:selectOneMenu>
-								</h:panelGrid>
-							</p:tab>
-							<p:tab title="Estepe">
-								<h:panelGrid columns="2">
-									<h:outputLabel value="Estepe" />
-									<p:selectOneMenu converter="generic"
-										value="#{MBRevisao.estepe.situacao}">
-										<f:selectItem itemLabel="OK" itemValue="OK" />
-										<f:selectItem itemLabel="Necessita Reparo"
-											itemValue="Necessita Reparo" />
-									</p:selectOneMenu>
-								</h:panelGrid>
-							</p:tab>
-						</p:accordionPanel>
-					</p:tab>
-
-					<p:tab title="Observação">
-						<p:inputTextarea value="#{MBRevisao.revisao.descricao}" rows="1"
-							cols="33" />
-					</p:tab>
-
-				</p:accordionPanel>
-
-				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
-
-					<p:commandButton value="Salvar"
-						actionListener="#{MBRevisao.efetuarRevisao}"
-						update=":tabViewConsultar:frmConsultaRevisao :msgGlobal"
-						onclick="PF('dlgRevisaoEfetuar').hide();" />
-
-					<p:commandButton value="Cancelar"
-						actionListener="#{MBRevisao.limparPesquisa}"
-						onclick="PF('dlgRevisaoEfetuar').hide();" />
-
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
 
 
 		<!-- Caixa de Dialogo Efetuar Revisão TAb-->
 		<p:dialog widgetVar="dlgRevisaoEfetuarTab" closable="false"
-			width="70%" id="dlgNovoTab" height="650" resizable="false"
+			width="60%" id="dlgNovoTab" height="650" resizable="false"
 			appendTo="@(body)" draggable="false" modal="true"
 			header="Revisão - Efetuar">
 			<h:form id="frmNovaRevisaoTab">
@@ -321,7 +110,6 @@
 					<p:inputText size="15" readonly="true"
 						rendered="#{MBRevisao.revisao.devolucao.id > 0}"
 						value="#{MBRevisao.revisao.quilometragem}" />
-
 				</h:panelGrid>
 
 				<br></br>
@@ -332,7 +120,6 @@
 
 				<p:tabView orientation="left">
 					<p:tab title="Arrefecimento">
-
 						<h:panelGrid columns="2">
 							<h:outputLabel for="arrefecimento" value="Arrefecimento" />
 							<p:selectOneMenu id="arrefecimento" converter="generic"
@@ -342,8 +129,6 @@
 									itemValue="Necessita Reparo" />
 							</p:selectOneMenu>
 						</h:panelGrid>
-
-
 					</p:tab>
 
 					<p:tab title="Bateria">
@@ -475,32 +260,45 @@
 									</p:selectOneMenu>
 								</h:panelGrid>
 							</p:tab>
-
 						</p:accordionPanel>
 					</p:tab>
+
 					<p:tab title="Observação">
 						<h:panelGrid columns="2">
 							<p:inputTextarea value="#{MBRevisao.revisao.descricao}" rows="2"
 								cols="80" />
 						</h:panelGrid>
 					</p:tab>
+
 				</p:tabView>
+
 				<br></br>
-				<h:panelGrid columns="4">
-					<h:outputLabel value="Procurar Produto" />
+					
+					<h:panelGrid columns="2">
+					<p:selectOneMenu id="selectProduto" 
+						value="#{MBRevisao.produtoRevisao}" required="true" converter="produtoRevisao"
+						panelStyle="width:180px" effect="fade" style="width:350px"
+						filter="true" filterMatchMode="startsWith">
+						<f:selectItem itemLabel="SELECIONE UM PRODUTO"
+							noSelectionOption="true" />
+						<f:selectItems value="#{MBRevisao.produtosCadastrados}"
+							var="produto" itemLabel="#{produto}" 
+							itemValue="#{produto}" />
+					</p:selectOneMenu>
+				
 					<p:commandButton value="Adicionar"
 						actionListener="#{MBRevisao.addProduto}"
-						update=":frmNovaRevisaoTab:pnlNovaRevisao :msgGlobal"/>
-					
+						update=":frmNovaRevisaoTab:tblListaProdutos :msgGlobal" />
 
+				<br></br>
 
 				</h:panelGrid>
 				<p:dataTable id="tblListaProdutos"
 					value="#{MBRevisao.produtosUtilizados}"
 					widgetVar="tabelaProdutosUtilizados" var="itemProduto"
-					style="width:80%" sortBy="#{itemProduto.id}"
+					style="width:100%" sortBy="#{itemProduto.id}"
 					emptyMessage="Nenhum produto utilizado na Revisão" paginator="true"
-					rows="10">
+					rows="3">
 
 					<f:facet name="header">
 						<h:outputText value="Produto Utilizado na Revisão"
@@ -525,33 +323,25 @@
 						<h:outputText value="#{itemProduto.tipo}" />
 					</p:column>
 
-
 					<p:column headerText="Valor" width="10%"
 						style="font-size:11px; text-align:center"
 						sortBy="#{itemProduto.valor}">
 						<h:outputText value="#{itemProduto.valor}" />
 					</p:column>
 
-
-					<f:facet name="footer">
-						<h:panelGrid>
-
-						</h:panelGrid>
-					</f:facet>
-
 				</p:dataTable>
 
 
 				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
 
-
 					<p:commandButton value="Salvar"
 						actionListener="#{MBRevisao.efetuarRevisao}"
-						update=":tabViewConsultar:frmConsultaRevisao :msgGlobal"
+						update=":frmNovaRevisaoTab :tabViewConsultar:frmConsultaRevisao :msgGlobal"
 						onclick="PF('dlgRevisaoEfetuarTab').hide();" />
 
 					<p:commandButton value="Cancelar"
 						actionListener="#{MBRevisao.limparPesquisa}"
+						update=":tabViewConsultar:frmConsultaRevisao :msgGlobal"
 						onclick="PF('dlgRevisaoEfetuarTab').hide();" />
 
 				</h:panelGrid>

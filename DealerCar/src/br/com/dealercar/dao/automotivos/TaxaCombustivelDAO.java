@@ -35,9 +35,6 @@ public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel>,Serializable {
 			pstm.setDouble(++i, taxaCombustivel.getValor());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -66,9 +63,6 @@ public class TaxaCombustivelDAO implements IDAO<TaxaCombustivel>,Serializable {
 			pstm.setInt(++i, taxaCombustivel.getId());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

@@ -87,9 +87,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 			// reserva diferente de null editar
 			if (reserva != null) {
 				new ReservaDAO().editar(reserva);
@@ -134,9 +131,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 			pstm.setInt(++i, retirada.getId());
 
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -199,10 +193,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retirada);
 
 			}
-
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -549,10 +539,6 @@ public class RetiradaDAO implements IDAO<Retirada>, Serializable {
 				lista.add(retiradaRetorno);
 
 			}
-
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

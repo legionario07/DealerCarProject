@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -50,9 +49,6 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar FiltroDeOleoMotor no Banco de Dados.");
@@ -76,8 +72,6 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 			pstm.setInt(++i, filtroDeOleoMotor.getId());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,15 +148,6 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,9 +196,6 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -256,14 +238,63 @@ public class FiltroDeOleoMotorDAO extends AbstractPesquisaItensRevisao<FiltroDeO
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public FiltroDeOleoMotor pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from filtro_de_oleo_motor ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		FiltroDeOleoMotor filtroDeOleoMotorRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				filtroDeOleoMotorRetorno = new FiltroDeOleoMotor();
+				filtroDeOleoMotorRetorno.setId(rSet.getInt("id"));
+				filtroDeOleoMotorRetorno.setDescricao(rSet.getString("descricao"));
+				filtroDeOleoMotorRetorno.setTipo(rSet.getString("tipo"));
+				filtroDeOleoMotorRetorno.setMarca(rSet.getString("marca"));
+				filtroDeOleoMotorRetorno.setValor(rSet.getDouble("valor"));
+				filtroDeOleoMotorRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				filtroDeOleoMotorRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return filtroDeOleoMotorRetorno;
 	}
 }

@@ -66,9 +66,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -119,9 +116,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 			pstm.setInt(++i, cliente.getId());
 
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -206,10 +200,6 @@ public class ClienteDAO extends AbstractPesquisaDAO<Cliente> implements Serializ
 				
 				clientes.add(clienteRetorno);
 			}
-			
-			rSet.close();
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

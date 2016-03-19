@@ -88,17 +88,34 @@ public class FiltroDeArDAOTest {
 			System.out.println(a);
 		}
 		
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		FiltroDeAr filtroDeAr = new FiltroDeAr();
+		
+		String stringFiltroDeAr = "FILTRO DE AR - FRAM - MOTOR EM GERAL";
+		
+		filtroDeAr = new FiltroDeArDAO().pesquisarPorDescricaoMarcaTipo(stringFiltroDeAr);
+		
+		System.out.println(filtroDeAr.getId());
+		System.out.println(filtroDeAr.getDescricao());
+		System.out.println(filtroDeAr.getMarca());
+		System.out.println(filtroDeAr.getTipo());
+		System.out.println(filtroDeAr.getValor());
 		
 	}
 	
+
+	
 	public static void main(String[] args) {
 		
-		cadastrar();
+		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

@@ -78,6 +78,21 @@ public class AmortecedorDAOTest {
 		
 	}
 	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		Amortecedor amortecedor = new Amortecedor();
+		
+		String stringAmortecedor = "AMORTECEDOR - COFAB - DIANTEIRO";
+		
+		amortecedor = new AmortecedorDAO().pesquisarPorDescricaoMarcaTipo(stringAmortecedor);
+		
+		System.out.println(amortecedor.getId());
+		System.out.println(amortecedor.getDescricao());
+		System.out.println(amortecedor.getMarca());
+		System.out.println(amortecedor.getTipo());
+		System.out.println(amortecedor.getValor());
+		
+	}
+	
 	public static void listar(){
 		
 		List<Amortecedor> lista = new ArrayList<Amortecedor>();
@@ -96,9 +111,10 @@ public class AmortecedorDAOTest {
 		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

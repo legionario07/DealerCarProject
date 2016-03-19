@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -50,8 +49,6 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,8 +73,6 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 			pstm.setInt(++i, filtroDeAr.getId());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,15 +149,6 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,9 +197,6 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -256,14 +239,63 @@ public class FiltroDeArDAO extends AbstractPesquisaItensRevisao<FiltroDeAr> {
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public FiltroDeAr pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from filtro_de_ar ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		FiltroDeAr filtroDeArRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				filtroDeArRetorno = new FiltroDeAr();
+				filtroDeArRetorno.setId(rSet.getInt("id"));
+				filtroDeArRetorno.setDescricao(rSet.getString("descricao"));
+				filtroDeArRetorno.setTipo(rSet.getString("tipo"));
+				filtroDeArRetorno.setMarca(rSet.getString("marca"));
+				filtroDeArRetorno.setValor(rSet.getDouble("valor"));
+				filtroDeArRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				filtroDeArRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return filtroDeArRetorno;
 	}
 }

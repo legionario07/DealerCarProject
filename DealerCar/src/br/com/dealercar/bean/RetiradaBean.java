@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.builder.GraficoPizzaBuilder;
 import br.com.dealercar.dao.CidadeDAO;
 import br.com.dealercar.dao.ClienteDAO;
 import br.com.dealercar.dao.EstadoDAO;
@@ -50,7 +51,6 @@ import br.com.dealercar.strategy.valida.ValidaEstado;
 import br.com.dealercar.strategy.valida.ValidaItemOpcional;
 import br.com.dealercar.strategy.valida.ValidaModelo;
 import br.com.dealercar.util.DataUtil;
-import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 import br.com.dealercar.util.SessionUtil;
 
@@ -613,7 +613,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getModelo().getNome());
 		}
 
-		pieRetiradaModelos = GraficoUtil.gerarGrafico(listaString);
+		pieRetiradaModelos = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
 		pieRetiradaModelos.setShowDataLabels(true);
 		pieRetiradaModelos.setLegendPosition("w");
@@ -638,7 +638,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getPlaca());
 		}
 
-		pieRetiradaCarrosLocados = GraficoUtil.gerarGrafico(listaString);
+		pieRetiradaCarrosLocados = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRetiradaCarrosLocados.setTitle("Carros Mais Locados");
 		pieRetiradaCarrosLocados.setShowDataLabels(true);
 		pieRetiradaCarrosLocados.setLegendPosition("w");
@@ -663,7 +663,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaString.add(r.getCarro().getCategoria().getNome());
 		}
 
-		pieRetiradaCategoriasLocadas = GraficoUtil.gerarGrafico(listaString);
+		pieRetiradaCategoriasLocadas = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRetiradaCategoriasLocadas.setTitle("Categorias Mais Locadas");
 		pieRetiradaCategoriasLocadas.setShowDataLabels(true);
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");

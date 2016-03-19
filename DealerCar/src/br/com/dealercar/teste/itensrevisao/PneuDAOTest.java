@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.dao.itensrevisao.PneuDAO;
-import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
 
 public class PneuDAOTest {
 
@@ -23,7 +23,6 @@ public class PneuDAOTest {
 		pneu.setFormaDeVenda(formaDeVenda);
 		
 		new PneuDAO().cadastrar(pneu);
-		
 		
 	}
 	
@@ -87,18 +86,32 @@ public class PneuDAOTest {
 		for(Pneu a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		Pneu pneu = new Pneu();
 		
+		String stringPneu = "PNEU 175/70 - BRIDGESTONE - ARO 14";
+		
+		pneu = new PneuDAO().pesquisarPorDescricaoMarcaTipo(stringPneu);
+		
+		System.out.println(pneu.getId());
+		System.out.println(pneu.getDescricao());
+		System.out.println(pneu.getMarca());
+		System.out.println(pneu.getTipo());
+		System.out.println(pneu.getValor());
 		
 	}
 	
 	public static void main(String[] args) {
 		
-		cadastrar();
+		//cadastrar();
 		//excluir();
 		//editar();
 		//pesquisarPorID();
 		//pesquisarPorMarca();
-		listar();
+		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

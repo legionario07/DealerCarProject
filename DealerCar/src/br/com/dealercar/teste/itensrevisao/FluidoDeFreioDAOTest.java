@@ -24,7 +24,6 @@ public class FluidoDeFreioDAOTest {
 		
 		new FluidoDeFreioDAO().cadastrar(fluidoDeFreio);
 		
-		
 	}
 	
 	public static void excluir(){
@@ -87,7 +86,20 @@ public class FluidoDeFreioDAOTest {
 		for(FluidoDeFreio a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		FluidoDeFreio fluidoDeFreio = new FluidoDeFreio();
 		
+		String stringFluidoDeFreio = "FLUIDO DE FREIO - KOUBE - DOT 4";
+		
+		fluidoDeFreio = new FluidoDeFreioDAO().pesquisarPorDescricaoMarcaTipo(stringFluidoDeFreio);
+		
+		System.out.println(fluidoDeFreio.getId());
+		System.out.println(fluidoDeFreio.getDescricao());
+		System.out.println(fluidoDeFreio.getMarca());
+		System.out.println(fluidoDeFreio.getTipo());
+		System.out.println(fluidoDeFreio.getValor());
 		
 	}
 	
@@ -96,9 +108,10 @@ public class FluidoDeFreioDAOTest {
 		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

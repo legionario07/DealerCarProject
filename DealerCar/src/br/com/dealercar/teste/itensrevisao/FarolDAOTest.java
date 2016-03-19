@@ -87,7 +87,20 @@ public class FarolDAOTest {
 		for(Farol a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		Farol farol = new Farol();
 		
+		String stringFarol = "LANTERNA (FAROL) - MASCARA NEGRA - DIANTEIRO";
+		
+		farol = new FarolDAO().pesquisarPorDescricaoMarcaTipo(stringFarol);
+		
+		System.out.println(farol.getId());
+		System.out.println(farol.getDescricao());
+		System.out.println(farol.getMarca());
+		System.out.println(farol.getTipo());
+		System.out.println(farol.getValor());
 		
 	}
 	
@@ -98,7 +111,8 @@ public class FarolDAOTest {
 		//editar();
 		//pesquisarPorID();
 		//pesquisarPorMarca();
-		listar();
+		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

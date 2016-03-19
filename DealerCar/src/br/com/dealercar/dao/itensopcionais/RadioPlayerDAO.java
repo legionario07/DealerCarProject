@@ -49,9 +49,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 			pstm.setString(5, radio.getModelo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -77,9 +74,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 			pstm.setInt(1, radio.getCodigo());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -109,9 +103,6 @@ public class RadioPlayerDAO extends AbstractPesquisaItensOpcionais<RadioPlayer> 
 			pstm.setInt(6, radio.getCodigo());
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

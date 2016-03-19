@@ -69,10 +69,6 @@ public class EstadoDAO implements IDAO<Estado>, Serializable{
 				
 			}
 			
-			rSet.close();
-			pstm.close();
-			con.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -95,7 +91,7 @@ public class EstadoDAO implements IDAO<Estado>, Serializable{
 			
 			Estado estadoRetorno = null;
 			
-			con = Conexao.getConnection();
+				con = Conexao.getConnection();
 			
 			try {
 				PreparedStatement pstm = con.prepareStatement(sql.toString());

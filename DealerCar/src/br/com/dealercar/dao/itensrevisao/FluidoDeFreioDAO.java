@@ -10,7 +10,6 @@ import java.util.List;
 import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
 import br.com.dealercar.domain.produtosrevisao.FormaDeVenda;
 import br.com.dealercar.factory.Conexao;
-import br.com.dealercar.util.DaoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 /**
@@ -50,9 +49,6 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 			pstm.executeUpdate();
 
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro("Erro ao cadastrar FluidoDeFreio no Banco de Dados.");
@@ -75,9 +71,6 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 			int i = 0;
 			pstm.setInt(++i, fluidoDeFreio.getId());
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,15 +147,6 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 			}
 
-			/**
-			 * Se DaoUtil.isCallFromDao != -1 a connection será fechada no DAO
-			 * de chamador
-			 */
-			if (DaoUtil.isCallFromDao() == -1) {
-				rSet.close();
-				pstm.close();
-				con.close();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,10 +195,6 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -256,15 +236,64 @@ public class FluidoDeFreioDAO extends AbstractPesquisaItensRevisao<FluidoDeFreio
 
 			}
 
-			rSet.close();
-			pstm.close();
-			con.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return lista;
+	}
+
+	@Override
+	public FluidoDeFreio pesquisarPorDescricaoMarcaTipo(String produtoRevisao) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from fluido_freio ");
+		sql.append("where descricao = ? and ");
+		sql.append("marca = ? and ");
+		sql.append("tipo = ? ");
+
+		String[] arrayString = produtoRevisao.split(" - ");
+				
+		FluidoDeFreio fluidoDeFreioRetorno = null;
+
+		con = Conexao.getConnection();
+
+		try {
+			PreparedStatement pstm = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstm.setString(++i, arrayString[0]);
+			pstm.setString(++i, arrayString[1]);
+			pstm.setString(++i, arrayString[2]);
+			
+			ResultSet rSet = pstm.executeQuery();
+
+			while (rSet.next()) {
+
+				fluidoDeFreioRetorno = new FluidoDeFreio();
+				fluidoDeFreioRetorno.setId(rSet.getInt("id"));
+				fluidoDeFreioRetorno.setDescricao(rSet.getString("descricao"));
+				fluidoDeFreioRetorno.setTipo(rSet.getString("tipo"));
+				fluidoDeFreioRetorno.setMarca(rSet.getString("marca"));
+				fluidoDeFreioRetorno.setValor(rSet.getDouble("valor"));
+				fluidoDeFreioRetorno.setQuantidade(rSet.getInt("quantidade"));
+
+				FormaDeVenda formaDeVenda = new FormaDeVenda();
+				formaDeVenda.setId(rSet.getInt("id_forma_de_venda"));
+				formaDeVenda = new FormaDeVendaDAO().pesquisarPorID(formaDeVenda);
+
+				fluidoDeFreioRetorno.setFormaDeVenda(formaDeVenda);
+
+			}
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro("Erro ao buscar Produto da Revisao no Banco de Dados.");
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+
+		return fluidoDeFreioRetorno;
 	}
 
 }

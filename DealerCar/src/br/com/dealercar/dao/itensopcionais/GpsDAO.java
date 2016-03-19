@@ -48,9 +48,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 			pstm.setString(5, gps.getIdioma());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -75,9 +72,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 			pstm.setInt(1, gps.getCodigo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -108,9 +102,6 @@ public class GpsDAO extends AbstractPesquisaItensOpcionais<Gps> {
 			pstm.setInt(6, gps.getCodigo());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());

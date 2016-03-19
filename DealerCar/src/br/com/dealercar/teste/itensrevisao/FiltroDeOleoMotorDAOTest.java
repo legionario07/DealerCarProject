@@ -87,18 +87,33 @@ public class FiltroDeOleoMotorDAOTest {
 		for(FiltroDeOleoMotor a : lista){
 			System.out.println(a);
 		}
+	}
+	
+	public static void pesquisarPorDescricaoMarcaTipo(){
+		FiltroDeOleoMotor filtroDeOleoMotor = new FiltroDeOleoMotor();
 		
+		String stringFiltroDeOleoMotor = "FILTRO DE ÓLEO - FRAM - MOTOR EM GERAL";
+		
+		filtroDeOleoMotor = new FiltroDeOleoMotorDAO().pesquisarPorDescricaoMarcaTipo(stringFiltroDeOleoMotor);
+		
+		System.out.println(filtroDeOleoMotor.getId());
+		System.out.println(filtroDeOleoMotor.getDescricao());
+		System.out.println(filtroDeOleoMotor.getMarca());
+		System.out.println(filtroDeOleoMotor.getTipo());
+		System.out.println(filtroDeOleoMotor.getValor());
 		
 	}
+	
 	
 	public static void main(String[] args) {
 		
 		//cadastrar();
 		//excluir();
 		//editar();
-		pesquisarPorID();
+		//pesquisarPorID();
 		//pesquisarPorMarca();
 		//listar();
+		pesquisarPorDescricaoMarcaTipo();
 		
 	}
 	

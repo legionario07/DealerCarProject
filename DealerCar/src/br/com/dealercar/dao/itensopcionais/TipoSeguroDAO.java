@@ -91,9 +91,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -122,9 +119,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>, Serializable{
 
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -148,9 +142,6 @@ public class TipoSeguroDAO implements IDAO<TipoSeguro>, Serializable{
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, tipoSeguro.getId());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

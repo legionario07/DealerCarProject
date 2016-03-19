@@ -12,10 +12,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.builder.GraficoPizzaBuilder;
 import br.com.dealercar.dao.RevisaoDAO;
 import br.com.dealercar.domain.Revisao;
 import br.com.dealercar.util.DataUtil;
-import br.com.dealercar.util.GraficoUtil;
 import br.com.dealercar.util.JSFUtil;
 
 @ManagedBean(name = "MBRevisaoGrafico")
@@ -161,7 +161,7 @@ public class GraficoRevisaoBean implements Serializable {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		pieRevisaoPersonalizado = GraficoUtil.gerarGrafico(listaString);
+		pieRevisaoPersonalizado = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRevisaoPersonalizado.setTitle(tipoDeDadosGraficos + " - De " + sdf.format(revisao.getDataRevisao())
 				+ " à " + sdf.format(dataFinal));
 		pieRevisaoPersonalizado.setLegendPosition("w");

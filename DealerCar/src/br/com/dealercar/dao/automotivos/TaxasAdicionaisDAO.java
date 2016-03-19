@@ -46,9 +46,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>, Serializable {
 			pstm.setDouble(++i, taxaAdicional.getValor());
 			pstm.executeUpdate();
 			
-			pstm.close();
-			con.close();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,9 +71,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>, Serializable {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			pstm.setString(1, taxaAdicional.getDescricao());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,9 +100,6 @@ public class TaxasAdicionaisDAO implements IDAO<TaxasAdicionais>, Serializable {
 			pstm.setDouble(++i, taxaAdicional.getValor());
 			pstm.setInt(++i, taxaAdicional.getId());
 			pstm.executeUpdate();
-			
-			pstm.close();
-			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

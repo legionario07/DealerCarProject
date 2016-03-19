@@ -75,64 +75,55 @@ public class ProdutoRevisaoDAO implements IDAO<ProdutoRevisao>, Serializable {
 						pstm.setInt(2, p.getQuantidade());
 						amortecedor = true;
 					}
-				}
-				if (p instanceof CorreiaDentada) {
+				} else if (p instanceof CorreiaDentada) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(3, p.getId());
 						pstm.setInt(4, p.getQuantidade());
 						correiaDentada = true;
 					}
-				}
-				if (p instanceof Embreagem) {
+				} else if (p instanceof Embreagem) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(5, p.getId());
 						pstm.setInt(6, p.getQuantidade());
 						embreagem = true;
 					}
-				}
-				if (p instanceof Farol) {
+				} else if (p instanceof Farol) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(7, p.getId());
 						pstm.setInt(8, p.getQuantidade());
 						farol = true;
 					}
-				}
-				if (p instanceof FiltroDeAr) {
+				} else if (p instanceof FiltroDeAr) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(9, p.getId());
 						pstm.setInt(10, p.getQuantidade());
 						filtorDeAr = true;
 					}
-				}
-				if (p instanceof FiltroDeOleoMotor) {
+				} else if (p instanceof FiltroDeOleoMotor) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(11, p.getId());
 						pstm.setInt(12, p.getQuantidade());
 						filtroDeOleoMotor = true;
 					}
-				}
-				if (p instanceof FluidoDeFreio) {
+				} else if (p instanceof FluidoDeFreio) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(13, p.getId());
 						pstm.setInt(14, p.getQuantidade());
 						fluidoDeFreio = true;
 					}
-				}
-				if (p instanceof PastilhaFreio) {
+				} else if (p instanceof PastilhaFreio) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(15, p.getId());
 						pstm.setInt(16, p.getQuantidade());
 						pastilhaFreio = true;
 					}
-				}
-				if (p instanceof Pneu) {
+				} else if (p instanceof Pneu) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(17, p.getId());
 						pstm.setInt(18, p.getQuantidade());
 						pneu = true;
 					}
-				}
-				if (p instanceof VelasIgnicao) {
+				} else if (p instanceof VelasIgnicao) {
 					if (p.getId() > 0 && p.getId() != 99) {
 						pstm.setInt(19, p.getId());
 						pstm.setInt(20, p.getQuantidade());
@@ -189,9 +180,6 @@ public class ProdutoRevisaoDAO implements IDAO<ProdutoRevisao>, Serializable {
 			}
 
 			pstm.executeUpdate();
-
-			pstm.close();
-			con.close();
 
 		} catch (
 
@@ -456,6 +444,8 @@ public class ProdutoRevisaoDAO implements IDAO<ProdutoRevisao>, Serializable {
 		return lista;
 
 	}
+	
+	
 
 	@Override
 	public void cadastrar(ProdutoRevisao produtoRevisao) {
