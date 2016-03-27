@@ -1,7 +1,7 @@
 package br.com.dealercar.domain.itensopcionais;
 
 import br.com.dealercar.domain.EntidadeDominio;
-import br.com.dealercar.enums.SeguroType;
+import br.com.dealercar.domain.enums.SeguroType;
 
 /**
  * Classe que representa um Tipo de Seguro disponivel

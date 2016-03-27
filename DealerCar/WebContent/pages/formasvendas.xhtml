@@ -12,18 +12,21 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBProdutoRevisao.carregarListagem}" type="preRenderView" />
+		<f:event listener="#{MBProdutoRevisao.carregarListagem}"
+			type="preRenderView" />
 
 		<h:form id="frmFormaDeVenda">
 
-			<p:dataTable id="tblFormaVenda" value="#{MBProdutoRevisao.listaFormaDeVenda}"
+			<p:dataTable id="tblFormaVenda"
+				value="#{MBProdutoRevisao.listaFormaDeVenda}"
 				widgetVar="tabelaListagem" var="itemFormaDeVenda" style="width:70%"
 				sortBy="#{itemFormaDeVenda.descricao}"
 				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 				rows="10">
 
 				<f:facet name="header">
-					<h:outputText value="FormaDeVenda - Listagem" style="font-size:14px" />
+					<h:outputText value="FormaDeVenda - Listagem"
+						style="font-size:14px" />
 				</f:facet>
 
 				<p:column headerText="ID" width="5%"
@@ -39,6 +42,7 @@
 
 				<p:column headerText="Opções" width="10%" style="text-align:center">
 					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						action="#{MBProdutoRevisao.verificarProdutoClicado}"
 						onclick="PF('dlgEditarFormaDeVenda').show();"
 						update=":frmEditarFormaDeVenda:pnlEditarFormaDeVenda :msgGlobal">
 						<f:setPropertyActionListener value="#{itemFormaDeVenda}"
@@ -46,6 +50,7 @@
 					</p:commandButton>
 
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						action="#{MBProdutoRevisao.verificarProdutoClicado}"
 						onclick="PF('dlgExcluirFormaDeVenda').show();"
 						update="frmExcluirFormaDeVenda :msgGlobal">
 						<f:setPropertyActionListener value="#{itemFormaDeVenda}"
@@ -76,19 +81,22 @@
 				<h:panelGrid id="pnlNovoFormaDeVenda2" columns="2">
 
 					<h:outputText value="Descrição: *" />
-					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" required="true" 
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}"
+						required="true"
 						requiredMessage="Favor informar o descrição para essa Forma De Venda" />
 
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2">
 					<p:commandButton value="Salvar"
-						actionListener="#{MBProdutoRevisao.cadastrar}"
+						actionListener="#{MBProdutoRevisao.executar}"
 						update=":frmFormaDeVenda :msgGlobal"
-						onclick="PF('dlgNovoFormaDeVenda').hide();" />
+						onclick="PF('dlgNovoFormaDeVenda').hide();">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-					action="#{MBProdutoRevisao.limparObjetos}"
+						action="#{MBProdutoRevisao.limparObjetos}"
 						onclick="PF('dlgNovoFormaDeVenda').hide();" />
 
 				</h:panelGrid>
@@ -106,18 +114,23 @@
 				<h:panelGrid id="pnlEditarFormaDeVenda" columns="2">
 
 					<h:outputText value="ID: " />
-					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}" readonly="true" />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}"
+						readonly="true" />
 
 					<h:outputText value="Descrição:*  " />
-					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" required="true"
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}"
+						required="true"
 						requiredMessage="Favor digitar uma Descrição para a Forma De Venda" />
 
-					<p:commandButton value="Salvar" actionListener="#{MBProdutoRevisao.editar}"
+					<p:commandButton value="Salvar"
+						actionListener="#{MBProdutoRevisao.executar}"
 						update=":frmFormaDeVenda :msgGlobal"
-						oncomplete="PF('dlgEditarFormaDeVenda').hide();" />
+						oncomplete="PF('dlgEditarFormaDeVenda').hide();">
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-					action="#{MBProdutoRevisao.limparObjetos}"
+						action="#{MBProdutoRevisao.limparObjetos}"
 						onclick="PF('dlgEditarFormaDeVenda').hide();" />
 
 				</h:panelGrid>
@@ -126,31 +139,35 @@
 		</p:dialog>
 
 		<!--  Caixa de Dialogo Excluir Forma De Venda -->
-		<p:dialog widgetVar="dlgExcluirFormaDeVenda" closable="false" width="30%"
-			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
-			modal="true" header="Forma De Venda - Excluir">
+		<p:dialog widgetVar="dlgExcluirFormaDeVenda" closable="false"
+			width="30%" id="dlgExcluir" height="40%" resizable="false"
+			appendTo="@(body)" modal="true" header="Forma De Venda - Excluir">
 			<h:form id="frmExcluirFormaDeVenda">
 
 
 				<h:panelGrid id="pnlExcluirFormaDeVenda" columns="2">
 
 					<h:outputText value="ID: " />
-					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}" readonly="true" />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.id}"
+						readonly="true" />
 
 					<h:outputText value="Descrição: " />
-					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}" readonly="true" />
+					<p:inputText value="#{MBProdutoRevisao.formaDeVenda.descricao}"
+						readonly="true" />
 
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBProdutoRevisao.excluir}"
+						actionListener="#{MBProdutoRevisao.executar}"
 						update="frmFormaDeVenda :msgGlobal"
-						onclick="PF('dlgExcluirFormaDeVenda').hide();" />
+						onclick="PF('dlgExcluirFormaDeVenda').hide();">
+						<f:param name="param" value="EXCLUIR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-					action="#{MBProdutoRevisao.limparObjetos}"
+						action="#{MBProdutoRevisao.limparObjetos}"
 						onclick="PF('dlgExcluirFormaDeVenda').hide();" />
 
 				</h:panelGrid>

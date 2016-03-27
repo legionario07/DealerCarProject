@@ -924,8 +924,10 @@
 				<h:panelGrid id="pnlComandos" columns="2">
 					<p:commandButton value="Salvar"
 						update="tbViewProdutoRevisao :msgGlobal"
-						actionListener="#{MBProdutoRevisao.editar}"
-						oncomplete="PF('dlgEditarProdutoRevisao').hide();" />
+						actionListener="#{MBProdutoRevisao.executar}"
+						oncomplete="PF('dlgEditarProdutoRevisao').hide();">
+						<f:param name="param" value="EDITAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						action="#{MBProdutoRevisao.limparObjetos}"
@@ -979,9 +981,11 @@
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBProdutoRevisao.excluir}"
+						actionListener="#{MBProdutoRevisao.executar}"
 						update="tbViewProdutoRevisao :msgGlobal"
-						onclick="PF('dlgExcluirProdutoRevisao').hide();" />
+						onclick="PF('dlgExcluirProdutoRevisao').hide();">
+						<f:param name="param" value="EXCLUIR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						action="#{MBProdutoRevisao.limparObjetos}"
@@ -1096,8 +1100,10 @@
 				<h:panelGrid id="pnlComandos" columns="2">
 					<p:commandButton value="Salvar"
 						update="tbViewProdutoRevisao :msgGlobal"
-						actionListener="#{MBProdutoRevisao.cadastrar}"
-						oncomplete="PF('dlgNovoProdutoRevisao').hide();" />
+						actionListener="#{MBProdutoRevisao.executar}"
+						oncomplete="PF('dlgNovoProdutoRevisao').hide();">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						action="#{MBProdutoRevisao.limparObjetos}"

@@ -33,6 +33,24 @@ public class Fabricante extends EntidadeDominio {
 		this.nome = nome.trim().toUpperCase();
 	}
 	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+			if (obj == null)
+			return false;
+			if (!(obj instanceof Fabricante))
+			return false;
+			Fabricante other = (Fabricante) obj;
+			if (getNome() == null){
+			if (other.getNome() != null)
+			return false;
+			} else if (!getNome().equals(other.getNome()))
+			return false;
+			return true;
+	}
+	
 
 	@Override
 	public String toString() {

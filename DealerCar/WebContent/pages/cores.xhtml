@@ -13,14 +13,13 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBCor.carregarListagem}"
-			type="preRenderView" />
+		<f:event listener="#{MBCor.carregarListagem}" type="preRenderView" />
 
 		<h:form id="frmListaCor">
 
-			<p:dataTable id="tblListaCor"
-				value="#{MBCor.listaCores}" widgetVar="tabelaListagem"
-				var="itemCor" style="width:60%;align:center" sortBy="#{itemCor.nome}"
+			<p:dataTable id="tblListaCor" value="#{MBCor.listaCores}"
+				widgetVar="tabelaListagem" var="itemCor"
+				style="width:60%;align:center" sortBy="#{itemCor.nome}"
 				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
 				rows="10">
 
@@ -30,8 +29,7 @@
 
 
 				<p:column headerText="Id" width="5%"
-					style="font-size:11px; text-align:center"
-					sortBy="#{itemCor.id}">
+					style="font-size:11px; text-align:center" sortBy="#{itemCor.id}">
 					<h:outputText value="#{itemCor.id}" />
 				</p:column>
 
@@ -61,8 +59,7 @@
 
 				<f:facet name="footer">
 					<h:panelGrid>
-						<p:commandButton value="Nova"
-							onclick="PF('dlgCorNova').show();"
+						<p:commandButton value="Nova" onclick="PF('dlgCorNova').show();"
 							update=":frmNovaCor :msgGlobal" />
 					</h:panelGrid>
 
@@ -81,25 +78,24 @@
 			modal="true" header="Cor - Cadastrar">
 			<h:form id="frmNovaCor">
 
-
 				<h:panelGrid id="pnlNovaCor2">
 
 					<h:outputText value="Nome: *" />
-					<p:inputText value="#{MBCor.cor.nome}"
-						rendered="true"
+					<p:inputText value="#{MBCor.cor.nome}" rendered="true"
 						requiredMessage="Favor informar o nome do novo Cor" />
 
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
-					<p:commandButton value="Salvar"
-						actionListener="#{MBCor.cadastrar}"
+					<p:commandButton value="Salvar" id="CADASTRAR"
+						actionListener="#{MBCor.executar}"
 						update="frmListaCor:tblListaCor :msgGlobal"
-						onclick="PF('dlgCorNova').hide();" />
+						onclick="PF('dlgCorNova').hide();">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
-					action="#{MBCor.limparObjetos}"
+					<p:commandButton value="Cancelar" action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorNova').hide();" />
 
 				</h:panelGrid>
@@ -109,8 +105,8 @@
 
 
 		<!-- Caixa de Dialogo Confimar Editar Cor-->
-		<p:dialog widgetVar="dlgCorEditar" closable="false"
-			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+		<p:dialog widgetVar="dlgCorEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
 			header="Cor - Editar">
 
 			<h:form id="frmCorEditar">
@@ -122,14 +118,14 @@
 					<h:outputText value="Nome:  " />
 					<p:inputText value="#{MBCor.cor.nome}" />
 
-					<p:commandButton value="Salvar"
-						actionListener="#{MBCor.editar}"
+					<p:commandButton value="Salvar" id="EDITAR"
+						actionListener="#{MBCor.executar}"
 						update=":frmListaCor:tblListaCor :msgGlobal"
-						oncomplete="PF('dlgCorEditar').hide();" />
+						oncomplete="PF('dlgCorEditar').hide();">
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
-
-					<p:commandButton value="Cancelar"
-					action="#{MBCor.limparObjetos}"
+					<p:commandButton value="Cancelar" action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorEditar').hide();" />
 
 				</h:panelGrid>
@@ -138,33 +134,32 @@
 		</p:dialog>
 
 		<!--  Caixa de Dialogo Excluir Cor -->
-		<p:dialog widgetVar="dlgCorExcluir" closable="false"
-			width="30%" id="dlgExcluir" height="40%" resizable="false"
-			appendTo="@(body)" modal="true" header="Cor - Excluir">
+		<p:dialog widgetVar="dlgCorExcluir" closable="false" width="30%"
+			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Cor - Excluir">
 			<h:form id="frmExcluirCor">
 
 
 				<h:panelGrid id="pnlExcluirCor">
 
 					<h:outputText value="ID: " />
-					<p:inputText value="#{MBCor.cor.id}"
-						readonly="true" />
+					<p:inputText value="#{MBCor.cor.id}" readonly="true" />
 
 					<h:outputText value="Nome: " />
-					<p:inputText value="#{MBCor.cor.nome}"
-						readonly="true" />
+					<p:inputText value="#{MBCor.cor.nome}" readonly="true" />
 
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
-					<p:commandButton value="Excluir"
-						actionListener="#{MBCor.excluir}"
+					<p:commandButton value="Excluir" id="EXCLUIR"
+						actionListener="#{MBCor.executar}"
 						update="frmListaCor:tblListaCor :msgGlobal"
-						onclick="PF('dlgCorExcluir').hide();" />
+						onclick="PF('dlgCorExcluir').hide();">
+						<f:param name="param" value="EXCLUIR" />
+					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
-					action="#{MBCor.limparObjetos}"
+					<p:commandButton value="Cancelar" action="#{MBCor.limparObjetos}"
 						onclick="PF('dlgCorExcluir').hide();" />
 
 				</h:panelGrid>

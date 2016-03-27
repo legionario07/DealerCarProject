@@ -6,12 +6,12 @@
 
 <validator>
      <validator-id>CpfValidator</validator-id>
-     <validator-class>br.com.dealercar.validadores.ValidadorCPF</validator-class>
+     <validator-class>br.com.dealercar.core.validadores.ValidadorCPF</validator-class>
 </validator>
 
 <validator>
      <validator-id>EmailValidator</validator-id>
-     <validator-class>br.com.dealercar.validadores.ValidadorEmail</validator-class>
+     <validator-class>br.com.dealercar.core.validadores.ValidadorEmail</validator-class>
 </validator>
 
 </faces-config>

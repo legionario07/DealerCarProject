@@ -21,20 +21,18 @@
 			<h:outputText
 				style="horizontal-align:center; font-size:20px;font-weigth:bold"
 				value="Consulta de Funcionários" />
-
 		</h:panelGrid>
 
 
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Funcionario" id="tabFuncionarioConsulta">
 				<h:form id="frmConsultaFuncionario">
-					<h:panelGrid id="pnlFuncionarioDados" columns="2">
 
+					<h:panelGrid id="pnlFuncionarioDados" columns="2">
 						<h:outputLabel value="Digite o ID para Localizar"
 							rendered="#{MBFuncionario.funcionario.id == 0}" />
 						<p:inputText value="#{MBFuncionario.funcionario.id}"
 							rendered="#{MBFuncionario.funcionario.id == 0}" />
-
 					</h:panelGrid>
 
 					<h:panelGrid id="pnlFuncionarioDados2" columns="2"
@@ -96,7 +94,6 @@
 							value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
 							readonly="true" maxlength="45" />
 
-
 						<h:outputText value="Cargo: " maxlength="20" />
 						<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
 							readonly="true" maxlength="20" />
@@ -117,10 +114,8 @@
 						<p:inputText size="20"
 							value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
 							readonly="true" maxlength="20" />
-
 					</h:panelGrid>
 					<br></br>
-
 
 					<h:panelGrid id="pnlComandos" columns="5">
 						<p:commandButton action="#{MBFuncionario.pesquisarPorID}"
@@ -132,13 +127,11 @@
 							onclick="PF('dlgFuncionarioCadastrar').show();"
 							update="frmFuncionarioCadastrar:pnlFuncionarioCadastrar :msgGlobal" />
 
-
 						<p:commandButton value="Editar"
 							rendered="#{MBFuncionario.ehCadastrado == true}"
 							actionListener="#{MBFuncionario.atualizarCidades}"
 							onclick="PF('dlgFuncionarioEditar').show();"
 							update="frmFuncionarioEditar:pnlFuncionarioEditar :msgGlobal" />
-
 
 						<p:commandButton value="Limpar Pesquisa"
 							actionListener="#{MBFuncionario.limparPesquisa}"
@@ -146,10 +139,8 @@
 							update="frmConsultaFuncionario: frmConsultaFuncionario:pnlFuncionarioDados :msgGlobal" />
 
 					</h:panelGrid>
-
 				</h:form>
 			</p:tab>
-
 		</p:tabView>
 
 		<!-- Caixa de Dialogo Editar -->
@@ -158,17 +149,14 @@
 			appendTo="@(body)" resizable="false" header="Funcionario - Editar">
 
 			<h:form id="frmFuncionarioEditar">
-
 				<h:panelGrid id="validadores" columns="4">
 					<p:message for="data" />
 					<h:outputText value="#{MBFuncionario.funcionario.dataNasc}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
-
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlFuncionarioEditar" columns="2">
-
 					<p:outputLabel value="Nome: *" />
 					<p:inputText value="#{MBFuncionario.funcionario.nome}" size="60"
 						required="true"
@@ -178,7 +166,6 @@
 					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
 						pattern="dd/MM/yyyy" mask="true" required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
-
 					</p:calendar>
 
 					<h:outputText value="Sexo: " maxlength="15" />
@@ -228,9 +215,8 @@
 						maxlength="20" />
 
 					<p:outputLabel value="UF: *" />
-
 					<p:selectOneMenu id="uf"
-						value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
+						value="#{MBFuncionario.funcionario.endereco.cidade.estado.id}"
 						required="true"
 						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -239,16 +225,15 @@
 						<f:selectItem itemLabel="Selecione o Estado"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaEstados}" var="estado"
-							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
+							itemLabel="#{estado.uf}" itemValue="#{estado.id}" />
 
 						<p:ajax update="cidade"
 							listener="#{MBFuncionario.atualizarCidades}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cidade: *" />
-
 					<p:selectOneMenu id="cidade"
-						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
+						value="#{MBFuncionario.funcionario.endereco.cidade.id}"
 						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -257,8 +242,7 @@
 						<f:selectItem itemLabel="Selecione a Cidade"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
-							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
-
+							itemLabel="#{cidade.nome}" itemValue="#{cidade.id}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cargo: *" maxlength="20" />
@@ -275,21 +259,24 @@
 						maxlength="20">
 					</p:inputText>
 
-					<p:outputLabel value="Usuario:* " maxlength="50" />
+					<p:outputLabel value="Usuario*: " maxlength="50" />
 					<p:inputText size="15"
 						value="#{MBFuncionario.funcionario.usuario.login}" maxlength="15" />
 
+					<p:outputLabel value="Senha*: " maxlength="15" />
+					<p:inputText type="password"
+						value="#{MBFuncionario.funcionario.usuario.senha}" maxlength="15" />
+
 					<p:outputLabel value="Permissão:* " />
 					<p:selectOneMenu id="permissoes"
-						value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
+						value="#{MBFuncionario.funcionario.usuario.permissao.id}"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith" rendered="true"
 						requiredMessage="Favor informar a Permissão. Campo de preenchimento obrigatório">
 
 						<f:selectItems value="#{MBFuncionario.listaPermissoes}"
 							var="permissao" itemLabel="#{permissao.nivel}"
-							itemValue="#{permissao.nivel}" />
-
+							itemValue="#{permissao.id}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Ativo: " maxlength="15" />
@@ -304,15 +291,15 @@
 
 				<h:panelGrid id="comandos" columns="3">
 					<p:commandButton value="Salvar" id="salvar"
+					onclick="PF('dlgFuncionarioEditar').hide();"
 						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal"
-						actionListener="#{MBFuncionario.editar}" />
+						actionListener="#{MBFuncionario.executar}">
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioEditar').hide();" />
 
-					<p:commandButton value="Alterar Senha"
-						onclick="PF('dlgFuncionarioAlterarSenha').show();"
-						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal" />
 				</h:panelGrid>
 
 			</h:form>
@@ -330,11 +317,9 @@
 					<h:outputText value="#{MBFuncionario.funcionario.dataNasc}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
-
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlFuncionarioCadastrar" columns="2">
-
 					<p:outputLabel value="Nome: *" />
 					<p:inputText value="#{MBFuncionario.funcionario.nome}" size="60"
 						required="true"
@@ -344,7 +329,6 @@
 					<p:calendar id="data" value="#{MBFuncionario.funcionario.dataNasc}"
 						pattern="dd/MM/yyyy" mask="true" required="true"
 						requiredMessage="Favor informar a Data de Nascimento. Campo de preenchimento obrigatório">
-
 					</p:calendar>
 
 					<h:outputText value="Sexo: " maxlength="15" />
@@ -396,9 +380,8 @@
 						maxlength="20" />
 
 					<p:outputLabel value="UF: *" />
-
 					<p:selectOneMenu id="uf"
-						value="#{MBFuncionario.funcionario.endereco.cidade.estado.uf}"
+						value="#{MBFuncionario.funcionario.endereco.cidade.estado.id}"
 						required="true"
 						requiredMessage="Favor informar o Estado. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -407,17 +390,14 @@
 						<f:selectItem itemLabel="Selecione o Estado"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaEstados}" var="estado"
-							itemLabel="#{estado.uf}" itemValue="#{estado.uf}" />
-
+							itemLabel="#{estado.uf}" itemValue="#{estado.id}" />
 						<p:ajax update="cidade"
 							listener="#{MBFuncionario.atualizarCidades}" />
-
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cidade: *" />
-
 					<p:selectOneMenu id="cidade"
-						value="#{MBFuncionario.funcionario.endereco.cidade.nome}"
+						value="#{MBFuncionario.funcionario.endereco.cidade.id}"
 						required="true"
 						requiredMessage="Favor informar a Cidade. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
@@ -426,8 +406,7 @@
 						<f:selectItem itemLabel="Selecione a Cidade"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBFuncionario.listaCidades}" var="cidade"
-							itemLabel="#{cidade.nome}" itemValue="#{cidade.nome}" />
-
+							itemLabel="#{cidade.nome}" itemValue="#{cidade.id}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cargo: *" maxlength="20" />
@@ -454,15 +433,14 @@
 
 					<p:outputLabel value="Permissão:* " />
 					<p:selectOneMenu id="permissoes"
-						value="#{MBFuncionario.funcionario.usuario.permissao.nivel}"
+						value="#{MBFuncionario.funcionario.usuario.permissao.id}"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith" rendered="true"
 						requiredMessage="Favor informar a Permissão. Campo de preenchimento obrigatório">
 
 						<f:selectItems value="#{MBFuncionario.listaPermissoes}"
 							var="permissao" itemLabel="#{permissao.nivel}"
-							itemValue="#{permissao.nivel}" />
-
+							itemValue="#{permissao.id}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Ativo: " maxlength="15" />
@@ -473,49 +451,18 @@
 						<f:selectItem itemValue="NÃO" itemLabel="NÃO" />
 						<f:selectItem itemValue="SIM" itemLabel="SIM" />
 					</p:selectOneMenu>
-
 				</h:panelGrid>
-
 
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
-						actionListener="#{MBFuncionario.cadastrar}"
-						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal" />
+						actionListener="#{MBFuncionario.executar}"
+						onclick="PF('dlgFuncionarioCadastrar').hide();" 
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />
-
-
-				</h:panelGrid>
-
-			</h:form>
-		</p:dialog>
-
-		<!-- Caixa de Dialogo Alterar Senha -->
-		<p:dialog widgetVar="dlgFuncionarioAlterarSenha" closable="false"
-			width="630" height="500" draggable="false" modal="true"
-			appendTo="@(body)" resizable="false"
-			header="Funcionario - Alterar Senha">
-
-			<h:form id="frmFuncionarioAlterarSenha">
-
-				<h:panelGrid id="pnlFuncionarioAlterarSenha" columns="2">
-
-					<p:outputLabel value="Senha*: " maxlength="15" />
-					<p:inputText value="#{MBFuncionario.funcionario.usuario.senha}"
-						maxlength="15" />
-
-				</h:panelGrid>
-
-
-				<h:panelGrid id="comandos" columns="2">
-					<p:commandButton value="Alterar Senha"
-						actionListener="#{MBFuncionario.editar}"
-						onclick="PF('dlgFuncionarioAlterarSenha').hide();"
-						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal" />
-
-					<p:commandButton value="Cancelar"
-						onclick="PF('dlgFuncionarioAlterarSenha').hide();" />
 				</h:panelGrid>
 
 			</h:form>

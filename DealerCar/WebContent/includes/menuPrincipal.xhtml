@@ -96,8 +96,19 @@
 				<p:menuitem value="Retiradas"
 					outcome="/pages/graficosretiradas.xhtml" />
 				<p:menuitem value="Reservas" outcome="/pages/graficosreservas.xhtml" />
-				<p:menuitem value="Revisões" outcome="/pages/graficosrevisoes.xhtml" />
+				<p:submenu label="Revisões" >
+					<p:menuitem value="Revisao" outcome="/pages/graficosrevisoes.xhtml"/>
+					<p:menuitem value="Produtos Utilizados" outcome="/pages/graficosprodutosrevisoes.xhtml"/>
+				</p:submenu>
 			</p:submenu>
+			
+			
+			<p:submenu label="Relatórios"
+				rendered="#{MBlogin.funcionario.usuario.permissao.id == 1}">
+				<p:menuitem value="Retiradas"
+					outcome="/pages/relatorioRetirada.xhtml" />
+			</p:submenu>
+			
 
 			<p:submenu label="Ajuda">
 				<p:menuitem value="Sobre" />

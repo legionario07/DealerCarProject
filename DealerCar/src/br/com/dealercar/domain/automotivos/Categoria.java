@@ -17,7 +17,7 @@ public class Categoria extends EntidadeDominio implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private String descricao;
-	private Double valorDiaria;
+	private double valorDiaria;
 
 	public Categoria() {
 
@@ -31,7 +31,7 @@ public class Categoria extends EntidadeDominio implements Serializable {
 		this.setId(id);
 	}
 	
-	public Categoria(String nome, Double valorDiaria) {
+	public Categoria(String nome, double valorDiaria) {
 		this.setNome(nome);
 		this.setValorDiaria(valorDiaria);
 	}

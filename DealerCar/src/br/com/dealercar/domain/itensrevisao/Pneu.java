@@ -1,6 +1,6 @@
 package br.com.dealercar.domain.itensrevisao;
 
-import br.com.dealercar.enums.PosicaoPneu;
+import br.com.dealercar.domain.enums.PosicaoPneu;
 
 /**
  * Classe responsavel pela revisao do Pneu do Carro

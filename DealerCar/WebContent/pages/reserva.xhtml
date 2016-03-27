@@ -159,7 +159,7 @@
 
 					<h:outputText value="Modelo: *" />
 					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.reserva.modelo.nome}" required="true"
+						value="#{MBReserva.reserva.modelo.id}" required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
@@ -167,7 +167,7 @@
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
 							var="carro" itemLabel="#{carro.modelo.nome}"
-							itemValue="#{carro.modelo.nome}" />
+							itemValue="#{carro.modelo.id}" />
 					</p:selectOneMenu>
 
 
@@ -186,19 +186,17 @@
 
 					<p:commandButton value="Salvar"
 						rendered="#{MBReserva.ehCadastrado == true}"
-						actionListener="#{MBReserva.cadastrar}"
-						update="frmListaReserva:tblListaReserva :msgGlobal" />
+						actionListener="#{MBReserva.executar}"
+						onclick="PF('dlgReservaNova').hide();" 
+						update="frmListaReserva:tblListaReserva :msgGlobal">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgReservaNova').hide();" 
 						actionListener="#{MBReserva.pesquisarPorCPF}"/>
 
-					<p:commandButton value="Novo Cliente"
-						rendered="#{MBReserva.jaPesquisei == true}"
-						actionListener="#{MBReserva.limparObjetos}" update=":frmNovaReserva :msgGlobal" />
-
 				</h:panelGrid>
-
 			</h:form>
 		</p:dialog>
 
@@ -237,9 +235,11 @@
 					<h:outputText value="#{MBReserva.reserva.situacao}" />
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBReserva.excluir}"
+						actionListener="#{MBReserva.executar}"
 						update="frmListaReserva:tblListaReserva :msgGlobal"
-						oncomplete="PF('dlgReservaExcluir').hide();" />
+						oncomplete="PF('dlgReservaExcluir').hide();">
+						<f:param name="param" value="EXCLUIR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						oncomplete="PF('dlgReservaExcluir').hide();" />
@@ -278,15 +278,15 @@
 
 					<h:outputText value="Modelo: *" />
 					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.reserva.modelo.nome}" required="true"
+						value="#{MBReserva.reserva.modelo.id}" required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
-							var="carro" itemLabel="#{carro.modelo.nome}"
-							itemValue="#{carro.modelo.nome}" />
+							var="modelo" itemLabel="#{modelo.nome}"
+							itemValue="#{modelo.id}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Data da Reserva: *" />
@@ -307,9 +307,11 @@
 
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBReserva.editar}"
+						actionListener="#{MBReserva.executar}"
 						update=":frmListaReserva:tblListaReserva :msgGlobal"
-						oncomplete="PF('dlgReservaEditar').hide();" />
+						oncomplete="PF('dlgReservaEditar').hide();">
+						<f:param name="param" value="EDITAR"/>
+						</p:commandButton>
 
 
 					<p:commandButton value="Cancelar"

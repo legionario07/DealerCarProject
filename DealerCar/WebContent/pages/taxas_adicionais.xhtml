@@ -48,8 +48,6 @@
 					</h:outputText>
 				</p:column>
 
-
-
 				<p:column headerText="Opções" width="10%" style="text-align:center">
 					<p:commandButton icon="ui-icon-pencil" title="Editar"
 						onclick="PF('dlgTaxasAdicionaisEditar').show();"
@@ -108,9 +106,11 @@
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBTaxasAdicionais.cadastrar}"
+						actionListener="#{MBTaxasAdicionais.executar}"
 						update="frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
-						onclick="PF('dlgTaxasAdicionaisNova').hide();" />
+						onclick="PF('dlgTaxasAdicionaisNova').hide();">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBTaxasAdicionais.limparObjetos}"
@@ -142,9 +142,11 @@
 
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBTaxasAdicionais.editar}"
+						actionListener="#{MBTaxasAdicionais.executar}"
 						update=":frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
-						oncomplete="PF('dlgTaxasAdicionaisEditar').hide();" />
+						oncomplete="PF('dlgTaxasAdicionaisEditar').hide();">
+						<f:param name="param" value="EDITAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBTaxasAdicionais.limparObjetos}"
@@ -160,7 +162,6 @@
 			width="30%" id="dlgExcluir" height="40%" resizable="false"
 			appendTo="@(body)" modal="true" header="TaxasAdicionais - Excluir">
 			<h:form id="frmExcluirTaxasAdicionais">
-
 
 				<h:panelGrid id="pnlExcluirTaxasAdicionais" columns="2">
 
@@ -181,9 +182,11 @@
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBTaxasAdicionais.excluir}"
+						actionListener="#{MBTaxasAdicionais.executar}"
 						update="frmListaTaxasAdicionais:tblListaTaxasAdicionais :msgGlobal"
-						onclick="PF('dlgTaxasAdicionaisExcluir').hide();" />
+						onclick="PF('dlgTaxasAdicionaisExcluir').hide();">
+						<f:param name="param" value="EXCLUIR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBTaxasAdicionais.limparObjetos}"

@@ -95,9 +95,11 @@
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBFabricante.cadastrar}"
+						actionListener="#{MBFabricante.executar}"
 						update="frmListaFabricante:tblListaFabricante :msgGlobal"
-						onclick="PF('dlgFabricanteNovo').hide();" />
+						onclick="PF('dlgFabricanteNovo').hide();">
+						<f:param name="param" value="CADASTRAR" />
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBFabricante.limparObjetos}"
@@ -126,10 +128,11 @@
 						requiredMessage="Favor informar o nome do novo Fabricante" />
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBFabricante.editar}"
+						actionListener="#{MBFabricante.executar}"
 						update=":frmListaFabricante:tblListaFabricante :msgGlobal"
-						oncomplete="PF('dlgFabricanteEditar').hide();" />
-
+						oncomplete="PF('dlgFabricanteEditar').hide();">
+						<f:param name="param" value="EDITAR" />
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBFabricante.limparObjetos}"
@@ -161,9 +164,11 @@
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBFabricante.excluir}"
+						actionListener="#{MBFabricante.executar}"
 						update="frmListaFabricante:tblListaFabricante :msgGlobal"
-						onclick="PF('dlgFabricanteExcluir').hide();" />
+						onclick="PF('dlgFabricanteExcluir').hide();" >
+						<f:param name="param" value="EXCLUIR" />
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBFabricante.limparObjetos}"

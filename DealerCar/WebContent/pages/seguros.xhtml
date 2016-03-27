@@ -117,15 +117,16 @@
 							itemValue="#{tipoSeguro.id}" />
 					</p:selectOneMenu>
 
-
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2">
 
 					<p:commandButton value="Salvar"
-						actionListener="#{MBSeguro.cadastrar}"
+						actionListener="#{MBSeguro.executar}"
 						update="frmListaSeguros:tblListaSeguros :msgGlobal"
-						onclick="PF('dlgSegurosNovo').hide();" />
+						onclick="PF('dlgSegurosNovo').hide();">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBSeguro.limparObjetos}"
@@ -169,9 +170,11 @@
 					</p:selectOneMenu>
 
 
-					<p:commandButton value="Salvar" actionListener="#{MBSeguro.editar}"
+					<p:commandButton value="Salvar" actionListener="#{MBSeguro.executar}"
 						update=":frmListaSeguros:tblListaSeguros :msgGlobal"
-						oncomplete="PF('dlgSegurosEditar').hide();" />
+						oncomplete="PF('dlgSegurosEditar').hide();">
+						<f:param name="param" value="EDITAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBSeguro.limparObjetos}"
@@ -187,7 +190,6 @@
 			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
 			modal="true" header="Seguros - Excluir">
 			<h:form id="frmExcluirSeguros">
-
 
 				<h:panelGrid id="pnlExcluirSeguros" columns="2">
 
@@ -209,9 +211,11 @@
 				<h:panelGrid id="pnlComandos" columns="2">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBSeguro.excluir}"
+						actionListener="#{MBSeguro.executar}"
 						update="frmListaSeguros:tblListaSeguros :msgGlobal"
-						onclick="PF('dlgSegurosExcluir').hide();" />
+						onclick="PF('dlgSegurosExcluir').hide();">
+						<f:param name="param" value="EXCLUIR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBSeguro.limparObjetos}"

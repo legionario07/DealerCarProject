@@ -69,6 +69,7 @@
 								action="#{MBOpcionais.verificarOpcional}"
 								onclick="PF('dlgItensOpcionaisEditar').show();"
 								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:param name="param" value="CONSULTAR"/>
 								<f:setPropertyActionListener value="#{itemCadeirinhas}"
 									target="#{MBOpcionais.item}" />
 							</p:commandButton>
@@ -137,6 +138,7 @@
 								action="#{MBOpcionais.verificarOpcional}"
 								onclick="PF('dlgItensOpcionaisEditar').show();"
 								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:param name="param" value="CONSULTAR"/>
 								<f:setPropertyActionListener value="#{itemBebe}"
 									target="#{MBOpcionais.item}" />
 							</p:commandButton>
@@ -204,6 +206,7 @@
 								action="#{MBOpcionais.verificarOpcional}"
 								onclick="PF('dlgItensOpcionaisEditar').show();"
 								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:param name="param" value="CONSULTAR"/>
 								<f:setPropertyActionListener value="#{itemGps}"
 									target="#{MBOpcionais.item}" />
 							</p:commandButton>
@@ -277,6 +280,7 @@
 								action="#{MBOpcionais.verificarOpcional}"
 								onclick="PF('dlgItensOpcionaisEditar').show();"
 								update=":frmItensOpcionaisEditar :msgGlobal">
+								<f:param name="param" value="CONSULTAR"/>
 								<f:setPropertyActionListener value="#{itemRadio}"
 									target="#{MBOpcionais.item}" />
 							</p:commandButton>
@@ -347,8 +351,10 @@
 						requiredMessage="Favor digitar o Modelo" />
 
 					<p:commandButton value="Salvar" update="tbViewOpcionais :msgGlobal"
-						actionListener="#{MBOpcionais.editar}"
-						oncomplete="PF('dlgItensOpcionaisEditar').hide();" />
+						actionListener="#{MBOpcionais.executar}"
+						oncomplete="PF('dlgItensOpcionaisEditar').hide();">
+						<f:param name="param" value="EDITAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBOpcionais.limparObjetos}"
@@ -381,16 +387,16 @@
 					<p:inputText value="#{MBOpcionais.item.numeroPatrimonio}"
 						readonly="true" />
 
-
-
 				</h:panelGrid>
 
 				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
 
 					<p:commandButton value="Excluir"
-						actionListener="#{MBOpcionais.excluir}"
+						actionListener="#{MBOpcionais.executar}"
 						update="tbViewOpcionais :msgGlobal"
-						onclick="PF('dlgItensOpcionaisExcluir').hide();" />
+						onclick="PF('dlgItensOpcionaisExcluir').hide();">
+						<f:param name="param" value="EXCLUIR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBOpcionais.limparObjetos}"
@@ -451,8 +457,10 @@
 						requiredMessage="Favor digitar o Modelo" />
 
 					<p:commandButton value="Salvar" update="tbViewOpcionais :msgGlobal"
-						actionListener="#{MBOpcionais.cadastrar}"
-						oncomplete="PF('dlgItensOpcionaisNova').hide();" />
+						actionListener="#{MBOpcionais.executar}"
+						oncomplete="PF('dlgItensOpcionaisNova').hide();">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 					action="#{MBOpcionais.limparObjetos}"

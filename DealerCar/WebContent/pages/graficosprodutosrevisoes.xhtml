@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/modelo.xhtml">
+
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+	
+	<f:event listener="#{MBProdutoRevisaoGrafico.carregarListagem}" type="preRenderView"></f:event>
+
+		<p:tabView id="tabViewGrafico">
+			<p:tab title="Gráfico Revisões" id="tabGrafico">
+				<h:form>
+
+		
+					<h:panelGrid columns="2" id="pnlTipoGrafico">
+						<p:outputLabel value="Gráfico sobre: " />
+						<p:selectOneMenu id="selectTipoDeDadosGrafico"
+							value="#{MBProdutoRevisaoGrafico.revisao.carro.modelo.id}"
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith">
+
+							<f:selectItems value="#{MBProdutoRevisaoGrafico.listaModelo}" var="modelo"  
+							itemValue="#{modelo.id}" itemLabel="#{modelo.nome}" />
+
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+
+					<h:panelGrid id="pnlComandos" columns="3">
+						<p:commandButton value="Gerar"
+							actionListener="#{MBProdutoRevisaoGrafico.gerarGraficoProduto}"
+							action="#{MBProdutoRevisaoGrafico.exibirGraficoProduto}"
+							rendered="#{MBProdutoRevisaoGrafico.graficoBarras == null}"
+							update="pnlGrafico pnlComandos :msgGlobal" />
+
+						<p:commandButton value="Limpar Gráfico"
+							action="#{MBProdutoRevisaoGrafico.limparGrafico}"
+							rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
+							update="pnlGrafico pnlComandos pnlTipoGrafico" />
+					</h:panelGrid>
+					<br></br>
+					<br></br>
+
+					<h:panelGrid id="pnlGrafico">
+						<p:chart type="bar"
+							model="#{MBProdutoRevisaoGrafico.graficoBarras}"
+							rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
+							style="width:520px;height:420px" />
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+</ui:composition>
+</html>

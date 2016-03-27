@@ -14,7 +14,7 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBCategoria.carregarListagemCategoria}"
+		<f:event listener="#{MBCategoria.carregarListagem}"
 			type="preRenderView" />
 
 		<h:form id="frmListaCategoria">
@@ -22,7 +22,7 @@
 				value="#{MBCategoria.listaCategoria}" widgetVar="tabelaListagem"
 				var="itemCategoria" emptyMessage="Nenhum Registro foi encontrado"
 				paginator="true" rows="10">
-		
+
 				<f:facet name="header">
 					<h:outputText value="Categoria - Listagem" style="font-size:14px" />
 				</f:facet>
@@ -103,13 +103,15 @@
 					<h:outputText value="Valor Diária: " />
 					<p:inputText value="#{MBCategoria.categoria.valorDiaria}" />
 
-
-					<p:commandButton value="Salvar"
-						actionListener="#{MBCategoria.cadastrar}"
+					<p:commandButton value="Salvar" id="CADASTRAR"
+						actionListener="#{MBCategoria.executar}"
 						oncomplete="PF('dlgCategoriaNova').hide();"
-						update="frmListaCategoria:tblListaCategoria :msgGlobal" />
+						update="frmListaCategoria:tblListaCategoria :msgGlobal">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
+					<p:commandButton value="Cancelar" id="CANCELAR"
+						actionListener="#{MBCategoria.limparObjetos}"
 						onclick="PF('dlgCategoriaNova').hide();" />
 				</h:panelGrid>
 
@@ -117,78 +119,83 @@
 		</p:dialog>
 
 
-	<!-- Caixa de Dialogo Confimar Exclusão da Categoria -->
-	<p:dialog widgetVar="dlgCategoriaExcluir" closable="false" modal="true"
-		id="dlgExcluirCategoria" draggable="false" resizable="false" appendTo="@(body)"
-		header="Categoria - Excluir">
+		<!-- Caixa de Dialogo Confimar Exclusão da Categoria -->
+		<p:dialog widgetVar="dlgCategoriaExcluir" closable="false"
+			modal="true" id="dlgExcluirCategoria" draggable="false"
+			resizable="false" appendTo="@(body)" header="Categoria - Excluir">
 
-		<h:form id="frmExcluirCategoria">
-			<h:panelGrid id="pnlCategoriaExcluir" columns="2">
+			<h:form id="frmExcluirCategoria">
+				<h:panelGrid id="pnlCategoriaExcluir" columns="2">
 
-				<p:outputLabel value="Id: " />
-				<h:outputText value="#{MBCategoria.categoria.id}" />
+					<p:outputLabel value="Id: " />
+					<h:outputText value="#{MBCategoria.categoria.id}" />
 
-				<p:outputLabel value="Nome: " />
-				<h:outputText value="#{MBCategoria.categoria.nome}" />
+					<p:outputLabel value="Nome: " />
+					<h:outputText value="#{MBCategoria.categoria.nome}" />
 
-				<p:outputLabel value="Descricão: " />
-				<h:outputText value="#{MBCategoria.categoria.descricao}" />
+					<p:outputLabel value="Descricão: " />
+					<h:outputText value="#{MBCategoria.categoria.descricao}" />
 
-				<p:outputLabel value="Valor Diária: " />
-				<h:outputText value="#{MBCategoria.categoria.valorDiaria}">
-					<f:convertNumber type="currency" />
-				</h:outputText>
-
-
-				<p:commandButton value="Excluir"
-					actionListener="#{MBCategoria.excluir}"
-					update="frmListaCategoria:tblListaCategoria :msgGlobal"
-					oncomplete="PF('dlgCategoriaExcluir').hide();" />
-
-				<p:commandButton value="Cancelar"
-					oncomplete="PF('dlgCategoriaExcluir').hide();" />
-
-			</h:panelGrid>
-
-		</h:form>
-	</p:dialog>
-
-	<!-- Caixa de Dialogo Confimar Editar da Categoria -->
-	<p:dialog widgetVar="dlgCategoriaEditar" closable="false" 
-		draggable="false" resizable="false" modal="true" appendTo="@(body)"
-		header="Categoria - Editar">
-
-		<h:form id="frmCategoriaEditar">
-			<h:panelGrid id="pnlCategoriaEditar" columns="2">
+					<p:outputLabel value="Valor Diária: " />
+					<h:outputText value="#{MBCategoria.categoria.valorDiaria}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
 
 
-				<h:outputText value="Nome: " />
-				<p:inputText value="#{MBCategoria.categoria.nome}" />
+					<p:commandButton value="Excluir" id="EXCLUIR"
+						actionListener="#{MBCategoria.executar}"
+						update="frmListaCategoria:tblListaCategoria :msgGlobal"
+						oncomplete="PF('dlgCategoriaExcluir').hide();">
+						<f:param name="param" value="EXCLUIR" />
+						</p:commandButton>
 
-				<h:outputText value="Descricao: " />
-				<p:inputTextarea addLine="2" cols="30"
-					value="#{MBCategoria.categoria.descricao}" />
+					<p:commandButton value="Cancelar" id="CANCELAR"
+						actionListener="#{MBCategoria.limparObjetos}"
+						oncomplete="PF('dlgCategoriaExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!-- Caixa de Dialogo Confimar Editar da Categoria -->
+		<p:dialog widgetVar="dlgCategoriaEditar" closable="false"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Categoria - Editar">
+
+			<h:form id="frmCategoriaEditar">
+				<h:panelGrid id="pnlCategoriaEditar" columns="2">
 
 
-				<h:outputText value="Valor Diária: " />
-				<p:inputText value="#{MBCategoria.categoria.valorDiaria}" />
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBCategoria.categoria.nome}" />
 
-				<p:commandButton value="Salvar"
-					actionListener="#{MBCategoria.editar}"
-					update=":frmListaCategoria:tblListaCategoria :msgGlobal" 
-					oncomplete="PF('dlgCategoriaEditar').hide();"/>
+					<h:outputText value="Descricao: " />
+					<p:inputTextarea addLine="2" cols="30"
+						value="#{MBCategoria.categoria.descricao}" />
 
 
-				<p:commandButton value="Cancelar"
-					onclick="PF('dlgCategoriaEditar').hide();" />
+					<h:outputText value="Valor Diária: " />
+					<p:inputText value="#{MBCategoria.categoria.valorDiaria}" />
 
-			</h:panelGrid>
+					<p:commandButton value="Salvar" id="EDITAR"
+						actionListener="#{MBCategoria.executar}"
+						update=":frmListaCategoria:tblListaCategoria :msgGlobal"
+						oncomplete="PF('dlgCategoriaEditar').hide();">
+						<f:param name="param" value="EDITAR" />
+						</p:commandButton>
 
-		</h:form>
-	</p:dialog>
-			
+					<p:commandButton value="Cancelar" id="CANCELAR"
+						actionListener="#{MBCategoria.limparObjetos}"
+						onclick="PF('dlgCategoriaEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
 	</ui:define>
-	
+
 	<ui:define name="rodapePagina">
 		<ui:include src="/includes/rodape.xhtml" />
 	</ui:define>
