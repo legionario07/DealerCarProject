@@ -45,9 +45,9 @@ public class Gps extends Itens {
 		if (this.getCodigo() != 99) {
 			retorno.append(super.toString());
 
-			retorno.append("\nIdioma: ");
+			retorno.append("\tIdioma: ");
 			retorno.append(this.getIdioma());
-			retorno.append("\n\n");
+			retorno.append("\n");
 		}
 
 		return retorno.toString();

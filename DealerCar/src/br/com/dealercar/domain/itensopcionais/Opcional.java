@@ -18,10 +18,9 @@ public class Opcional extends EntidadeDominio {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Itens> itens = new ArrayList<Itens>();
-	private Seguro seguro;
+	private Seguro seguro = new Seguro();
 
 	public Opcional() {
-		seguro = new Seguro();
 	}
 
 	public Opcional(int id) {
@@ -48,11 +47,6 @@ public class Opcional extends EntidadeDominio {
 	public String toString() {
 
 		StringBuffer retorno = new StringBuffer();
-		retorno.append("\nId: ");
-		retorno.append(this.getId());
-		retorno.append("\n");
-		retorno.append(this.getSeguro().toString());
-		retorno.append("\n");
 		for (Itens i : itens) {
 			if (i.getCodigo() != 0) {
 				retorno.append(i.toString());
@@ -61,5 +55,7 @@ public class Opcional extends EntidadeDominio {
 
 		return retorno.toString();
 	}
+	
+	
 
 }

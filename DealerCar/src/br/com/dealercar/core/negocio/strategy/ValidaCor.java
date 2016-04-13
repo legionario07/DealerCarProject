@@ -1,7 +1,7 @@
 package br.com.dealercar.core.negocio.strategy;
 
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.automotivos.Cor;
 
 /**
  * Classe Strategy reponsável pela Validação de um Cor

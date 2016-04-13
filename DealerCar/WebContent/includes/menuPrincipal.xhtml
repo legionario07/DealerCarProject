@@ -47,12 +47,13 @@
 						outcome="/pages/opcionais.xhtml" />
 					<p:menuitem value="Seguros" outcome="/pages/seguros.xhtml" />
 				</p:submenu>
-				
+
 				<p:submenu label="Produtos (Revisão)"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
 					<p:menuitem value="Produtos"
 						outcome="/pages/produtosrevisoes.xhtml" />
-					<p:menuitem value="Formas de Venda" outcome="/pages/formasvendas.xhtml" />
+					<p:menuitem value="Formas de Venda"
+						outcome="/pages/formasvendas.xhtml" />
 				</p:submenu>
 
 				<p:menuitem value="Taxas Adicionais"
@@ -69,7 +70,7 @@
 			<p:submenu label="Retirada"
 				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Efetuar Retirada" outcome="/pages/retirada.xhtml" />
-				<p:menuitem value="Gerenciar Retiradas"
+				<p:menuitem value="Listar Retiradas"
 					outcome="/pages/lretiradas.xhtml" />
 			</p:submenu>
 
@@ -77,7 +78,7 @@
 				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
 				<p:menuitem value="Efetuar Devolução"
 					outcome="/pages/pesqdevcpf.xhtml" />
-				<p:menuitem value="Gerenciar Devoluções"
+				<p:menuitem value="Listar Devoluções"
 					outcome="/pages/devolucao.xhtml" />
 			</p:submenu>
 
@@ -96,23 +97,75 @@
 				<p:menuitem value="Retiradas"
 					outcome="/pages/graficosretiradas.xhtml" />
 				<p:menuitem value="Reservas" outcome="/pages/graficosreservas.xhtml" />
-				<p:submenu label="Revisões" >
-					<p:menuitem value="Revisao" outcome="/pages/graficosrevisoes.xhtml"/>
-					<p:menuitem value="Produtos Utilizados" outcome="/pages/graficosprodutosrevisoes.xhtml"/>
+				<p:submenu label="Revisões">
+					<p:menuitem value="Geral" outcome="/pages/graficosrevisoes.xhtml" />
+					<p:menuitem value="Modelos - (Produtos)"
+						outcome="/pages/graficosmodelosprodutosrevisoes.xhtml" />
+					<p:menuitem value="Produtos Utilizados"
+						outcome="/pages/graficosprodutosrevisoes.xhtml" />
 				</p:submenu>
 			</p:submenu>
-			
-			
+
+
 			<p:submenu label="Relatórios"
 				rendered="#{MBlogin.funcionario.usuario.permissao.id == 1}">
-				<p:menuitem value="Retiradas"
-					outcome="/pages/relatorioRetirada.xhtml" />
-			</p:submenu>
-			
+				<p:submenu label="Retiradas">
+					<p:menuitem value="Analitico" outcome="/pages/relatorios.xhtml">
+						<f:param name="relatorioEscolhido" value="RETIRADA" />
+					</p:menuitem>
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="RETIRADA_SINTETICO" />
+					</p:menuitem>
+					<p:menuitem value="Retiradas From Reservas"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="RETIRADAS_FROM_RESERVAS" />
+					</p:menuitem>
+					<p:menuitem value="Modelos Mais Locados"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido"
+							value="RETIRADA_MODELOS_MAIS_LOCADOS" />
+					</p:menuitem>
+				</p:submenu>
 
-			<p:submenu label="Ajuda">
-				<p:menuitem value="Sobre" />
+				<p:submenu label="Devoluções">
+					<p:menuitem value="Analitico" outcome="/pages/relatorios.xhtml">
+						<f:param name="relatorioEscolhido" value="DEVOLUÇÃO" />
+					</p:menuitem>
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="DEVOLUÇÃO_SINTETICO" />
+					</p:menuitem>
+				</p:submenu>
+
+				<p:submenu label="Reservas">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="RESERVA_SINTETICO" />
+					</p:menuitem>
+				</p:submenu>
+
+				<p:submenu label="Categorias">
+					<p:menuitem value="Mais locadas"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="CATEGORIAS_MAIS_LOCADAS" />
+					</p:menuitem>
+				</p:submenu>
+				
+				<p:submenu label="Revisões">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="REVISOES_SINTETICO" />
+					</p:menuitem>
+					<p:menuitem value="Modelos Com Mais Revisões"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="MODELOS_COM_MAIS_REVISOES" />
+					</p:menuitem>
+				</p:submenu>
+
+
 			</p:submenu>
+
 
 			<p:submenu label="Logout">
 				<p:menuitem value="Sair" actionListener="#{MBlogin.efetuarLogout}"

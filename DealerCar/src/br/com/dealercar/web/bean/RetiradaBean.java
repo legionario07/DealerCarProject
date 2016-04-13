@@ -4,55 +4,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
-import br.com.dealercar.core.dao.CidadeDAO;
-import br.com.dealercar.core.dao.ClienteDAO;
-import br.com.dealercar.core.dao.EstadoDAO;
-import br.com.dealercar.core.dao.ReservaDAO;
-import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.dao.automotivos.CarroDAO;
-import br.com.dealercar.core.dao.automotivos.ModeloDAO;
-import br.com.dealercar.core.dao.itensopcionais.BebeConfortoDAO;
-import br.com.dealercar.core.dao.itensopcionais.CadeirinhaBebeDAO;
-import br.com.dealercar.core.dao.itensopcionais.GpsDAO;
-import br.com.dealercar.core.dao.itensopcionais.OpcionalDAO;
-import br.com.dealercar.core.dao.itensopcionais.RadioPlayerDAO;
-import br.com.dealercar.core.dao.itensopcionais.SeguroDAO;
-import br.com.dealercar.core.dao.itensopcionais.TipoSeguroDAO;
 import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.negocio.Retirada;
-import br.com.dealercar.core.negocio.strategy.ValidaCarro;
-import br.com.dealercar.core.negocio.strategy.ValidaCidade;
-import br.com.dealercar.core.negocio.strategy.ValidaCliente;
-import br.com.dealercar.core.negocio.strategy.ValidaEstado;
-import br.com.dealercar.core.negocio.strategy.ValidaItemOpcional;
-import br.com.dealercar.core.negocio.strategy.ValidaModelo;
-import br.com.dealercar.core.relatorios.GeraRelatorio;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
-import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
-import br.com.dealercar.domain.Estado;
-import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
+import br.com.dealercar.domain.itensopcionais.Opcional;
 import br.com.dealercar.domain.itensopcionais.RadioPlayer;
 import br.com.dealercar.domain.itensopcionais.Seguro;
 import br.com.dealercar.domain.itensopcionais.TipoSeguro;
+import br.com.dealercar.web.command.ICommand;
 
 /**
  * Classe Controller responsavel pela View Retirada
@@ -79,19 +57,17 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 	private int totalRetiradas;
 
-	private List<Estado> listaEstados = new ArrayList<Estado>();
-	private List<Cidade> listaCidades = new ArrayList<Cidade>();
-	private List<Reserva> listaReservas = new ArrayList<Reserva>();
-	private List<Retirada> listaRetirada = new ArrayList<Retirada>();
-	private List<Cliente> listaClientes = new ArrayList<Cliente>();
-	private List<Modelo> listaModelosDisponiveis = new ArrayList<Modelo>();
-	private List<Carro> listaPlacasDisponiveis = new ArrayList<Carro>();
-	private List<Seguro> listaSeguros = new ArrayList<Seguro>();
-	private List<TipoSeguro> listaTipoSeguros = new ArrayList<TipoSeguro>();
-	private List<BebeConforto> listaBebeConforto = new ArrayList<BebeConforto>();
-	private List<CadeirinhaBebe> listaCadeirinhaBebe = new ArrayList<CadeirinhaBebe>();
-	private List<Gps> listaGps = new ArrayList<Gps>();
-	private List<RadioPlayer> listaRadioPlayer = new ArrayList<RadioPlayer>();
+	private List<EntidadeDominio> listaReservas = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaRetirada = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaClientes = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaModelosDisponiveis = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaPlacasDisponiveis = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaSeguros = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaTipoSeguros = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaBebeConforto = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaCadeirinhaBebe = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaGps = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaRadioPlayer = new ArrayList<EntidadeDominio>();
 
 	private BebeConforto bebeConforto = new BebeConforto();
 	private CadeirinhaBebe cadeirinhaBebe = new CadeirinhaBebe();
@@ -173,6 +149,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		return selectGps;
 	}
 
+
 	public void setSelectGps(boolean selectGps) {
 		this.selectGps = selectGps;
 	}
@@ -233,120 +210,132 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		this.radioPlayer = radioPlayer;
 	}
 
-	public List<Carro> getListaPlacasDisponiveis() {
+	public List<EntidadeDominio> getListaPlacasDisponiveis() {
 		return listaPlacasDisponiveis;
 	}
 
-	public void setListaPlacasDisponiveis(List<Carro> listaPlacasDisponiveis) {
+	public void setListaPlacasDisponiveis(List<EntidadeDominio> listaPlacasDisponiveis) {
 		this.listaPlacasDisponiveis = listaPlacasDisponiveis;
 	}
 
-	public List<Reserva> getListaReservas() {
+	public List<EntidadeDominio> getListaReservas() {
 		return listaReservas;
 	}
 
-	public void setListaReservas(List<Reserva> listaReservas) {
+	public void setListaReservas(List<EntidadeDominio> listaReservas) {
 		this.listaReservas = listaReservas;
 	}
 
-	public List<Estado> getListaEstados() {
-		return listaEstados;
-	}
-
-	public void setListaEstados(List<Estado> listaEstados) {
-		this.listaEstados = listaEstados;
-	}
-
-	public List<Cidade> getListaCidades() {
-		return listaCidades;
-	}
-
-	public void setListaCidades(List<Cidade> listaCidades) {
-		this.listaCidades = listaCidades;
-	}
-
-	public List<Retirada> getListaRetirada() {
+	public List<EntidadeDominio> getListaRetirada() {
 		return listaRetirada;
 	}
 
-	public void setListaRetirada(List<Retirada> listaRetirada) {
+	public void setListaRetirada(List<EntidadeDominio> listaRetirada) {
 		this.listaRetirada = listaRetirada;
 	}
 
-	public List<Cliente> getListaClientes() {
+	public List<EntidadeDominio> getListaClientes() {
 		return listaClientes;
 	}
 
-	public void setListaClientes(List<Cliente> listaClientes) {
+	public void setListaClientes(List<EntidadeDominio> listaClientes) {
 		this.listaClientes = listaClientes;
 	}
 
-	public List<Modelo> getListaModelosDisponiveis() {
+	public List<EntidadeDominio> getListaModelosDisponiveis() {
 		return listaModelosDisponiveis;
 	}
 
-	public void setListaModelosDisponiveis(List<Modelo> listaModelosDisponiveis) {
+	public void setListaModelosDisponiveis(List<EntidadeDominio> listaModelosDisponiveis) {
 		this.listaModelosDisponiveis = listaModelosDisponiveis;
 	}
 
-	public List<Seguro> getListaSeguros() {
+	public List<EntidadeDominio> getListaSeguros() {
 		return listaSeguros;
 	}
 
-	public void setListaSeguros(List<Seguro> listaSeguros) {
+	public void setListaSeguros(List<EntidadeDominio> listaSeguros) {
 		this.listaSeguros = listaSeguros;
 	}
 
-	public List<TipoSeguro> getListaTipoSeguros() {
+	public List<EntidadeDominio> getListaTipoSeguros() {
 		return listaTipoSeguros;
 	}
 
-	public void setListaTipoSeguros(List<TipoSeguro> listaTipoSeguros) {
+	public void setListaTipoSeguros(List<EntidadeDominio> listaTipoSeguros) {
 		this.listaTipoSeguros = listaTipoSeguros;
 	}
 
-	public List<BebeConforto> getListaBebeConforto() {
+	public List<EntidadeDominio> getListaBebeConforto() {
 		return listaBebeConforto;
 	}
 
-	public void setListaBebeConforto(List<BebeConforto> listaBebeConforto) {
+	public void setListaBebeConforto(List<EntidadeDominio> listaBebeConforto) {
 		this.listaBebeConforto = listaBebeConforto;
 	}
 
-	public List<CadeirinhaBebe> getListaCadeirinhaBebe() {
+	public List<EntidadeDominio> getListaCadeirinhaBebe() {
 		return listaCadeirinhaBebe;
 	}
 
-	public void setListaCadeirinhaBebe(List<CadeirinhaBebe> listaCadeirinhaBebe) {
+	public void setListaCadeirinhaBebe(List<EntidadeDominio> listaCadeirinhaBebe) {
 		this.listaCadeirinhaBebe = listaCadeirinhaBebe;
 	}
 
-	public List<Gps> getListaGps() {
+	public List<EntidadeDominio> getListaGps() {
 		return listaGps;
 	}
 
-	public void setListaGps(List<Gps> listaGps) {
+	public void setListaGps(List<EntidadeDominio> listaGps) {
 		this.listaGps = listaGps;
 	}
 
-	public List<RadioPlayer> getListaRadioPlayer() {
+	public List<EntidadeDominio> getListaRadioPlayer() {
 		return listaRadioPlayer;
 	}
 
-	public void setListaRadioPlayer(List<RadioPlayer> listaRadioPlayer) {
+	public void setListaRadioPlayer(List<EntidadeDominio> listaRadioPlayer) {
 		this.listaRadioPlayer = listaRadioPlayer;
 	}
 
 	@Override
 	public void carregarListagem() {
 
-		listaRetirada = new RetiradaDAO().listarTodos();
-		listaReservas = new ReservaDAO().listarTodos();
-		listaClientes = new ClienteDAO().listarTodos();
-		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
-		listaTipoSeguros = new TipoSeguroDAO().listarTodos();
-		listaSeguros = new SeguroDAO().listarApenasNomesDiferentes();
-		listaEstados = new EstadoDAO().listarTodos();
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get("LISTAR");
+
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(new Retirada());
+		if (resultado != null) {
+			listaRetirada = resultado.getEntidades();
+		}
+
+		resultado = command.execute(new Reserva());
+		if (resultado != null) {
+			listaReservas = resultado.getEntidades();
+		}
+
+		resultado = command.execute(new Modelo());
+		if (resultado != null) {
+			listaModelosDisponiveis = resultado.getEntidades();
+		}
+
+		resultado = command.execute(new Seguro());
+		if (resultado != null) {
+			listaSeguros = resultado.getEntidades();
+		}
+
+		command = mapCommands.get("LISTAR");
+
+		resultado = command.execute(new Cliente());
+		if (resultado != null) {
+			listaClientes = resultado.getEntidades();
+		}
+		resultado = command.execute(new TipoSeguro());
+		if (resultado != null) {
+			listaTipoSeguros = resultado.getEntidades();
+		}
 
 		setTotalRetiradas(listaRetirada.size());
 
@@ -354,8 +343,8 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		 * verifica se ja ja tem uma reserva preenchida Se tiver significa que
 		 * foi clicado para locar na View Reserva.xhtml
 		 */
-		if (retirada.getReserva().getId() > 0) {
-			retirada.setCliente(retirada.getReserva().getCliente());
+		if (this.retirada.getReserva().getId() > 0) {
+			this.retirada.setCliente(this.retirada.getReserva().getCliente());
 			pesquisarPorCPF();
 		}
 
@@ -370,9 +359,14 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void carregarPlacas() {
 
-		retirada.getCarro().setModelo((Modelo) new ValidaModelo().validar(retirada.getCarro().getModelo()));
+		ICommand command = mapConducaoCommands.get("LISTAR");
 
-		listaPlacasDisponiveis = new CarroDAO().listarModelosDisponiveis(retirada.getCarro().getModelo());
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(this.retirada.getCarro());
+		if (resultado != null) {
+			listaPlacasDisponiveis = resultado.getEntidades();
+		}
 
 	}
 
@@ -381,98 +375,111 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void carregarItensOpcionais() {
 
-		listaBebeConforto = new BebeConfortoDAO().listarTodos();
-		listaCadeirinhaBebe = new CadeirinhaBebeDAO().listarTodos();
-		listaGps = new GpsDAO().listarTodos();
-		listaRadioPlayer = new RadioPlayerDAO().listarTodos();
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(new BebeConforto());
+		if (resultado != null) {
+			listaBebeConforto = resultado.getEntidades();
+		}
+		resultado = command.execute(new CadeirinhaBebe());
+		if (resultado != null) {
+			listaCadeirinhaBebe = resultado.getEntidades();
+		}
+		resultado = command.execute(new Gps());
+		if (resultado != null) {
+			listaGps = resultado.getEntidades();
+		}
+		resultado = command.execute(new RadioPlayer());
+		if (resultado != null) {
+			listaRadioPlayer = resultado.getEntidades();
+		}
+
 	}
 
 	/**
 	 * Efetua a retirada validando os itens selecionados na VIEW
 	 */
-	public void efetuarRetirada() {
-
-		// valida o tipo de seguro escolhido na view
-		retirada.getOpcional().getSeguro().setTipoSeguro(
-				(TipoSeguro) new ValidaItemOpcional().validar(retirada.getOpcional().getSeguro().getTipoSeguro()));
-		// valida o seguro escolhido na view
-		retirada.getOpcional().setSeguro((Seguro) new ValidaItemOpcional().validar(retirada.getOpcional().getSeguro()));
-
-		if (bebeConforto.getDescricao() != null)
-			bebeConforto = (BebeConforto) new ValidaItemOpcional().validar(bebeConforto);
-		else {
-			bebeConforto.setCodigo(99);
-			bebeConforto = new BebeConfortoDAO().pesquisarPorCodigo(bebeConforto);
-		}
-
-		if (cadeirinhaBebe.getDescricao() != null)
-			cadeirinhaBebe = (CadeirinhaBebe) new ValidaItemOpcional().validar(cadeirinhaBebe);
-		else {
-			cadeirinhaBebe.setCodigo(99);
-			cadeirinhaBebe = new CadeirinhaBebeDAO().pesquisarPorCodigo(cadeirinhaBebe);
-		}
-		if (gps.getDescricao() != null)
-			gps = (Gps) new ValidaItemOpcional().validar(gps);
-		else {
-			gps.setCodigo(99);
-			gps = new GpsDAO().pesquisarPorCodigo(gps);
-		}
-		if (radioPlayer.getDescricao() != null)
-			radioPlayer = (RadioPlayer) new ValidaItemOpcional().validar(radioPlayer);
-		else {
-			radioPlayer.setCodigo(99);
-			radioPlayer = new RadioPlayerDAO().pesquisarPorCodigo(radioPlayer);
-		}
-
-		retirada.getOpcional().getItens().add(bebeConforto);
-		retirada.getOpcional().getItens().add(cadeirinhaBebe);
-		retirada.getOpcional().getItens().add(gps);
-		retirada.getOpcional().getItens().add(radioPlayer);
-
-		// validando o carro
-		retirada.setCarro((Carro) new ValidaCarro().validar(retirada.getCarro()));
-
-		new OpcionalDAO().cadastrar(retirada.getOpcional());
-		retirada.setOpcional(new OpcionalDAO().pesquisarPorUltimoCadastrado());
-
-		// aqui seta a data de retirada
-		retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
-		int i = DataUtil.compararDatas(retirada.getDataRetirada(), retirada.getDataDevolucao());
-		// se a data for menor que o dia de hoje não sera persistido no BD
-		if (i == -1) {
-			retirada.setDataDevolucao(null);
-			JSFUtil.adicionarMensagemErro("A data de Devolução não pode ser menor que " + retirada.getDataRetirada());
-			return;
-		}
-
-		/**
-		 * Recebendo o funcionario Logado
-		 */
-		Funcionario funcionario = (Funcionario) SessionUtil.getParam("usuarioLogado");
-		retirada.setFuncionario(funcionario);
-
-		// setando retirada como ativa
-		retirada.setEhAtivo(true);
-
-		// atualizando a lista de carros disponiveis
-		listaModelosDisponiveis = new ModeloDAO().listarModelosDisponiveis();
-
-		new RetiradaDAO().cadastrar(retirada);
-		JSFUtil.adicionarMensagemSucesso("Retirada Efetuada com Sucesso.");
-
-		List<Retirada> retiradas = new ArrayList<Retirada>();
-		retirada.setId(new RetiradaDAO().pesquisarPorUltimoID());
-		retirada = new RetiradaDAO().pesquisarPorID(retirada);
-		retiradas.add(retirada);
+	public void executar() {
 		
+
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get("CONSULTAR");
+		Resultado resultado = new Resultado();
+		
+		if (bebeConforto.getCodigo()==0)
+			bebeConforto.setCodigo(99);
+
+		if (cadeirinhaBebe.getCodigo()==0)
+			cadeirinhaBebe.setCodigo(99);
+		
+		if (gps.getCodigo() == 0)
+			gps.setCodigo(99);
+		
+		if (radioPlayer.getCodigo() == 0 )
+			radioPlayer.setCodigo(99);
+		
+		this.retirada.getOpcional().getItens().add(bebeConforto);
+		this.retirada.getOpcional().getItens().add(cadeirinhaBebe);
+		this.retirada.getOpcional().getItens().add(gps);
+		this.retirada.getOpcional().getItens().add(radioPlayer);
+		
+		resultado = command.execute(this.retirada.getOpcional().getSeguro());
+		//pesquisando o seguro e o tipo de seguro escolhido
+		this.retirada.getOpcional().setSeguro((Seguro) resultado.getEntidades().get(0));
+		//localizando o ultimo Opcional Cadastrado e setando na Retirada
+		
+		command = mapConducaoCommands.get(operacao);
+		resultado = command.execute(this.retirada.getOpcional());
+		
+		command = mapConducaoCommands.get("LISTAR");
+		resultado = command.execute(new Opcional());
+		
+		this.retirada.setOpcional((Opcional) resultado.getEntidades().get(resultado.getEntidades().size()-1));
+		
+		//Recebendo o funcionario Logado
+		Funcionario funcionario = new Funcionario();
+		funcionario  = (Funcionario) SessionUtil.getParam("usuarioLogado");
+		this.retirada.setFuncionario(funcionario);
+
+		// Pegando a data atual da Retirada
+		this.retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
+		
+		// setando retirada como ativa
+		this.retirada.setEhAtivo(true);
+
+		command = mapConducaoCommands.get(operacao);
+		command.execute(this.retirada);
+
+		command = mapConducaoCommands.get("LISTAR");
+		resultado = command.execute(new Retirada());
+		
+		List<EntidadeDominio> retiradas = new ArrayList<EntidadeDominio>();
+		if(resultado!= null) {
+			retiradas = resultado.getEntidades();
+			//pega a ultima retirada cadastrada no BD, limpa a Lista e armazena apenas a ultima
+			this.retirada = (Retirada) retiradas.get(retiradas.size()-1);
+			//retiradas.clear();
+			//retiradas.add(retirada);
+		}
 		
 		File jasper = new File(
-				FacesContext.getCurrentInstance().getExternalContext().getRealPath("/relatorioRetirada.jasper"));
+				FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Relatorios/relatorioRetirada.jasper"));
+		SessionUtil.remove("objetoRelatorio");
+		SessionUtil.setParam("objetoRelatorio", this.retirada);
+		SessionUtil.setParam("url", jasper);
 
-		GeraRelatorio.exportarListPDF(new HashMap<String, Object>(), jasper, retiradas);
 
-		limparPesquisa();
-
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("imprimerelatorio.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	/**
@@ -480,15 +487,22 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 */
 	public void verificaPendenciaCliente() {
 
-		List<Retirada> listaClientesComLocacao = new ArrayList<Retirada>();
-		listaClientesComLocacao = new RetiradaDAO().pesquisarPorCPF(retirada.getCliente());
+		Retirada retiradaRetorno = new Retirada();
 
-		for (Retirada r : listaClientesComLocacao) {
-			if (retirada.getCliente().getCPF().equals(r.getCliente().getCPF())) {
+		ICommand command = mapConducaoCommands.get("CONSULTAR");
+		Resultado resultado = new Resultado();
+
+		//retorna uma lista com todos os clientes com locação no mommento
+		resultado = command.execute(this.retirada.getCliente());
+		if (resultado.getEntidades().get(0) != null) {
+			retiradaRetorno = (Retirada) resultado.getEntidades().get(0);
+		}
+
+		//Verifica se o CPF digitado na view tem alguma locação
+			if (this.retirada.getCliente().getCPF().equals(retiradaRetorno.getCliente().getCPF())) {
 				JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
 				return;
 			}
-		}
 
 		// Se o cliente não tem pendencia abre o <p:Dialog>
 		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgEfetuarRetirada').show();");
@@ -504,20 +518,21 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		// Validando o cliente
-		retirada.setCliente((Cliente) new ValidaCliente().validar(retirada.getCliente()));
+		// Retorna um estado completo de acordo com um ID
+		ICommand command = mapCommands.get("CONSULTAR");
 
-		// veficando se o cliente foi encontrado
-		if (retirada.getCliente() != null) {
+		Resultado resultado = new Resultado();
+		resultado = command.execute(this.retirada.getCliente());
+
+		// Cliente foi encontrado
+		if (resultado.getEntidades().get(0) != null) {
+			this.retirada.setCliente((Cliente) resultado.getEntidades().get(0));
 			setEhCadastrado(true);
 			setJaPesquisei(false);
 			return;
-		}
-
-		if (isEhCadastrado() == false) {
-			retirada.setCliente(new Cliente());
-			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
-			return;
+		} else {
+			this.retirada.setCliente(new Cliente());
+			JSFUtil.adicionarMensagemErro("Este Cliente não esta Cadastrado");	
 		}
 
 	}
@@ -526,27 +541,11 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 * Limpa o inputbox de Pesquisar
 	 */
 	public void limparPesquisa() {
-		retirada.setCliente(new Cliente());
+		this.retirada.setCliente(new Cliente());
 		setEhCadastrado(false);
 
 		limparObjetos();
 
-	}
-
-	/**
-	 * Edita o Cliente desejado pelo Usuário apos realizado a pesquisa pelo CPF
-	 * na tela
-	 */
-	public void editar() {
-
-		// Verifica a cidade escolhida para ser adicionado ao Cliente que esta
-		// sendo editado
-		retirada.getCliente().getEndereco()
-				.setCidade((Cidade) new ValidaCidade().validar(retirada.getCliente().getEndereco().getCidade()));
-
-		new ClienteDAO().editar(retirada.getCliente());
-
-		JSFUtil.adicionarMensagemSucesso("Cliente Editado com Sucesso.");
 	}
 
 	/**
@@ -555,7 +554,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public void limparObjetos() {
 
 		retirada = new Retirada();
-		
+
 		bebeConforto = new BebeConforto();
 		cadeirinhaBebe = new CadeirinhaBebe();
 		gps = new Gps();
@@ -568,20 +567,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		selectRadio = false;
 
 		// Limpando a SessionScope
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBRetirada");
-		
-	}
-
-	/**
-	 * Carrega a lista de cidades de acordo com o Estado selecionado
-	 */
-	public void atualizarCidades() {
-
-		retirada.getCliente().getEndereco().getCidade().setEstado(
-				(Estado) new ValidaEstado().validar(retirada.getCliente().getEndereco().getCidade().getEstado()));
-
-		listaCidades = new CidadeDAO()
-				.pesquisarPorUFEstado(retirada.getCliente().getEndereco().getCidade().getEstado());
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBRetirada");
 
 	}
 
@@ -602,22 +588,15 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaModelos = new PieChartModel();
 
-		// lista que recebe todos os itens do BD
-		List<Retirada> lista = new ArrayList<Retirada>();
-
-		lista = new RetiradaDAO().listarTodos();
-		// passando apenas os nomes para a lista de String
-
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
-		for (Retirada r : lista) {
-			listaString.add(r.getCarro().getModelo().getNome());
+		for (EntidadeDominio r : listaRetirada) {
+			listaString.add(((Retirada) r).getCarro().getModelo().getNome());
 		}
 
 		pieRetiradaModelos = GraficoPizzaBuilder.gerarGrafico(listaString);
 		pieRetiradaModelos.setTitle("Modelos Mais Locados");
 		pieRetiradaModelos.setShowDataLabels(true);
 		pieRetiradaModelos.setLegendPosition("w");
-
 	}
 
 	/**
@@ -627,15 +606,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaCarrosLocados = new PieChartModel();
 
-		// lista que recebe todos os itens do BD
-		List<Retirada> lista = new ArrayList<Retirada>();
-
-		lista = new RetiradaDAO().listarTodos();
-		// passando apenas os nomes para a lista de String
-
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
-		for (Retirada r : lista) {
-			listaString.add(r.getCarro().getPlaca());
+		for (EntidadeDominio r : listaRetirada) {
+			listaString.add(((Retirada) r).getCarro().getPlaca());
 		}
 
 		pieRetiradaCarrosLocados = GraficoPizzaBuilder.gerarGrafico(listaString);
@@ -652,15 +625,9 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		pieRetiradaCategoriasLocadas = new PieChartModel();
 
-		// lista que recebe todos os itens do BD
-		List<Retirada> lista = new ArrayList<Retirada>();
-
-		lista = new RetiradaDAO().listarTodos();
-		// passando apenas os nomes para a lista de String
-
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
-		for (Retirada r : lista) {
-			listaString.add(r.getCarro().getCategoria().getNome());
+		for (EntidadeDominio r : listaRetirada) {
+			listaString.add(((Retirada) r).getCarro().getCategoria().getNome());
 		}
 
 		pieRetiradaCategoriasLocadas = GraficoPizzaBuilder.gerarGrafico(listaString);
@@ -668,27 +635,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		pieRetiradaCategoriasLocadas.setShowDataLabels(true);
 		pieRetiradaCategoriasLocadas.setLegendPosition("w");
 
-	}
-
-	/**
-	 * Envia o usuario para a pagina de cadastrar um novo cliente e limpa a
-	 * SessionScope
-	 */
-	public void cadastrarNovoCliente() {
-
-		// Limpando a SessionScope
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBRetirada");
-
-		// Encaminha o usuario para a pagina de Cadastrar novo cliente
-		FacesContext faces = FacesContext.getCurrentInstance();
-		ExternalContext exContext = faces.getExternalContext();
-
-		try {
-			exContext.redirect("ncliente.xhtml");
-		} catch (IOException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
 	}
 
 }

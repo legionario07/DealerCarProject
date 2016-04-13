@@ -82,22 +82,21 @@ public class RetiradaDAOTest {
 
 	@Test
 	@Ignore
-	public void pesquisarRetiradaAtivaPorCPF(){
-		
+	public void pesquisarRetiradaAtivaPorCPF() {
+
 		Cliente cliente = new Cliente();
 		cliente.setCPF("369.429.508-90");
-
 
 		List<Retirada> lista = new ArrayList<Retirada>();
 		lista = new RetiradaDAO().pesquisarRetiradaAtivaPorCPF(cliente);
 
-		for(Retirada retirada : lista){
+		for (Retirada retirada : lista) {
 			System.out.println(retirada);
 		}
-		
+
 		System.out.println(lista.size());
 	}
-	
+
 	@Test
 	@Ignore
 	public void pesquisarPorCPF() {
@@ -105,14 +104,10 @@ public class RetiradaDAOTest {
 		Cliente cliente = new Cliente();
 		cliente.setCPF("369.429.508-90");
 
+		Retirada retirada = new Retirada();
+		retirada = (Retirada) new RetiradaDAO().pesquisarPorCPF(cliente);
 
-		List<Retirada> lista = new ArrayList<Retirada>();
-		lista = new RetiradaDAO().pesquisarPorCPF(cliente);
-
-		for(Retirada retirada : lista){
-			System.out.println(retirada);
-		}
-		System.out.println(lista.size());
+		System.out.println(retirada);
 
 	}
 
@@ -132,11 +127,11 @@ public class RetiradaDAOTest {
 		}
 		System.out.println(stf.format(dataRetirada));
 	}
-	
+
 	@Test
 	@Ignore
-	public void pesquisarPorIntervalo(){
-		
+	public void pesquisarPorIntervalo() {
+
 		Retirada retirada = new Retirada();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String dataRetirada = "01/01/2016";
@@ -147,23 +142,22 @@ public class RetiradaDAOTest {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		List<Retirada> lista = new ArrayList<Retirada>();
 		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
 
-		for(Retirada r : lista){
+		for (Retirada r : lista) {
 			System.out.println(r.getDataRetirada());
 			System.out.println(r.getDataDevolucao());
 		}
-		
+
 	}
-	
+
 	@Test
 	@Ignore
-	public void pesquisarPorUltimo(){
+	public void pesquisarPorUltimo() {
 		int i = new RetiradaDAO().pesquisarPorUltimoID();
 		System.out.println(i);
 	}
-
 
 }

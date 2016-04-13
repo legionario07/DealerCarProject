@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/modelo.xhtml">
+
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="frmRelatorioComprovante">
+
+			<h:panelGrid id="pnlRetiradas" columns="2">
+				<h:panelGrid id="pnlRelatorioRetirada" columns="2">
+					<h:outputLabel value="Digite o ID da Retirada "
+						rendered="#{MBRelatorio.retirada.id == 0 and MBRelatorio.relatorioEscolhido == 'RETIRADA'}" />
+					<p:inputText value="#{MBRelatorio.retirada.id}"
+						rendered="#{MBRelatorio.retirada.id == 0 and MBRelatorio.relatorioEscolhido == 'RETIRADA'}" />
+				</h:panelGrid>
+				<br></br>
+				<h:panelGrid id="pnlRetiradaDados2" columns="2"
+					rendered="#{MBRelatorio.ehCadastrado == true and MBRelatorio.relatorioEscolhido == 'RETIRADA'}">
+
+					<h:outputLabel value="Id: " />
+					<p:inputText value="#{MBRelatorio.retirada.id}" readonly="true" />
+
+					<h:outputText value="Placa: " />
+					<p:inputText size="50" value="#{MBRelatorio.retirada.carro.placa}"
+						readonly="true" maxlength="20" />
+
+					<h:outputText value="Modelo: " />
+					<p:inputText size="50"
+						value="#{MBRelatorio.retirada.carro.modelo.nome}" readonly="true"
+						maxlength="20" />
+
+					<h:outputText value="Data Retirada: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.retirada.dataRetirada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Data Provável de Devolução: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.retirada.dataDevolucao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Nome:" />
+					<p:inputText size="90" maxlength="45" readonly="true"
+						value="#{MBRelatorio.retirada.cliente.nome}" />
+
+					<h:outputText value="Data Nascimento: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.retirada.cliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Nome da Mãe: " maxlength="45" />
+					<p:inputText size="90"
+						value="#{MBRelatorio.retirada.cliente.nomeMae}" readonly="true" />
+
+					<h:outputText value="Sexo: " maxlength="45" />
+					<p:inputText size="90" value="#{MBRelatorio.retirada.cliente.sexo}"
+						readonly="true" />
+
+					<h:outputText value="RG: " maxlength="20" />
+					<p:inputText size="20" value="#{MBRelatorio.retirada.cliente.RG}"
+						readonly="true" />
+
+					<h:outputText value="CPF: " maxlength="11" />
+					<p:inputText size="20" value="#{MBRelatorio.retirada.cliente.CPF}"
+						readonly="true" />
+
+					<h:outputText value="Telefone: " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.retirada.cliente.telefone}" />
+
+					<h:outputText value="Celular " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.retirada.cliente.celular}" />
+
+					<h:outputText value="Email: " maxlength="65" />
+					<p:inputText size="50"
+						value="#{MBRelatorio.retirada.cliente.email}" readonly="true" />
+
+				</h:panelGrid>
+			</h:panelGrid>
+			<br></br>
+
+			<h:panelGrid id="pnlDevolucao" columns="2">
+
+				<h:panelGrid id="pnlRelatorioDevolucao" columns="2">
+					<h:outputLabel value="Digite o ID da Devolução "
+						rendered="#{MBRelatorio.devolucao.id == 0 and MBRelatorio.relatorioEscolhido == 'DEVOLUÇÃO'}" />
+					<p:inputText value="#{MBRelatorio.devolucao.id}"
+						rendered="#{MBRelatorio.devolucao.id == 0 and MBRelatorio.relatorioEscolhido == 'DEVOLUÇÃO'}" />
+				</h:panelGrid>
+				<br></br>
+				<h:panelGrid id="pnlDevolucaoDados2" columns="2"
+					rendered="#{MBRelatorio.ehCadastrado == true and MBRelatorio.relatorioEscolhido == 'DEVOLUÇÃO'}">
+
+					<h:outputLabel value="Id Devolução: " />
+					<p:inputText value="#{MBRelatorio.devolucao.id}" readonly="true"
+						size="15" />
+
+					<h:outputText value="Placa: " />
+					<p:inputText size="50"
+						value="#{MBRelatorio.devolucao.retirada.carro.placa}"
+						readonly="true" maxlength="20" />
+
+					<h:outputText value="Modelo: " />
+					<p:inputText size="50"
+						value="#{MBRelatorio.devolucao.retirada.carro.modelo.nome}"
+						readonly="true" maxlength="20" />
+
+					<h:outputText value="Data Retirada: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.devolucao.retirada.dataRetirada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Data Devolução: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.devolucao.dataDevolucao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Valor Final: " />
+					<p:inputText size="50" value="#{MBRelatorio.devolucao.valorFinal}"
+						readonly="true" maxlength="15">
+						<f:convertNumber type="currency" />
+					</p:inputText>
+
+					<h:outputText value="Nome:" />
+					<p:inputText size="90" maxlength="45" readonly="true"
+						value="#{MBRelatorio.devolucao.retirada.cliente.nome}" />
+
+					<h:outputText value="Data Nascimento: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.devolucao.retirada.cliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Nome da Mãe: " maxlength="45" />
+					<p:inputText size="90"
+						value="#{MBRelatorio.devolucao.retirada.cliente.nomeMae}"
+						readonly="true" />
+
+					<h:outputText value="CPF: " maxlength="11" />
+					<p:inputText size="20"
+						value="#{MBRelatorio.devolucao.retirada.cliente.CPF}"
+						readonly="true" />
+
+					<h:outputText value="Telefone: " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.devolucao.retirada.cliente.telefone}" />
+
+					<h:outputText value="Celular " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.devolucao.retirada.cliente.celular}" />
+
+					<h:outputText value="Email: " maxlength="65" />
+					<p:inputText size="50"
+						value="#{MBRelatorio.devolucao.retirada.cliente.email}"
+						readonly="true" />
+
+				</h:panelGrid>
+			</h:panelGrid>
+			<br></br>
+
+
+			<h:panelGrid id="pnlComandos" columns="3">
+				<p:commandButton actionListener="#{MBRelatorio.executar}"
+					value="Pesquisar"
+					update="frmRelatorioComprovante pnlRetiradas pnlDevolucao pnlRetiradaDados2 pnlDevolucaoDados2 :msgGlobal"
+					rendered="#{MBRelatorio.retirada.id == 0 and MBRelatorio.devolucao.id == 0}">
+					<f:param name="param" value="CONSULTAR" />
+				</p:commandButton>
+
+				<p:commandButton value="Gerar Relatório"
+					action="#{MBRelatorio.chamarExporter}"
+					rendered="#{MBRelatorio.ehCadastrado == true}"
+					update="frmRelatorioComprovante :msgGlobal" />
+
+				<p:commandButton value="Limpar Pesquisa"
+					actionListener="#{MBRelatorio.limparObjetos}"
+					rendered="#{MBRelatorio.ehCadastrado == true}"
+					update="frmRelatorioComprovante :msgGlobal" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -10,8 +10,8 @@ import java.util.List;
 
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.automotivos.Cor;
 
 public class CorDAO implements IDAO, Serializable{
 

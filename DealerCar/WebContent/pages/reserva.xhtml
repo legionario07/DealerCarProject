@@ -115,7 +115,7 @@
 						<p:commandButton icon="ui-icon-info" title="Gráfico de Informações"
 						style="float:left" 
 							onclick="PF('dlgReservaGrafico').show();"
-							update=":frmGraficoReserva:pnlGraficoReserva" />
+							update=":frmGraficoReserva:pnlGraficoReserva"/>
 					</h:panelGrid>
 
 					<p:outputLabel value="Exitem " />
@@ -166,8 +166,8 @@
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
-							var="carro" itemLabel="#{carro.modelo.nome}"
-							itemValue="#{carro.modelo.id}" />
+							var="modelo" itemLabel="#{modelo.nome}"
+							itemValue="#{modelo.id}" />
 					</p:selectOneMenu>
 
 
@@ -305,7 +305,6 @@
 						<f:selectItem itemValue="CANCELADO" itemLabel="CANCELADO" />
 					</p:selectOneMenu>
 
-
 					<p:commandButton value="Salvar"
 						actionListener="#{MBReserva.executar}"
 						update=":frmListaReserva:tblListaReserva :msgGlobal"
@@ -313,8 +312,8 @@
 						<f:param name="param" value="EDITAR"/>
 						</p:commandButton>
 
-
 					<p:commandButton value="Cancelar"
+					actionListener="#{MBReserva.limparObjetos}"
 						onclick="PF('dlgReservaEditar').hide();" />
 
 				</h:panelGrid>

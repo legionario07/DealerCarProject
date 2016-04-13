@@ -74,13 +74,13 @@ public class ModeloDAOTest {
 	@Ignore
 	public void pesquisarModelosDisponiveis(){
 		
-		List<Modelo> lista = new ArrayList<Modelo>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		
 		ModeloDAO mDao = new ModeloDAO();
 		
 		lista = mDao.listarModelosDisponiveis();
 		
-		for(Modelo m : lista) {
+		for(EntidadeDominio m : lista) {
 			System.out.println(m);
 		}
 	}

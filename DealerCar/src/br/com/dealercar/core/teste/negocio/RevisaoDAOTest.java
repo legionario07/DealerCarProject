@@ -7,10 +7,8 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.primefaces.model.chart.BarChartModel;
 
 import br.com.dealercar.core.autenticacao.Funcionario;
-import br.com.dealercar.core.builder.GraficoBarraBuilder;
 import br.com.dealercar.core.dao.DevolucaoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.RevisaoDAO;
@@ -30,7 +28,6 @@ import br.com.dealercar.domain.itensrevisao.Lanterna;
 import br.com.dealercar.domain.itensrevisao.Motor;
 import br.com.dealercar.domain.itensrevisao.Pneu;
 import br.com.dealercar.domain.itensrevisao.Suspensao;
-import br.com.dealercar.domain.produtosrevisao.Amortecedor;
 import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 
 public class RevisaoDAOTest {
@@ -193,52 +190,12 @@ public class RevisaoDAOTest {
 		}
 	}
 	
-	@Test
-	@Ignore
-	public void pesquisarPorProduto(){
-		
-		Amortecedor amortecedor = new Amortecedor();
-		amortecedor.setId(1);
-		
-		List<Revisao> lista = new ArrayList<Revisao>();
-		String criterio = "id_amortecedor";
-		lista = new RevisaoDAO().pesquisarPorProdutoUtilizado(amortecedor, criterio);
 
-	/*	for(Revisao r : lista){
-			System.out.println(r);
-			for(ProdutoRevisao p : r.getListaProdutoRevisao()){
-				System.out.println(p.getId());
-				System.out.println(p.getDescricao());
-				System.out.println(p.getMarca());
-				System.out.println(p.getTipo());
-				System.out.println(p.getValor());
-				System.out.println(p.getQuantidade());
-			}
-		}*/
-		
-		
-		List<String> listaDesordenada = new ArrayList<String>();
-		for(Revisao r : lista){
-			listaDesordenada.add(r.getCarro().getModelo().getNome());
-			
-		}
-		
-		BarChartModel grafico = new BarChartModel();
-		
-		grafico = GraficoBarraBuilder.gerarGraficoBar(listaDesordenada, null, amortecedor);
-		
-		System.out.println(grafico.getBarMargin());
-		System.out.println(grafico.getLegendCols());
-		System.out.println(grafico.getLegendPosition());
-		System.out.println(grafico.getLegendRows());
-		
-	}
-	
 	@Test
 	@Ignore
 	public void procurarPorModelo() {
 
-		List<Revisao> lista = new ArrayList<Revisao>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		
 		Revisao revisao = new Revisao();
 		revisao.getCarro().getModelo().setId(2);
@@ -246,7 +203,7 @@ public class RevisaoDAOTest {
 
 		lista = new RevisaoDAO().pesquisarPorModelo(revisao);
 
-		for (Revisao r : lista) {
+		for (EntidadeDominio r : lista) {
 			System.out.println(r);
 		}
 

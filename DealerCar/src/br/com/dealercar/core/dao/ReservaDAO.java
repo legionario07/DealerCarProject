@@ -50,7 +50,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into reservas ");
-		sql.append("(situacao, data_inicio, data_fim, id_modelo, id_cliente, id_funcionario) ");
+		sql.append("(situacao, data_inicio, data_fim, id_modelo, cliente_cpf, id_funcionario) ");
 		sql.append("values (?, ?, ?, ?, ?, ?)");
 
 		con = Conexao.getConnection();
@@ -74,7 +74,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 			pstm.setString(++i, strDataFim);
 
 			pstm.setInt(++i, reserva.getModelo().getId());
-			pstm.setInt(++i, reserva.getCliente().getId());
+			pstm.setString(++i, reserva.getCliente().getCPF());
 			pstm.setInt(++i, reserva.getFuncionario().getId());
 
 			pstm.executeUpdate();
@@ -101,7 +101,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("update reservas set situacao = ?, data_inicio = ?, data_fim = ?, id_modelo = ?, ");
-		sql.append("id_cliente = ?, id_funcionario = ? ");
+		sql.append("cliente_cpf = ?, id_funcionario = ? ");
 		sql.append("where id = ?");
 
 		con = Conexao.getConnection();
@@ -124,7 +124,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 			pstm.setString(++i, strDataFim);
 
 			pstm.setInt(++i, reserva.getModelo().getId());
-			pstm.setInt(++i, reserva.getCliente().getId());
+			pstm.setString(++i, reserva.getCliente().getCPF());
 			pstm.setInt(++i, reserva.getFuncionario().getId());
 			pstm.setInt(++i, reserva.getId());
 
@@ -202,8 +202,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 					modelo = new ModeloDAO().pesquisarPorID(modelo);
 					reservaRetorno.setModelo(modelo);
 
-					Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-					cliente = new ClienteDAO().pesquisarPorID(cliente);
+					Cliente cliente = new Cliente();
+					cliente.setCPF(rSet.getString("cliente_cpf"));
+					cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 					reservaRetorno.setCliente(cliente);
 
 					Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -269,8 +270,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 					modelo = new ModeloDAO().pesquisarPorID(modelo);
 					reservaRetorno.setModelo(modelo);
 
-					Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-					cliente = new ClienteDAO().pesquisarPorID(cliente);
+					Cliente cliente = new Cliente();
+					cliente.setCPF(rSet.getString("cliente_cpf"));
+					cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 					reservaRetorno.setCliente(cliente);
 
 					Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -334,8 +336,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -365,7 +368,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from reservas ");
-		sql.append("inner join clientes on clientes.id = reservas.id_cliente ");
+		sql.append("inner join clientes on clientes.id = reservas.cliente_cpf ");
 		sql.append("where reservas.situacao = ? order by clientes.nome asc");
 
 		List<EntidadeDominio> listaReserva = new ArrayList<EntidadeDominio>();
@@ -390,8 +393,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -431,7 +435,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from reservas ");
-		sql.append("inner join clientes on clientes.id = reservas.id_cliente ");
+		sql.append("inner join clientes on clientes.id = reservas.cliente_cpf ");
 		sql.append("where clientes.cpf = ? order by clientes.nome asc");
 
 		List<EntidadeDominio> listaReserva = new ArrayList<EntidadeDominio>();
@@ -456,8 +460,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -490,7 +495,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from reservas ");
-		sql.append("inner join clientes on clientes.id = reservas.id_cliente ");
+		sql.append("inner join clientes on clientes.id = reservas.cliente_cpf ");
 		sql.append("where clientes.nome like ? order by clientes.nome asc");
 
 		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
@@ -515,8 +520,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -581,8 +587,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));
@@ -612,7 +619,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from reservas ");
-		sql.append("inner join clientes on reservas.id_cliente = clientes.id ");
+		sql.append("inner join clientes on reservas.cliente_cpf = clientes.id ");
 		sql.append("inner join modelos on reservas.id_modelo = modelos.id ");
 		sql.append("where reservas.data_inicio between ? and ? ");
 		sql.append(sqlCriterios);
@@ -661,8 +668,9 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 				modelo = new ModeloDAO().pesquisarPorID(modelo);
 				reservaRetorno.setModelo(modelo);
 
-				Cliente cliente = new Cliente(rSet.getInt("id_cliente"));
-				cliente = new ClienteDAO().pesquisarPorID(cliente);
+				Cliente cliente = new Cliente();
+				cliente.setCPF(rSet.getString("cliente_cpf"));
+				cliente = new ClienteDAO().pesquisarPorCPF(cliente);
 				reservaRetorno.setCliente(cliente);
 
 				Funcionario funcionario = new Funcionario(rSet.getInt("id_funcionario"));

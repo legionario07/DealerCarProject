@@ -21,7 +21,6 @@
 			<h:outputText
 				style="horizontal-align:center; font-size:20px;font-weigth:bold"
 				value="Efetuar Devolução" />
-
 		</h:panelGrid>
 
 		<p:tabView id="novaDevolucao">
@@ -46,7 +45,6 @@
 						<p:inputText
 							value="#{MBDevolucao.devolucao.retirada.cliente.telefone}"
 							readonly="true" />
-
 
 						<h:outputText value="Modelo: " />
 						<p:inputText
@@ -80,18 +78,16 @@
 								itemLabel="#{taxa}" itemValue="#{taxa}" />
 						</p:selectManyCheckbox>
 
-
 						<h:panelGrid columns="2">
 							<p:commandButton value="Efetuar Devolução"
 								actionListener="#{MBDevolucao.prepararDevolucao}"
 								onclick="PF('dlgDevolucaoEfetuar').show();"
 								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
-								update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal" />
+								update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal">
+								<f:param name="param" value="CONSULTAR"/>
+								</p:commandButton>
 						</h:panelGrid>
-
-
 					</h:panelGrid>
-
 				</h:form>
 			</p:tab>
 		</p:tabView>
@@ -130,26 +126,24 @@
 						<f:convertNumber type="currency" />
 					</p:inputText>
 
-
 					<h:outputText value="Observação: " />
 					<p:inputText value="#{MBDevolucao.devolucao.observacao}" />
-
 				</h:panelGrid>
 
-
 				<h:panelGrid columns="2">
-
 					<p:commandButton value="Salvar"
 						update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal"
-						actionListener="#{MBDevolucao.efetuarDevolucao}"
-						action="/pages/devolucao.xhtml"/>
-
-
+						actionListener="#{MBDevolucao.executar}"
+						action="/pages/devolucao.xhtml"
+						oncomplete="PF('dlgDevolucaoEfetuar').hide();">
+						<f:param name="param" value="CADASTRAR"/>
+						</p:commandButton>
+						
 					<p:commandButton value="Cancelar"
+					actionListener="#{MBDevolucao.limparObjetos}"
 						onclick="PF('dlgDevolucaoEfetuar').hide();" />
 
 				</h:panelGrid>
-
 			</h:form>
 		</p:dialog>
 

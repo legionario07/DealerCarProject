@@ -155,7 +155,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	 * limpa a tela de pesquisa de Funcionario Deixando pronto para uma nova
 	 * Pesquisa
 	 */
-	public void limparPesquisa() {
+	public void limparObjetos() {
 		funcionario = new Funcionario();
 		setEhCadastrado(false);
 	}

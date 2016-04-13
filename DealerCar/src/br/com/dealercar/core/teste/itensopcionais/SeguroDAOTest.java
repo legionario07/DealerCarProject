@@ -78,16 +78,29 @@ public class SeguroDAOTest {
 		SeguroDAO seguroDao = new SeguroDAO();
 		System.out.println(seguroDao.pesquisarPorCodigo(seguro));
 	}
+	
+	@Test
+	public void pesquisarPorCodigoETipoSeguro() {
+		Seguro seguro = new Seguro();
+		seguro.setCodigo(4);
+		TipoSeguro tipoSeguro = new TipoSeguro();
+		tipoSeguro.setId(1);
+		seguro.setTipoSeguro(tipoSeguro);
+		
+		SeguroDAO seguroDao = new SeguroDAO();
+		System.out.println(seguroDao.pesquisarPorCodigoDoTipoSeguro(seguro));
+	}
+
 
 	@Test
 	@Ignore
 	public void listarApenasNomesDiferentes() {
-		List<Seguro> lista = new ArrayList<Seguro>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 
 		SeguroDAO segDao = new SeguroDAO();
 		lista = segDao.listarApenasNomesDiferentes();
 
-		for (Seguro s : lista) {
+		for (EntidadeDominio s : lista) {
 			System.out.println(s);
 		}
 	}

@@ -14,10 +14,10 @@ import br.com.dealercar.core.dao.CorDAO;
 import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
+import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.enums.SituacaoType;
 
@@ -171,19 +171,25 @@ public class CarroDAO implements IDAO, Serializable{
 	 * @param carro Recebe um objeto de Modelo e localiza no BD por sua placa e situaçao Disponivel
 	 * @return Retorna um objeto de Carro
 	 */
-	public List<Carro> listarModelosDisponiveis(Modelo modelo) {
+	public List<EntidadeDominio> listarModelosDisponiveis(EntidadeDominio entidade) {
+		
+		if(!(entidade instanceof Carro))
+			return null;
+
+		Carro carro = new Carro();
+		carro = (Carro) entidade;
 		
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("select * from carros ");
 		sql.append("where id_modelo = ? and situacao = ?");
 		
-		List<Carro> carros = new ArrayList<Carro>();
+		List<EntidadeDominio> carros = new ArrayList<EntidadeDominio>();
 		
 		con = Conexao.getConnection();
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setInt(1, modelo.getId());
+			pstm.setInt(1, carro.getModelo().getId());
 			pstm.setString(2, SituacaoType.Disponivel.getDescricao());
 			
 			ResultSet rSet = pstm.executeQuery();

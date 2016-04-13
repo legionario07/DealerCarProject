@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBRevisao.carregarListagem}" type="preRenderView" />
+
+		<h:panelGrid width="100%" style="text-align:center">
+			<h:outputText
+				style="horizontal-align:center; font-size:20px;font-weigth:bold"
+				value="Revisão" />
+
+		</h:panelGrid>
+
+
+		<p:tabView id="tabViewConsultar">
+			<p:tab title="Revisao Detalhada" id="tabRevisaoConsulta">
+				<h:form id="frmConsultaRevisao">
+				
+				
+					<h:panelGrid id="pnlRevisaoDados" columns="2">
+
+						<h:outputText value="ID: " />
+						<p:inputText size="10" value="#{MBRevisao.revisao.id}"
+							readonly="true" />
+
+						<h:outputText value="Funcionário:" />
+						<p:inputText size="40" readonly="true"
+							value="#{MBRevisao.revisao.funcionario.nome}" />
+
+						<h:outputText value="Data Revisão: " />
+						<p:inputText size="10" value="#{MBRevisao.revisao.dataRevisao}"
+							readonly="true" />
+
+						<h:outputLabel value="Placa: " />
+						<p:inputText value="#{MBRevisao.revisao.carro.placa}" size="10"
+							readonly="true" />
+
+						<h:outputText value="Quilometragem:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.quilometragem}" />
+
+						<h:outputText value="Modelo:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.carro.modelo.nome}" />
+
+						<h:outputText value="Ano: " />
+						<p:inputText size="10" value="#{MBRevisao.revisao.carro.ano}"
+							readonly="true" />
+
+						<h:outputText value="Categoria: " />
+						<p:inputText size="20"
+							value="#{MBRevisao.revisao.carro.categoria.nome}" readonly="true" />
+
+						<h:outputText value="Cor:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.carro.cor.nome}" />
+
+						<h:outputText value="" />
+						<br></br>
+
+						<h:outputText value="Arrefecimento:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.arrefecimento.situacao}" />
+
+						<h:outputText value="Bateria:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.bateria.situacao}" />
+
+						<h:outputText value="Embreagem:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.embreagem.situacao}" />
+
+						<h:outputText value="Freio:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.freio.situacao}" />
+
+						<h:outputText value="Lanterna:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.lanterna.situacao}" />
+
+						<h:outputText value="Motor:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.motor.situacao}" />
+
+						<h:outputText value="Suspensão:" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.suspensao.situacao}" />
+
+						<h:outputText value="Pneu (Dianteiro Direito):" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.pneus[0].situacao}" />
+
+						<h:outputText value="Pneu (Dianteiro Esquerdo):" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.pneus[1].situacao}" />
+
+						<h:outputText value="Pneu (Traseiro Direito):" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.pneus[2].situacao}" />
+
+						<h:outputText value="Pneu (Traseiro Esquerdo):" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.pneus[3].situacao}" />
+
+						<h:outputText value="Pneu (Estepe):" />
+						<p:inputText size="20" readonly="true"
+							value="#{MBRevisao.revisao.componentes.pneus[4].situacao}" />
+
+						<h:outputText value="Observação: " />
+						<p:inputTextarea size="40" rows="3" cols="40"
+							value="#{MBRevisao.revisao.descricao}" readonly="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="4">
+
+						<p:dataTable id="tblListaProdutos" style="width:40%"
+						rendered="#{MBRevisao.revisao.listaProdutoRevisao[1].quantidade >0}"
+							value="#{MBRevisao.revisao.listaProdutoRevisao}"
+							widgetVar="tabelaListagem" var="itemProduto"
+							emptyMessage="Nenhum Produto foi utilizado"
+							sortBy="#{itemProduto.quantidade}"
+							sortOrder="DESCENDING" paginator="true" rows="5">
+
+							<f:facet name="header">
+								<h:outputText value="Produtos Utilizados" style="font-size:14px" />
+							</f:facet>
+
+							<p:column headerText="Produto" width="5%"
+								style="font-size:11px; text-align:center"
+								sortBy="#{itemProduto.descricao}">
+								<h:outputText value="#{itemProduto.descricao}" 
+								rendered="#{itemProduto.quantidade > 0}"/>
+							</p:column>
+
+							<p:column headerText="Marca" width="5%" style="font-size:11px"
+								sortBy="#{itemProduto.marca}">
+								<h:outputText value="#{itemProduto.marca}" />
+							</p:column>
+
+							<p:column headerText="Tipo" width="5%" style="font-size:11px"
+								sortBy="#{itemProduto.tipo}">
+								<h:outputText value="#{itemProduto.tipo}" />
+							</p:column>
+
+							<p:column headerText="Forma de Venda" width="5%"
+								style="font-size:11px; text-align:center"
+								sortBy="#{itemProduto.formaDeVenda.descricao}">
+								<h:outputText value="#{itemProduto.formaDeVenda.descricao}" />
+							</p:column>
+
+							<p:column headerText="Quantidade" width="5%"
+								style="font-size:11px; text-align:center"
+								sortBy="#{itemProduto.quantidade}">
+								<h:outputText value="#{itemProduto.quantidade}"
+								rendered="#{itemProduto.quantidade > 0}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</h:panelGrid>
+
+					<br></br>
+
+					<h:panelGrid id="pnlComandos" columns="5">
+						<p:commandButton value="Voltar" action="/pages/lrevisao.xhtml"
+							actionListener="#{MBRevisao.limparObjetos}"
+							update="frmConsultaRevisao :msgGlobal" />
+
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

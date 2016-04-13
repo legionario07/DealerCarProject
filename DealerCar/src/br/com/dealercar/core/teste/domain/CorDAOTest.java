@@ -7,8 +7,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.dealercar.core.dao.CorDAO;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.automotivos.Cor;
 
 public class CorDAOTest {
 

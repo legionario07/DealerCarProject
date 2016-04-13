@@ -9,13 +9,11 @@ import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.dao.DevolucaoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.dao.automotivos.TaxaCombustivelDAO;
 import br.com.dealercar.core.negocio.Devolucao;
 import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.domain.EntidadeDominio;
-import br.com.dealercar.domain.taxasadicionais.TaxaCombustivel;
 import br.com.dealercar.domain.taxasadicionais.TaxaLavagem;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 
@@ -41,15 +39,9 @@ public class DevolucaoDAOTest {
 		devolucao.setReserva(reserva);
 
 		TaxasAdicionais taxasAdicionais = new TaxasAdicionais();
-		TaxaCombustivel c = new TaxaCombustivel();
-		c.setId(1);
-		c = new TaxaCombustivelDAO().pesquisarPorID(c);
-		c.setFoiCobrado(true);
-
-		System.out.println(c.isFoiCobrado());
+		
 
 		TaxaLavagem l = new TaxaLavagem();
-		taxasAdicionais.setCombustivel(c);
 		taxasAdicionais.setLavagem(l);
 
 		//devolucao.setTaxasAdicionais((List<TaxasAdicionais>) taxasAdicionais);

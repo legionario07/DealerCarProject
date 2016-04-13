@@ -10,10 +10,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
-import br.com.dealercar.core.dao.DevolucaoDAO;
-import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.dao.automotivos.TaxasAdicionaisDAO;
 import br.com.dealercar.core.negocio.Devolucao;
 import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.negocio.Retirada;
@@ -21,7 +19,9 @@ import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
 import br.com.dealercar.domain.Cliente;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
+import br.com.dealercar.web.command.ICommand;
 
 /**
  * Classe Controller responsavel pela View devolucao.xhtml
@@ -39,10 +39,10 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Devolucao devolucao = new Devolucao();
 	private Cliente cliente = new Cliente();
-	private List<TaxasAdicionais> listaTaxas = new ArrayList<TaxasAdicionais>();
+	private List<EntidadeDominio> listaTaxas = new ArrayList<EntidadeDominio>();
 	private List<String> taxasAdicionais;
 	private String[] selectedTaxas;
-	private List<Devolucao> listaDevolucao = new ArrayList<Devolucao>();
+	private List<EntidadeDominio> listaDevolucao = new ArrayList<EntidadeDominio>();
 
 	private int totalDevolucoes;
 
@@ -78,19 +78,19 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		this.devolucao = devolucao;
 	}
 
-	public List<Devolucao> getListaDevolucao() {
+	public List<EntidadeDominio> getListaDevolucao() {
 		return listaDevolucao;
 	}
 
-	public List<TaxasAdicionais> getListaTaxas() {
+	public List<EntidadeDominio> getListaTaxas() {
 		return listaTaxas;
 	}
 
-	public void setListaTaxas(List<TaxasAdicionais> listaTaxas) {
+	public void setListaTaxas(List<EntidadeDominio> listaTaxas) {
 		this.listaTaxas = listaTaxas;
 	}
 
-	public void setListaDevolucao(List<Devolucao> listaDevolucao) {
+	public void setListaDevolucao(List<EntidadeDominio> listaDevolucao) {
 		this.listaDevolucao = listaDevolucao;
 	}
 
@@ -108,62 +108,52 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 	@Override
 	public void carregarListagem() {
 
-		listaDevolucao = new DevolucaoDAO().listarTodos();
+		ICommand command = mapConducaoCommands.get("LISTAR");
 
-		taxasAdicionais = new ArrayList<String>();
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(new Devolucao());
+		if (resultado != null) {
+			listaDevolucao = resultado.getEntidades();
+		}
 
 		this.setTotalDevolucoes(listaDevolucao.size());
 
+		taxasAdicionais = new ArrayList<String>();
+
 		// recebendo todas as taxas cadastradas no BD
-		listaTaxas = new TaxasAdicionaisDAO().listarTodos();
+		resultado = command.execute(new TaxasAdicionais());
+		if (resultado != null) {
+			listaTaxas = resultado.getEntidades();
+		}
 
 		// passando o nome das taxas para ser exibido na VIEW
 		for (int i = 0; i < listaTaxas.size(); i++) {
-			taxasAdicionais.add(listaTaxas.get(i).getDescricao());
+			taxasAdicionais.add(((TaxasAdicionais) listaTaxas.get(i)).getDescricao());
 		}
 
+		// verifica se comando veio da view retiradas.xhtml
 		if (devolucao.getRetirada() == null) {
 			this.devolucao.setRetirada(new Retirada());
 			this.devolucao.getRetirada().setCliente(new Cliente());
 		}
 
 	}
-
-	/**
-	 * Prepara os calculos para devolucao
-	 */
-	public void prepararDevolucao() {
-
-		devolucao.setDataDevolucao(DataUtil.pegarDataAtualDoSistema());
-		devolucao.setQtdeDiarias(DataUtil.devolverDataEmDias(devolucao.getRetirada().getDataRetirada()));
-
-		List<TaxasAdicionais> taxas = new ArrayList<TaxasAdicionais>();
-
-		TaxasAdicionais taxa = null;
-		StringBuffer taxasCobradas = new StringBuffer();
-
-		for (int i = 0; i < selectedTaxas.length; i++) {
-			taxa = new TaxasAdicionais();
-			taxa = new TaxasAdicionaisDAO().pesquisarPorTaxa(selectedTaxas[i]);
-			taxa.setFoiCobrado(true);
-
-			taxasCobradas.append(selectedTaxas[i]);
-			taxasCobradas.append(";");
-
-			taxas.add(taxa);
-		}
-
-		devolucao.setTaxasCobradas(taxasCobradas.toString());
-
-		devolucao.setTaxasAdicionais(taxas);
-		devolucao.setValorFinal(devolucao.calcularValorFinal(devolucao, listaTaxas));
-
-		Reserva reserva = new Reserva();
-		devolucao.getRetirada().setReserva(reserva);
-
-		devolucao.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
-
-
+	
+	
+	@Override
+	public void executar() {
+		
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+		
+		
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get(operacao);
+		command.execute(devolucao);
+		
+		limparObjetos();
+		
 	}
 
 	/**
@@ -175,15 +165,20 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		List<Retirada> listaClientesComRetirada = new ArrayList<Retirada>();
-		listaClientesComRetirada = new RetiradaDAO().pesquisarPorCPF(this.cliente);
+		Retirada retirada = new Retirada();
 
-		// Verifica se o CPF tem alguma locação
-		for (Retirada r : listaClientesComRetirada) {
-			if (this.cliente.getCPF().equals(r.getCliente().getCPF())) {
+		ICommand command = mapConducaoCommands.get("CONSULTAR");
+		Resultado resultado = new Resultado();
+
+		// retorna uma lista com todos os clientes com locação no mommento
+		resultado = command.execute(this.cliente);
+		if (resultado.getEntidades().get(0) != null) {
+			retirada = (Retirada) resultado.getEntidades().get(0);
+
+			if (this.cliente.getCPF().equals(retirada.getCliente().getCPF())) {
 				setEhCadastrado(true);
 				setJaPesquisei(false);
-				devolucao.setRetirada(r);
+				devolucao.setRetirada(retirada);
 				this.cliente = new Cliente();
 
 				// encaminha para a pagina de devolucao
@@ -209,28 +204,66 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		}
 
 	}
-
+	
+	
 	/**
-	 * Efetua a devolução
+	 * Prepara os calculos para devolucao
 	 */
-	public void efetuarDevolucao() {
+	public void prepararDevolucao() {
 
-		new DevolucaoDAO().cadastrar(devolucao);
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
 
-		limparPesquisas();
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get(operacao);
+		Resultado resultado = null;
 
-		JSFUtil.adicionarMensagemSucesso("Devolução Efetuada com Sucesso");
+		devolucao.setDataDevolucao(DataUtil.pegarDataAtualDoSistema());
+		devolucao.setQtdeDiarias(DataUtil.devolverDataEmDias(devolucao.getRetirada().getDataRetirada()));
+
+		List<TaxasAdicionais> taxas = new ArrayList<TaxasAdicionais>();
+
+		TaxasAdicionais taxa = null;
+		StringBuffer taxasCobradas = new StringBuffer();
+
+		for (int i = 0; i < selectedTaxas.length; i++) {
+			resultado = new Resultado();
+			taxa = new TaxasAdicionais();
+			taxa.setDescricao(selectedTaxas[i]);
+			resultado = command.execute(taxa);
+			
+			if(resultado.getEntidades().get(0) == null)
+				return;
+			
+			taxa = (TaxasAdicionais) resultado.getEntidades().get(0);
+			taxa.setFoiCobrado(true);
+
+			taxasCobradas.append(selectedTaxas[i]);
+			taxasCobradas.append(";");
+
+			taxas.add(taxa);
+		}
+
+		devolucao.setTaxasCobradas(taxasCobradas.toString());
+
+		devolucao.setTaxasAdicionais(taxas);
+		devolucao.setValorFinal(devolucao.calcularValorFinal(devolucao, listaTaxas));
+
+		Reserva reserva = new Reserva();
+		devolucao.getRetirada().setReserva(reserva);
+
+		devolucao.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
 		
-		//fecha o <p:Dialog>
-		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgDevolucaoEfetuar').hide();");
-				
 
 	}
+
+
+
 
 	/**
 	 * Limpa os Objetos
 	 */
-	private void limparPesquisas() {
+	public void limparObjetos() {
 		devolucao = new Devolucao();
 		selectedTaxas = null;
 	}

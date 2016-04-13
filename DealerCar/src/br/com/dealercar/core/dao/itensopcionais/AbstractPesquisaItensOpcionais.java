@@ -1,7 +1,8 @@
-package br.com.dealercar.core.dao;
+package br.com.dealercar.core.dao.itensopcionais;
 
 import java.io.Serializable;
 
+import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.domain.EntidadeDominio;
 
 public abstract class AbstractPesquisaItensOpcionais implements IDAO, Serializable{

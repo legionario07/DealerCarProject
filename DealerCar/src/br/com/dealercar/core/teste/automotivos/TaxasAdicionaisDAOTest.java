@@ -63,14 +63,14 @@ public class TaxasAdicionaisDAOTest {
 	}
 
 	@Test
-	@Ignore
 	public void pesquisarPorTaxa() {
 		TaxasAdicionais taxaAdicional = new TaxasAdicionais();
 
 		String nome = "Lavagem";
+		taxaAdicional.setDescricao(nome);
 		
 		taxaAdicional.setId(4);
-		taxaAdicional = taxasDAO.pesquisarPorTaxa(nome);
+		taxaAdicional = (TaxasAdicionais) taxasDAO.pesquisarPorTaxa(taxaAdicional);
 		System.out.println(taxaAdicional.getId());
 		System.out.println(taxaAdicional.getDescricao());
 		System.out.println(taxaAdicional.getValor());

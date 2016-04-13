@@ -1,19 +1,21 @@
 package br.com.dealercar.web.bean;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import br.com.dealercar.core.dao.RetiradaDAO;
+import br.com.dealercar.core.aplicacao.Resultado;
+import br.com.dealercar.core.negocio.Devolucao;
 import br.com.dealercar.core.negocio.Retirada;
-import br.com.dealercar.core.relatorios.GeraRelatorio;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.core.util.SessionUtil;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRelatorio")
 @ViewScoped
@@ -24,6 +26,16 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Retirada retirada = new Retirada();
+	private Devolucao devolucao = new Devolucao();
+	private String relatorioEscolhido;
+	
+
+	public RelatorioBean() {
+		// verificando qual o relatorio escolhido pelo usuario
+		relatorioEscolhido = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("relatorioEscolhido");
+		
+	}
 
 	public Retirada getRetirada() {
 		return retirada;
@@ -33,58 +45,111 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 		this.retirada = retirada;
 	}
 
-	@Override
-	public void carregarListagem() {
+	public Devolucao getDevolucao() {
+		return devolucao;
+	}
 
+	public void setDevolucao(Devolucao devolucao) {
+		this.devolucao = devolucao;
+	}
+
+	public String getRelatorioEscolhido() {
+		return relatorioEscolhido;
+	}
+
+	public void setRelatorioEscolhido(String relatorioEscolhido) {
+		this.relatorioEscolhido = relatorioEscolhido;
 	}
 
 	/**
-	 * Pesquisa no BD uma Retirada de acordo com o ID digitado pleo Usuário na
-	 * TEla
-	 */
-	public void pesquisarPorID() {
-
-		setEhCadastrado(false);
-		setJaPesquisei(true);
-
-		// Validando a retirada
-		retirada = new RetiradaDAO().pesquisarPorID(retirada);
-
-		// veficando se a retirada foi encontrada
-		if (retirada != null) {
-			setEhCadastrado(true);
-			setJaPesquisei(false);
-			return;
-		}
-
-		if (isEhCadastrado() == false) {
-			retirada = new Retirada();
-			JSFUtil.adicionarMensagemNaoLocalizado("Retirada não encontrada.");
-			return;
-		}
-
-	}
-
-	/**
-	 * Chama o Exporter da Retirada
+	 * Chama o Exporter da Relatório
 	 */
 	public void chamarExporter() {
 
-		List<Retirada> retiradas = new ArrayList<Retirada>();
-		retiradas.add(retirada);
+		if (relatorioEscolhido.equals("") || relatorioEscolhido.equals(null)) {
+			// verificando qual o relatorio escolhido pelo usuario
+			relatorioEscolhido = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+					.get("relatorioEscolhido");
 
-		File jasper = new File(
-				FacesContext.getCurrentInstance().getExternalContext().getRealPath("/comprovanteRetirada.jasper"));
+		}
+		
+		if (relatorioEscolhido.equals("RETIRADA")) {
+			List<Retirada> retiradas = new ArrayList<Retirada>();
+			retiradas.add(retirada);
 
-		GeraRelatorio.exportarListPDF(new HashMap<String, Object>(), jasper, retiradas);
+			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext()
+					.getRealPath("/Relatorios/relatorioRetirada.jasper"));
+
+			SessionUtil.remove("objetoRelatorio");
+			SessionUtil.setParam("objetoRelatorio", this.retirada);
+			SessionUtil.setParam("url", jasper);
+
+		} else if (relatorioEscolhido.equals("DEVOLUÇÃO")) {
+			List<Retirada> retiradas = new ArrayList<Retirada>();
+			retiradas.add(retirada);
+
+			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext()
+					.getRealPath("/Relatorios/relatorioDevolucao.jasper"));
+
+			SessionUtil.remove("objetoRelatorio");
+			SessionUtil.setParam("objetoRelatorio", this.devolucao);
+			SessionUtil.setParam("url", jasper);
+
+		} 
+
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("imprimerelatorio.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void limparPesquisa() {
+	public void limparObjetos() {
 		setEhCadastrado(false);
 		setJaPesquisei(false);
 		retirada = new Retirada();
+		devolucao = new Devolucao();
 
+	}
+
+	@Override
+	public void executar() {
+		setEhCadastrado(false);
+		setJaPesquisei(true);
+
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+
+		// Retorna um objeto completo de acordo com um ID
+		ICommand command = mapCommands.get(operacao);
+		Resultado resultado = new Resultado();
+		if (relatorioEscolhido.equals("RETIRADA")) {
+			resultado = command.execute(retirada);
+			retirada = (Retirada) resultado.getEntidades().get(0);
+		} else if (relatorioEscolhido.equals("DEVOLUÇÃO")) {
+			resultado = command.execute(devolucao);
+			devolucao = (Devolucao) resultado.getEntidades().get(0);
+		}
+
+		// Cliente foi encontrado
+		if (resultado.getEntidades().get(0) != null) {
+			setEhCadastrado(true);
+			setJaPesquisei(false);
+			return;
+		} else {
+			JSFUtil.adicionarMensagemErro("ID não encontrado");
+			retirada = new Retirada();
+			devolucao = new Devolucao();
+			return;
+		}
+
+	}
+
+	@Override
+	public void carregarListagem() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

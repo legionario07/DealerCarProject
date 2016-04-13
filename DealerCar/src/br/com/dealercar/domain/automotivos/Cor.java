@@ -1,6 +1,8 @@
-package br.com.dealercar.domain;
+package br.com.dealercar.domain.automotivos;
 
 import java.util.List;
+
+import br.com.dealercar.domain.EntidadeDominio;
 
 /**
  * Classe que representa as cores dos carros

@@ -8,27 +8,16 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
-import br.com.dealercar.core.dao.DevolucaoDAO;
-import br.com.dealercar.core.dao.RevisaoDAO;
-import br.com.dealercar.core.dao.itensrevisao.AmortecedorDAO;
-import br.com.dealercar.core.dao.itensrevisao.CorreiaDentadaDAO;
-import br.com.dealercar.core.dao.itensrevisao.EmbreagemDAO;
-import br.com.dealercar.core.dao.itensrevisao.FarolDAO;
-import br.com.dealercar.core.dao.itensrevisao.FiltroDeArDAO;
-import br.com.dealercar.core.dao.itensrevisao.FiltroDeOleoMotorDAO;
-import br.com.dealercar.core.dao.itensrevisao.FluidoDeFreioDAO;
-import br.com.dealercar.core.dao.itensrevisao.PastilhaFreioDAO;
-import br.com.dealercar.core.dao.itensrevisao.PneuDAO;
 import br.com.dealercar.core.dao.itensrevisao.ProdutoRevisaoDAO;
-import br.com.dealercar.core.dao.itensrevisao.VelasIgnicaoDAO;
 import br.com.dealercar.core.negocio.Devolucao;
 import br.com.dealercar.core.negocio.Revisao;
-import br.com.dealercar.core.negocio.strategy.ValidaCarro;
 import br.com.dealercar.core.util.DataUtil;
-import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.enums.PosicaoPneu;
 import br.com.dealercar.domain.itensrevisao.Arrefecimento;
@@ -48,6 +37,7 @@ import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
 import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
 import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRevisao")
 @SessionScoped
@@ -91,16 +81,30 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 
 	private ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 
-	private List<ProdutoRevisao> produtosUtilizados = new ArrayList<ProdutoRevisao>();
-	private List<ProdutoRevisao> produtosCadastrados = new ArrayList<ProdutoRevisao>();
+	private List<EntidadeDominio> produtosUtilizados = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> produtosCadastrados = new ArrayList<EntidadeDominio>();
 
 	private Map<String, Integer> quantidadeProduto = new HashMap<String, Integer>();
 
-	private List<Revisao> listaRevisao = new ArrayList<Revisao>();
-	private List<Devolucao> listaDevolucaoAguardandoRevisao = new ArrayList<Devolucao>();
+	private List<EntidadeDominio> listaRevisao = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaDevolucaoAguardandoRevisao = new ArrayList<EntidadeDominio>();
 
 	int totalRevisaoNaFila;
 	int totaoRevisaoRealizada;
+
+	public RevisaoBean() {
+		// setando os hashMaps
+		quantidadeProduto.put(Amortecedor.class.getSimpleName(), 0);
+		quantidadeProduto.put(CorreiaDentada.class.getSimpleName(), 0);
+		quantidadeProduto.put(br.com.dealercar.domain.produtosrevisao.Embreagem.class.getSimpleName(), 0);
+		quantidadeProduto.put(Farol.class.getSimpleName(), 0);
+		quantidadeProduto.put(FiltroDeAr.class.getSimpleName(), 0);
+		quantidadeProduto.put(FiltroDeOleoMotor.class.getSimpleName(), 0);
+		quantidadeProduto.put(FluidoDeFreio.class.getSimpleName(), 0);
+		quantidadeProduto.put(PastilhaFreio.class.getSimpleName(), 0);
+		quantidadeProduto.put(br.com.dealercar.domain.produtosrevisao.Pneu.class.getSimpleName(), 0);
+		quantidadeProduto.put(VelasIgnicao.class.getSimpleName(), 0);
+	}
 
 	public Revisao getRevisao() {
 		return revisao;
@@ -110,11 +114,11 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		this.revisao = revisao;
 	}
 
-	public List<Revisao> getListaRevisao() {
+	public List<EntidadeDominio> getListaRevisao() {
 		return listaRevisao;
 	}
 
-	public void setListaRevisao(List<Revisao> listaRevisao) {
+	public void setListaRevisao(List<EntidadeDominio> listaRevisao) {
 		this.listaRevisao = listaRevisao;
 	}
 
@@ -166,19 +170,19 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		this.motor = motor;
 	}
 
-	public List<ProdutoRevisao> getProdutosUtilizados() {
+	public List<EntidadeDominio> getProdutosUtilizados() {
 		return produtosUtilizados;
 	}
 
-	public void setProdutosUtilizados(List<ProdutoRevisao> produtosUtilizados) {
+	public void setProdutosUtilizados(List<EntidadeDominio> produtosUtilizados) {
 		this.produtosUtilizados = produtosUtilizados;
 	}
 
-	public List<ProdutoRevisao> getProdutosCadastrados() {
+	public List<EntidadeDominio> getProdutosCadastrados() {
 		return produtosCadastrados;
 	}
 
-	public void setProdutosCadastrados(List<ProdutoRevisao> produtosCadastrados) {
+	public void setProdutosCadastrados(List<EntidadeDominio> produtosCadastrados) {
 		this.produtosCadastrados = produtosCadastrados;
 	}
 
@@ -334,11 +338,11 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		this.totaoRevisaoRealizada = totaoRevisaoRealizada;
 	}
 
-	public List<Devolucao> getListaDevolucaoAguardandoRevisao() {
+	public List<EntidadeDominio> getListaDevolucaoAguardandoRevisao() {
 		return listaDevolucaoAguardandoRevisao;
 	}
 
-	public void setListaDevolucaoAguardandoRevisao(List<Devolucao> listaDevolucaoAguardandoRevisao) {
+	public void setListaDevolucaoAguardandoRevisao(List<EntidadeDominio> listaDevolucaoAguardandoRevisao) {
 		this.listaDevolucaoAguardandoRevisao = listaDevolucaoAguardandoRevisao;
 	}
 
@@ -361,28 +365,31 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	@Override
 	public void carregarListagem() {
 
-		listaRevisao = new RevisaoDAO().listarTodos();
-		listaDevolucaoAguardandoRevisao = new DevolucaoDAO().listarDevolucaoAguardandoRevisao();
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
 
-		totalRevisaoNaFila = listaDevolucaoAguardandoRevisao.size();
+		resultado = command.execute(new Revisao());
+		if (resultado != null) {
+			listaRevisao = resultado.getEntidades();
+		}
 		totaoRevisaoRealizada = listaRevisao.size();
 
-		// setando os hashMaps
-		quantidadeProduto.put("amortecedor", 0);
-		quantidadeProduto.put("correiaDentada", 0);
-		quantidadeProduto.put("embreagem", 0);
-		quantidadeProduto.put("farol", 0);
-		quantidadeProduto.put("filtroDeAr", 0);
-		quantidadeProduto.put("filtroDeOleoMotor", 0);
-		quantidadeProduto.put("fluidoDeFreio", 0);
-		quantidadeProduto.put("pastilhaFreio", 0);
-		quantidadeProduto.put("pneu", 0);
-		quantidadeProduto.put("velasIgnicao", 0);
+		command = mapConducaoCommands.get("CONSULTAR");
+		resultado = new Resultado();
+
+		resultado = command.execute(new Devolucao());
+		if (resultado != null) {
+			listaDevolucaoAguardandoRevisao = resultado.getEntidades();
+		}
+
+		totalRevisaoNaFila = listaDevolucaoAguardandoRevisao.size();
 
 		// se nao for vazio limpa para nao ocorrer duplicação
 		if (!produtosCadastrados.isEmpty()) {
 			produtosCadastrados.clear();
 		}
+
 		carregarProdutosCadastrados();
 
 		/*
@@ -404,58 +411,79 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	 */
 	private void carregarProdutosCadastrados() {
 
-		for (ProdutoRevisao p : new AmortecedorDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
 
-		}
-		for (ProdutoRevisao p : new CorreiaDentadaDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new EmbreagemDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new FarolDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new FiltroDeArDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new FiltroDeOleoMotorDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new FluidoDeFreioDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new PastilhaFreioDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new PneuDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
-				produtosCadastrados.add(p);
-			}
-		}
-		for (ProdutoRevisao p : new VelasIgnicaoDAO().listarTodos()) {
-			if (p.getQuantidade() >= 1) {
+		resultado = command.execute(new Amortecedor());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
 				produtosCadastrados.add(p);
 			}
 		}
 
+		resultado = command.execute(new CorreiaDentada());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new br.com.dealercar.domain.produtosrevisao.Embreagem());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new Farol());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new FiltroDeAr());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new FiltroDeOleoMotor());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new FluidoDeFreio());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new PastilhaFreio());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new br.com.dealercar.domain.produtosrevisao.Pneu());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
+
+		resultado = command.execute(new VelasIgnicao());
+		for (EntidadeDominio p : resultado.getEntidades()) {
+			if (((ProdutoRevisao) p).getQuantidade() >= 1) {
+				produtosCadastrados.add(p);
+			}
+		}
 	}
 
 	/**
@@ -464,19 +492,21 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	public void pesquisarPorPlaca() {
 
 		setEhCadastrado(false);
+		setJaPesquisei(true);
 
-		// Validando o carro
-		revisao.setCarro((Carro) new ValidaCarro().validar(revisao.getCarro()));
+		// Retorna um estado completo de acordo com um ID
+		ICommand command = mapCommands.get("CONSULTAR");
+		Resultado resultado = new Resultado();
+		resultado = command.execute(revisao.getCarro());
 
-		// veficando se o carro foi encontrado
-		if (revisao.getCarro() != null) {
+		// CArro foi encontrado
+		if (resultado.getEntidades().get(0) != null) {
+			revisao.setCarro((Carro) resultado.getEntidades().get(0));
 			setEhCadastrado(true);
+			setJaPesquisei(false);
 			return;
-		}
-
-		if (isEhCadastrado() == false) {
+		} else {
 			revisao.setCarro(new Carro());
-			JSFUtil.adicionarMensagemNaoLocalizado("Carro Não Localizado.");
 			return;
 		}
 
@@ -485,7 +515,14 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	/**
 	 * Efetua a revisao do carro pesquisado
 	 */
-	public void efetuarRevisao() {
+	@Override
+	public void executar() {
+
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+
+		// Retorna um estado completo de acordo com um ID
+		ICommand command = mapConducaoCommands.get(operacao);
 
 		// recebendo os componentes
 		revisao.getComponentes().setArrefecimento(arrefecimento);
@@ -518,18 +555,18 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 
 		if (revisao.getDevolucao().getId() > 0) {
 			revisao.getDevolucao().setAguardaRevisao(false);
-			new DevolucaoDAO().editar(revisao.getDevolucao());
+			command = mapConducaoCommands.get("EDITAR");
+			command.execute(revisao.getDevolucao());
 		}
 
-		//armazena a lista de produtos utilizados na Revisao
+		// armazena a lista de produtos utilizados na Revisao
 		new ProdutoRevisaoDAO().cadastrar(verificarTotalUtilizado());
 		revisao.setListaProdutoRevisao(new ProdutoRevisaoDAO().pesquisarPorUltimoCadastrado());
-		
-		new RevisaoDAO().cadastrar(revisao);
 
-		JSFUtil.adicionarMensagemSucesso("Revisão Efetuada com Sucesso");
+		command = mapConducaoCommands.get(operacao);
+		command.execute(revisao);
 
-		limparPesquisa();
+		limparObjetos();
 
 	}
 
@@ -539,115 +576,183 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	 */
 	public void addProduto() {
 
-		if (produtoRevisao instanceof Amortecedor) {
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+		ICommand command = mapCommands.get(operacao);
 
+		if (revisao.getQuilometragem().equals("") || revisao.getQuilometragem() < 0) {
+			org.primefaces.context.RequestContext.getCurrentInstance()
+					.update(":frmNovaRevisaoTab:pnlNovaRevisao :msgGlobal");
+		}
+
+		produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
+		quantidadeProduto.put(produtoRevisao.getClass().getSimpleName(),
+				quantidadeProduto.get(produtoRevisao.getClass().getSimpleName()) + 1);
+
+		if (produtoRevisao instanceof Amortecedor) {
 			amortecedorProduto = (Amortecedor) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-
-			quantidadeProduto.put("amortecedor", quantidadeProduto.get("amortecedor") + 1);
-			amortecedorProduto.setQuantidade(quantidadeProduto.get("amortecedor"));
-
-			new AmortecedorDAO().editar((Amortecedor) produtoRevisao);
+			command.execute((Amortecedor) produtoRevisao);
+			amortecedorProduto.setQuantidade(quantidadeProduto.get(Amortecedor.class.getSimpleName()));
 			// adicionanto a table de produtos utilizados
 			produtosUtilizados.add(amortecedorProduto);
 
 		} else if (produtoRevisao instanceof CorreiaDentada) {
-
 			correiaDentadaProduto = (CorreiaDentada) produtoRevisao;
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
 
-			quantidadeProduto.put("correiaDentada", quantidadeProduto.get("correiaDentada") + 1);
-			correiaDentadaProduto.setQuantidade(quantidadeProduto.get("correiaDentada"));
-
-			new CorreiaDentadaDAO().editar((CorreiaDentada) produtoRevisao);
+			command.execute((CorreiaDentada) produtoRevisao);
+			correiaDentadaProduto.setQuantidade(quantidadeProduto.get(CorreiaDentada.class.getSimpleName()));
 			produtosUtilizados.add(correiaDentadaProduto);
 
 		} else if (produtoRevisao instanceof br.com.dealercar.domain.produtosrevisao.Embreagem) {
-
 			embreagemProduto = (br.com.dealercar.domain.produtosrevisao.Embreagem) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("embreagem", quantidadeProduto.get("embreagem") + 1);
-			embreagemProduto.setQuantidade(quantidadeProduto.get("embreagem"));
-			new EmbreagemDAO().editar((br.com.dealercar.domain.produtosrevisao.Embreagem) produtoRevisao);
+			command.execute((br.com.dealercar.domain.produtosrevisao.Embreagem) produtoRevisao);
+			embreagemProduto.setQuantidade(quantidadeProduto.get(Embreagem.class.getSimpleName()));
 			produtosUtilizados.add(embreagemProduto);
 
 		} else if (produtoRevisao instanceof Farol) {
-
 			farolProduto = (Farol) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("farol", quantidadeProduto.get("farol") + 1);
-			farolProduto.setQuantidade(quantidadeProduto.get("farol"));
-			new FarolDAO().editar((Farol) produtoRevisao);
+			command.execute((Farol) produtoRevisao);
+			farolProduto.setQuantidade(quantidadeProduto.get(Farol.class.getSimpleName()));
 			produtosUtilizados.add(farolProduto);
 
 		} else if (produtoRevisao instanceof FiltroDeAr) {
-
 			filtroDeArProduto = (FiltroDeAr) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("filtroDeAr", quantidadeProduto.get("filtroDeAr") + 1);
-			filtroDeArProduto.setQuantidade(quantidadeProduto.get("filtroDeAr"));
-
-			new FiltroDeArDAO().editar((FiltroDeAr) produtoRevisao);
+			command.execute((FiltroDeAr) produtoRevisao);
+			filtroDeArProduto.setQuantidade(quantidadeProduto.get(FiltroDeAr.class.getSimpleName()));
 			produtosUtilizados.add(filtroDeArProduto);
 
 		} else if (produtoRevisao instanceof FiltroDeOleoMotor) {
-
 			filtroDeOleoMotorProduto = (FiltroDeOleoMotor) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("filtroDeOleoMotor", quantidadeProduto.get("filtroDeOleoMotor") + 1);
-			filtroDeOleoMotorProduto.setQuantidade(quantidadeProduto.get("filtroDeOleoMotor"));
-
-			new FiltroDeOleoMotorDAO().editar((FiltroDeOleoMotor) produtoRevisao);
+			command.execute((FiltroDeOleoMotor) produtoRevisao);
+			filtroDeOleoMotorProduto.setQuantidade(quantidadeProduto.get(FiltroDeOleoMotor.class.getSimpleName()));
 			produtosUtilizados.add(filtroDeOleoMotorProduto);
 
 		} else if (produtoRevisao instanceof FluidoDeFreio) {
-
 			fluidoDeFreioProduto = (FluidoDeFreio) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("fluidoDeFreio", quantidadeProduto.get("fluidoDeFreio") + 1);
-			fluidoDeFreioProduto.setQuantidade(quantidadeProduto.get("fluidoDeFreio"));
-
-			new FluidoDeFreioDAO().editar((FluidoDeFreio) produtoRevisao);
+			command.execute((FluidoDeFreio) produtoRevisao);
+			fluidoDeFreioProduto.setQuantidade(quantidadeProduto.get(FluidoDeFreio.class.getSimpleName()));
 			produtosUtilizados.add(fluidoDeFreioProduto);
 
 		} else if (produtoRevisao instanceof PastilhaFreio) {
-
 			pastilhaFreioProduto = (PastilhaFreio) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("pastilhaFreio", quantidadeProduto.get("pastilhaFreio") + 1);
-			pastilhaFreioProduto.setQuantidade(quantidadeProduto.get("pastilhaFreio"));
-
-			new PastilhaFreioDAO().editar((PastilhaFreio) produtoRevisao);
+			command.execute((PastilhaFreio) produtoRevisao);
+			pastilhaFreioProduto.setQuantidade(quantidadeProduto.get(PastilhaFreio.class.getSimpleName()));
 			produtosUtilizados.add(pastilhaFreioProduto);
 
 		} else if (produtoRevisao instanceof br.com.dealercar.domain.produtosrevisao.Pneu) {
-
 			pneuProduto = (br.com.dealercar.domain.produtosrevisao.Pneu) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("pneu", quantidadeProduto.get("pneu") + 1);
-			pneuProduto.setQuantidade(quantidadeProduto.get("pneu"));
-
-			new PneuDAO().editar((br.com.dealercar.domain.produtosrevisao.Pneu) produtoRevisao);
+			command.execute((br.com.dealercar.domain.produtosrevisao.Pneu) produtoRevisao);
+			pneuProduto.setQuantidade(
+					quantidadeProduto.get(br.com.dealercar.domain.produtosrevisao.Pneu.class.getSimpleName()));
 			produtosUtilizados.add(pneuProduto);
 
 		} else if (produtoRevisao instanceof VelasIgnicao) {
-
 			velasIgnicaoProduto = (VelasIgnicao) produtoRevisao;
 
-			produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() - 1);
-			quantidadeProduto.put("velasIgnicao", quantidadeProduto.get("velasIgnicao") + 1);
-			velasIgnicaoProduto.setQuantidade(quantidadeProduto.get("velasIgnicao"));
-
-			new VelasIgnicaoDAO().editar((VelasIgnicao) produtoRevisao);
+			command.execute((VelasIgnicao) produtoRevisao);
+			velasIgnicaoProduto.setQuantidade(quantidadeProduto.get(VelasIgnicao.class.getSimpleName()));
 			produtosUtilizados.add(velasIgnicaoProduto);
+
+		}
+
+		produtoRevisao = new ProdutoRevisao();
+
+	}
+
+	/**
+	 * Remove um Produto Selecionado
+	 */
+	public void removerProduto() {
+
+		// recebe a operacao a ser realizada
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
+
+		ICommand command = mapCommands.get(operacao);
+
+		produtoRevisao.setQuantidade(produtoRevisao.getQuantidade() + 1);
+		quantidadeProduto.put(produtoRevisao.getClass().getSimpleName(),
+				quantidadeProduto.get(produtoRevisao.getClass().getSimpleName()) - 1);
+
+		if (produtoRevisao instanceof Amortecedor) {
+			amortecedorProduto = (Amortecedor) produtoRevisao;
+
+			command.execute((Amortecedor) produtoRevisao);
+			amortecedorProduto.setQuantidade(quantidadeProduto.get(Amortecedor.class.getSimpleName()));
+
+			// adicionanto a table de produtos utilizados
+			produtosUtilizados.remove(amortecedorProduto);
+
+		} else if (produtoRevisao instanceof CorreiaDentada) {
+			correiaDentadaProduto = (CorreiaDentada) produtoRevisao;
+
+			command.execute((CorreiaDentada) produtoRevisao);
+			correiaDentadaProduto.setQuantidade(quantidadeProduto.get(CorreiaDentada.class.getSimpleName()));
+			produtosUtilizados.remove(correiaDentadaProduto);
+
+		} else if (produtoRevisao instanceof br.com.dealercar.domain.produtosrevisao.Embreagem) {
+			embreagemProduto = (br.com.dealercar.domain.produtosrevisao.Embreagem) produtoRevisao;
+
+			command.execute((br.com.dealercar.domain.produtosrevisao.Embreagem) produtoRevisao);
+			embreagemProduto.setQuantidade(quantidadeProduto.get(Embreagem.class.getSimpleName()));
+			produtosUtilizados.remove(embreagemProduto);
+
+		} else if (produtoRevisao instanceof Farol) {
+			farolProduto = (Farol) produtoRevisao;
+
+			command.execute((Farol) produtoRevisao);
+			farolProduto.setQuantidade(quantidadeProduto.get(Farol.class.getSimpleName()));
+			produtosUtilizados.remove(farolProduto);
+
+		} else if (produtoRevisao instanceof FiltroDeAr) {
+			filtroDeArProduto = (FiltroDeAr) produtoRevisao;
+
+			command.execute((FiltroDeAr) produtoRevisao);
+			filtroDeArProduto.setQuantidade(quantidadeProduto.get(FiltroDeAr.class.getSimpleName()));
+			produtosUtilizados.remove(filtroDeArProduto);
+
+		} else if (produtoRevisao instanceof FiltroDeOleoMotor) {
+			filtroDeOleoMotorProduto = (FiltroDeOleoMotor) produtoRevisao;
+
+			command.execute((FiltroDeOleoMotor) produtoRevisao);
+			filtroDeOleoMotorProduto.setQuantidade(quantidadeProduto.get(FiltroDeOleoMotor.class.getSimpleName()));
+			produtosUtilizados.remove(filtroDeOleoMotorProduto);
+
+		} else if (produtoRevisao instanceof FluidoDeFreio) {
+			fluidoDeFreioProduto = (FluidoDeFreio) produtoRevisao;
+
+			command.execute((FluidoDeFreio) produtoRevisao);
+			fluidoDeFreioProduto.setQuantidade(quantidadeProduto.get(FluidoDeFreio.class.getSimpleName()));
+			produtosUtilizados.remove(fluidoDeFreioProduto);
+
+		} else if (produtoRevisao instanceof PastilhaFreio) {
+			pastilhaFreioProduto = (PastilhaFreio) produtoRevisao;
+
+			command.execute((PastilhaFreio) produtoRevisao);
+			pastilhaFreioProduto.setQuantidade(quantidadeProduto.get(PastilhaFreio.class.getSimpleName()));
+			produtosUtilizados.remove(pastilhaFreioProduto);
+
+		} else if (produtoRevisao instanceof br.com.dealercar.domain.produtosrevisao.Pneu) {
+			pneuProduto = (br.com.dealercar.domain.produtosrevisao.Pneu) produtoRevisao;
+
+			command.execute((br.com.dealercar.domain.produtosrevisao.Pneu) produtoRevisao);
+			pneuProduto.setQuantidade(
+					quantidadeProduto.get(br.com.dealercar.domain.produtosrevisao.Pneu.class.getSimpleName()));
+			produtosUtilizados.remove(pneuProduto);
+
+		} else if (produtoRevisao instanceof VelasIgnicao) {
+			velasIgnicaoProduto = (VelasIgnicao) produtoRevisao;
+
+			command.execute((VelasIgnicao) produtoRevisao);
+			velasIgnicaoProduto.setQuantidade(quantidadeProduto.get(VelasIgnicao.class.getSimpleName()));
+			produtosUtilizados.remove(velasIgnicaoProduto);
 
 		}
 
@@ -661,37 +766,37 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	private List<ProdutoRevisao> verificarTotalUtilizado() {
 		List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 
-		if (quantidadeProduto.get("amortecedor") > 0) {
+		if (quantidadeProduto.get(Amortecedor.class.getSimpleName()) > 0) {
 			produtos.add(amortecedorProduto);
 		}
-		if (quantidadeProduto.get("correiaDentada") > 0) {
+		if (quantidadeProduto.get(CorreiaDentada.class.getSimpleName()) > 0) {
 			produtos.add(correiaDentadaProduto);
 		}
-		if(quantidadeProduto.get("embreagem") >0 ){
+		if (quantidadeProduto.get(br.com.dealercar.domain.produtosrevisao.Embreagem.class.getSimpleName()) > 0) {
 			produtos.add(embreagemProduto);
 		}
-		if(quantidadeProduto.get("farol") >0 ){
+		if (quantidadeProduto.get(Farol.class.getSimpleName()) > 0) {
 			produtos.add(farolProduto);
 		}
-		if(quantidadeProduto.get("filtroDeAr") >0 ){
+		if (quantidadeProduto.get(FiltroDeAr.class.getSimpleName()) > 0) {
 			produtos.add(filtroDeArProduto);
 		}
-		if(quantidadeProduto.get("filtroDeOleoMotor") >0 ){
+		if (quantidadeProduto.get(FiltroDeOleoMotor.class.getSimpleName()) > 0) {
 			produtos.add(filtroDeOleoMotorProduto);
 		}
-		if(quantidadeProduto.get("fluidoDeFreio") >0 ){
+		if (quantidadeProduto.get(FluidoDeFreio.class.getSimpleName()) > 0) {
 			produtos.add(fluidoDeFreioProduto);
 		}
-		if(quantidadeProduto.get("pastilhaFreio") >0 ){
+		if (quantidadeProduto.get(PastilhaFreio.class.getSimpleName()) > 0) {
 			produtos.add(pastilhaFreioProduto);
 		}
-		if(quantidadeProduto.get("pneu") >0 ){
+		if (quantidadeProduto.get(Pneu.class.getSimpleName()) > 0) {
 			produtos.add(pneuProduto);
 		}
-		if(quantidadeProduto.get("velasIgnicao") >0 ){
+		if (quantidadeProduto.get(VelasIgnicao.class.getSimpleName()) > 0) {
 			produtos.add(velasIgnicaoProduto);
 		}
-		
+
 		return produtos;
 
 	}
@@ -700,7 +805,7 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 	 * limpa a tela de pesquisa de REvisao Deixando pronto para uma nova
 	 * Pesquisa
 	 */
-	public void limparPesquisa() {
+	public void limparObjetos() {
 
 		revisao = new Revisao();
 		revisao.setCarro(new Carro());
@@ -717,9 +822,8 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		traseiroEsquerdo = new Pneu();
 		estepe = new Pneu();
 
-		
-		//limpar Produtos
-		
+		// limpar Produtos
+
 		amortecedorProduto = new Amortecedor();
 		correiaDentadaProduto = new CorreiaDentada();
 		embreagemProduto = new br.com.dealercar.domain.produtosrevisao.Embreagem();
@@ -730,7 +834,7 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		pastilhaFreioProduto = new PastilhaFreio();
 		pneuProduto = new br.com.dealercar.domain.produtosrevisao.Pneu();
 		velasIgnicaoProduto = new VelasIgnicao();
-		
+
 		pneus.clear();
 
 		produtosCadastrados.clear();
@@ -741,5 +845,6 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		setJaPesquisei(false);
 
 	}
+
 
 }

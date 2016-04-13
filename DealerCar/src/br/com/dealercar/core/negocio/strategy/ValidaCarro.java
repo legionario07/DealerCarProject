@@ -14,7 +14,7 @@ public class ValidaCarro implements IValidacaoStrategy {
 	/**
 	 * 
 	 * @param recebe um objeto Carro
-	 * @return Retorna um objeto Carro do BD válido ou null se nao encontrar
+	 * @return Retorna uma String null se todos os dados foram válidados
 	 */
 	public String validar(EntidadeDominio entDominio) {
 
@@ -26,7 +26,7 @@ public class ValidaCarro implements IValidacaoStrategy {
 			retorno = new StringBuffer();
 			carro = (Carro) entDominio;
 			
-			if (carro.getCategoria().getNome().equals("")) {
+			if (carro.getCategoria().getId()<=0) {
 				retorno.append("O Carro deve pertencer a uma Categoria");
 				return retorno.toString();
 			}
@@ -35,12 +35,20 @@ public class ValidaCarro implements IValidacaoStrategy {
 			Calendar c = Calendar.getInstance();
 			int ano = c.get(Calendar.YEAR);
 			
+			/**
+			 * Ano de Fabricação deve ser inferior a 16 anor
+			 */
 			if ((ano - anoCarro)>=16) {
 				retorno.append("O carro deve ter seu ano de Fabricação inferior a 16 anos");
 				return retorno.toString();
 			}
 			if (carro.getPlaca().equals("")) {
 				retorno.append("O Placa do Carro deve ser preenchida");
+				return retorno.toString();
+			}
+			
+			if(!carro.getPlaca().matches("\\w{3}-\\d{4}")){
+				retorno.append("Placa Invalida");
 				return retorno.toString();
 			}
 

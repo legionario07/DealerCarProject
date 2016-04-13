@@ -46,9 +46,9 @@ public class RadioPlayer extends Itens {
 		if (this.getCodigo() != 99) {
 			retorno.append(super.toString());
 
-			retorno.append("\nModelo: ");
+			retorno.append("\tModelo: ");
 			retorno.append(this.getModelo());
-			retorno.append("\n\n");
+			retorno.append("\n");
 		}
 
 		return retorno.toString();

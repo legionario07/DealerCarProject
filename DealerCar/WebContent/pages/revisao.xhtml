@@ -27,7 +27,6 @@
 		<p:tabView id="tabViewConsultar">
 			<p:tab title="Revisao" id="tabRevisaoConsulta">
 				<h:form id="frmConsultaRevisao">
-
 					<h:panelGrid id="pnlRevisaoDados" columns="2" cellpadding="10">
 
 						<h:outputLabel
@@ -68,7 +67,9 @@
 					<h:panelGrid id="pnlComandos" columns="5" cellpadding="10">
 						<p:commandButton action="#{MBRevisao.pesquisarPorPlaca}"
 							value="Pesquisar" update="frmConsultaRevisao :msgGlobal"
-							rendered="#{MBRevisao.revisao.carro.placa == null}" />
+							rendered="#{MBRevisao.revisao.carro.placa == null}">
+							<f:param name="param" value="CONSULTAR" />
+						</p:commandButton>
 
 						<p:commandButton value="Efetuar Revisão"
 							onclick="PF('dlgRevisaoEfetuarTab').show();"
@@ -76,7 +77,7 @@
 							update=":frmNovaRevisaoTab:pnlNovaRevisao pnlRevisaoDados pnlRevisaoDados2 :msgGlobal" />
 
 						<p:commandButton value="Limpar Pesquisa"
-							actionListener="#{MBRevisao.limparPesquisa}"
+							actionListener="#{MBRevisao.limparObjetos}"
 							rendered="#{MBRevisao.ehCadastrado == true}"
 							update="frmConsultaRevisao :msgGlobal" />
 
@@ -92,9 +93,7 @@
 			appendTo="@(body)" draggable="false" modal="true"
 			header="Revisão - Efetuar">
 			<h:form id="frmNovaRevisaoTab">
-
 				<h:panelGrid id="pnlNovaRevisao" columns="2">
-
 					<h:outputLabel value="Placa: " />
 					<p:inputText value="#{MBRevisao.revisao.carro.placa}" size="15"
 						readonly="true" />
@@ -111,9 +110,7 @@
 						rendered="#{MBRevisao.revisao.devolucao.id > 0}"
 						value="#{MBRevisao.revisao.quilometragem}" />
 				</h:panelGrid>
-
 				<br></br>
-
 				<h:panelGrid columns="1">
 					<p:outputLabel value="Componentes" style="font-weight:bold" />
 				</h:panelGrid>
@@ -273,24 +270,25 @@
 				</p:tabView>
 
 				<br></br>
-					
-					<h:panelGrid columns="2">
-					<p:selectOneMenu id="selectProduto" 
-						value="#{MBRevisao.produtoRevisao}" required="true" converter="produtoRevisao"
-						panelStyle="width:180px" effect="fade" style="width:350px"
-						filter="true" filterMatchMode="startsWith">
+
+				<h:panelGrid columns="2" id="addProduto">
+					<p:selectOneMenu id="selectProduto"
+						value="#{MBRevisao.produtoRevisao}" required="true"
+						converter="produtoRevisao" panelStyle="width:180px" effect="fade"
+						style="width:350px" filter="true" filterMatchMode="startsWith">
 						<f:selectItem itemLabel="SELECIONE UM PRODUTO"
 							noSelectionOption="true" />
 						<f:selectItems value="#{MBRevisao.produtosCadastrados}"
-							var="produto" itemLabel="#{produto}" 
-							itemValue="#{produto}" />
+							var="produto" itemLabel="#{produto}" itemValue="#{produto}" />
 					</p:selectOneMenu>
-				
+
 					<p:commandButton value="Adicionar"
 						actionListener="#{MBRevisao.addProduto}"
-						update=":frmNovaRevisaoTab:tblListaProdutos :msgGlobal" />
+						update=":frmNovaRevisaoTab:tblListaProdutos :frmNovaRevisaoTab:pnlNovaRevisao">
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
-				<br></br>
+					<br></br>
 
 				</h:panelGrid>
 				<p:dataTable id="tblListaProdutos"
@@ -329,18 +327,29 @@
 						<h:outputText value="#{itemProduto.valor}" />
 					</p:column>
 
+					<p:column headerText="Remover" width="5%" style="text-align:center">
+						<p:commandButton icon="ui-icon-trash" title="Remover"
+							actionListener="#{MBRevisao.removerProduto}"
+							update="tblListaProdutos frmNovaRevisaoTab:addProduto">
+							<f:param name="param" value="EDITAR" />
+							<f:setPropertyActionListener value="#{itemProduto}"
+								target="#{MBRevisao.produtoRevisao}" />
+						</p:commandButton>
+					</p:column>
+
 				</p:dataTable>
 
 
 				<h:panelGrid id="pnlComandos" columns="3" cellpadding="10">
-
 					<p:commandButton value="Salvar"
-						actionListener="#{MBRevisao.efetuarRevisao}"
+						actionListener="#{MBRevisao.executar}"
 						update=":frmNovaRevisaoTab :tabViewConsultar:frmConsultaRevisao :msgGlobal"
-						onclick="PF('dlgRevisaoEfetuarTab').hide();" />
+						onclick="PF('dlgRevisaoEfetuarTab').hide();">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-						actionListener="#{MBRevisao.limparPesquisa}"
+						actionListener="#{MBRevisao.limparObjetos}"
 						update=":tabViewConsultar:frmConsultaRevisao :msgGlobal"
 						onclick="PF('dlgRevisaoEfetuarTab').hide();" />
 

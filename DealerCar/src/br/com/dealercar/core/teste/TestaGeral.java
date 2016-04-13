@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import br.com.dealercar.core.util.DataUtil;
-
 public class TestaGeral {
 
 	/**
@@ -22,6 +20,18 @@ public class TestaGeral {
 	 * @throws ParseException
 	 */
 	
+	public static String verificaPlaca(String s){
+		StringBuffer retorno = new StringBuffer();
+		
+		if(!s.matches("\\w{3}-\\d{4}")){
+			retorno.append("Placa Invalida");
+		}
+		
+		
+		return retorno.toString();
+		
+		
+	}
 	
 	public static Date getPrimeiroDiaDoMesAtual(String ano, String mes, String dia) {
 		Calendar c = Calendar.getInstance();
@@ -136,30 +146,16 @@ public class TestaGeral {
 		System.out.println(data2);
 		Date data3 = getUltimoDiaDoMesAtual(ano, mes, dia);
 		System.out.println(data3);
-		*/
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd _ hh:mm:ss");
 
-		Date idadeMaxima = new Date();
-		
-		String data = "01/01/";
-		
-		
-		Date dataAtual = DataUtil.pegarDataAtualDoSistema();
-		int idadePermitida = 100;
-		int anos = DataUtil.devolverDataEmAnos(dataAtual) + idadePermitida;
-		
 		Calendar c = Calendar.getInstance();
+		String s = sdf.format(c.getTime());
+		System.out.println(s.replace("/", "").replace(" ", "").replace(":", ""));
+		*/
 		
 		
-		data+=c.get(Calendar.YEAR)-100;
-		
-		
-		System.out.println(data);
-		
-		
-		System.out.println("Data Hoje " + dataAtual);
-		System.out.println("Maximo de Ano permitido" + idadePermitida);
-		System.out.println("Deve ser nascido até " + idadeMaxima);
-		System.out.println("Permitido que nasce até "+ anos);
 		
 	}
 }

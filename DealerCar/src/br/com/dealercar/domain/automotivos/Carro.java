@@ -2,7 +2,6 @@ package br.com.dealercar.domain.automotivos;
 
 import java.io.Serializable;
 
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.enums.SituacaoType;
 

@@ -77,19 +77,16 @@ public class Itens extends EntidadeDominio {
 	public String toString() {
 
 		StringBuffer retorno = new StringBuffer();
+		
 		if (this.codigo != 99) {
-			retorno.append("Codigo: ");
-			retorno.append(this.getCodigo());
 			retorno.append("\nDescricao: ");
 			retorno.append(this.getDescricao());
-			retorno.append("\nValor: ");
+			retorno.append("\tValor: ");
 			retorno.append(this.getValor());
-			retorno.append("\nMarca: ");
-			retorno.append(this.getMarca());
-			retorno.append("\nNúmero Patrimônio: ");
-			retorno.append(this.getNumeroPatrimonio());
 		}
+		
 		return retorno.toString();
 	}
+	
 
 }

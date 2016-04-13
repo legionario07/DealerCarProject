@@ -364,13 +364,13 @@ public class DevolucaoDAO extends AbstractPesquisaDAO implements Serializable {
 	 * 
 	 * @return List<Devolucao>
 	 */
-	public List<Devolucao> listarDevolucaoAguardandoRevisao() {
+	public List<EntidadeDominio> listarDevolucaoAguardandoRevisao() {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from devolucoes ");
 		sql.append("where aguardando_revisao = 'true'");
 
-		List<Devolucao> lista = new ArrayList<Devolucao>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		
 		con = Conexao.getConnection();
 

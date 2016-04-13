@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
@@ -25,7 +24,7 @@ import br.com.dealercar.domain.itensopcionais.Seguro;
  * @author Paulinho
  *
  */
-public class OpcionalDAO implements IDAO, Serializable {
+public class OpcionalDAO extends AbstractPesquisaItensOpcionais implements Serializable {
 
 	/**
 	 * 
@@ -63,25 +62,25 @@ public class OpcionalDAO implements IDAO, Serializable {
 			for (Itens itens : opcional.getItens()) {
 
 				if (itens instanceof BebeConforto) {
-					if (itens.getCodigo() > 0) {
+					if (itens.getCodigo() > 0 && itens.getCodigo() != 99) {
 						pstm.setInt(2, itens.getCodigo());
 						bebe = true;
 					}
 				}
 				if (itens instanceof CadeirinhaBebe) {
-					if (itens.getCodigo() > 0) {
+					if (itens.getCodigo() > 0  && itens.getCodigo() != 99) {
 						pstm.setInt(3, itens.getCodigo());
 						cadeirinha = true;
 					}
 				}
 				if (itens instanceof Gps) {
-					if (itens.getCodigo() > 0) {
+					if (itens.getCodigo() > 0  && itens.getCodigo() != 99) {
 						pstm.setInt(4, itens.getCodigo());
 						gps = true;
 					}
 				}
 				if (itens instanceof RadioPlayer) {
-					if (itens.getCodigo() > 0) {
+					if (itens.getCodigo() > 0 && itens.getCodigo() != 99) {
 						pstm.setInt(5, itens.getCodigo());
 						radio = true;
 					}
@@ -321,6 +320,12 @@ public class OpcionalDAO implements IDAO, Serializable {
 		}
 
 		return opcional;
+	}
+
+	@Override
+	public EntidadeDominio pesquisarPorCodigo(EntidadeDominio entidade) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

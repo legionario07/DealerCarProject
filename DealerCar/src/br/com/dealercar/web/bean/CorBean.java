@@ -9,8 +9,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.dealercar.core.aplicacao.Resultado;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.web.command.ICommand;
 
 /**

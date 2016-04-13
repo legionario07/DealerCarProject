@@ -9,16 +9,22 @@ import br.com.dealercar.web.command.EditarCommand;
 import br.com.dealercar.web.command.ExcluirCommand;
 import br.com.dealercar.web.command.ICommand;
 import br.com.dealercar.web.command.ListarCommand;
-import br.com.dealercar.web.command.reservas.CadastrarReservaCommand;
-import br.com.dealercar.web.command.reservas.ConsultarReservaCommand;
-import br.com.dealercar.web.command.reservas.EditarReservaCommand;
-import br.com.dealercar.web.command.reservas.ExcluirReservaCommand;
-import br.com.dealercar.web.command.reservas.ListarReservaCommand;
+import br.com.dealercar.web.command.negocio.CadastrarConducaoCommand;
+import br.com.dealercar.web.command.negocio.ConsultarConducaoCommand;
+import br.com.dealercar.web.command.negocio.EditarConducaoCommand;
+import br.com.dealercar.web.command.negocio.ExcluirConducaoCommand;
+import br.com.dealercar.web.command.negocio.ListarConducaoCommand;
 
 public abstract class AbstractBean implements IBean{
 	
+	/**
+	 * Command responsavel pelos CRUD
+	 */
 	protected static Map<String, ICommand> mapCommands = null;
-	protected static Map<String, ICommand> mapReservaCommands = null;
+	/**
+	 * Command responsavel pelas Conduções
+	 */
+	protected static Map<String, ICommand> mapConducaoCommands = null;
 	
 	
 	private boolean ehCadastrado = false;
@@ -32,12 +38,12 @@ public abstract class AbstractBean implements IBean{
 		mapCommands.put("CONSULTAR", new ConsultarCommand());
 		mapCommands.put("LISTAR", new ListarCommand());
 		
-		mapReservaCommands = new HashMap<String, ICommand>();
-		mapReservaCommands.put("EDITAR", new EditarReservaCommand());
-		mapReservaCommands.put("EXCLUIR", new ExcluirReservaCommand());
-		mapReservaCommands.put("CADASTRAR", new CadastrarReservaCommand());
-		mapReservaCommands.put("CONSULTAR", new ConsultarReservaCommand());
-		mapReservaCommands.put("LISTAR", new ListarReservaCommand());
+		mapConducaoCommands = new HashMap<String, ICommand>();
+		mapConducaoCommands.put("EDITAR", new EditarConducaoCommand());
+		mapConducaoCommands.put("EXCLUIR", new ExcluirConducaoCommand());
+		mapConducaoCommands.put("CADASTRAR", new CadastrarConducaoCommand());
+		mapConducaoCommands.put("CONSULTAR", new ConsultarConducaoCommand());
+		mapConducaoCommands.put("LISTAR", new ListarConducaoCommand());
 		
 	}
 
@@ -45,6 +51,11 @@ public abstract class AbstractBean implements IBean{
 	 * Realiza os Crud no Bean
 	 */
 	public abstract void executar();
+	
+	/**
+	 * Limpa os dados na View
+	 */
+	public abstract void limparObjetos();
 	
 	public boolean isEhCadastrado() {
 		return ehCadastrado;

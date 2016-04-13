@@ -111,7 +111,6 @@ public class AmortecedorDAOTest {
 	}
 	
 	@Test
-	@Ignore
 	public void listar(){
 		
 		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();

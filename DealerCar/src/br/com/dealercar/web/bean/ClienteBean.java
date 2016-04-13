@@ -181,7 +181,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	 * limpa a tela de pesquisa de Cliente do Usuario Deixando pronto para uma
 	 * nova Pesquisa
 	 */
-	public void limparPesquisa() {
+	public void limparObjetos() {
 		cliente = new Cliente();
 		setEhCadastrado(false);
 		setJaPesquisei(false);

@@ -213,7 +213,14 @@ public class TaxasAdicionaisDAO implements IDAO, Serializable {
 	/**
 	 * Retorna uma taxa adicional localizado por seu nome
 	 */
-	public TaxasAdicionais pesquisarPorTaxa(String nome) {
+	public EntidadeDominio pesquisarPorTaxa(EntidadeDominio entidade) {
+		
+		
+		if(!(entidade instanceof TaxasAdicionais))
+			return null;
+			
+		TaxasAdicionais taxaAdicional = new TaxasAdicionais();
+		taxaAdicional = (TaxasAdicionais) entidade;
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from taxas_adicionais ");
@@ -225,7 +232,7 @@ public class TaxasAdicionaisDAO implements IDAO, Serializable {
 		
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setString(1, nome);
+			pstm.setString(1, taxaAdicional.getDescricao());
 			ResultSet rSet = pstm.executeQuery();
 			
 			while(rSet.next()){

@@ -78,7 +78,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 			// verificando se existia uma reserva
 			// incluindo o id 99 para o idReserva que nao foi incluido (99 =
 			// null)
-			if (retirada.getReserva().getId() > 0) {
+			if (retirada.getReserva().getId() > 0 && retirada.getReserva().getId()!=99) {
 				pstm.setInt(++i, retirada.getReserva().getId());
 
 				// Alterando a reserva no BD para FINALIZADO
@@ -292,7 +292,13 @@ public class RetiradaDAO implements IDAO, Serializable {
 	 *            retirada "Ativo"
 	 * @return Retorna uma lista de Retirada
 	 */
-	public List<Retirada> pesquisarPorCPF(Cliente cliente) {
+	public EntidadeDominio pesquisarPorCPF(EntidadeDominio entidade) {
+		
+		if(!(entidade instanceof Cliente))
+			return null;
+		
+		Cliente cliente = new Cliente();
+		cliente = (Cliente) entidade;
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from retiradas ");
@@ -300,7 +306,6 @@ public class RetiradaDAO implements IDAO, Serializable {
 		sql.append("on clientes.id = retiradas.id_cliente ");
 		sql.append("where clientes.cpf = ? and retiradas.ativo = ?");
 
-		List<Retirada> lista = new ArrayList<Retirada>();
 		Retirada retiradaRetorno = null;
 
 		con = Conexao.getConnection();
@@ -344,8 +349,6 @@ public class RetiradaDAO implements IDAO, Serializable {
 
 				retiradaRetorno.setEhAtivo(Boolean.parseBoolean(rSet.getString("ativo")));
 
-				lista.add(retiradaRetorno);
-
 			}
 
 		} catch (SQLException e) {
@@ -353,7 +356,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
-		return lista;
+		return retiradaRetorno;
 
 	}
 

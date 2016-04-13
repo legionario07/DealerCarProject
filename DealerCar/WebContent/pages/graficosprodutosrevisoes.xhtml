@@ -13,39 +13,41 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-	
-	<f:event listener="#{MBProdutoRevisaoGrafico.carregarListagem}" type="preRenderView"></f:event>
+
+		<f:event listener="#{MBProdutoUtilizadoGrafico.carregarListagem}"
+			type="preRenderView"></f:event>
 
 		<p:tabView id="tabViewGrafico">
 			<p:tab title="Gráfico Revisões" id="tabGrafico">
 				<h:form>
 
-		
+
 					<h:panelGrid columns="2" id="pnlTipoGrafico">
 						<p:outputLabel value="Gráfico sobre: " />
 						<p:selectOneMenu id="selectTipoDeDadosGrafico"
-							value="#{MBProdutoRevisaoGrafico.revisao.carro.modelo.id}"
+							value="#{MBProdutoUtilizadoGrafico.produtoEscolhido}"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
 
-							<f:selectItems value="#{MBProdutoRevisaoGrafico.listaModelo}" var="modelo"  
-							itemValue="#{modelo.id}" itemLabel="#{modelo.nome}" />
+							<f:selectItems value="#{MBProdutoUtilizadoGrafico.listaStringProdutos}"
+								var="produto" itemValue="#{produto}" itemLabel="#{produto}" />
 
 						</p:selectOneMenu>
+						
 					</h:panelGrid>
 					<br></br>
 					<br></br>
 
 					<h:panelGrid id="pnlComandos" columns="3">
 						<p:commandButton value="Gerar"
-							actionListener="#{MBProdutoRevisaoGrafico.gerarGraficoProduto}"
-							action="#{MBProdutoRevisaoGrafico.exibirGraficoProduto}"
-							rendered="#{MBProdutoRevisaoGrafico.graficoBarras == null}"
+							actionListener="#{MBProdutoUtilizadoGrafico.gerarGraficoProduto}"
+							action="#{MBProdutoUtilizadoGrafico.exibirGraficoProduto}"
+							rendered="#{MBProdutoUtilizadoGrafico.graficoBarras == null}"
 							update="pnlGrafico pnlComandos :msgGlobal" />
 
 						<p:commandButton value="Limpar Gráfico"
-							action="#{MBProdutoRevisaoGrafico.limparGrafico}"
-							rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
+							action="#{MBProdutoUtilizadoGrafico.limparObjetos}"
+							rendered="#{MBProdutoUtilizadoGrafico.graficoBarras != null}"
 							update="pnlGrafico pnlComandos pnlTipoGrafico" />
 					</h:panelGrid>
 					<br></br>
@@ -53,8 +55,8 @@
 
 					<h:panelGrid id="pnlGrafico">
 						<p:chart type="bar"
-							model="#{MBProdutoRevisaoGrafico.graficoBarras}"
-							rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
+							model="#{MBProdutoUtilizadoGrafico.graficoBarras}"
+							rendered="#{MBProdutoUtilizadoGrafico.graficoBarras != null}"
 							style="width:520px;height:420px" />
 					</h:panelGrid>
 				</h:form>

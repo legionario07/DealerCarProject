@@ -275,7 +275,7 @@ public class ProdutoRevisaoDAO implements IDAO, Serializable {
 					FiltroDeAr filtroDeAr = new FiltroDeAr();
 					filtroDeAr.setId(rSet.getInt("id_filtro_de_ar"));
 					filtroDeAr = new FiltroDeArDAO().pesquisarPorID(filtroDeAr);
-					filtroDeAr.setQuantidade(rSet.getInt("qtde_filtroDeAr"));
+					filtroDeAr.setQuantidade(rSet.getInt("qtde_filtro_de_ar"));
 					lista.add(filtroDeAr);
 				}
 
@@ -390,7 +390,7 @@ public class ProdutoRevisaoDAO implements IDAO, Serializable {
 						FiltroDeAr filtroDeAr = new FiltroDeAr();
 						filtroDeAr.setId(rSet.getInt("id_filtro_de_ar"));
 						filtroDeAr = new FiltroDeArDAO().pesquisarPorID(filtroDeAr);
-						filtroDeAr.setQuantidade(rSet.getInt("qtde_filtroDeAr"));
+						filtroDeAr.setQuantidade(rSet.getInt("qtde_filtro_de_ar"));
 						lista.add(filtroDeAr);
 					}
 

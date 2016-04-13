@@ -19,10 +19,10 @@ import org.primefaces.model.UploadedFile;
 
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.util.JSFUtil;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
+import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.enums.SituacaoType;
 import br.com.dealercar.web.command.ICommand;
@@ -210,7 +210,7 @@ public class CarroBean extends AbstractBean implements Serializable {
 	/**
 	 * Limpa a pesquisa anteriomente realizada pelo Usuário
 	 */
-	public void limparPesquisa() {
+	public void limparObjetos() {
 		carro = new Carro();
 		setEhCadastrado(false);
 		setJaPesquisei(false);
@@ -223,12 +223,8 @@ public class CarroBean extends AbstractBean implements Serializable {
 	 */
 	public void upload(FileUploadEvent event){
 		
-		System.out.println("Entrou aki no inicio");
 		
 		file = event.getFile();
-		System.out.println(event.getFile().getFileName());
-		System.out.println(event.getFile().getSize());
-		System.out.println(event.getFile().getContents());
 		InputStream in = null;
 		try {
 			in = file.getInputstream();
@@ -239,13 +235,10 @@ public class CarroBean extends AbstractBean implements Serializable {
 		String CAMINHO = "resources\\images\\carros\\";
 		File pastaDestino = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("")+"\\"+CAMINHO);
 
-		System.out.println("Entrou aki no inicio depois de FIle");
-		
 		try {
 			OutputStream out = new FileOutputStream(new File(pastaDestino, event.getFile().getFileName()));
 			int read = 0;
 			byte[] bytes = event.getFile().getContents();
-			System.out.println(bytes.length);
 			while ((read = in.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
 			}
@@ -259,14 +252,12 @@ public class CarroBean extends AbstractBean implements Serializable {
 		}
 
 		if (file != null) {
-			System.out.println("Entrou aqui");
 			caminho.append("carros/");
 			caminho.append(event.getFile().getFileName());
 			JSFUtil.adicionarMensagemSucesso("Imagem Carregada com Sucesso");
 
 		}else{
 			caminho.append("carros/");
-			System.out.println("não entrou");
 		}
 
 	}

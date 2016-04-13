@@ -577,29 +577,28 @@ public class RevisaoDAO implements IDAO, Serializable {
 	}
 	
 
-	/**
-	 * 
-	 * @param produtoRevisao
-	 * @param criterio
-	 * @return uma List<Revisao>
-	 */
-	public List<Revisao> pesquisarPorProdutoUtilizado(ProdutoRevisao produtoRevisao, String criterio) {
+	public List<EntidadeDominio> pesquisarPorModelo(EntidadeDominio entidade) {
+		
+		if(!(entidade instanceof Revisao))
+			return null;
+		
+		Revisao revisao = new Revisao();
+		revisao = (Revisao) entidade;
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
-		sql.append("inner join produto_revisao on revisao.id_produtos_utilizados = produto_revisao.id ");
-		sql.append("where produto_revisao.");
-		sql.append(criterio);
-
-		List<Revisao> lista = new ArrayList<Revisao>();
+		sql.append("inner join carros on carros.placa = revisao.placa ");
+		sql.append("where carros.id_modelo = ?");
+		
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		Revisao revisaoRetorno = null;
 
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			//int i = 0;
-			//pstm.setInt(++i, produtoRevisao.getId());
+			int i = 0;
+			pstm.setInt(++i, revisao.getCarro().getModelo().getId());
 
 			ResultSet rSet = pstm.executeQuery();
 
@@ -693,29 +692,22 @@ public class RevisaoDAO implements IDAO, Serializable {
 		return lista;
 
 	}
-	
-	public List<Revisao> pesquisarPorModelo(EntidadeDominio entidade) {
-		
-		if(!(entidade instanceof Revisao))
-			return null;
-		
-		Revisao revisao = new Revisao();
-		revisao = (Revisao) entidade;
 
+public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
+		
+				
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
-		sql.append("inner join carros on carros.placa = revisao.placa ");
-		sql.append("where carros.id_modelo = ?");
+		sql.append("inner join produto_revisao on produto_revisao.id = revisao.id_produtos_utilizados ");
+		sql.append(criterio);
 		
-		List<Revisao> lista = new ArrayList<Revisao>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		Revisao revisaoRetorno = null;
 
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			int i = 0;
-			pstm.setInt(++i, revisao.getCarro().getModelo().getId());
 
 			ResultSet rSet = pstm.executeQuery();
 

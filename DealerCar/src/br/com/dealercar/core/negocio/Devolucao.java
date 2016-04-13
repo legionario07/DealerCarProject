@@ -39,7 +39,7 @@ public class Devolucao extends EntidadeDominio {
 	public Devolucao() {
 		funcionario = new Funcionario();
 		retirada = new Retirada();
-		
+
 		reserva = new Reserva();
 		setAguardaRevisao(true);
 	}
@@ -142,14 +142,17 @@ public class Devolucao extends EntidadeDominio {
 	 *            Recebe uma Locação
 	 * @return Um double com o valor dos Itens Opcionais da Locação
 	 */
-	public Double calcularValorItensOpcionais(Retirada retirada) {
+	public Double calcularValorItensOpcionais(Devolucao devolucao) {
 
 		double valorItensAdicionais = 0;
 
-		// Verificando se há mais Itens Opcionais
-		for (Itens i : retirada.getOpcional().getItens()) {
-			if (i.getCodigo() != 99 && i.getDescricao() != null)
-				valorItensAdicionais += i.getValor();
+		
+		if (devolucao.getRetirada().getOpcional()!=null) {
+			// Verificando se há mais Itens Opcionais
+			for (Itens i : devolucao.getRetirada().getOpcional().getItens()) {
+				if (i.getCodigo() != 99 && i.getDescricao() != null)
+					valorItensAdicionais += i.getValor();
+			}
 		}
 
 		return valorItensAdicionais;
@@ -162,7 +165,7 @@ public class Devolucao extends EntidadeDominio {
 	 *            de TaxasAdicionais Recebe uma Locação
 	 * @return Um double com o valor das TaxasAdicionais
 	 */
-	public Double calcularValorTaxasAdicionais(Devolucao devolucao, List<TaxasAdicionais> taxas) {
+	public Double calcularValorTaxasAdicionais(Devolucao devolucao, List<EntidadeDominio> taxas) {
 
 		double valorTaxasAdicionais = 0;
 
@@ -172,8 +175,8 @@ public class Devolucao extends EntidadeDominio {
 		for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).isFoiCobrado() == true) {
 				for (int b = 0; b < taxas.size(); b++) {
-					if (lista.get(i).getDescricao().equals(taxas.get(b).getDescricao()))
-						valorTaxasAdicionais += taxas.get(b).getValor();
+					if (lista.get(i).getDescricao().equals(((TaxasAdicionais) taxas.get(b)).getDescricao()))
+						valorTaxasAdicionais += ((TaxasAdicionais) taxas.get(b)).getValor();
 				}
 			}
 		}
@@ -189,13 +192,13 @@ public class Devolucao extends EntidadeDominio {
 	 * @return Um double com o valor gasto apenas em Locação (Dias Locados *
 	 *         Valor da Locação(Sem Acrescimos)
 	 */
-	public Double calcularValorLocacao(Retirada retirada) {
+	public Double calcularValorLocacao(Devolucao devolucao) {
 
 		// Recebendo o valor da Diaria do Carro
-		double valorDaDiaria = retirada.getCarro().getCategoria().getValorDiaria();
+		double valorDaDiaria = devolucao.getRetirada().getCarro().getCategoria().getValorDiaria();
 
 		// Recebendo a quantidade de Dias de Locaçãp
-		int diasLocado = DataUtil.devolverDataEmDias(retirada.getDataRetirada());
+		int diasLocado = DataUtil.devolverDataEmDias(devolucao.getRetirada().getDataRetirada());
 
 		// Se o cliente devolver o carro no mesmo dia será cobrado locação de 1
 		// dia
@@ -211,9 +214,10 @@ public class Devolucao extends EntidadeDominio {
 	 *            Recebe uma Locação
 	 * @return Um double com o valor do Tipo de Seguro escolhido
 	 */
-	public Double calcularValorTipoSeguro(Retirada retirada) {
+	public Double calcularValorTipoSeguro(Devolucao devolucao) {
 
-		return retirada.getOpcional().getSeguro().getValor();
+		return devolucao.getRetirada().getOpcional().getSeguro().getValor() +
+				devolucao.getRetirada().getOpcional().getSeguro().getTipoSeguro().getValorAcrescido();
 
 	}
 
@@ -224,14 +228,14 @@ public class Devolucao extends EntidadeDominio {
 	 *            uma Retirada
 	 * @return Retorna um valor Final em formato Double
 	 */
-	public Double calcularValorFinal(Devolucao devolucao, List<TaxasAdicionais> taxas) {
+	public Double calcularValorFinal(Devolucao devolucao, List<EntidadeDominio> taxas) {
 
 		double valorFinal = 0;
 
-		valorFinal += calcularValorLocacao(devolucao.getRetirada());
-		valorFinal += calcularValorItensOpcionais(devolucao.getRetirada());
+		valorFinal += calcularValorLocacao(devolucao);
+		valorFinal += calcularValorItensOpcionais(devolucao);
 		valorFinal += calcularValorTaxasAdicionais(devolucao, taxas);
-		valorFinal += calcularValorTipoSeguro(devolucao.getRetirada());
+		valorFinal += calcularValorTipoSeguro(devolucao);
 
 		return valorFinal;
 	}
@@ -267,7 +271,7 @@ public class Devolucao extends EntidadeDominio {
 		retorno.append(this.getRetirada().getId());
 		retorno.append("\n\nOpcionais: ");
 		retorno.append(this.getRetirada().getOpcional().toString());
-		if (this.getReserva() != null) {
+		if (this.getReserva() != null && this.getReserva().getId()!=99 && this.getReserva().getId() != 0) {
 			retorno.append("Reserva: ");
 			retorno.append(this.getReserva());
 			retorno.append("\n");

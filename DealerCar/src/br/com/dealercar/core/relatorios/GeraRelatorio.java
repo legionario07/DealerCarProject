@@ -2,6 +2,9 @@ package br.com.dealercar.core.relatorios;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.dealercar.core.factory.Conexao;
+import br.com.dealercar.core.negocio.Devolucao;
 import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.domain.EntidadeDominio;
 import net.sf.jasperreports.engine.JRException;
@@ -24,6 +29,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public class GeraRelatorio<T extends EntidadeDominio> {
 
+	
 	/**
 	 * Método responsavel por gerar Relatório
 	 * 
@@ -32,18 +38,25 @@ public class GeraRelatorio<T extends EntidadeDominio> {
 	 * @param con
 	 *            Recebe uma conexao com o Banco de Dados
 	 */
-	public static void exportarListPDF(HashMap<String, Object> parametros, File jasper, List<Retirada> lista) {
+	public static void exportarListPDF(HashMap<String, Object> parametros, File jasper, EntidadeDominio entidade) {
+		
+		String nome = "report"+gerarNomeComData()+".pdf";
+		
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 
-		// parametros.put("nomeGerador",
-		// ((Funcionario)SessionHelper.getParam("usuarioLogado")).getNome());
-
+		if(entidade instanceof Retirada) {
+		lista.add((Retirada) entidade);
+		} else if (entidade instanceof Devolucao){
+			lista.add((Devolucao) entidade);
+		}
+		
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros,
 					new JRBeanCollectionDataSource(lista));
 			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 					.getResponse();
-			response.addHeader("Content-disposition", "attachment; filename=report.pdf");
+			response.addHeader("Content-disposition", "attachment; filename="+nome);
 			ServletOutputStream stream = response.getOutputStream();
 
 			JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
@@ -55,6 +68,43 @@ public class GeraRelatorio<T extends EntidadeDominio> {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Gera os Relatorios Sintéticos
+	 * @param parametros - Parametros para gerar os relatorios, passado na VIew
+	 * @param jasper - Url do Relatorio.jasper
+	 */
+	public static void exportarListPDF(HashMap<String, Object> parametros, File jasper) {
+
+		String nome = "report"+gerarNomeComData()+".pdf";
+		
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, Conexao.getConnection());
+			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+					.getResponse();
+			response.addHeader("Content-disposition", "attachment; filename="+nome);
+			ServletOutputStream stream = response.getOutputStream();
+
+			JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+			stream.flush();
+			stream.close();
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (JRException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private static String gerarNomeComData(){
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd _ hh:mm:ss");
+
+		Calendar c = Calendar.getInstance();
+		String s = sdf.format(c.getTime());
+		return s.replace("/", "").replace(" ", "").replace(":", "");
 	}
 
 }

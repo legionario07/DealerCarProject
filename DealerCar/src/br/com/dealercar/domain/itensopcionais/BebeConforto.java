@@ -42,9 +42,9 @@ public class BebeConforto extends Itens {
 		StringBuffer retorno = new StringBuffer();
 		if (this.getCodigo() != 99) {
 			retorno.append(super.toString());
-			retorno.append("\nMeses do Bebê: ");
+			retorno.append("\tMeses do Bebê: ");
 			retorno.append(this.getMesesBebe());
-			retorno.append("\n\n");
+			retorno.append("\n");
 		}
 
 		return retorno.toString();

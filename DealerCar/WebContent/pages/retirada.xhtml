@@ -21,7 +21,6 @@
 			<h:outputText
 				style="horizontal-align:center; font-size:20px;font-weigth:bold"
 				value="Retirada" />
-
 		</h:panelGrid>
 
 		<p:tabView id="tabViewConsultar">
@@ -30,15 +29,12 @@
 
 					<h:panelGrid id="pnlClienteDados" columns="2">
 
-
 						<h:outputLabel value="Digite o CPF para Localizar o Cliente "
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
 						<p:inputMask mask="999.999.999-99"
 							value="#{MBRetirada.retirada.cliente.CPF}"
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
-
 					</h:panelGrid>
-
 
 					<h:panelGrid id="pnlClienteDados2" columns="2"
 						rendered="#{MBRetirada.ehCadastrado == true}">
@@ -117,34 +113,22 @@
 					</h:panelGrid>
 					<br></br>
 
-
-
 					<h:panelGrid id="pnlComandos" columns="5">
 						<p:commandButton actionListener="#{MBRetirada.pesquisarPorCPF}"
 							update="frmConsultaRetirada :msgGlobal"
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}"
 							value="Pesquisar" />
 
-
 						<p:commandButton value="Efetuar Retirada"
 							rendered="#{MBRetirada.ehCadastrado == true}"
 							actionListener="#{MBRetirada.verificaPendenciaCliente}"
 							update="frmConsultaRetirada :frmEfetuarRetirada:pnlEfetuarRetirada :msgGlobal" />
 
-
-						<p:commandButton value="Editar Dados"
-							rendered="#{MBRetirada.ehCadastrado == true}"
-							actionListener="#{MBRetirada.atualizarCidades}"
-							onclick="PF('dlgClienteEditar').show();"
-							update="frmConsultaRetirada: frmClienteEditar:pnlClienteEditar" />
-
 						<p:commandButton value="Limpar Pesquisa"
 							actionListener="#{MBRetirada.limparPesquisa}"
 							rendered="#{MBRetirada.ehCadastrado == true}"
 							update="frmConsultaRetirada: frmConsultaRetirada:pnlClienteDados" />
-
 					</h:panelGrid>
-
 				</h:form>
 			</p:tab>
 		</p:tabView>
@@ -156,7 +140,6 @@
 			appendTo="@(body)" header="Efetuar Retirada">
 
 			<h:form id="frmEfetuarRetirada">
-
 				<h:panelGrid id="pnlEfetuarRetirada" columns="2">
 
 					<p:outputLabel value="Nome: " />
@@ -169,14 +152,14 @@
 
 					<p:outputLabel value="Modelo: *" />
 					<p:selectOneMenu id="modelo"
-						value="#{MBRetirada.retirada.carro.modelo.nome}" required="true"
+						value="#{MBRetirada.retirada.carro.modelo.id}" required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBRetirada.listaModelosDisponiveis}"
-							var="m" itemLabel="#{m.nome}" itemValue="#{m.nome}" />
+							var="m" itemLabel="#{m.nome}" itemValue="#{m.id}" />
 
 						<p:ajax update="placa" listener="#{MBRetirada.carregarPlacas}" />
 					</p:selectOneMenu>
@@ -187,7 +170,6 @@
 						requiredMessage="Favor informar a Placa. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
-
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBRetirada.listaPlacasDisponiveis}"
 							var="carro" itemLabel="#{carro.placa}" itemValue="#{carro.placa}" />
@@ -200,7 +182,6 @@
 						<f:validateLength minimum="1" maximum="7" />
 					</p:inputMask>
 
-
 					<p:outputLabel value="Seguro: *" />
 					<p:selectOneMenu id="Seguro"
 						value="#{MBRetirada.retirada.opcional.seguro.descricao}"
@@ -208,7 +189,6 @@
 						requiredMessage="Favor informar o Seguro. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
-
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBRetirada.listaSeguros}" var="seguro"
 							itemLabel="#{seguro.descricao}" itemValue="#{seguro.descricao}" />
@@ -220,68 +200,51 @@
 						required="true"
 						requiredMessage="Favor informar o Tipo de Seguro. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:210px">
-
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBRetirada.listaTipoSeguros}"
 							var="tipoSeguro" itemLabel="#{tipoSeguro.nome}"
 							itemValue="#{tipoSeguro.id}" />
 					</p:selectOneMenu>
-
 				</h:panelGrid>
-
 				<br></br>
-
 				<h:panelGrid columns="1">
 					<h:outputText value="Itens Opcionais" style="font-weight:bold" />
-
-
 				</h:panelGrid>
 
 				<h:panelGrid id="bebeConforto" columns="3" styleClass="estilos.css"
 					columnClasses="coluna1,coluna2,coluna3">
-
 					<p:outputLabel value="Bebe Conforto" />
-
 					<h:panelGrid columns="2">
 						<p:selectOneMenu id="bebe" value="#{MBRetirada.selectBebe}"
 							panelStyle="width:180px" effect="fade" style="width:70px">
-
 							<f:selectItem itemValue="false" itemLabel="NÃO" />
 							<f:selectItem itemValue="true" itemLabel="SIM" />
-
 							<p:ajax update="bebeConforto"
 								listener="#{MBRetirada.carregarItensOpcionais}" />
 						</p:selectOneMenu>
 
-
 						<p:selectOneMenu id="tipoBebe"
 							rendered="#{MBRetirada.selectBebe == true}"
-							value="#{MBRetirada.bebeConforto.descricao}" required="true"
+							value="#{MBRetirada.bebeConforto.codigo}" required="true"
 							requiredMessage="Favor informar o BebeConforto desejado"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
-
 							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 							<f:selectItems value="#{MBRetirada.listaBebeConforto}" var="bebe"
-								itemLabel="#{bebe.descricao}" itemValue="#{bebe.descricao}" />
+								itemLabel="#{bebe.descricao}" itemValue="#{bebe.codigo}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-
 				</h:panelGrid>
 
 				<h:panelGrid id="cadeirinha" columns="3" styleClass="estilos.css"
 					columnClasses="coluna1,coluna2,coluna3">
-
 					<p:outputLabel value="Cadeirinha Bebe" />
-
 					<h:panelGrid columns="2">
 						<p:selectOneMenu id="cadeirinhaBebe"
 							value="#{MBRetirada.selectCadeirinha}" panelStyle="width:180px"
 							effect="fade" style="width:70px">
-
 							<f:selectItem itemValue="false" itemLabel="NÃO" />
 							<f:selectItem itemValue="true" itemLabel="SIM" />
-
 
 							<p:ajax update="cadeirinha"
 								listener="#{MBRetirada.carregarItensOpcionais}" />
@@ -289,7 +252,7 @@
 
 						<p:selectOneMenu id="tipoCadeirinha"
 							rendered="#{MBRetirada.selectCadeirinha==true}"
-							value="#{MBRetirada.cadeirinhaBebe.descricao}" required="true"
+							value="#{MBRetirada.cadeirinhaBebe.codigo}" required="true"
 							requiredMessage="Favor informar a Cadeirinha para o Bebe desejada"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
@@ -297,23 +260,19 @@
 							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 							<f:selectItems value="#{MBRetirada.listaCadeirinhaBebe}"
 								var="cadeirinha" itemLabel="#{cadeirinha.descricao}"
-								itemValue="#{cadeirinha.descricao}" />
+								itemValue="#{cadeirinha.codigo}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</h:panelGrid>
 
 				<h:panelGrid id="gps" columns="3" styleClass="estilos.css"
 					columnClasses="coluna1,coluna2,coluna3">
-
 					<p:outputLabel value="GPS" />
-
 					<h:panelGrid columns="2">
 						<p:selectOneMenu id="selectGPS" value="#{MBRetirada.selectGps}"
 							panelStyle="width:180px" effect="fade" style="width:70px">
-
 							<f:selectItem itemValue="false" itemLabel="NÃO" />
 							<f:selectItem itemValue="true" itemLabel="SIM" />
-
 
 							<p:ajax update="gps"
 								listener="#{MBRetirada.carregarItensOpcionais}" />
@@ -321,23 +280,20 @@
 
 						<p:selectOneMenu id="tipoGps"
 							rendered="#{MBRetirada.selectGps == true}"
-							value="#{MBRetirada.gps.descricao}" required="true"
+							value="#{MBRetirada.gps.codigo}" required="true"
 							requiredMessage="Favor informar o GPS desejado"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
-
 							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 							<f:selectItems value="#{MBRetirada.listaGps}" var="gps"
-								itemLabel="#{gps.descricao}" itemValue="#{gps.descricao}" />
+								itemLabel="#{gps.descricao}" itemValue="#{gps.codigo}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</h:panelGrid>
 
 				<h:panelGrid id="RadioPlayer" columns="3" styleClass="estilos.css"
 					columnClasses="coluna1,coluna2,coluna3">
-
 					<p:outputLabel value="Radio Player" />
-
 					<h:panelGrid columns="2">
 						<p:selectOneMenu id="selectRadio"
 							value="#{MBRetirada.selectRadio}" panelStyle="width:180px"
@@ -345,22 +301,20 @@
 
 							<f:selectItem itemValue="false" itemLabel="NÃO" />
 							<f:selectItem itemValue="true" itemLabel="SIM" />
-
 							<p:ajax update="RadioPlayer"
 								listener="#{MBRetirada.carregarItensOpcionais}" />
 						</p:selectOneMenu>
 
-
 						<p:selectOneMenu id="tipoRadio"
 							rendered="#{MBRetirada.selectRadio == true}"
-							value="#{MBRetirada.radioPlayer.descricao}" required="true"
+							value="#{MBRetirada.radioPlayer.codigo}" required="true"
 							requiredMessage="Favor informar o RadioPlayer desejado"
 							panelStyle="width:180px" effect="fade" style="width:160px"
 							filter="true" filterMatchMode="startsWith">
 
 							<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 							<f:selectItems value="#{MBRetirada.listaRadioPlayer}" var="radio"
-								itemLabel="#{radio.descricao}" itemValue="#{radio.descricao}" />
+								itemLabel="#{radio.descricao}" itemValue="#{radio.codigo}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</h:panelGrid>
@@ -370,20 +324,19 @@
 				<p:calendar id="data" value="#{MBRetirada.retirada.dataDevolucao}"
 					required="true"
 					requiredMessage="Favor informar a Data da Devolução" />
-
 				<br></br>
 
 				<h:panelGrid id="pnlComandosRetirada" columns="3">
 					<p:commandButton value="Efetuar Retirada"
-						actionListener="#{MBRetirada.efetuarRetirada}"
-						onclick=":frmConsultaRetirada:pnlEfetuarRetirada"
-						update="frmEfetuarRetirada pnlComandosRetirada tabViewConsultar:frmConsultaRetirada:pnlComandos :msgGlobal"
+						actionListener="#{MBRetirada.executar}"
+						update="tabViewConsultar:frmConsultaRetirada:pnlComandos :msgGlobal"
 						oncomplete="PF('dlgEfetuarRetirada').hide();">
+						<f:param name="param" value="CADASTRAR"/>
 					</p:commandButton>
 
 					<p:commandButton value="Voltar"
+					actionListener="#{MBRetirada.limparObjetos}"
 						onclick="PF('dlgEfetuarRetirada').hide();" />
-
 				</h:panelGrid>
 
 			</h:form>

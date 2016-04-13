@@ -11,10 +11,12 @@ import br.com.dealercar.core.autenticacao.Permissao;
 import br.com.dealercar.core.dao.CidadeDAO;
 import br.com.dealercar.core.dao.ClienteDAO;
 import br.com.dealercar.core.dao.CorDAO;
+import br.com.dealercar.core.dao.DevolucaoDAO;
 import br.com.dealercar.core.dao.EstadoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.core.dao.PermissaoDAO;
+import br.com.dealercar.core.dao.RetiradaDAO;
 import br.com.dealercar.core.dao.automotivos.CarroDAO;
 import br.com.dealercar.core.dao.automotivos.CategoriaDAO;
 import br.com.dealercar.core.dao.automotivos.FabricanteDAO;
@@ -37,6 +39,8 @@ import br.com.dealercar.core.dao.itensrevisao.FormaDeVendaDAO;
 import br.com.dealercar.core.dao.itensrevisao.PastilhaFreioDAO;
 import br.com.dealercar.core.dao.itensrevisao.PneuDAO;
 import br.com.dealercar.core.dao.itensrevisao.VelasIgnicaoDAO;
+import br.com.dealercar.core.negocio.Devolucao;
+import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.negocio.strategy.IValidacaoStrategy;
 import br.com.dealercar.core.negocio.strategy.ValidaCPF;
 import br.com.dealercar.core.negocio.strategy.ValidaCarro;
@@ -44,6 +48,7 @@ import br.com.dealercar.core.negocio.strategy.ValidaCategoria;
 import br.com.dealercar.core.negocio.strategy.ValidaCidade;
 import br.com.dealercar.core.negocio.strategy.ValidaCliente;
 import br.com.dealercar.core.negocio.strategy.ValidaCor;
+import br.com.dealercar.core.negocio.strategy.ValidaEmail;
 import br.com.dealercar.core.negocio.strategy.ValidaEstado;
 import br.com.dealercar.core.negocio.strategy.ValidaFabricante;
 import br.com.dealercar.core.negocio.strategy.ValidaFuncionario;
@@ -58,11 +63,11 @@ import br.com.dealercar.core.negocio.strategy.ValidaTipoSeguro;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.Estado;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
+import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
@@ -84,6 +89,11 @@ import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 
+/**
+ * 
+ * @author Paulinho
+ * Fachada Responsavel pelos CRUD
+ */
 public class Fachada implements IFachada {
 
 	/**
@@ -130,6 +140,8 @@ public class Fachada implements IFachada {
 		FormaDeVendaDAO formaDeVendaDAO = new FormaDeVendaDAO();
 		PastilhaFreioDAO pastilhaFreioDAO = new PastilhaFreioDAO();
 		PneuDAO pneuDAO = new PneuDAO();
+		RetiradaDAO retiradaDAO = new RetiradaDAO();
+		DevolucaoDAO devolucaoDAO = new DevolucaoDAO();
 		VelasIgnicaoDAO velasIgnicaoDAO = new VelasIgnicaoDAO();
 		ClienteDAO clienteDAO = new ClienteDAO();
 		FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
@@ -167,6 +179,8 @@ public class Fachada implements IFachada {
 		mapDaos.put(Cidade.class.getName(), cidadeDAO);
 		mapDaos.put(Estado.class.getName(), estadoDAO);
 		mapDaos.put(Carro.class.getName(), carroDAO);
+		mapDaos.put(Retirada.class.getName(), retiradaDAO);
+		mapDaos.put(Devolucao.class.getName(), devolucaoDAO);
 
 		/* Criando instâncias de regras de negócio a serem utilizados */
 		ValidaCategoria validaCategoria = new ValidaCategoria();
@@ -185,6 +199,7 @@ public class Fachada implements IFachada {
 		ValidaCidade validaCidade = new ValidaCidade();
 		ValidaEstado validaEstado = new ValidaEstado();
 		ValidaCPF validaCPF = new ValidaCPF();
+		ValidaEmail validaEmail = new ValidaEmail();
 		ValidaCarro validaCarro = new ValidaCarro();
 
 		// Map regras de negocios cadastrar
@@ -220,6 +235,7 @@ public class Fachada implements IFachada {
 		regrasDeNegocioCadastrarCliente.add(validaCliente);
 		regrasDeNegocioCadastrarCliente.add(validaCPF);
 		regrasDeNegocioCadastrarCliente.add(validaPessoa);
+		regrasDeNegocioCadastrarCliente.add(validaEmail);
 		// Funcionario
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarFuncionario = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarFuncionario.add(validaFuncionario);
@@ -270,6 +286,7 @@ public class Fachada implements IFachada {
 		regrasDeNegocioEditarCliente.add(validaCliente);
 		regrasDeNegocioEditarCliente.add(validaCPF);
 		regrasDeNegocioEditarCliente.add(validaPessoa);
+		regrasDeNegocioEditarCliente.add(validaEmail);
 		// Funcionario
 		List<IValidacaoStrategy> regrasDeNegocioEditarFuncionario = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarFuncionario.add(validaFuncionario);

@@ -7,10 +7,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.dealercar.core.dao.automotivos.CarroDAO;
-import br.com.dealercar.domain.Cor;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
 import br.com.dealercar.domain.automotivos.Categoria;
+import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.enums.SituacaoType;
 
@@ -96,16 +96,16 @@ public class CarroDAOTest {
 	@Ignore
 	public static void pesquisarPorModelo() {
 		
-		List<Carro> lista = new ArrayList<Carro>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 
 		Modelo m = new Modelo(5);
 		
 		CarroDAO carDao = new CarroDAO(); 
 		lista = carDao.listarModelosDisponiveis(m);
 
-		for (Carro c : lista) {
-			System.out.print(c.getModelo().getNome());
-			System.out.print(c.getPlaca());
+		for (EntidadeDominio c : lista) {
+			System.out.print(((Carro) c).getModelo().getNome());
+			System.out.print(((Carro) c).getPlaca());
 			System.out.println("\n");
 			
 		}

@@ -43,9 +43,9 @@ public class CadeirinhaBebe extends Itens {
 
 		if (this.getCodigo() != 99) {
 			retorno.append(super.toString());
-			retorno.append("\nPeso do Bebê: ");
+			retorno.append("\tPeso do Bebê: ");
 			retorno.append(this.getPesoBebe());
-			retorno.append("\n\n");
+			retorno.append("\n");
 		}
 
 		return retorno.toString();

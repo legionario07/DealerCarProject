@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
@@ -20,7 +19,7 @@ import br.com.dealercar.domain.itensopcionais.TipoSeguro;
  * @author Paulinho
  *
  */
-public class TipoSeguroDAO implements IDAO, Serializable{
+public class TipoSeguroDAO extends AbstractPesquisaItensOpcionais implements Serializable{
 
 	/**
 	 * 
@@ -218,6 +217,12 @@ public class TipoSeguroDAO implements IDAO, Serializable{
 
 		return retorno;
 
+	}
+
+	@Override
+	public EntidadeDominio pesquisarPorCodigo(EntidadeDominio entidade) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

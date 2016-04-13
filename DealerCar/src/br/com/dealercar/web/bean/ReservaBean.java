@@ -1,12 +1,10 @@
 package br.com.dealercar.web.bean;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.PieChartModel;
@@ -14,8 +12,6 @@ import org.primefaces.model.chart.PieChartModel;
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
-import br.com.dealercar.core.dao.ClienteDAO;
-import br.com.dealercar.core.dao.ReservaDAO;
 import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
@@ -23,12 +19,22 @@ import br.com.dealercar.core.util.SessionUtil;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.domain.produtosrevisao.Amortecedor;
+import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
+import br.com.dealercar.domain.produtosrevisao.Embreagem;
+import br.com.dealercar.domain.produtosrevisao.Farol;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
+import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
+import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
+import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBReserva")
 @SessionScoped
-public class ReservaBean extends AbstractBean{
-
+public class ReservaBean extends AbstractBean {
 
 	private Reserva reserva = new Reserva();
 
@@ -86,11 +92,8 @@ public class ReservaBean extends AbstractBean{
 	@Override
 	public void carregarListagem() {
 
-		// inicializando os gráficos
-		gerarGrafico();
-
 		// escolhe o Command corretamente de acordo com a operacao
-		ICommand command = mapReservaCommands.get("LISTAR");
+		ICommand command = mapConducaoCommands.get("LISTAR");
 
 		Resultado resultado = new Resultado();
 		resultado = command.execute(new Reserva());
@@ -105,8 +108,47 @@ public class ReservaBean extends AbstractBean{
 
 		setTotalReservas(listaReservas.size());
 
-	}
+		/**
+		 * verifica se tem algum produto Revisao com quantidade inferior a e
+		 * exibe uma mensagem na tela
+		 */
+		command = mapCommands.get("LISTAR");
+		resultado = new Resultado();
 
+		List<ProdutoRevisao> listaProdutos = new ArrayList<ProdutoRevisao>();
+		listaProdutos.add(new Amortecedor());
+		listaProdutos.add(new CorreiaDentada());
+		listaProdutos.add(new Embreagem());
+		listaProdutos.add(new Farol());
+		listaProdutos.add(new FiltroDeAr());
+		listaProdutos.add(new FiltroDeOleoMotor());
+		listaProdutos.add(new FluidoDeFreio());
+		listaProdutos.add(new Pneu());
+		listaProdutos.add(new PastilhaFreio());
+		listaProdutos.add(new VelasIgnicao());
+		
+		for (ProdutoRevisao p : listaProdutos) {
+			resultado = command.execute(p);
+			for(EntidadeDominio produto : resultado.getEntidades()){
+				if(((ProdutoRevisao) produto).getQuantidade()<3){
+					StringBuffer retorno = new StringBuffer();
+					retorno.append(((ProdutoRevisao) produto).getDescricao());
+					retorno.append(" - ");
+					retorno.append(((ProdutoRevisao) produto).getMarca());
+					retorno.append(" - ");
+					retorno.append(((ProdutoRevisao) produto).getTipo());
+					retorno.append(" esta com seu estoque em ");
+					retorno.append(((ProdutoRevisao) produto).getQuantidade());
+					JSFUtil.adicionarMensagemErro(retorno.toString());
+				}
+			}
+			
+		}
+
+		// inicializando os gráficos
+		gerarGrafico();
+
+	}
 
 	/**
 	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
@@ -117,20 +159,20 @@ public class ReservaBean extends AbstractBean{
 		setEhCadastrado(false);
 		setJaPesquisei(true);
 
-		// Validando o cliente
-		reserva.setCliente(new ClienteDAO().pesquisarPorCPF(reserva.getCliente()));
+		// Retorna um estado completo de acordo com um ID
+		ICommand command = mapCommands.get("CONSULTAR");
 
-		// veficando se o cliente foi encontrado
-		if (reserva.getCliente() != null) {
+		Resultado resultado = new Resultado();
+		resultado = command.execute(reserva.getCliente());
+
+		// Cliente foi encontrado
+		if (resultado.getEntidades().get(0) != null) {
+			reserva.setCliente((Cliente) resultado.getEntidades().get(0));
 			setEhCadastrado(true);
 			setJaPesquisei(false);
 			return;
-		}
-
-		if (isEhCadastrado() == false) {
+		} else {
 			reserva.setCliente(new Cliente());
-			JSFUtil.adicionarMensagemNaoLocalizado("Cliente Não Cadastrado.");
-			return;
 		}
 
 	}
@@ -143,76 +185,23 @@ public class ReservaBean extends AbstractBean{
 	public void executar() {
 
 		// recebe a operacao a ser realizada
-		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param"); 
+		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
 
 		// escolhe o Command corretamente de acordo com a operacao
-		ICommand command = mapReservaCommands.get(operacao);
+		ICommand command = mapConducaoCommands.get(operacao);
 		Resultado resultado = new Resultado();
-		
+
 		// recebendo a data atual do sistema
 		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
 		// setando o funcionario que realizou a reserva
 		reserva.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
-		
+
 		resultado = command.execute(reserva);
 		if (resultado != null) {
 			reserva = (Reserva) resultado.getEntidades().get(0);
 		}
 
 		reserva = new Reserva();
-
-	}
-
-	
-	/**
-	 * Edita os dados da reserva selecionada pelo usuario na tela Será aberta
-	 * uma nova caixa de dialogo para ser feitas as alterações
-	 */
-	/*
-	public void editar() {
-
-		// validando o modelo pelo nome
-		reserva.setModelo((Modelo) new ValidaModelo().validar(reserva.getModelo()));
-
-		// recebendo a data atual do sistema
-		reserva.setDataCadastroReserva(DataUtil.pegarDataAtualDoSistema());
-
-		// Verifica se a data digitada para Reserva é válida
-		int i = DataUtil.compararDatas(reserva.getDataCadastroReserva(), reserva.getDataFim());
-
-		// se i diferente de 1 a data esta incorreta
-		if (i != 1) {
-			// colocando formato string para armazenar no banco de dados
-			SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
-
-			JSFUtil.adicionarMensagemErro("A data para Reserva está incorreta. " + "Deve ser maior que "
-					+ stf.format(reserva.getDataCadastroReserva()));
-			return;
-		}
-
-		// setando o funcionario que realizou a reserva
-		reserva.setFuncionario((Funcionario) SessionUtil.getParam("usuarioLogado"));
-
-		reservaDao.editar(reserva);
-		reserva = new Reserva();
-
-		JSFUtil.adicionarMensagemSucesso("Reserva Alterada com Sucesso.");
-
-		// Se não houve nenhum erro fecha o <p:Dialog>
-		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgReservaEditar').hide();");
-
-	}
-
-	/**
-	 * Exclui os dados da reserva selecionada pelo usuario na tela Será aberta
-	 * uma nova caixa de dialogo para confirmar a Exclusão
-	 */
-	/*
-	public void excluir() {
-
-		reservaDao.excluir(reserva);
-
-		JSFUtil.adicionarMensagemSucesso("Reserva excluida com Sucesso.");
 
 	}
 
@@ -223,14 +212,10 @@ public class ReservaBean extends AbstractBean{
 
 		pieReserva = new PieChartModel();
 
-		// lista que recebe todos os itens do BD
-		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
-
-		lista = new ReservaDAO().listarTodos();
 		// passando apenas os nomes para a lista de String
 
 		List<String> listaString = new ArrayList<String>(); // Lista que ira
-		for (EntidadeDominio r : lista) {
+		for (EntidadeDominio r : listaReservas) {
 			listaString.add(((Reserva) r).getModelo().getNome());
 		}
 
@@ -248,16 +233,7 @@ public class ReservaBean extends AbstractBean{
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("MBReserva");
 
-		// Encaminha o usuario para a pagina de Cadastrar novo cliente
-		FacesContext faces = FacesContext.getCurrentInstance();
-		ExternalContext exContext = faces.getExternalContext();
-
-		try {
-			exContext.redirect("ncliente.xhtml");
-		} catch (IOException e) {
-			e.printStackTrace();
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
+		reserva = new Reserva();
 
 	}
 
