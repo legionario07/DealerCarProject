@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe que representa as permissões possiveis de Acesso ao Sistema
+ * @author Paulinho
+ *
+ */
 public class Permissao extends EntidadeDominio implements Serializable {
 
 	/**

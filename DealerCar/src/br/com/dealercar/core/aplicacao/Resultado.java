@@ -5,6 +5,11 @@ import java.util.List;
 
 import br.com.dealercar.domain.EntidadeDominio;
 
+/**
+ * Classe Utilizada pela Fachada para Retornar o Objeto solicitado
+ * @author Paulinho
+ *
+ */
 public class Resultado extends EntidadeAplicacao {
 
 	private String msg;

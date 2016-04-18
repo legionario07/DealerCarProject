@@ -17,15 +17,35 @@ import br.com.dealercar.domain.EntidadeDominio;
  */
 public interface IDAO {
 	
-	
-	void cadastrar(EntidadeDominio entidade);
+	/**
+	 * Cadastra uma entidade Dominio
+	 * @param entidade
+	 */
+	public void cadastrar(EntidadeDominio entidade);
 
-	void excluir(EntidadeDominio entidade);
+	/**
+	 * Exclui uma entidade Dominio
+	 * @param entidade
+	 */
+	public void excluir(EntidadeDominio entidade);
 
-	void editar(EntidadeDominio entidade);
+	/**
+	 * Edita uma entidade Dominio
+	 * @param entidade
+	 */
+	public void editar(EntidadeDominio entidade);
 
-	List<EntidadeDominio> listarTodos();
+	/**
+	 * Lista uma entidade Dominio
+	 * @return List<EntidadeDominio>
+	 */
+	public List<EntidadeDominio> listarTodos();
 
-	EntidadeDominio pesquisarPorID(EntidadeDominio entidade);
+	/**
+	 * Pesquisar através do ID uma entidade Dominio
+	 * @param entidade
+	 * @return uma EntidadeDominio
+	 */
+	public EntidadeDominio pesquisarPorID(EntidadeDominio entidade);
 
 }
