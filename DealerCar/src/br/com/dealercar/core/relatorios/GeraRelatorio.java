@@ -13,9 +13,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.dealercar.core.factory.Conexao;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Retirada;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;

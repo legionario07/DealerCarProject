@@ -8,6 +8,7 @@ import java.util.Map;
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.autenticacao.Permissao;
+import br.com.dealercar.core.dao.CargoDAO;
 import br.com.dealercar.core.dao.CidadeDAO;
 import br.com.dealercar.core.dao.ClienteDAO;
 import br.com.dealercar.core.dao.CorDAO;
@@ -39,10 +40,9 @@ import br.com.dealercar.core.dao.itensrevisao.FormaDeVendaDAO;
 import br.com.dealercar.core.dao.itensrevisao.PastilhaFreioDAO;
 import br.com.dealercar.core.dao.itensrevisao.PneuDAO;
 import br.com.dealercar.core.dao.itensrevisao.VelasIgnicaoDAO;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.negocio.strategy.IValidacaoStrategy;
 import br.com.dealercar.core.negocio.strategy.ValidaCPF;
+import br.com.dealercar.core.negocio.strategy.ValidaCargo;
 import br.com.dealercar.core.negocio.strategy.ValidaCarro;
 import br.com.dealercar.core.negocio.strategy.ValidaCategoria;
 import br.com.dealercar.core.negocio.strategy.ValidaCidade;
@@ -61,6 +61,7 @@ import br.com.dealercar.core.negocio.strategy.ValidaSeguro;
 import br.com.dealercar.core.negocio.strategy.ValidaTaxasAdicionais;
 import br.com.dealercar.core.negocio.strategy.ValidaTipoSeguro;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.Cargo;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
@@ -70,6 +71,8 @@ import br.com.dealercar.domain.automotivos.Categoria;
 import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -149,6 +152,7 @@ public class Fachada implements IFachada {
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		EstadoDAO estadoDAO = new EstadoDAO();
 		CarroDAO carroDAO = new CarroDAO();
+		CargoDAO cargoDAO = new CargoDAO();
 
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		mapDaos.put(Categoria.class.getName(), categoriaDAO);
@@ -181,6 +185,7 @@ public class Fachada implements IFachada {
 		mapDaos.put(Carro.class.getName(), carroDAO);
 		mapDaos.put(Retirada.class.getName(), retiradaDAO);
 		mapDaos.put(Devolucao.class.getName(), devolucaoDAO);
+		mapDaos.put(Cargo.class.getName(), cargoDAO);
 
 		/* Criando instâncias de regras de negócio a serem utilizados */
 		ValidaCategoria validaCategoria = new ValidaCategoria();
@@ -201,6 +206,7 @@ public class Fachada implements IFachada {
 		ValidaCPF validaCPF = new ValidaCPF();
 		ValidaEmail validaEmail = new ValidaEmail();
 		ValidaCarro validaCarro = new ValidaCarro();
+		ValidaCargo validaCargo = new ValidaCargo();
 
 		// Map regras de negocios cadastrar
 		// Categoria
@@ -240,6 +246,7 @@ public class Fachada implements IFachada {
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarFuncionario = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarFuncionario.add(validaFuncionario);
 		regrasDeNegocioCadastrarFuncionario.add(validaPessoa);
+		regrasDeNegocioCadastrarFuncionario.add(validaCargo);
 		// Permissao
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarPermissao = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarPermissao.add(validaPermissao);
@@ -252,6 +259,9 @@ public class Fachada implements IFachada {
 		// Carro
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarCarro = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarCarro.add(validaCarro);
+		//Cargo
+		List<IValidacaoStrategy> regrasDeNegocioCadastrarCargo = new ArrayList<IValidacaoStrategy>();
+		regrasDeNegocioCadastrarCargo.add(validaCargo);
 
 		// Map regras de negocios editar
 		// Categoria
@@ -291,6 +301,7 @@ public class Fachada implements IFachada {
 		List<IValidacaoStrategy> regrasDeNegocioEditarFuncionario = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarFuncionario.add(validaFuncionario);
 		regrasDeNegocioEditarFuncionario.add(validaPessoa);
+		regrasDeNegocioEditarFuncionario.add(validaCargo);
 		// Permissao
 		List<IValidacaoStrategy> regrasDeNegocioEditarPermissao = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarPermissao.add(validaPermissao);
@@ -303,7 +314,9 @@ public class Fachada implements IFachada {
 		// Carro
 		List<IValidacaoStrategy> regrasDeNegocioEditarCarro = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarCarro.add(validaCarro);
-		
+		//Cargo
+		List<IValidacaoStrategy> regrasDeNegocioEditarCargo = new ArrayList<IValidacaoStrategy>();
+		regrasDeNegocioEditarCargo.add(validaCargo);
 		
 
 		// Todas regras de Negocio
@@ -367,6 +380,10 @@ public class Fachada implements IFachada {
 		Map<String, List<IValidacaoStrategy>> regrasDeNegocioCarro = new HashMap<String, List<IValidacaoStrategy>>();
 		regrasDeNegocioCarro.put("EDITAR", regrasDeNegocioEditarCarro);
 		regrasDeNegocioCarro.put("CADASTRAR", regrasDeNegocioCadastrarCarro);
+		//Cargo
+		Map<String, List<IValidacaoStrategy>> regrasDeNegocioCargo = new HashMap<String, List<IValidacaoStrategy>>();
+		regrasDeNegocioCargo.put("EDITAR", regrasDeNegocioEditarCargo);
+		regrasDeNegocioCargo.put("CADASTRAR", regrasDeNegocioCadastrarCargo);
 		
 		
 
@@ -398,6 +415,7 @@ public class Fachada implements IFachada {
 		mapRegrasDeNegocios.put(Cidade.class.getName(), regrasDeNegocioCidade);
 		mapRegrasDeNegocios.put(Estado.class.getName(), regrasDeNegocioEstado);
 		mapRegrasDeNegocios.put(Carro.class.getName(), regrasDeNegocioCarro);
+		mapRegrasDeNegocios.put(Cargo.class.getName(), regrasDeNegocioCargo);
 
 	}
 

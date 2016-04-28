@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.autenticacao.Permissao;
+import br.com.dealercar.domain.Cargo;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.Estado;
 import br.com.dealercar.web.command.ICommand;
@@ -28,6 +29,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	private List<EntidadeDominio> listaCidades = new ArrayList<EntidadeDominio>();
 	private List<EntidadeDominio> listaEstados = new ArrayList<EntidadeDominio>();
 	private List<EntidadeDominio> listaPermissoes = new ArrayList<EntidadeDominio>();
+	private List<EntidadeDominio> listaCargos = new ArrayList<EntidadeDominio>();
 	private int totalFuncionario;
 
 	public Funcionario getFuncionario() {
@@ -66,6 +68,14 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 		return listaPermissoes;
 	}
 
+	public List<EntidadeDominio> getListaCargos() {
+		return listaCargos;
+	}
+
+	public void setListaCargos(List<EntidadeDominio> listaCargos) {
+		this.listaCargos = listaCargos;
+	}
+
 	public void setListaPermissoes(List<EntidadeDominio> listaPermissoes) {
 		this.listaPermissoes = listaPermissoes;
 	}
@@ -102,6 +112,11 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 		resultado = command.execute(new Permissao());
 		if (resultado != null) {
 			listaPermissoes = resultado.getEntidades();
+		}
+		
+		resultado = command.execute(new Cargo());
+		if (resultado != null) {
+			listaCargos = resultado.getEntidades();
 		}
 
 		totalFuncionario = listaFuncionario.size();

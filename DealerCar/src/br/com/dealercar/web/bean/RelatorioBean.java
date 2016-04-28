@@ -11,10 +11,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.dealercar.core.aplicacao.Resultado;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRelatorio")

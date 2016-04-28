@@ -12,11 +12,11 @@ import java.util.List;
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.dao.automotivos.CarroDAO;
 import br.com.dealercar.core.factory.Conexao;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Reserva;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Reserva;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.enums.SituacaoType;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 

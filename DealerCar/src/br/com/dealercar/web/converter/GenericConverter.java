@@ -8,8 +8,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.com.dealercar.core.negocio.Revisao;
 import br.com.dealercar.domain.automotivos.Fabricante;
+import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.domain.itensrevisao.Componentes;
 import br.com.dealercar.domain.itensrevisao.Pneu;
 

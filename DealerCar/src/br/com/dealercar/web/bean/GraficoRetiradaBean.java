@@ -13,9 +13,9 @@ import org.primefaces.model.chart.PieChartModel;
 
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
 import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.conducao.Retirada;
 
 @ManagedBean(name = "MBRetiradaGrafico")
 @ViewScoped

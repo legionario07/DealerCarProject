@@ -1,4 +1,4 @@
-package br.com.dealercar.core.teste.negocio;
+package br.com.dealercar.core.teste.conducao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.dao.ReservaDAO;
-import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.domain.conducao.Reserva;
 import br.com.dealercar.domain.enums.SituacaoReserva;
 
 public class ReservaDAOTest {

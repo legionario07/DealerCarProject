@@ -1,8 +1,8 @@
 package br.com.dealercar.core.negocio.strategy;
 
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Retirada;
 
 /**
  * Classe Strategy reponsável pela Validação de um Retirada

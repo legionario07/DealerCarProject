@@ -14,6 +14,7 @@ import br.com.dealercar.core.autenticacao.Permissao;
 import br.com.dealercar.core.autenticacao.Usuario;
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.Cargo;
 import br.com.dealercar.domain.Cidade;
 import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.EntidadeDominio;
@@ -51,7 +52,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into funcionarios ");
 		sql.append("(nome, data_nasc, sexo, rua, numero, complemento, bairro, telefone, celular, ");
-		sql.append("id_cidade, cargo, salario, login, senha, id_permissao, ativo) ");
+		sql.append("id_cidade, id_cargo, salario, login, senha, id_permissao, ativo) ");
 		sql.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?), ?, ?)");
 
 		con = Conexao.getConnection();
@@ -75,7 +76,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 			pstm.setString(++i, funcionario.getTelefone());
 			pstm.setString(++i, funcionario.getCelular());
 			pstm.setInt(++i, funcionario.getEndereco().getCidade().getId());
-			pstm.setString(++i, funcionario.getCargo());
+			pstm.setInt(++i, funcionario.getCargo().getId());
 			pstm.setDouble(++i, funcionario.getSalario());
 			pstm.setString(++i, funcionario.getUsuario().getLogin());
 			pstm.setString(++i, funcionario.getUsuario().getSenha());
@@ -109,7 +110,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		sql.append("update funcionarios set ");
 		sql.append("nome = ?, data_nasc = ?, sexo = ?, ");
 		sql.append("rua = ?, numero = ?, complemento = ?, bairro = ?, ");
-		sql.append("telefone = ?, celular = ?, cargo = ?, salario = ?, ");
+		sql.append("telefone = ?, celular = ?, id_cargo = ?, salario = ?, ");
 		sql.append("id_cidade = ?, login = ?, senha = md5(?), id_permissao = ?, ativo = ? where id = ?");
 
 		con = Conexao.getConnection();
@@ -132,7 +133,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 			pstm.setString(++i, funcionario.getEndereco().getBairro());
 			pstm.setString(++i, funcionario.getTelefone());
 			pstm.setString(++i, funcionario.getCelular());
-			pstm.setString(++i, funcionario.getCargo().toUpperCase());
+			pstm.setInt(++i, funcionario.getCargo().getId());
 			pstm.setDouble(++i, funcionario.getSalario());
 			pstm.setInt(++i, funcionario.getEndereco().getCidade().getId());
 			pstm.setString(++i, funcionario.getUsuario().getLogin());
@@ -223,7 +224,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setEndereco(end);
 
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
-				funcionarioRetorno.setCargo(rSet.getString("cargo"));
+				
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id_cargo"));
+				cargo = (Cargo) new CargoDAO().pesquisarPorID(cargo);
+				funcionarioRetorno.setCargo(cargo);
+				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
@@ -300,7 +306,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setEndereco(end);
 
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
-				funcionarioRetorno.setCargo(rSet.getString("cargo"));
+				
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id_cargo"));
+				cargo = (Cargo) new CargoDAO().pesquisarPorID(cargo);
+				funcionarioRetorno.setCargo(cargo);
+				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
@@ -379,7 +390,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setEndereco(end);
 
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
-				funcionarioRetorno.setCargo(rSet.getString("cargo"));
+				
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id_cargo"));
+				cargo = (Cargo) new CargoDAO().pesquisarPorID(cargo);
+				funcionarioRetorno.setCargo(cargo);
+				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
@@ -451,7 +467,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setEndereco(end);
 
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
-				funcionarioRetorno.setCargo(rSet.getString("cargo"));
+				
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id_cargo"));
+				cargo = (Cargo) new CargoDAO().pesquisarPorID(cargo);
+				funcionarioRetorno.setCargo(cargo);
+				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuarioRetorno = new Usuario();
@@ -524,7 +545,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setEndereco(end);
 
 				funcionarioRetorno.setCelular(rSet.getString("celular"));
-				funcionarioRetorno.setCargo(rSet.getString("cargo"));
+				
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id_cargo"));
+				cargo = (Cargo) new CargoDAO().pesquisarPorID(cargo);
+				funcionarioRetorno.setCargo(cargo);
+				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuarioRetorno = new Usuario();

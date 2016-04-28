@@ -41,6 +41,16 @@ public class RelatorioSinteticosBean implements Serializable {
 				.getRealPath("/Relatorios/listagemModelosComMaisRevisoes.jasper")));
 		mapRelatorio.put("REVISOES_SINTETICO", new File(FacesContext.getCurrentInstance().getExternalContext()
 				.getRealPath("/Relatorios/listagemRevisoes.jasper")));
+		mapRelatorio.put("RETIRADAS_ATIVAS", new File(FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/Relatorios/listagemRetiradasAtivas.jasper")));
+		mapRelatorio.put("CLIENTES_SINTETICO", new File(FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/Relatorios/listagemClientes.jasper")));
+		mapRelatorio.put("CLIENTES_COM_MAIS_RETIRADAS", new File(FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/Relatorios/listagemClientesComMaisLocacoes.jasper")));
+		mapRelatorio.put("FUNCIONARIOS_SINTETICO", new File(FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/Relatorios/listagemFuncionarios.jasper")));
+
+		
 
 	}
 

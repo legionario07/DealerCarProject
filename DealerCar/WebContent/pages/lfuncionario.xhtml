@@ -60,9 +60,9 @@
 
 				<p:column headerText="Cargo" width="15%"
 					style="font-size:11px; text-align:center"
-					filterBy="#{itemFuncionario.cargo}"
-					sortBy="#{itemFuncionario.cargo}">
-					<h:outputText value="#{itemFuncionario.cargo}" />
+					filterBy="#{itemFuncionario.cargo.nome}"
+					sortBy="#{itemFuncionario.cargo.nome}">
+					<h:outputText value="#{itemFuncionario.cargo.nome}" />
 				</p:column>
 
 				<p:column headerText="Salario" width="15%"

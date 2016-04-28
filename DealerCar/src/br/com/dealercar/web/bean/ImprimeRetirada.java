@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import javax.faces.bean.ManagedBean;
 
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.relatorios.GeraRelatorio;
 import br.com.dealercar.core.util.SessionUtil;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Retirada;
 
 @ManagedBean(name = "MBImprimirRetirada")
 public class ImprimeRetirada {

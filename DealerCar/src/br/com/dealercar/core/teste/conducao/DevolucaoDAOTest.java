@@ -1,4 +1,4 @@
-package br.com.dealercar.core.teste.negocio;
+package br.com.dealercar.core.teste.conducao;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.dao.DevolucaoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Reserva;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Reserva;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.taxasadicionais.TaxaLavagem;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 

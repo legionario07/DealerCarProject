@@ -1,5 +1,6 @@
 package br.com.dealercar.core.autenticacao;
 
+import br.com.dealercar.domain.Cargo;
 import br.com.dealercar.domain.Endereco;
 import br.com.dealercar.domain.Pessoa;
 
@@ -16,13 +17,14 @@ public class Funcionario extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	private String celular;
 	private String telefone;
-	private String cargo;
+	private Cargo cargo;
 	private Double salario;
 	private Usuario usuario;
 
 	public Funcionario(){
 		this.setEndereco(new Endereco());
 		this.setUsuario(new Usuario());
+		this.setCargo(new Cargo());
 	}
 	/**
 	 * 
@@ -45,7 +47,7 @@ public class Funcionario extends Pessoa {
 	public void setCelular(String celular) {
 		this.celular = celular.trim();
 	}
-	public String getCargo() {
+	public Cargo getCargo() {
 		return cargo;
 	}
 
@@ -57,8 +59,8 @@ public class Funcionario extends Pessoa {
 		this.usuario = usuario;
 	}
 
-	public void setCargo(String cargo) {
-			this.cargo = cargo.trim();
+	public void setCargo(Cargo cargo) {
+			this.cargo = cargo;
 	}
 
 	public Double getSalario() {

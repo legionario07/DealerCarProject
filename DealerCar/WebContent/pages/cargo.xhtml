@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:event listener="#{MBCargo.carregarListagem}" type="preRenderView" />
+
+		<h:form id="frmListaCargo">
+
+			<p:dataTable id="tblListaCargo" value="#{MBCargo.listaCargos}"
+				widgetVar="tabelaListagem" var="itemCargo"
+				style="width:60%;align:center" sortBy="#{itemCargo.nome}"
+				emptyMessage="Nenhum Registro foi encontrado" paginator="true"
+				rows="10">
+
+				<f:facet name="header">
+					<h:outputText value="Cargo - Listagem" style="font-size:14px" />
+				</f:facet>
+
+
+				<p:column headerText="Id" width="5%"
+					style="font-size:11px; text-align:center" sortBy="#{itemCargo.id}">
+					<h:outputText value="#{itemCargo.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" width="15%" style="font-size:11px"
+					sortBy="#{itemCargo.nome}">
+					<h:outputText value="#{itemCargo.nome}" />
+				</p:column>
+
+
+				<p:column headerText="Opções" width="10%" style="text-align:center">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="PF('dlgCargoEditar').show();"
+						update=":frmCargoEditar:pnlCargoEditar :msgGlobal">
+						<f:setPropertyActionListener value="#{itemCargo}"
+							target="#{MBCargo.cargo}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('dlgCargoExcluir').show();"
+						update="frmExcluirCargo :msgGlobal">
+						<f:setPropertyActionListener value="#{itemCargo}"
+							target="#{MBCargo.cargo}" />
+					</p:commandButton>
+
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:panelGrid>
+						<p:commandButton value="Nova" onclick="PF('dlgCargoNova').show();"
+							update=":frmNovaCargo :msgGlobal" />
+					</h:panelGrid>
+
+					<p:outputLabel value="Exitem " />
+					<p:outputLabel value="#{MBCargo.totalCargo}" />
+					<p:outputLabel value=" cores cadastradas." />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<!--  Caixa de Dialogo Cadastrar Cargo -->
+		<p:dialog widgetVar="dlgCargoNova" closable="false" width="30%"
+			id="dlgNova" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Cargo - Cadastrar">
+			<h:form id="frmNovaCargo">
+
+				<h:panelGrid id="pnlNovaCargo2">
+
+					<h:outputText value="Nome: *" />
+					<p:inputText value="#{MBCargo.cargo.nome}" rendered="true"
+						requiredMessage="Favor informar o nome do novo Cargo" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Salvar" id="CADASTRAR"
+						actionListener="#{MBCargo.executar}"
+						update="frmListaCargo:tblListaCargo :msgGlobal"
+						onclick="PF('dlgCargoNova').hide();">
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" action="#{MBCargo.limparObjetos}"
+						onclick="PF('dlgCargoNova').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Caixa de Dialogo Confimar Editar Cargo-->
+		<p:dialog widgetVar="dlgCargoEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Cargo - Editar">
+
+			<h:form id="frmCargoEditar">
+				<h:panelGrid id="pnlCargoEditar" columns="2">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBCargo.cargo.id}" readonly="true" />
+
+					<h:outputText value="Nome:  " />
+					<p:inputText value="#{MBCargo.cargo.nome}" />
+
+					<p:commandButton value="Salvar" id="EDITAR"
+						actionListener="#{MBCargo.executar}"
+						update=":frmListaCargo:tblListaCargo :msgGlobal"
+						oncomplete="PF('dlgCargoEditar').hide();">
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" action="#{MBCargo.limparObjetos}"
+						onclick="PF('dlgCargoEditar').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<!--  Caixa de Dialogo Excluir Cargo -->
+		<p:dialog widgetVar="dlgCargoExcluir" closable="false" width="30%"
+			id="dlgExcluir" height="40%" resizable="false" appendTo="@(body)"
+			modal="true" header="Cargo - Excluir">
+			<h:form id="frmExcluirCargo">
+
+
+				<h:panelGrid id="pnlExcluirCargo">
+
+					<h:outputText value="ID: " />
+					<p:inputText value="#{MBCargo.cargo.id}" readonly="true" />
+
+					<h:outputText value="Nome: " />
+					<p:inputText value="#{MBCargo.cargo.nome}" readonly="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="pnlComandos" columns="2" cellpadding="10">
+
+					<p:commandButton value="Excluir" id="EXCLUIR"
+						actionListener="#{MBCargo.executar}"
+						update="frmListaCargo:tblListaCargo :msgGlobal"
+						onclick="PF('dlgCargoExcluir').hide();">
+						<f:param name="param" value="EXCLUIR" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" action="#{MBCargo.limparObjetos}"
+						onclick="PF('dlgCargoExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+	<ui:define name="rodapePagina">
+		<ui:include src="/includes/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

@@ -1,4 +1,4 @@
-package br.com.dealercar.core.negocio;
+package br.com.dealercar.domain.conducao;
 
 import java.util.ArrayList;
 import java.util.Date;

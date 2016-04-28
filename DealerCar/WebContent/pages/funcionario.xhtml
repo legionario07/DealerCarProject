@@ -95,8 +95,9 @@
 							readonly="true" maxlength="45" />
 
 						<h:outputText value="Cargo: " maxlength="20" />
-						<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
-							readonly="true" maxlength="20" />
+						<p:inputText size="20"
+							value="#{MBFuncionario.funcionario.cargo.nome}" readonly="true"
+							maxlength="20" />
 
 						<h:outputText value="Salário: " maxlength="20" />
 						<p:inputText size="20"
@@ -246,11 +247,14 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cargo: *" maxlength="20" />
-					<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
-						required="true"
-						requiredMessage="Favor informar o Cargo do Funcionário. 
-							Campo de preenchimento obrigatório"
-						maxlength="20" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.cargo.id}"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith" rendered="true"
+						requiredMessage="Favor informar o cargo. Campo de preenchimento obrigatório">
+
+						<f:selectItems value="#{MBFuncionario.listaCargos}" var="cargo"
+							itemLabel="#{cargo.nome}" itemValue="#{cargo.id}" />
+					</p:selectOneMenu>
 
 					<p:outputLabel value="Salário: *" maxlength="20" />
 					<p:inputText size="20" value="#{MBFuncionario.funcionario.salario}"
@@ -291,7 +295,7 @@
 
 				<h:panelGrid id="comandos" columns="3">
 					<p:commandButton value="Salvar" id="salvar"
-					onclick="PF('dlgFuncionarioEditar').hide();"
+						onclick="PF('dlgFuncionarioEditar').hide();"
 						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioEditar :msgGlobal"
 						actionListener="#{MBFuncionario.executar}">
 						<f:param name="param" value="EDITAR" />
@@ -410,11 +414,14 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Cargo: *" maxlength="20" />
-					<p:inputText size="20" value="#{MBFuncionario.funcionario.cargo}"
-						required="true"
-						requiredMessage="Favor informar o Cargo do Funcionário. 
-							Campo de preenchimento obrigatório"
-						maxlength="20" />
+					<p:selectOneMenu value="#{MBFuncionario.funcionario.cargo.id}"
+						panelStyle="width:180px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith" rendered="true"
+						requiredMessage="Favor informar o cargo. Campo de preenchimento obrigatório">
+
+						<f:selectItems value="#{MBFuncionario.listaCargos}" var="cargo"
+							itemLabel="#{cargo.nome}" itemValue="#{cargo.id}" />
+					</p:selectOneMenu>
 
 					<p:outputLabel value="Salário: *" maxlength="20" />
 					<p:inputText size="20" value="#{MBFuncionario.funcionario.salario}"
@@ -456,7 +463,7 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBFuncionario.executar}"
-						onclick="PF('dlgFuncionarioCadastrar').hide();" 
+						onclick="PF('dlgFuncionarioCadastrar').hide();"
 						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal">
 						<f:param name="param" value="CADASTRAR" />
 					</p:commandButton>

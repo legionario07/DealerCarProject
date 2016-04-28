@@ -1,4 +1,4 @@
-package br.com.dealercar.core.teste.negocio;
+package br.com.dealercar.core.teste.conducao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,10 +12,10 @@ import org.junit.Test;
 
 import br.com.dealercar.core.autenticacao.Funcionario;
 import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.itensopcionais.Opcional;
 
 public class RetiradaDAOTest {

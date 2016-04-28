@@ -141,7 +141,7 @@ public class CarroDAO implements IDAO, Serializable{
 				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
 				Cor cor = new Cor(rSet.getInt("id_cor"));
-				cor =  new CorDAO().pesquisarPorID(cor);
+				cor =  (Cor) new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
 				Modelo modelo = new Modelo(rSet.getInt("id_modelo"));
@@ -203,7 +203,7 @@ public class CarroDAO implements IDAO, Serializable{
 				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
 				Cor cor = new Cor(rSet.getInt("id_cor"));
-				cor =  new CorDAO().pesquisarPorID(cor);
+				cor =  (Cor) new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
 				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));
@@ -302,7 +302,7 @@ public class CarroDAO implements IDAO, Serializable{
 				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
 				Cor cor = new Cor(rSet.getInt("id_cor"));
-				cor =  new CorDAO().pesquisarPorID(cor);
+				cor =  (Cor) new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
 				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));
@@ -360,7 +360,7 @@ public class CarroDAO implements IDAO, Serializable{
 				carroRetorno.setQtdeMalasSuportadas(rSet.getInt("qtde_malas_suportadas"));
 				
 				Cor cor = new Cor(rSet.getInt("id_cor"));
-				cor =  new CorDAO().pesquisarPorID(cor);
+				cor =  (Cor) new CorDAO().pesquisarPorID(cor);
 				carroRetorno.setCor(cor);
 				
 				Modelo modeloRetorno = new Modelo(rSet.getInt("id_modelo"));

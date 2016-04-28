@@ -15,11 +15,11 @@ import org.primefaces.model.chart.PieChartModel;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
 import br.com.dealercar.core.dao.ReservaDAO;
 import br.com.dealercar.core.dao.automotivos.ModeloDAO;
-import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.util.DataMenu;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Reserva;
 import br.com.dealercar.domain.enums.SituacaoReserva;
 
 @ManagedBean(name = "MBReservaGrafico")

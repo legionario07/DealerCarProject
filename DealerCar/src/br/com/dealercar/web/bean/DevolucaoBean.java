@@ -12,14 +12,14 @@ import javax.faces.context.FacesContext;
 
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.autenticacao.Funcionario;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Reserva;
-import br.com.dealercar.core.negocio.Retirada;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
 import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Reserva;
+import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 import br.com.dealercar.web.command.ICommand;
 

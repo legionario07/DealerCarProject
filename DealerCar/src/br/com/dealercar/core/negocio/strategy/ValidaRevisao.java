@@ -1,7 +1,7 @@
 package br.com.dealercar.core.negocio.strategy;
 
-import br.com.dealercar.core.negocio.Revisao;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Revisao;
 
 /**
  * Classe Strategy reponsável pela Validação de um Revisao

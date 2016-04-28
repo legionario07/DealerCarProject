@@ -15,10 +15,10 @@ import org.primefaces.model.chart.BarChartModel;
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoBarraBuilder;
 import br.com.dealercar.core.dao.RevisaoDAO;
-import br.com.dealercar.core.negocio.Revisao;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
+import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBProdutoRevisaoGrafico")

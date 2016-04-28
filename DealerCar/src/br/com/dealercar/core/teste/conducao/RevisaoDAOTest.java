@@ -1,4 +1,4 @@
-package br.com.dealercar.core.teste.negocio;
+package br.com.dealercar.core.teste.conducao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,11 +13,11 @@ import br.com.dealercar.core.dao.DevolucaoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.dao.itensrevisao.ProdutoRevisaoDAO;
-import br.com.dealercar.core.negocio.Devolucao;
-import br.com.dealercar.core.negocio.Revisao;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.domain.enums.PosicaoPneu;
 import br.com.dealercar.domain.itensrevisao.Arrefecimento;
 import br.com.dealercar.domain.itensrevisao.Bateria;

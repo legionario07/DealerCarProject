@@ -41,6 +41,9 @@
 				<p:menuitem value="Cores" outcome="/pages/cores.xhtml"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
 
+				<p:menuitem value="Cargos" outcome="/pages/cargo.xhtml"
+					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}" />
+
 				<p:submenu label="Opcionais"
 					rendered="#{MBlogin.funcionario.usuario.permissao.nivel == 'ADMINISTRADOR'}">
 					<p:menuitem value="Itens Opcionais"
@@ -117,6 +120,10 @@
 						action="#{MBRelatorioSintetico.chamarExporter}">
 						<f:param name="relatorioEscolhido" value="RETIRADA_SINTETICO" />
 					</p:menuitem>
+					<p:menuitem value="Ativas"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="RETIRADAS_ATIVAS" />
+					</p:menuitem>
 					<p:menuitem value="Retiradas From Reservas"
 						action="#{MBRelatorioSintetico.chamarExporter}">
 						<f:param name="relatorioEscolhido" value="RETIRADAS_FROM_RESERVAS" />
@@ -151,7 +158,7 @@
 						<f:param name="relatorioEscolhido" value="CATEGORIAS_MAIS_LOCADAS" />
 					</p:menuitem>
 				</p:submenu>
-				
+
 				<p:submenu label="Revisões">
 					<p:menuitem value="Sintético"
 						action="#{MBRelatorioSintetico.chamarExporter}">
@@ -159,9 +166,28 @@
 					</p:menuitem>
 					<p:menuitem value="Modelos Com Mais Revisões"
 						action="#{MBRelatorioSintetico.chamarExporter}">
-						<f:param name="relatorioEscolhido" value="MODELOS_COM_MAIS_REVISOES" />
+						<f:param name="relatorioEscolhido"
+							value="MODELOS_COM_MAIS_REVISOES" />
 					</p:menuitem>
 				</p:submenu>
+				<p:submenu label="Clientes">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="CLIENTES_SINTETICO" />
+					</p:menuitem>
+					<p:menuitem value="Com Mais Retiradas"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido"
+							value="CLIENTES_COM_MAIS_RETIRADAS" />
+					</p:menuitem>
+				</p:submenu>
+				<p:submenu label="Funcionários">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="FUNCIONARIOS_SINTETICO" />
+					</p:menuitem>
+				</p:submenu>
+
 
 
 			</p:submenu>

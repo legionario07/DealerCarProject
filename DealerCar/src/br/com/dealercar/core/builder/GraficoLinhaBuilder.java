@@ -13,7 +13,7 @@ import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 
-import br.com.dealercar.core.negocio.Reserva;
+import br.com.dealercar.domain.conducao.Reserva;
 
 /**
  * 

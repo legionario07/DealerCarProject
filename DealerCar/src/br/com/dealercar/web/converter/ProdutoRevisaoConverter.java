@@ -18,7 +18,7 @@ import br.com.dealercar.core.dao.itensrevisao.FluidoDeFreioDAO;
 import br.com.dealercar.core.dao.itensrevisao.PastilhaFreioDAO;
 import br.com.dealercar.core.dao.itensrevisao.PneuDAO;
 import br.com.dealercar.core.dao.itensrevisao.VelasIgnicaoDAO;
-import br.com.dealercar.core.negocio.Revisao;
+import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.domain.itensrevisao.Componentes;
 import br.com.dealercar.domain.produtosrevisao.Amortecedor;
 import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;

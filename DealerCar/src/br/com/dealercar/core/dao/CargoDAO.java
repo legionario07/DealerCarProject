@@ -1,5 +1,6 @@
 package br.com.dealercar.core.dao;
 
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,10 +11,10 @@ import java.util.List;
 
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.Cargo;
 import br.com.dealercar.domain.EntidadeDominio;
-import br.com.dealercar.domain.automotivos.Cor;
 
-public class CorDAO implements IDAO, Serializable{
+public class CargoDAO implements IDAO, Serializable{
 
 	private Connection con = null;
 
@@ -24,26 +25,26 @@ public class CorDAO implements IDAO, Serializable{
 
 	/**
 	 * 
-	 * @param usuario Recebe um objeto Cor e cadastra no Banco de Dados pelo Id
+	 * @param usuario Recebe um objeto Cargo e cadastra no Banco de Dados pelo Id
 	 * @return
 	 */
 	@Override
 	public void cadastrar(EntidadeDominio entidade) {
 		
-		if(!(entidade instanceof Cor))
+		if(!(entidade instanceof Cargo))
 			return;
 		
-		Cor cor = new Cor();
-		cor = (Cor) entidade;
+		Cargo cargo = new Cargo();
+		cargo = (Cargo) entidade;
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("insert into cores (nome) values (?)");
+		sql.append("insert into cargos (nome) values (?)");
 		
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setString(1, cor.getNome().toUpperCase());
+			pstm.setString(1, cargo.getNome().toUpperCase());
 
 			pstm.executeUpdate();
 			
@@ -57,27 +58,27 @@ public class CorDAO implements IDAO, Serializable{
 	/**
 	 * 
 	 * @param usuario
-	 *            recebe um objeto Cor e excluir do Banco de Dados pelo Id
+	 *            recebe um objeto Cargo e excluir do Banco de Dados pelo Id
 	 * @return
 	 */
 
 	public void excluir(EntidadeDominio entidade) {
 
-		if(!(entidade instanceof Cor))
+		if(!(entidade instanceof Cargo))
 			return;
 		
-		Cor cor = new Cor();
-		cor = (Cor) entidade;
+		Cargo cargo = new Cargo();
+		cargo = (Cargo) entidade;
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("delete from cores where id = ?");
+		sql.append("delete from cargos where id = ?");
 		
 		con = Conexao.getConnection();
 
 		try {
 
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setInt(1, cor.getId());
+			pstm.setInt(1, cargo.getId());
 
 			pstm.executeUpdate();
 			
@@ -90,29 +91,29 @@ public class CorDAO implements IDAO, Serializable{
 
 	/**
 	 * 
-	 * @param cor
-	 *            Recebe um objeto Cor e edita seus dados no Banco de DAdos
+	 * @param cargo
+	 *            Recebe um objeto Cargo e edita seus dados no Banco de DAdos
 	 */
 	@Override
 	public void editar(EntidadeDominio entidade) {
 		
-		if(!(entidade instanceof Cor))
+		if(!(entidade instanceof Cargo))
 			return;
 		
-		Cor cor = new Cor();
-		cor = (Cor) entidade;
+		Cargo cargo = new Cargo();
+		cargo = (Cargo) entidade;
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("update cores set id = ?, nome = ? where id = ?");
+		sql.append("update cargos set id = ?, nome = ? where id = ?");
 		
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
 			int i = 0;
-			pstm.setInt(++i, cor.getId());
-			pstm.setString(++i, cor.getNome().toUpperCase());
-			pstm.setInt(++i, cor.getId());
+			pstm.setInt(++i, cargo.getId());
+			pstm.setString(++i, cargo.getNome().toUpperCase());
+			pstm.setInt(++i, cargo.getId());
 
 			pstm.executeUpdate();
 			
@@ -124,15 +125,16 @@ public class CorDAO implements IDAO, Serializable{
 
 	/**
 	 * 
-	 * @return Retorna todas as cores Cadastradas no BD em forma de List<Cor>
+	 * @return Retorna todas as cargos Cadastradas no BD em forma de List<Cargo>
 	 */
 	@Override
 	public List<EntidadeDominio> listarTodos() {
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cores");
+		sql.append("select * from cargos");
+		sql.append(" order by id asc");
 		
-		List<EntidadeDominio> listaCores = new ArrayList<EntidadeDominio>();
+		List<EntidadeDominio> listaCargoes = new ArrayList<EntidadeDominio>();
 		con = Conexao.getConnection();
 
 		try {
@@ -142,10 +144,10 @@ public class CorDAO implements IDAO, Serializable{
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				Cor cor = new Cor();
-				cor.setId(rSet.getInt("id"));
-				cor.setNome(rSet.getString("nome"));
-				listaCores.add(cor);
+				Cargo cargo = new Cargo();
+				cargo.setId(rSet.getInt("id"));
+				cargo.setNome(rSet.getString("nome"));
+				listaCargoes.add(cargo);
 
 			}
 
@@ -155,41 +157,41 @@ public class CorDAO implements IDAO, Serializable{
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
-		return listaCores;
+		return listaCargoes;
 	}
 
 	/**
 	 * 
-	 * @param cor
-	 *            Recebe uma Cor e pesquisa no BD por seu Id
-	 * @return Retorna um objeto de Cor
+	 * @param cargo
+	 *            Recebe uma Cargo e pesquisa no BD por seu Id
+	 * @return Retorna um objeto de Cargo
 	 */
 	@Override
 	public EntidadeDominio pesquisarPorID(EntidadeDominio entidade) {
 		
-		if(!(entidade instanceof Cor))
+		if(!(entidade instanceof Cargo))
 			return null;
 		
-		Cor cor = new Cor();
-		cor = (Cor) entidade;
+		Cargo cargo = new Cargo();
+		cargo = (Cargo) entidade;
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from cores where id = ?");
+		sql.append("select * from cargos where id = ?");
 		
-		Cor corRetorno = null;
+		Cargo cargoRetorno = null;
 		
 		con = Conexao.getConnection();
 
 		try {
 			PreparedStatement pstm = con.prepareStatement(sql.toString());
-			pstm.setInt(1, cor.getId());
+			pstm.setInt(1, cargo.getId());
 
 			ResultSet rSet = pstm.executeQuery();
 
 			while (rSet.next()) {
-				corRetorno = new Cor();
-				corRetorno.setId(rSet.getInt("id"));
-				corRetorno.setNome(rSet.getString("nome"));
+				cargoRetorno = new Cargo();
+				cargoRetorno.setId(rSet.getInt("id"));
+				cargoRetorno.setNome(rSet.getString("nome"));
 			}
 
 			
@@ -198,7 +200,7 @@ public class CorDAO implements IDAO, Serializable{
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 
-		return corRetorno;
+		return cargoRetorno;
 	}
 
 }

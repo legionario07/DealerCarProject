@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.dealercar.core.negocio.Reserva;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Reserva;
 import br.com.dealercar.domain.enums.SituacaoReserva;
 
 /**
