@@ -33,7 +33,6 @@ import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 public class RevisaoDAOTest {
 
 	@Test
-	@Ignore
 	public void cadastrar() {
 		Revisao revisao = new Revisao();
 
@@ -42,28 +41,35 @@ public class RevisaoDAOTest {
 		devolucao = new DevolucaoDAO().pesquisarPorID(devolucao);
 		revisao.setDevolucao(devolucao);
 
-		Componentes componente = new Componentes();
+		List<Componentes> componentes = new ArrayList<Componentes>();
 
 		Arrefecimento arrefecimento = new Arrefecimento();
 		arrefecimento.setSituacao("Ok");
+		componentes.add(arrefecimento);
 
 		Bateria bateria = new Bateria();
 		bateria.setSituacao("OK");
+		componentes.add(bateria);
 
 		Embreagem embreagem = new Embreagem();
 		embreagem.setSituacao("Ok");
+		componentes.add(embreagem);
 
 		Freio freio = new Freio();
 		freio.setSituacao("Ok");
+		componentes.add(freio);
 
 		Lanterna lanterna = new Lanterna();
 		lanterna.setSituacao("Ok");
+		componentes.add(lanterna);
 
 		Motor motor = new Motor();
 		motor.setSituacao("Ok");
+		componentes.add(motor);
 
 		Suspensao suspensao = new Suspensao();
 		suspensao.setSituacao("Ok");
+		componentes.add(suspensao);
 
 		Pneu pneu = new Pneu();
 		pneu.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
@@ -75,23 +81,13 @@ public class RevisaoDAOTest {
 		pneu.setPosicaoPneu(PosicaoPneu.TRASEIRO_ESQUERDO);
 		Pneu pneu5 = new Pneu();
 		pneu.setPosicaoPneu(PosicaoPneu.ESTEPE);
-		List<Pneu> pneus = new ArrayList<Pneu>();
-		pneus.add(pneu);
-		pneus.add(pneu2);
-		pneus.add(pneu3);
-		pneus.add(pneu4);
-		pneus.add(pneu5);
+		componentes.add(pneu);
+		componentes.add(pneu2);
+		componentes.add(pneu3);
+		componentes.add(pneu4);
+		componentes.add(pneu5);
 
-		componente.setArrefecimento(arrefecimento);
-		componente.setBateria(bateria);
-		componente.setEmbreagem(embreagem);
-		componente.setFreio(freio);
-		componente.setLanterna(lanterna);
-		componente.setMotor(motor);
-		componente.setSuspensao(suspensao);
-		componente.setPneus(pneus);
-
-		revisao.setComponentes(componente);
+		revisao.setComponentes(componentes);
 
 		Funcionario funcionario = new Funcionario(7);
 		funcionario = new FuncionarioDAO().pesquisarPorID(funcionario);

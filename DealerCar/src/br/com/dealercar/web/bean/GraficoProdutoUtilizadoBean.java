@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,6 +19,16 @@ import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.domain.produtosrevisao.Amortecedor;
+import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
+import br.com.dealercar.domain.produtosrevisao.Embreagem;
+import br.com.dealercar.domain.produtosrevisao.Farol;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
+import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
+import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
+import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 
 @ManagedBean(name = "MBProdutoUtilizadoGrafico")
 @ViewScoped
@@ -33,12 +44,40 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 	private List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 	private List<String> listaString = new ArrayList<String>();
 	private List<String> listaStringProdutos = new ArrayList<String>();
+	private Map<String, Integer> produtosUtilizados = new HashMap<String, Integer>();
 	private Map<String, String> criterio = new HashMap<String, String>();
+	private Map<String, String> hashProdutos = new HashMap<String, String>();
 	private String produtoEscolhido;
 
 	private Modelo modelo = new Modelo();
 
 	private Amortecedor amortecedor = new Amortecedor();
+
+	public GraficoProdutoUtilizadoBean() {
+
+		listaStringProdutos.add("Amortecedor");
+		listaStringProdutos.add("Correia Dentada");
+		listaStringProdutos.add("Embreagem");
+		listaStringProdutos.add("Farol");
+		listaStringProdutos.add("Filtro de Ar");
+		listaStringProdutos.add("Filtro de Oleo Motor");
+		listaStringProdutos.add("Fluido de Freio");
+		listaStringProdutos.add("Pastilha de Freio");
+		listaStringProdutos.add("Pneu");
+		listaStringProdutos.add("Velas Ignição");
+
+		hashProdutos.put("Amortecedor", Amortecedor.class.getName());
+		hashProdutos.put("Correia Dentada", CorreiaDentada.class.getName());
+		hashProdutos.put("Embreagem", Embreagem.class.getName());
+		hashProdutos.put("Farol", Farol.class.getName());
+		hashProdutos.put("Filtro de Ar", FiltroDeAr.class.getName());
+		hashProdutos.put("Filtro de Oleo Motor", FiltroDeOleoMotor.class.getName());
+		hashProdutos.put("Fluido de Freio", FluidoDeFreio.class.getName());
+		hashProdutos.put("Pastilha de Freio", PastilhaFreio.class.getName());
+		hashProdutos.put("Pneu", Pneu.class.getName());
+		hashProdutos.put("Velas Ignição", VelasIgnicao.class.getName());
+
+	}
 
 	public Revisao getRevisao() {
 		return revisao;
@@ -55,7 +94,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 	public void setLista(List<EntidadeDominio> lista) {
 		this.lista = lista;
 	}
-
 
 	public BarChartModel getGraficoBarras() {
 		return graficoBarras;
@@ -117,25 +155,12 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		this.modelo = modelo;
 	}
 
-
 	public void setTipoDeDadosGraficos(String tipoDeDadosGraficos) {
 		this.tipoDeDadosGraficos = tipoDeDadosGraficos;
 	}
 
 	public void carregarListagem() {
 
-		listaStringProdutos.clear();
-		listaStringProdutos.add("Amortecedor");
-		listaStringProdutos.add("Correia Dentada");
-		listaStringProdutos.add("Embreagem");
-		listaStringProdutos.add("Farol");
-		listaStringProdutos.add("Filtro de Ar");
-		listaStringProdutos.add("Filtro de Oleo Motor");
-		listaStringProdutos.add("Fluido de Freio");
-		listaStringProdutos.add("Pastilha de Freio");
-		listaStringProdutos.add("Pneu");
-		listaStringProdutos.add("Velas Ignição");
-		
 		criterio.put("Amortecedor", "where produto_revisao.qtde_amortecedor > 0");
 		criterio.put("Correia Dentada", "where produto_revisao.qtde_correia_dentada > 0");
 		criterio.put("Embreagem", "where produto_revisao.qtde_embreagem > 0 ");
@@ -147,7 +172,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		criterio.put("Pneu", "where produto_revisao.qtde_pneus > 0 ");
 		criterio.put("Velas Ignição", "where produto_revisao.qtde_velas_ignicao > 0");
 
-
 	}
 
 	public void gerarGraficoProduto() {
@@ -155,6 +179,27 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		lista = new RevisaoDAO().pesquisarPorProdutoUtilizado(criterio.get(produtoEscolhido));
 		for (EntidadeDominio r : lista) {
 			listaString.add(((Revisao) r).getCarro().getModelo().getNome());
+		}
+
+
+		for (EntidadeDominio e : lista) {
+			if (e instanceof Revisao) {
+				Revisao r = (Revisao) e;
+				for (ProdutoRevisao p : r.getListaProdutoRevisao()) {
+					if (p.getClass().getName() == hashProdutos.get(produtoEscolhido)) {
+						if (p.getQuantidade() > 0) {
+							if (produtosUtilizados.containsKey(((Revisao) r).getCarro().getModelo().getNome())) {
+								produtosUtilizados.put(((Revisao) r).getCarro().getModelo().getNome(),
+										produtosUtilizados.get(((Revisao) r).getCarro().getModelo().getNome())
+												+ p.getQuantidade());
+							} else {
+								produtosUtilizados.put(((Revisao) r).getCarro().getModelo().getNome(),
+										p.getQuantidade());
+							}
+						}
+					}
+				}
+			}
 		}
 
 	}
@@ -168,6 +213,7 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		if (lista == null) {
 			graficoBarras = null;
 			produtoEscolhido = null;
+			produtosUtilizados.clear();
 			amortecedor = new Amortecedor();
 			revisao = new Revisao();
 			JSFUtil.adicionarMensagemErro("Não há dados para ser Exibido");
@@ -186,7 +232,17 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		List<String> produtos = new ArrayList<String>();
 		produtos.add(produtoEscolhido);
 		
-		graficoBarras = GraficoBarraBuilder.gerarGraficoBar(listaString, null, produtos, "Modelos", "Quantidade Revisões");
+		// Criando uma collections com apenas os distintos
+		Set<String> chaves = produtosUtilizados.keySet();
+		listaString.clear();
+		for(String s : chaves){
+			for(int i = 0; i< produtosUtilizados.get(s); i++){
+				listaString.add(s);
+			}
+		}
+
+		graficoBarras = GraficoBarraBuilder.gerarGraficoBar(listaString, null, produtos, "Modelos",
+				"Quantidade Produto");
 
 	}
 
@@ -200,8 +256,9 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		lista.clear();
 		listaString.clear();
 		revisao = new Revisao();
+		produtosUtilizados.clear();
 		amortecedor = new Amortecedor();
-		
+
 	}
 
 	@Override

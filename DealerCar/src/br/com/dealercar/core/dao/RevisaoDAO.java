@@ -51,10 +51,10 @@ public class RevisaoDAO implements IDAO, Serializable {
 	 */
 	@Override
 	public void cadastrar(EntidadeDominio entidade) {
-		
-		if(!(entidade instanceof Revisao))
+
+		if (!(entidade instanceof Revisao))
 			return;
-		
+
 		Revisao revisao = new Revisao();
 		revisao = (Revisao) entidade;
 
@@ -84,29 +84,16 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 			// verificando se a revisão é logo após uma devolução
 			pstm.setInt(++i, revisao.getDevolucao().getId());
-			
+
 			pstm.setInt(++i, revisao.getListaProdutoRevisao().get(0).getId());
 
-			pstm.setString(++i, revisao.getComponentes().getArrefecimento().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getBateria().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getEmbreagem().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getFreio().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getLanterna().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getMotor().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getSuspensao().getSituacao());
-			pstm.setString(++i, revisao.getComponentes().getPneus().get(0).getSituacao());// Dianteiro
-																							// Direito
-			pstm.setString(++i, revisao.getComponentes().getPneus().get(1).getSituacao());// Dianteiro
-																							// Esquerdo
-			pstm.setString(++i, revisao.getComponentes().getPneus().get(2).getSituacao());// Traseiro
-																							// Direito
-			pstm.setString(++i, revisao.getComponentes().getPneus().get(3).getSituacao());// Traseiro
-																							// Esquerdo
-			pstm.setString(++i, revisao.getComponentes().getPneus().get(4).getSituacao());// Estepe
+			for (int j = 0; j < revisao.getComponentes().size(); j++) {
+				pstm.setString(++i, revisao.getComponentes().get(j).getSituacao());
+			}
+
 			pstm.setString(++i, revisao.getDescricao());
 
 			pstm.executeUpdate();
-
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,54 +158,52 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				componentes.add(suspensao);
 
-				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
 
-				revisaoRetorno.setComponentes(componente);
-				
+				revisaoRetorno.setComponentes(componentes);
+
 				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				listaRetorno.add(revisaoRetorno);
@@ -241,10 +226,10 @@ public class RevisaoDAO implements IDAO, Serializable {
 	 */
 	@Override
 	public Revisao pesquisarPorID(EntidadeDominio entidade) {
-		
-		if(!(entidade instanceof Revisao))
+
+		if (!(entidade instanceof Revisao))
 			return null;
-		
+
 		Revisao revisao = new Revisao();
 		revisao = (Revisao) entidade;
 
@@ -286,55 +271,51 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
-
-				List<Pneu> pneus = new ArrayList<Pneu>();
+				componentes.add(suspensao);
 
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
+				revisaoRetorno.setComponentes(componentes);
 
-				revisaoRetorno.setComponentes(componente);
-				
 				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 			}
@@ -395,54 +376,51 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				componentes.add(suspensao);
 
-				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
+				revisaoRetorno.setComponentes(componentes);
 
-				revisaoRetorno.setComponentes(componente);
-				
 				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				listaRetorno.add(revisaoRetorno);
@@ -456,10 +434,13 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 		return listaRetorno;
 	}
-	
+
 	/**
-	 * Retorna todas as revisao cadastradas no Banco de Dados em um intervalo de data
-	 * @param uma Revisao, e uma Data final
+	 * Retorna todas as revisao cadastradas no Banco de Dados em um intervalo de
+	 * data
+	 * 
+	 * @param uma
+	 *            Revisao, e uma Data final
 	 * @return uma lista de Revisao
 	 */
 	public List<Revisao> pesquisarPorIntervaloData(Revisao revisao, Date dataFinal) {
@@ -510,59 +491,56 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				componentes.add(suspensao);
 
-				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
+				revisaoRetorno.setComponentes(componentes);
 
-				revisaoRetorno.setComponentes(componente);
-				
 				ProdutoRevisao produtoRevisao = new ProdutoRevisao();
 				produtoRevisao.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisao);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				lista.add(revisaoRetorno);
 			}
-			
+
 			rSet.close();
 			pstm.close();
 			con.close();
@@ -575,13 +553,12 @@ public class RevisaoDAO implements IDAO, Serializable {
 		return lista;
 
 	}
-	
 
 	public List<EntidadeDominio> pesquisarPorModelo(EntidadeDominio entidade) {
-		
-		if(!(entidade instanceof Revisao))
+
+		if (!(entidade instanceof Revisao))
 			return null;
-		
+
 		Revisao revisao = new Revisao();
 		revisao = (Revisao) entidade;
 
@@ -589,7 +566,7 @@ public class RevisaoDAO implements IDAO, Serializable {
 		sql.append("select * from revisao ");
 		sql.append("inner join carros on carros.placa = revisao.placa ");
 		sql.append("where carros.id_modelo = ?");
-		
+
 		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		Revisao revisaoRetorno = null;
 
@@ -627,59 +604,56 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				componentes.add(suspensao);
 
-				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
+				revisaoRetorno.setComponentes(componentes);
 
-				revisaoRetorno.setComponentes(componente);
-				
 				ProdutoRevisao produtoRevisaoRetorno = new ProdutoRevisao();
 				produtoRevisaoRetorno.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisaoRetorno);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				lista.add(revisaoRetorno);
 			}
-			
+
 			rSet.close();
 			pstm.close();
 			con.close();
@@ -693,14 +667,13 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 	}
 
-public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
-		
-				
+	public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
+
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
 		sql.append("inner join produto_revisao on produto_revisao.id = revisao.id_produtos_utilizados ");
 		sql.append(criterio);
-		
+
 		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		Revisao revisaoRetorno = null;
 
@@ -736,59 +709,56 @@ public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
 
 				revisaoRetorno.setCarro(carro);
 
-				Componentes componente = new Componentes();
+				List<Componentes> componentes = new ArrayList<Componentes>();
 
 				Arrefecimento arrefecimento = new Arrefecimento(rSet.getString("arreferecimento"));
+				componentes.add(arrefecimento);
 				Bateria bateria = new Bateria(rSet.getString("bateria"));
+				componentes.add(bateria);
 				Embreagem embreagem = new Embreagem(rSet.getString("embreagem"));
+				componentes.add(embreagem);
 				Freio freio = new Freio(rSet.getString("freio"));
+				componentes.add(freio);
 				Lanterna lanterna = new Lanterna(rSet.getString("lanterna"));
+				componentes.add(lanterna);
 				Motor motor = new Motor(rSet.getString("motor"));
+				componentes.add(motor);
 				Suspensao suspensao = new Suspensao(rSet.getString("suspensao"));
+				componentes.add(suspensao);
 
-				List<Pneu> pneus = new ArrayList<Pneu>();
 				Pneu dianteiroDireito = new Pneu(rSet.getString("dianteiro_direito"));
 				dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
-				pneus.add(dianteiroDireito);
+				componentes.add(dianteiroDireito);
 
 				Pneu dianteiroEsquerdo = new Pneu(rSet.getString("dianteiro_esquerdo"));
 				dianteiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(dianteiroEsquerdo);
+				componentes.add(dianteiroEsquerdo);
 
 				Pneu traseiroDireito = new Pneu(rSet.getString("traseiro_direito"));
 				traseiroDireito.setPosicaoPneu(PosicaoPneu.TRASEIRO_DIREITO);
-				pneus.add(traseiroDireito);
+				componentes.add(traseiroDireito);
 
 				Pneu traseiroEsquerdo = new Pneu(rSet.getString("traseiro_esquerdo"));
 				traseiroEsquerdo.setPosicaoPneu(PosicaoPneu.DIANTEIRO_ESQUERDO);
-				pneus.add(traseiroEsquerdo);
+				componentes.add(traseiroEsquerdo);
 
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
-				pneus.add(estepe);
+				componentes.add(estepe);
 
-				componente.setArrefecimento(arrefecimento);
-				componente.setBateria(bateria);
-				componente.setEmbreagem(embreagem);
-				componente.setFreio(freio);
-				componente.setLanterna(lanterna);
-				componente.setMotor(motor);
-				componente.setPneus(pneus);
-				componente.setSuspensao(suspensao);
+				revisaoRetorno.setComponentes(componentes);
 
-				revisaoRetorno.setComponentes(componente);
-				
 				ProdutoRevisao produtoRevisaoRetorno = new ProdutoRevisao();
 				produtoRevisaoRetorno.setId(rSet.getInt("id_produtos_utilizados"));
-				
+
 				List<ProdutoRevisao> produtos = new ArrayList<ProdutoRevisao>();
 				produtos = new ProdutoRevisaoDAO().pesquisarProdutoPorID(produtoRevisaoRetorno);
-				
+
 				revisaoRetorno.setListaProdutoRevisao(produtos);
 
 				lista.add(revisaoRetorno);
 			}
-			
+
 			rSet.close();
 			pstm.close();
 			con.close();
@@ -802,6 +772,4 @@ public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
 
 	}
 
-
 }
-

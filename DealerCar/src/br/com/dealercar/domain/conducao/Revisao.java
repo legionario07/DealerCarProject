@@ -30,7 +30,7 @@ public class Revisao extends EntidadeDominio{
 	private Date dataRevisao;
 	private String descricao;
 	private Long quilometragem;
-	private Componentes componentes;
+	private List<Componentes> componentes;
 	private Carro carro;
 	private Funcionario funcionario;
 	private Devolucao devolucao;
@@ -39,7 +39,7 @@ public class Revisao extends EntidadeDominio{
 	public Revisao() {
 		
 		carro = new Carro();
-		componentes = new Componentes();
+		componentes = new ArrayList<Componentes>();
 		funcionario = new Funcionario();
 		devolucao = new Devolucao();
 		
@@ -79,11 +79,11 @@ public class Revisao extends EntidadeDominio{
 		this.listaProdutoRevisao = listaProdutoRevisao;
 	}
 
-	public Componentes getComponentes() {
+	public List<Componentes> getComponentes() {
 		return componentes;
 	}
 
-	public void setComponentes(Componentes componentes) {
+	public void setComponentes(List<Componentes> componentes) {
 		this.componentes = componentes;
 	}
 

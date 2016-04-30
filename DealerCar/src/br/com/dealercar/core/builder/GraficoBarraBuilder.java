@@ -37,19 +37,19 @@ public class GraficoBarraBuilder {
 	 */
 	public static BarChartModel gerarGraficoBar(List<String> listaStringDesordenada,
 			Map<String, Integer> produtosEscolhidos, List<String> produtos, String eixoX, String eixoY) {
-		
+
 		graficoHash = new HashMap<String, Integer>();
-		graficoRetorno =  new BarChartModel();
+		graficoRetorno = new BarChartModel();
 
 		// Criando uma collections com apenas os distintos
-		Set<String> reservasDistintas = new HashSet<String>(listaStringDesordenada);
+		Set<String> listaDistintos = new HashSet<String>(listaStringDesordenada);
 
 		// criando uma lista que ira transforrmar a collection em uma lista de
 		// String
 		List<String> listaDistintaOrdenada = new ArrayList<String>();
 
 		// tranforma a collection set em uma lista de String para ser ordenada
-		for (String s : reservasDistintas) {
+		for (String s : listaDistintos) {
 			listaDistintaOrdenada.add(s);
 		}
 
@@ -75,7 +75,9 @@ public class GraficoBarraBuilder {
 		yAxis.setLabel(eixoY);
 		yAxis.setMin(0);
 		// setando o valor maximo do eixo y
-		yAxis.setMax(Collections.max(graficoHash.values()) + 2);
+		if (produtos != null) {
+			yAxis.setMax(Collections.max(graficoHash.values()) + 2);
+		}
 
 		return graficoRetorno;
 	}
@@ -93,7 +95,7 @@ public class GraficoBarraBuilder {
 					chartSeries.set(chave, produtosEscolhidos.get(s));
 				}
 				chartSeries.setLabel(s);
-				
+
 				graficoRetorno.addSeries(chartSeries);
 			}
 
@@ -106,7 +108,7 @@ public class GraficoBarraBuilder {
 				}
 
 				chartSeries.setLabel(s);
-				
+
 				graficoRetorno.addSeries(chartSeries);
 			}
 		}

@@ -525,13 +525,13 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		ICommand command = mapConducaoCommands.get(operacao);
 
 		// recebendo os componentes
-		revisao.getComponentes().setArrefecimento(arrefecimento);
-		revisao.getComponentes().setBateria(bateria);
-		revisao.getComponentes().setEmbreagem(embreagem);
-		revisao.getComponentes().setFreio(freio);
-		revisao.getComponentes().setLanterna(lanterna);
-		revisao.getComponentes().setMotor(motor);
-		revisao.getComponentes().setSuspensao(suspensao);
+		revisao.getComponentes().add(arrefecimento);
+		revisao.getComponentes().add(bateria);
+		revisao.getComponentes().add(embreagem);
+		revisao.getComponentes().add(freio);
+		revisao.getComponentes().add(lanterna);
+		revisao.getComponentes().add(motor);
+		revisao.getComponentes().add(suspensao);
 
 		// recebendo os pneus
 		dianteiroDireito.setPosicaoPneu(PosicaoPneu.DIANTEIRO_DIREITO);
@@ -545,8 +545,11 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 		pneus.add(traseiroEsquerdo);
 		pneus.add(estepe);
 
-		revisao.getComponentes().setPneus(pneus);
-
+		//Adicionando cada pneu da lista Pneus na lista Componentes
+		for(int j = 0; j < pneus.size();j++){
+			revisao.getComponentes().add(pneus.get(j));
+		}
+		
 		// pega a data atual do sistema
 		revisao.setDataRevisao(DataUtil.pegarDataAtualDoSistema());
 

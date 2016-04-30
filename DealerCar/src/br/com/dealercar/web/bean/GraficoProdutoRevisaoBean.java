@@ -19,6 +19,17 @@ import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.conducao.Revisao;
+import br.com.dealercar.domain.produtosrevisao.Amortecedor;
+import br.com.dealercar.domain.produtosrevisao.CorreiaDentada;
+import br.com.dealercar.domain.produtosrevisao.Embreagem;
+import br.com.dealercar.domain.produtosrevisao.Farol;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeAr;
+import br.com.dealercar.domain.produtosrevisao.FiltroDeOleoMotor;
+import br.com.dealercar.domain.produtosrevisao.FluidoDeFreio;
+import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
+import br.com.dealercar.domain.produtosrevisao.Pneu;
+import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
+import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
 import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBProdutoRevisaoGrafico")
@@ -36,9 +47,10 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 	private List<String> listaString = new ArrayList<String>();
 	private List<String> produtos = new ArrayList<String>();
 	private Map<String, Integer> produtosUtilizados = new HashMap<String, Integer>();
+	private Map<String, String> hashProdutos = new HashMap<String, String>();
 	private Date dataFinal;
 	private List<EntidadeDominio> listaModelo = new ArrayList<EntidadeDominio>();
-	private Map<String, String> criterio = new HashMap<String, String>();
+	private StringBuffer sqlCriterios = new StringBuffer();
 
 	private Modelo modelo = new Modelo();
 
@@ -55,17 +67,17 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 		produtos.add("Pneu");
 		produtos.add("Velas Ignição");
 
-		criterio.put("Amortecedor", "where produto_revisao.qtde_amortecedor > 0 and carros.id_modelo = ");
-		criterio.put("Correia Dentada", "where produto_revisao.qtde_correia_dentada > 0 and carros.id_modelo = ");
-		criterio.put("Embreagem", "where produto_revisao.qtde_embreagem > 0 and carros.id_modelo = ");
-		criterio.put("Farol", "where produto_revisao.qtde_farol > 0 and carros.id_modelo = ");
-		criterio.put("Filtro de Ar", "where produto_revisao.qtde_filtro_de_ar > 0 and carros.id_modelo = ");
-		criterio.put("Filtro de Oleo Motor",
-				"where produto_revisao.qtde_filtro_de_oleo_motor > 0 and carros.id_modelo = ");
-		criterio.put("Fluido de Freio", "where produto_revisao.qtde_fluido_de_freio > 0 and carros.id_modelo = ");
-		criterio.put("Pastilha de Freio", "where produto_revisao.qtde_pastilhas_freio > 0 and carros.id_modelo = ");
-		criterio.put("Pneu", "where produto_revisao.qtde_pneus > 0 and carros.id_modelo = ");
-		criterio.put("Velas Ignição", "where produto_revisao.qtde_velas_ignicao > 0 and carros.id_modelo = ");
+		hashProdutos.put(Amortecedor.class.getName(), "Amortecedor");
+		hashProdutos.put(CorreiaDentada.class.getName(), "Correia Dentada");
+		hashProdutos.put(Embreagem.class.getName(), "Embreagem");
+		hashProdutos.put(Farol.class.getName(), "Farol");
+		hashProdutos.put(FiltroDeAr.class.getName(), "Filtro de Ar");
+		hashProdutos.put(FiltroDeOleoMotor.class.getName(), "Filtro de Oleo Motor");
+		hashProdutos.put(FluidoDeFreio.class.getName(), "Fluido de Freio");
+		hashProdutos.put(PastilhaFreio.class.getName(), "Pastilha de Freio");
+		hashProdutos.put(Pneu.class.getName(), "Pneu");
+		hashProdutos.put(VelasIgnicao.class.getName(), "Velas Ignição");
+
 
 	}
 
@@ -121,14 +133,6 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 		this.produtos = produtos;
 	}
 
-	public Map<String, String> getCriterio() {
-		return criterio;
-	}
-
-	public void setCriterio(Map<String, String> criterio) {
-		this.criterio = criterio;
-	}
-
 	public Modelo getModelo() {
 		return modelo;
 	}
@@ -175,15 +179,27 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 				revisao.getCarro().setModelo((Modelo) resultado.getEntidades().get(0));
 			}
 		}
-		String inner = "inner join carros on carros.placa = revisao.placa ";
-		
-		for (String s : produtos) {
-			lista = new RevisaoDAO()
-					.pesquisarPorProdutoUtilizado(inner + criterio.get(s) + revisao.getCarro().getModelo().getId());
-			if (lista.size() > 0) {
-				produtosUtilizados.put(s, lista.size());
-				for (EntidadeDominio r : lista) {
-					listaString.add(((Revisao) r).getCarro().getPlaca());
+
+		// carrega a SQL com os criterios antes chamar o DAO
+		carregarSql();
+
+		lista = new RevisaoDAO().pesquisarPorProdutoUtilizado(sqlCriterios.toString());
+
+		for (EntidadeDominio e : lista) {
+			if (e instanceof Revisao) {
+				Revisao r = (Revisao) e;
+				for (ProdutoRevisao p : r.getListaProdutoRevisao()){
+
+					if (p.getQuantidade() > 0) {
+						listaString.add(hashProdutos.get(p.getClass().getName()));
+						if (produtosUtilizados.containsKey(hashProdutos.get(p.getClass().getName()))) {
+							produtosUtilizados.put(hashProdutos.get(p.getClass().getName()),
+									produtosUtilizados.get(hashProdutos.get(p.getClass().getName()))
+											+ p.getQuantidade());
+						} else {
+							produtosUtilizados.put(hashProdutos.get(p.getClass().getName()), p.getQuantidade());
+						}
+					}
 				}
 			}
 		}
@@ -205,7 +221,7 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 			return;
 		}
 
-		// Não houve dados disponiveis para gerar o gráfico
+		// Não houve dados disponiveis para gerar o gráficos
 		if (lista.isEmpty() && listaString.size() == 0) {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparObjetos();
@@ -213,10 +229,34 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 			return;
 		}
 
-		
-		graficoBarras = GraficoBarraBuilder.gerarGraficoBar(listaString, produtosUtilizados, null,  "Carro", "Quantidade");
-		
+		listaString.clear();
+		listaString.add(revisao.getCarro().getModelo().getNome());
+
+		graficoBarras = GraficoBarraBuilder.gerarGraficoBar(listaString, produtosUtilizados, null, "Modelo",
+				"Quantidade");
+
 		produtosUtilizados = new HashMap<String, Integer>();
+
+	}
+
+	/**
+	 * Carrega a Sql com os criterios desejados
+	 */
+	private void carregarSql() {
+
+		sqlCriterios.append("inner join carros on carros.placa = revisao.placa ");
+		sqlCriterios.append("inner join modelos on carros.id_modelo = modelos.id ");
+		sqlCriterios.append("where modelos.id = " + revisao.getCarro().getModelo().getId());
+		sqlCriterios.append(" and (produto_revisao.qtde_amortecedor > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_correia_dentada > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_embreagem > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_farol > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_filtro_de_ar > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_filtro_de_oleo_motor > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_fluido_de_freio > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_pastilhas_freio > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_pneus > 0 or ");
+		sqlCriterios.append("produto_revisao.qtde_velas_ignicao > 0) ");
 
 	}
 
@@ -231,7 +271,8 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 		listaString.clear();
 		revisao = new Revisao();
 		produtosUtilizados = new HashMap<String, Integer>();
-		
+		sqlCriterios = new StringBuffer();
+
 	}
 
 	@Override
@@ -239,6 +280,5 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 		// TODO Auto-generated method stub
 
 	}
-
 
 }

@@ -235,12 +235,12 @@ public class ProdutoRevisaoDAO implements IDAO, Serializable {
 
 				produtoRevisaoRetorno.setId(rSet.getInt("id"));
 				lista.add(produtoRevisaoRetorno);
-
-				if (rSet.getInt("id_pneus") > 0 && rSet.getInt("id_pneus") != 99) {
+				
+				if (rSet.getInt("id_amortecedor") > 0 && rSet.getInt("id_amortecedor") != 99) {
 					Amortecedor amortecedor = new Amortecedor();
-					amortecedor.setId(rSet.getInt("id_pneus"));
+					amortecedor.setId(rSet.getInt("id_amortecedor"));
 					amortecedor = new AmortecedorDAO().pesquisarPorID(amortecedor);
-					amortecedor.setQuantidade(rSet.getInt("qtde_pneus"));
+					amortecedor.setQuantidade(rSet.getInt("qtde_amortecedor"));
 					lista.add(amortecedor);
 
 				}
