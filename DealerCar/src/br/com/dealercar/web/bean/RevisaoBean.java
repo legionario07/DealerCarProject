@@ -88,9 +88,10 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 
 	private List<EntidadeDominio> listaRevisao = new ArrayList<EntidadeDominio>();
 	private List<EntidadeDominio> listaDevolucaoAguardandoRevisao = new ArrayList<EntidadeDominio>();
+	
 
-	int totalRevisaoNaFila;
-	int totaoRevisaoRealizada;
+	private int totalRevisaoNaFila;
+	private int totaoRevisaoRealizada;
 
 	public RevisaoBean() {
 		// setando os hashMaps
@@ -842,7 +843,18 @@ public class RevisaoBean extends AbstractBean implements Serializable {
 
 		produtosCadastrados.clear();
 		produtosUtilizados.clear();
-		quantidadeProduto.clear();
+		produtoRevisao =  new ProdutoRevisao();
+		
+		quantidadeProduto.put(Amortecedor.class.getSimpleName(), 0);
+		quantidadeProduto.put(CorreiaDentada.class.getSimpleName(), 0);
+		quantidadeProduto.put(br.com.dealercar.domain.produtosrevisao.Embreagem.class.getSimpleName(), 0);
+		quantidadeProduto.put(Farol.class.getSimpleName(), 0);
+		quantidadeProduto.put(FiltroDeAr.class.getSimpleName(), 0);
+		quantidadeProduto.put(FiltroDeOleoMotor.class.getSimpleName(), 0);
+		quantidadeProduto.put(FluidoDeFreio.class.getSimpleName(), 0);
+		quantidadeProduto.put(PastilhaFreio.class.getSimpleName(), 0);
+		quantidadeProduto.put(br.com.dealercar.domain.produtosrevisao.Pneu.class.getSimpleName(), 0);
+		quantidadeProduto.put(VelasIgnicao.class.getSimpleName(), 0);
 
 		setEhCadastrado(false);
 		setJaPesquisei(false);

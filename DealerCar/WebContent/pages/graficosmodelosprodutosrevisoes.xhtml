@@ -33,7 +33,7 @@
 								var="modelo" itemValue="#{modelo.id}" itemLabel="#{modelo.nome}" />
 
 						</p:selectOneMenu>
-						
+
 					</h:panelGrid>
 					<br></br>
 					<br></br>
@@ -59,6 +59,22 @@
 							rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
 							style="width:620px;height:500px" />
 					</h:panelGrid>
+
+					<p:commandButton type="button" value="Exportar Gráfico"
+						rendered="#{MBProdutoRevisaoGrafico.graficoBarras != null}"
+						icon="ui-icon-extlink" onclick="exportaGrafico()" />
+					<p:dialog widgetVar="dlg" showEffect="fade" modal="true"
+						header="Imagem do Gráfico">
+						<p:outputPanel id="output" layout="block"
+							style="width:500px;height:300px" />
+					</p:dialog>  
+						function exportaGrafico() {  
+						    //exportar a imagem  
+						    $('#output').empty().append(chart.exportAsImage());  
+						    //Mostra o dialogo
+						    dlg.show();  
+						}  
+					
 				</h:form>
 			</p:tab>
 		</p:tabView>
