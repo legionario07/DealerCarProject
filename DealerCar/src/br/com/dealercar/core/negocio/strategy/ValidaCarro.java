@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.enums.SituacaoType;
 /**
  * Classe Strategy reponsável pela Validação de um Carro
  * @author Paulinho
@@ -42,13 +43,34 @@ public class ValidaCarro implements IValidacaoStrategy {
 				retorno.append("O carro deve ter seu ano de Fabricação inferior a 16 anos");
 				return retorno.toString();
 			}
+			
+			/**
+			 * Verifica se a placa nao esta vazia
+			 */
 			if (carro.getPlaca().equals("")) {
 				retorno.append("O Placa do Carro deve ser preenchida");
 				return retorno.toString();
 			}
 			
+			/**
+			 * Verifica se a placa esta preenchida corretamente
+			 */
 			if(!carro.getPlaca().matches("\\w{3}-\\d{4}")){
 				retorno.append("Placa Invalida");
+				return retorno.toString();
+			}
+			
+			/**
+			 * Verifica se a Situação esta obedecendo o enum SituaçãoType
+			 */
+			boolean flagEhIgual = false;
+			for(SituacaoType s : SituacaoType.values()){
+				if(carro.getSituacao().getDescricao().toUpperCase().equals(s.getDescricao())){
+					flagEhIgual = true;
+				}
+			}
+			if(flagEhIgual==false){
+				retorno.append("A situação do veiculo esta Incorreta");
 				return retorno.toString();
 			}
 

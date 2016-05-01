@@ -4,18 +4,17 @@ import java.io.Serializable;
 
 /**
  * Classe que representa os clientes da Locadora
+ * 
  * @author Paulinho
  *
  */
-public class Cliente extends Pessoa implements Serializable{
+public class Cliente extends Pessoa implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nomeMae;
-	private String celular;
-	private String telefone;
 	private String RG;
 	private String CPF;
 	private String email;
@@ -24,22 +23,17 @@ public class Cliente extends Pessoa implements Serializable{
 		this.setEndereco(new Endereco());
 
 	}
-	
-	public Cliente (int id) {
+
+	public Cliente(int id) {
 		this.setId(id);
 	}
-
 
 	public String getNomeMae() {
 		return nomeMae;
 	}
 
 	public void setNomeMae(String nomeMae) {
-		if(nomeMae.equals("")){
-			this.nomeMae = nomeMae;
-		}else{
-			this.nomeMae = nomeMae.trim().toUpperCase();
-		}
+		this.nomeMae = nomeMae.trim().toUpperCase();
 	}
 
 	public String getRG() {
@@ -47,11 +41,7 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 
 	public void setRG(String rG) {
-		if(rG.equals("")){
-			this.RG = rG;
-		}else{
-			this.RG = rG.trim().toUpperCase();
-		}
+		this.RG = rG.trim().toUpperCase();
 	}
 
 	public String getCPF() {
@@ -59,33 +49,7 @@ public class Cliente extends Pessoa implements Serializable{
 	}
 
 	public void setCPF(String CPF) {
-		if(CPF.equals("")){
-			this.CPF = CPF;
-		}else{
-			this.CPF = CPF.trim().toUpperCase();
-		}
-	}
-	
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		if(telefone.equals("")){
-			this.telefone = telefone;
-		}else{
-			this.telefone = telefone.trim().toUpperCase();
-		}
-	}
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		if(celular.equals("")){
-			this.celular = celular;
-		}else{
-			this.celular = celular.trim().toUpperCase();
-		}
+		this.CPF = CPF;
 	}
 
 	public String getEmail() {
@@ -95,7 +59,6 @@ public class Cliente extends Pessoa implements Serializable{
 	public void setEmail(String email) {
 		this.email = email.trim();
 	}
-
 
 	@Override
 	public String toString() {

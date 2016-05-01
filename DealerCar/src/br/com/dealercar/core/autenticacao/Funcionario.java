@@ -15,8 +15,6 @@ public class Funcionario extends Pessoa {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String celular;
-	private String telefone;
 	private Cargo cargo;
 	private Double salario;
 	private Usuario usuario;
@@ -34,19 +32,6 @@ public class Funcionario extends Pessoa {
 		this.setId(id);
 	}
 	
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone.trim();
-	}
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular.trim();
-	}
 	public Cargo getCargo() {
 		return cargo;
 	}

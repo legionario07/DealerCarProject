@@ -17,6 +17,8 @@ public abstract class Pessoa extends EntidadeDominio{
 	private Date dataNasc;
 	private Endereco endereco;
 	private String sexo;
+	private String telefone;
+	private String celular;
 	
 	public Pessoa(){
 	
@@ -42,6 +44,26 @@ public abstract class Pessoa extends EntidadeDominio{
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+	public String getCelular() {
+		return celular;
+	}
+
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
 
 	public String getSexo() {
 		return sexo;

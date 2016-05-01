@@ -26,7 +26,15 @@ public class ValidaPessoa implements IValidacaoStrategy {
 		if (Pessoa.class.isInstance(entDominio)) {
 			retorno = new StringBuffer();
 			Pessoa p = (Pessoa) entDominio;
-			
+
+			/**
+			 * O sexo deve ser Masculino ou Feminino
+			 */
+			if (!p.getSexo().toUpperCase().equals("MASCULINO") && !p.getSexo().toUpperCase().equals("FEMININO")) {
+				retorno.append("O sexo deve ser MASCULINO ou FEMININO");
+				return retorno.toString();
+			}
+
 			/**
 			 * Nome deve estar preenchido
 			 */
@@ -69,6 +77,41 @@ public class ValidaPessoa implements IValidacaoStrategy {
 				retorno.append("A Cidade deve ser preenchida");
 				return retorno.toString();
 			}
+
+			/**
+			 * Verifica se o Telefone não contem letras
+			 */
+			// retirando ponto e Parantese do telefone
+			String telefone = p.getTelefone().replace("-", "");
+			telefone = telefone.replace("(", "");
+			telefone = telefone.replace(")", "");
+
+			for (int i = 0; i < telefone.length(); i++) {
+
+				if (Character.isLetter(telefone.charAt(i))) {
+					retorno.append("O telefone não deve conter Letras");
+					return retorno.toString();
+				}
+
+			}
+			
+			/**
+			 * Verifica se o Celular não contem letras
+			 */
+			// retirando ponto e Parantese do telefone
+			String celular = p.getCelular().replace("-", "");
+			celular = celular.replace("(", "");
+			celular = celular.replace(")", "");
+
+			for (int i = 0; i < telefone.length(); i++) {
+
+				if (Character.isLetter(telefone.charAt(i))) {
+					retorno.append("O Celular não deve conter Letras");
+					return retorno.toString();
+				}
+
+			}
+
 			/**
 			 * Estado deve estar preenchido
 			 */

@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import br.com.dealercar.domain.automotivos.Carro;
+import br.com.dealercar.domain.enums.SituacaoType;
+
 public class TestaGeral {
 
 	/**
@@ -19,6 +22,27 @@ public class TestaGeral {
 	 * @param args
 	 * @throws ParseException
 	 */
+	
+	public static String verificaTelefone(String s){
+		StringBuffer retorno = new StringBuffer();
+		
+		// retirando ponto e Parantese do telefone
+		s = s.replace("-", "");
+		s = s.replace("(", "");
+		s = s.replace(")", "");
+		
+		for(int i = 0 ; i< s.length(); i++){
+
+			if(Character.isLetter(s.charAt(i))){
+				retorno.append("O telefone não deve conter Letras");
+			}
+			
+		}
+		
+		return retorno.toString();
+		
+		
+	}
 	
 	public static String verificaPlaca(String s){
 		StringBuffer retorno = new StringBuffer();
@@ -154,6 +178,15 @@ public class TestaGeral {
 		String s = sdf.format(c.getTime());
 		System.out.println(s.replace("/", "").replace(" ", "").replace(":", ""));
 		*/
+
+		Carro c = new Carro();
+		c.setSituacao(SituacaoType.Locado);
+		
+		for(SituacaoType s : SituacaoType.values()){
+			if(c.getSituacao().getDescricao().toUpperCase().equals(s.getDescricao())){
+				System.out.println("Eh igual");
+			}
+		}
 		
 		
 	}
