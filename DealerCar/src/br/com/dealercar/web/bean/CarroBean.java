@@ -199,11 +199,15 @@ public class CarroBean extends AbstractBean implements Serializable {
 		resultado = command.execute(carro);
 		if (resultado != null) {
 			carro = (Carro) resultado.getEntidades().get(0);
+		} else {
+			setEhCadastrado(false);
+			setJaPesquisei(true);
+			carro.setSituacao(null);
+			
+			return;
 		}
 		caminho = new StringBuffer();
-		carro = new Carro();
-		setEhCadastrado(false);
-		setJaPesquisei(false);
+		limparObjetos();
 	}
 
 

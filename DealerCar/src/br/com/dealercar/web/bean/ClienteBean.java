@@ -21,7 +21,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	/**
 	 * Controlando a evolução dos objetos serialidos.... Ex.: Salva um objeto em
 	 * um arquivo, meses depois em que adicionar um método e ou atributo na sua
-	 * classe. Quando tentar deserializar o objeto naão é permitido mais.
+	 * classe. Quando tentar deserializar o objeto não é permitido mais.
 	 * Mantendo o serialVersionUID este erro não ocorre. Assim é permitido
 	 * deserializar objetos que foram modificados.
 	 */
@@ -53,7 +53,6 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
@@ -101,6 +100,10 @@ public class ClienteBean extends AbstractBean implements Serializable {
 	}
 
 	@Override
+	/**
+	 * Método principal - De acordo com o Parametro passado na View
+	 * é chamado o Command e executado a respectiva Fachada
+	 */
 	public void executar() {
 
 		// recebe a operacao a ser realizada
@@ -115,10 +118,15 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 		if (resultado != null) {
 			cliente = (Cliente) resultado.getEntidades().get(0);
+		}else{
+			setEhCadastrado(false);
+			setJaPesquisei(true);
+			cliente.setNome("");
+			
+			return;
 		}
-
-		setEhCadastrado(false);
-		setJaPesquisei(false);
+		
+		limparObjetos();
 	}
 
 	/**
@@ -149,7 +157,7 @@ public class ClienteBean extends AbstractBean implements Serializable {
 
 
 	/**
-	 * Pesquisa no BD um cliente de acordo com o CPF digitado pleo Usuário na
+	 * Pesquisa no BD um cliente de acordo com o CPF digitado pelo Usuário na
 	 * TEla
 	 */
 	public void pesquisarPorCPF() {

@@ -136,7 +136,16 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 		resultado = command.execute(funcionario);
 		if (resultado != null) {
 			funcionario = (Funcionario) resultado.getEntidades().get(0);
+		} else {
+			
+			setEhCadastrado(false);
+			setJaPesquisei(true);
+			funcionario.setNome("");
+			
+			return;
 		}
+		
+		limparObjetos();
 		
 	}
 
@@ -173,6 +182,7 @@ public class FuncionarioBean extends AbstractBean implements Serializable {
 	public void limparObjetos() {
 		funcionario = new Funcionario();
 		setEhCadastrado(false);
+		setJaPesquisei(false);
 	}
 
 	/**

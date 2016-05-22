@@ -6,11 +6,11 @@ import br.com.dealercar.domain.EntidadeDominio;
 
 /**
  * Classe Strategy reponsável pela Validação de um Funcionario
+ * 
  * @author Paulinho
  *
  */
 public class ValidaFuncionario implements IValidacaoStrategy {
-
 
 	/**
 	 * 
@@ -38,7 +38,12 @@ public class ValidaFuncionario implements IValidacaoStrategy {
 			/**
 			 * O login deve ser preenchido
 			 */
-			if (funcionario.getUsuario().getLogin().equals("")) {
+			if (funcionario.getUsuario().getLogin()==null){
+				retorno.append("O login deve ser deve ser prenchido");
+				return retorno.toString();
+			}
+			
+			if(funcionario.getUsuario().getLogin().equals("")) {
 				retorno.append("O login deve ser deve ser prenchido");
 				return retorno.toString();
 			}
@@ -76,6 +81,5 @@ public class ValidaFuncionario implements IValidacaoStrategy {
 		return null;
 
 	}
-
 
 }

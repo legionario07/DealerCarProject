@@ -30,13 +30,13 @@
 
 					<h:panelGrid id="pnlFuncionarioDados" columns="2">
 						<h:outputLabel value="Digite o ID para Localizar"
-							rendered="#{MBFuncionario.funcionario.id == 0}" />
+							rendered="#{MBFuncionario.funcionario.id == 0 or MBFuncionario.funcionario.nome == '' }" />
 						<p:inputText value="#{MBFuncionario.funcionario.id}"
-							rendered="#{MBFuncionario.funcionario.id == 0}" />
+							rendered="#{MBFuncionario.funcionario.id == 0 or MBFuncionario.funcionario.nome == '' }" />
 					</h:panelGrid>
 
 					<h:panelGrid id="pnlFuncionarioDados2" columns="2"
-						rendered="#{MBFuncionario.ehCadastrado == true}">
+						rendered="#{MBFuncionario.ehCadastrado == true and MBFuncionario.funcionario.id != 0}">
 
 						<h:outputLabel value="Id: " />
 						<p:inputText value="#{MBFuncionario.funcionario.id}"
@@ -124,7 +124,7 @@
 							rendered="#{MBFuncionario.funcionario.nome == null}" />
 
 						<p:commandButton value="Novo"
-							rendered="#{MBFuncionario.jaPesquisei == true}"
+							rendered="#{MBFuncionario.jaPesquisei == true and MBFuncionario.ehCadastrado == false}"
 							onclick="PF('dlgFuncionarioCadastrar').show();"
 							update="frmFuncionarioCadastrar:pnlFuncionarioCadastrar :msgGlobal" />
 
@@ -463,12 +463,15 @@
 				<h:panelGrid id="comandos" columns="2">
 					<p:commandButton value="Salvar"
 						actionListener="#{MBFuncionario.executar}"
-						onclick="PF('dlgFuncionarioCadastrar').hide();"
-						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal">
+						update=":tabViewConsultar:frmConsultaFuncionario :frmFuncionarioCadastrar :msgGlobal"
+						onclick="PF('dlgFuncionarioCadastrar').hide();">
 						<f:param name="param" value="CADASTRAR" />
 					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
+					 immediate="true"
+						actionListener="#{MBFuncionario.limparObjetos}"
+						update=":tabViewConsultar:frmConsultaFuncionario"
 						onclick="PF('dlgFuncionarioCadastrar').hide();" />
 				</h:panelGrid>
 

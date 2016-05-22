@@ -15,10 +15,9 @@ public class ValidaEmail implements IValidacaoStrategy {
 			Cliente cliente = (Cliente) entDominio;
 			String email = cliente.getEmail();
 
-			if (email == null) {
+			if (email == null || email.equals("")) {
 				return null;
-			}
-			if (email.indexOf('@') == -1 || email.contains(" ") || email.length() < 3 || email.endsWith("@")
+			} else if (email.indexOf('@') == -1 || email.contains(" ") || email.length() < 3 || email.endsWith("@")
 					|| email.startsWith("@")) {
 				retorno.append("Email inválido");
 				return retorno.toString();

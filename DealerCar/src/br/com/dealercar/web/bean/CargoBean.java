@@ -75,6 +75,10 @@ public class CargoBean extends AbstractBean implements Serializable {
 	}
 
 	@Override
+	/**
+	 * Método principal - De acordo com o Parametro passado na View
+	 * é chamado o Command e executado a respectiva Fachada
+	 */
 	public void executar() {
 
 		//recebe a operacao a ser realizada

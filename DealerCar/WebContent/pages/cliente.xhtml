@@ -30,15 +30,15 @@
 						<h:panelGrid id="pnlClienteDados" columns="2" cellpadding="10">
 
 							<h:outputLabel value="Digite o CPF para Localizar"
-								rendered="#{MBCliente.cliente.nome == null}" />
+								rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
 							<p:inputMask mask="999.999.999-99"
 								value="#{MBCliente.cliente.CPF}"
-								rendered="#{MBCliente.cliente.nome == null}" />
+								rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
 
 						</h:panelGrid>
 
 						<h:panelGrid id="pnlClienteDados2" columns="2"
-							rendered="#{MBCliente.ehCadastrado == true}">
+							rendered="#{MBCliente.ehCadastrado == true and MBCliente.cliente.id != 0}">
 
 							<h:outputLabel value="Id: " />
 							<p:inputText value="#{MBCliente.cliente.id}" readonly="true" />
@@ -119,7 +119,7 @@
 							value="Pesquisar"
 							update="tabViewConsultar:frmConsultaCliente:pnlClientes 
 							tabViewConsultar:frmConsultaCliente:pnlComandos :msgGlobal"
-							rendered="#{MBCliente.cliente.nome == null}" />
+							rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
 
 						<p:commandButton value="Novo"
 							onclick="PF('dlgClienteCadastrar').show();"
@@ -128,14 +128,14 @@
 
 
 						<p:commandButton value="Editar"
-							rendered="#{MBCliente.ehCadastrado == true}"
+							rendered="#{MBCliente.ehCadastrado == true and MBCliente.cliente.id != 0}"
 							actionListener="#{MBCliente.atualizarCidades}"
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmClienteEditar:pnlClienteEditar" />
 
 						<p:commandButton value="Excluir"
 							actionListener="#{MBCliente.executar}"
-							rendered="#{MBCliente.ehCadastrado == true}"
+							rendered="#{MBCliente.ehCadastrado == true and MBCliente.cliente.id != 0}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados :msgGlobal">
 							<f:param name="param" value="EXCLUIR" />
 							<p:confirm header="Confirmação"
@@ -293,7 +293,7 @@
 					<p:commandButton value="Salvar"
 						actionListener="#{MBCliente.executar}"
 						update=":tabViewConsultar:frmConsultaCliente :msgGlobal"
-						oncomplete="PF('dlgClienteEditar').hide();">
+						onsuccess="PF('dlgClienteEditar').hide();">
 						<f:param name="param" value="EDITAR" />
 					</p:commandButton>
 
@@ -304,7 +304,7 @@
 			</h:form>
 		</p:dialog>
 
-	<!-- Caixa de Dialogo Cadastrar -->
+		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgClienteCadastrar" closable="false" width="630"
 			height="450" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)" header="Cliente - Cadastrar">
@@ -440,6 +440,9 @@
 					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
+					 immediate="true"
+						actionListener="#{MBCliente.limparObjetos}"
+						update=":tabViewConsultar:frmConsultaCliente"
 						onclick="PF('dlgClienteCadastrar').hide();" />
 				</h:panelGrid>
 

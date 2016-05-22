@@ -39,14 +39,13 @@
 
 					</h:panelGrid>
 
-					<div style="float: right" align="right" id="divCarros" >
+					<div style="float: right" align="right" id="divCarros">
 						<h:panelGrid id="pnlCarrosDados2" columns="1" width="100%"
-							rendered="#{MBCarro.carro.urlImagem != null}"
+							rendered="#{MBCarro.carro.urlImagem != null and MBCarro.ehCadastrado == true}"
 							style="text-align:right;float:right;">
 							<h:graphicImage library="images"
-								name="#{MBCarro.carro.urlImagem}" height="200"
-								width="270" title="#{MBCarro.carro.urlImagem}"
-								style="text-align:right" />
+								name="#{MBCarro.carro.urlImagem}" height="200" width="270"
+								title="#{MBCarro.carro.urlImagem}" style="text-align:right" />
 						</h:panelGrid>
 
 					</div>
@@ -96,7 +95,7 @@
 							update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal" />
 
 						<p:commandButton value="Novo"
-						onclick="PF('dlgCarroCadastrar').show();"
+							onclick="PF('dlgCarroCadastrar').show();"
 							rendered="#{MBCarro.jaPesquisei == true}"
 							update="frmCarroCadastrar:pnlCarroCadastrar" />
 
@@ -109,7 +108,7 @@
 							actionListener="#{MBCarro.executar}"
 							rendered="#{MBCarro.ehCadastrado == true}"
 							update="frmConsultaCarro: frmConsultaCarro:pnlCarrosDados :msgGlobal">
-							<f:param name="param" value="EXCLUIR"/>
+							<f:param name="param" value="EXCLUIR" />
 							<p:confirm header="Confirmação"
 								message="Tem certeza que deseja excluir?" icon="ui-icon-alert" />
 						</p:commandButton>
@@ -136,8 +135,8 @@
 
 		<!-- Caixa de Dialogo Editar -->
 		<p:dialog widgetVar="dlgCarroEditar" closable="false" width="630"
-		 height="420" draggable="false" resizable="false" appendTo="@(body)" modal="true"
-			header="Carro - Editar">
+			height="420" draggable="false" resizable="false" appendTo="@(body)"
+			modal="true" header="Carro - Editar">
 
 			<h:form id="frmCarroEditar">
 
@@ -228,24 +227,22 @@
 						<f:selectItem itemValue="Indisponivel" itemLabel="Indisponivel" />
 					</p:selectOneMenu>
 
-				</h:panelGrid >
+				</h:panelGrid>
 				<h:panelGrid columns="4" id="upload">
-					<p:fileUpload mode="advanced"
-						skinSimple="true" cancelLabel="Cancelar"
-						fileUploadListener="#{MBCarro.upload}"
-						sizeLimit="300000"
-						label="Escolher Foto"
-						update="upload"
+					<p:fileUpload mode="advanced" skinSimple="true"
+						cancelLabel="Cancelar" fileUploadListener="#{MBCarro.upload}"
+						sizeLimit="300000" label="Escolher Foto" update="upload"
 						invalidSizeMessage="Tamanho deve ser menor que 300Kb"
 						allowTypes="/(\.|\/)(jpeg|jpg|png|gif|)$/" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar" actionListener="#{MBCarro.executar}"
+					<p:commandButton value="Salvar"
+						actionListener="#{MBCarro.executar}"
 						update="tabViewConsultar:frmConsultaCarro :msgGlobal"
 						oncomplete="PF('dlgCarroEditar').hide();">
-						<f:param name="param" value="EDITAR"/>
-						</p:commandButton>
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgCarroEditar').hide();" />
@@ -253,11 +250,11 @@
 
 			</h:form>
 		</p:dialog>
-		
+
 		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgCarroCadastrar" closable="false" width="630"
-		 height="420" draggable="false" resizable="false" appendTo="@(body)" modal="true"
-			header="Carro - Cadastrar">
+			height="420" draggable="false" resizable="false" appendTo="@(body)"
+			modal="true" header="Carro - Cadastrar">
 
 			<h:form id="frmCarroCadastrar">
 
@@ -348,26 +345,24 @@
 						<f:selectItem itemValue="Indisponivel" itemLabel="Indisponivel" />
 					</p:selectOneMenu>
 
-				</h:panelGrid >
+				</h:panelGrid>
 				<h:panelGrid columns="4" id="upload">
-					<p:fileUpload mode="advanced"
-						skinSimple="true" cancelLabel="Cancelar"
-						fileUploadListener="#{MBCarro.upload}"
-						sizeLimit="300000"
-						label="Escolher Foto"
-						update="upload"
+					<p:fileUpload mode="advanced" skinSimple="true"
+						cancelLabel="Cancelar" fileUploadListener="#{MBCarro.upload}"
+						sizeLimit="300000" label="Escolher Foto" update="upload"
 						invalidSizeMessage="Tamanho deve ser menor que 300Kb"
 						allowTypes="/(\.|\/)(jpeg|jpg|png|gif|)$/" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar" actionListener="#{MBCarro.executar}"
+					<p:commandButton value="Salvar"
+						actionListener="#{MBCarro.executar}"
 						update="tabViewConsultar:frmConsultaCarro :msgGlobal"
 						oncomplete="PF('dlgCarroCadastrar').hide();">
-						<f:param name="param" value="CADASTRAR"/>
-						</p:commandButton>
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
+					<p:commandButton value="Cancelar" immediate="true"
 						onclick="PF('dlgCarroCadastrar').hide();" />
 				</h:panelGrid>
 

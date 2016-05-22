@@ -49,6 +49,9 @@ public abstract class AbstractBean implements IBean{
 
 	/**
 	 * Realiza os Crud no Bean
+	 * 	
+	 * Método principal - De acordo com o Parametro passado na View
+	 * é chamado o Command e executado a respectiva Fachada
 	 */
 	public abstract void executar();
 	
