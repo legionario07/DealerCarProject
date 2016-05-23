@@ -91,7 +91,6 @@
 
 				</h:panelGrid>
 			</h:panelGrid>
-			<br></br>
 
 			<h:panelGrid id="pnlDevolucao" columns="2">
 
@@ -172,14 +171,63 @@
 
 				</h:panelGrid>
 			</h:panelGrid>
+
+			<h:panelGrid id="pnlCliente" columns="2">
+
+				<h:panelGrid id="pnlRelatorioCliente" columns="2">
+					<h:outputLabel value="Digite o CPF do Cliente "
+						rendered="#{MBRelatorio.cliente.CPF == null and MBRelatorio.relatorioEscolhido == 'CLIENTE'}" />
+					<p:inputMask mask="999.999.999-99" value="#{MBRelatorio.cliente.CPF}"
+						rendered="#{MBRelatorio.cliente.CPF == null and MBRelatorio.relatorioEscolhido == 'CLIENTE'}" />
+				</h:panelGrid>
+				<br></br>
+				<h:panelGrid id="pnlClienteDados2" columns="2"
+					rendered="#{MBRelatorio.ehCadastrado == true and MBRelatorio.relatorioEscolhido == 'CLIENTE'}">
+
+					<h:outputLabel value="Id Cliente: " />
+					<p:inputText value="#{MBRelatorio.cliente.id}" readonly="true"
+						size="15" />
+
+					<h:outputText value="Nome:" />
+					<p:inputText size="90" maxlength="45" readonly="true"
+						value="#{MBRelatorio.cliente.nome}" />
+
+					<h:outputText value="Data Nascimento: " />
+					<p:inputText size="10" readonly="true"
+						value="#{MBRelatorio.cliente.dataNasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<h:outputText value="Nome da Mãe: " maxlength="45" />
+					<p:inputText size="90" value="#{MBRelatorio.cliente.nomeMae}"
+						readonly="true" />
+
+					<h:outputText value="CPF: " maxlength="11" />
+					<p:inputText size="20" value="#{MBRelatorio.cliente.CPF}"
+						readonly="true" />
+
+					<h:outputText value="Telefone: " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.cliente.telefone}" />
+
+					<h:outputText value="Celular " maxlength="15" />
+					<p:inputText size="15" readonly="true"
+						value="#{MBRelatorio.cliente.celular}" />
+
+					<h:outputText value="Email: " maxlength="65" />
+					<p:inputText size="50" value="#{MBRelatorio.cliente.email}"
+						readonly="true" />
+
+				</h:panelGrid>
+			</h:panelGrid>
 			<br></br>
 
 
 			<h:panelGrid id="pnlComandos" columns="3">
 				<p:commandButton actionListener="#{MBRelatorio.executar}"
 					value="Pesquisar"
-					update="frmRelatorioComprovante pnlRetiradas pnlDevolucao pnlRetiradaDados2 pnlDevolucaoDados2 :msgGlobal"
-					rendered="#{MBRelatorio.retirada.id == 0 and MBRelatorio.devolucao.id == 0}">
+					update="frmRelatorioComprovante pnlRetiradas pnlDevolucao pnlCliente pnlRetiradaDados2 pnlDevolucaoDados2 :msgGlobal"
+					rendered="#{MBRelatorio.retirada.id == 0 and MBRelatorio.devolucao.id == 0 and MBRelatorio.cliente.CPF == null}">
 					<f:param name="param" value="CONSULTAR" />
 				</p:commandButton>
 

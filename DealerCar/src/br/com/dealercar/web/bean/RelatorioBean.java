@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.core.util.SessionUtil;
+import br.com.dealercar.domain.Cliente;
 import br.com.dealercar.domain.conducao.Devolucao;
 import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.web.command.ICommand;
@@ -27,6 +28,7 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Retirada retirada = new Retirada();
 	private Devolucao devolucao = new Devolucao();
+	private Cliente cliente = new Cliente();
 	private String relatorioEscolhido;
 	
 
@@ -43,6 +45,14 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 
 	public void setRetirada(Retirada retirada) {
 		this.retirada = retirada;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Devolucao getDevolucao() {
@@ -95,7 +105,16 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 			SessionUtil.setParam("objetoRelatorio", this.devolucao);
 			SessionUtil.setParam("url", jasper);
 
-		} 
+		} else if (relatorioEscolhido.equals("CLIENTE")) {
+
+			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext()
+					.getRealPath("/Relatorios/listagemRetiradasPorCliente.jasper"));
+
+			SessionUtil.remove("objetoRelatorio");
+			SessionUtil.setParam("objetoRelatorio", this.cliente);
+			SessionUtil.setParam("url", jasper);
+
+		}  
 
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("imprimerelatorio.xhtml");
@@ -110,6 +129,7 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 		setJaPesquisei(false);
 		retirada = new Retirada();
 		devolucao = new Devolucao();
+		cliente = new Cliente();
 
 	}
 
@@ -130,17 +150,21 @@ public class RelatorioBean extends AbstractBean implements Serializable {
 		} else if (relatorioEscolhido.equals("DEVOLUÇÃO")) {
 			resultado = command.execute(devolucao);
 			devolucao = (Devolucao) resultado.getEntidades().get(0);
+		} else if (relatorioEscolhido.equals("CLIENTE")) {
+			resultado = command.execute(cliente);
+			cliente = (Cliente) resultado.getEntidades().get(0);
 		}
 
-		// Cliente foi encontrado
+		// foi encontrado
 		if (resultado.getEntidades().get(0) != null) {
 			setEhCadastrado(true);
 			setJaPesquisei(false);
 			return;
 		} else {
-			JSFUtil.adicionarMensagemErro("ID não encontrado");
+			JSFUtil.adicionarMensagemErro("Critério de Busca Não encontrado");
 			retirada = new Retirada();
 			devolucao = new Devolucao();
+			cliente = new Cliente();
 			return;
 		}
 
