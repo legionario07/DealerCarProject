@@ -72,10 +72,17 @@
 
 
 				<f:facet name="footer">
-					<h:panelGrid>
+					<h:panelGrid columns="2" styleClass="semBorda">
 						<p:commandButton value="Novo"
 							onclick="PF('dlgCategoriaNova').show();"
 							update=":frmNovaCategoria:pnlNovaCategoria" />
+
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="CATEGORIAS_SINTETICO" />
+						</p:commandButton>
+
 					</h:panelGrid>
 
 					<p:outputLabel value="Exitem " />
@@ -147,7 +154,7 @@
 						update="frmListaCategoria:tblListaCategoria :msgGlobal"
 						oncomplete="PF('dlgCategoriaExcluir').hide();">
 						<f:param name="param" value="EXCLUIR" />
-						</p:commandButton>
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar" id="CANCELAR"
 						actionListener="#{MBCategoria.limparObjetos}"
@@ -183,7 +190,7 @@
 						update=":frmListaCategoria:tblListaCategoria :msgGlobal"
 						oncomplete="PF('dlgCategoriaEditar').hide();">
 						<f:param name="param" value="EDITAR" />
-						</p:commandButton>
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar" id="CANCELAR"
 						actionListener="#{MBCategoria.limparObjetos}"

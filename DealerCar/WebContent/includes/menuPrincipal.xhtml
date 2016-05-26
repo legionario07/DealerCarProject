@@ -156,6 +156,10 @@
 				</p:submenu>
 
 				<p:submenu label="Categorias">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="CATEGORIAS_SINTETICO" />
+					</p:menuitem>
 					<p:menuitem value="Mais locadas"
 						action="#{MBRelatorioSintetico.chamarExporter}">
 						<f:param name="relatorioEscolhido" value="CATEGORIAS_MAIS_LOCADAS" />
@@ -188,6 +192,12 @@
 					<p:menuitem value="Sintético"
 						action="#{MBRelatorioSintetico.chamarExporter}">
 						<f:param name="relatorioEscolhido" value="FUNCIONARIOS_SINTETICO" />
+					</p:menuitem>
+				</p:submenu>
+				<p:submenu label="Carros">
+					<p:menuitem value="Sintético"
+						action="#{MBRelatorioSintetico.chamarExporter}">
+						<f:param name="relatorioEscolhido" value="CARROS_SINTETICO" />
 					</p:menuitem>
 				</p:submenu>
 

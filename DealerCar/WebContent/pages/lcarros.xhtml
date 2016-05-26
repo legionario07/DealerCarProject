@@ -14,8 +14,7 @@
 
 	<ui:define name="conteudo">
 
-		<f:event listener="#{MBCarro.carregarListagem}"
-			type="preRenderView" />
+		<f:event listener="#{MBCarro.carregarListagem}" type="preRenderView" />
 
 
 		<h:form id="frmListagemCarros">
@@ -33,41 +32,52 @@
 				</p:column>
 
 				<p:column headerText="Modelo" style="font-size:11px"
-					filterBy="#{itemCarro.modelo.nome}" sortBy="#{itemCarro.modelo.nome}">
+					filterBy="#{itemCarro.modelo.nome}"
+					sortBy="#{itemCarro.modelo.nome}">
 					<h:outputText value="#{itemCarro.modelo.nome}" />
 				</p:column>
-				
+
 				<p:column headerText="Ano" style="font-size:11px"
-					sortBy="#{itemCarro.ano}" >
+					sortBy="#{itemCarro.ano}">
 					<h:outputText value="#{itemCarro.ano}" />
 				</p:column>
-				
+
 				<p:column headerText="Qtde Portas" style="font-size:11px"
 					sortBy="#{itemCarro.qtdePortas}">
 					<h:outputText value="#{itemCarro.qtdePortas}" />
 				</p:column>
-				
-				<p:column headerText="Bagagem (Malas)" style="font-size:11px" 
-						sortBy="#{itemCarro.qtdeMalasSuportadas}">
+
+				<p:column headerText="Bagagem (Malas)" style="font-size:11px"
+					sortBy="#{itemCarro.qtdeMalasSuportadas}">
 					<h:outputText value="#{itemCarro.qtdeMalasSuportadas}" />
 				</p:column>
-				
+
 				<p:column headerText="Cor" style="font-size:11px"
 					filterBy="#{itemCarro.cor.nome}" sortBy="#{itemCarro.cor.nome}">
 					<h:outputText value="#{itemCarro.cor.nome}" />
 				</p:column>
-				
+
 				<p:column headerText="Categoria" style="font-size:11px"
-					filterBy="#{itemCarro.categoria.nome}" sortBy="#{itemCarro.categoria.nome}">
+					filterBy="#{itemCarro.categoria.nome}"
+					sortBy="#{itemCarro.categoria.nome}">
 					<h:outputText value="#{itemCarro.categoria.nome}" />
 				</p:column>
-				
+
 				<p:column headerText="Situação" style="font-size:11px"
-					filterBy="#{itemCarro.situacao.descricao}" sortBy="#{itemCarro.situacao.descricao}">
+					filterBy="#{itemCarro.situacao.descricao}"
+					sortBy="#{itemCarro.situacao.descricao}">
 					<h:outputText value="#{itemCarro.situacao.descricao}" />
 				</p:column>
 
 				<f:facet name="footer">
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="CARROS_SINTETICO" />
+						</p:commandButton>
+
+					</h:panelGrid>
 					<h:outputText value="Exitem " />
 					<h:outputText value="#{MBCarro.totalCarros}" />
 					<h:outputText value=" carros cadastrados." />

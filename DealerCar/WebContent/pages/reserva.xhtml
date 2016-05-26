@@ -106,16 +106,21 @@
 				</p:column>
 
 
-				<f:facet name="footer" >
-					<h:panelGrid columns="2" styleClass="semBorda">
+				<f:facet name="footer">
+					<h:panelGrid columns="3" styleClass="semBorda">
 						<p:commandButton value="Novo"
-						style="text-align:right ;float:right" 
+							style="text-align:right ;float:right"
 							onclick="PF('dlgReservaNova').show();"
 							update=":frmNovaReserva:pnlNovaReserva" />
-						<p:commandButton icon="ui-icon-info" title="Gráfico de Informações"
-						style="float:left" 
+						<p:commandButton icon="ui-icon-info"
+							title="Gráfico de Informações" style="float:center"
 							onclick="PF('dlgReservaGrafico').show();"
-							update=":frmGraficoReserva:pnlGraficoReserva"/>
+							update=":frmGraficoReserva:pnlGraficoReserva" />
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:left"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="RESERVA_SINTETICO" />
+							</p:commandButton>
 					</h:panelGrid>
 
 					<p:outputLabel value="Exitem " />
@@ -158,16 +163,15 @@
 						requiredMessage="Favor informar o Cliente. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Modelo: *" />
-					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.reserva.modelo.id}" required="true"
+					<p:selectOneMenu id="Modelo" value="#{MBReserva.reserva.modelo.id}"
+						required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
-							var="modelo" itemLabel="#{modelo.nome}"
-							itemValue="#{modelo.id}" />
+							var="modelo" itemLabel="#{modelo.nome}" itemValue="#{modelo.id}" />
 					</p:selectOneMenu>
 
 
@@ -187,14 +191,14 @@
 					<p:commandButton value="Salvar"
 						rendered="#{MBReserva.ehCadastrado == true}"
 						actionListener="#{MBReserva.executar}"
-						onclick="PF('dlgReservaNova').hide();" 
+						onclick="PF('dlgReservaNova').hide();"
 						update="frmListaReserva:tblListaReserva :msgGlobal">
-						<f:param name="param" value="CADASTRAR"/>
-						</p:commandButton>
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-						onclick="PF('dlgReservaNova').hide();" 
-						actionListener="#{MBReserva.pesquisarPorCPF}"/>
+						onclick="PF('dlgReservaNova').hide();"
+						actionListener="#{MBReserva.pesquisarPorCPF}" />
 
 				</h:panelGrid>
 			</h:form>
@@ -238,8 +242,8 @@
 						actionListener="#{MBReserva.executar}"
 						update="frmListaReserva:tblListaReserva :msgGlobal"
 						oncomplete="PF('dlgReservaExcluir').hide();">
-						<f:param name="param" value="EXCLUIR"/>
-						</p:commandButton>
+						<f:param name="param" value="EXCLUIR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
 						oncomplete="PF('dlgReservaExcluir').hide();" />
@@ -277,16 +281,15 @@
 						readonly="true" />
 
 					<h:outputText value="Modelo: *" />
-					<p:selectOneMenu id="Modelo"
-						value="#{MBReserva.reserva.modelo.id}" required="true"
+					<p:selectOneMenu id="Modelo" value="#{MBReserva.reserva.modelo.id}"
+						required="true"
 						requiredMessage="Favor informar o Modelo. Campo de preenchimento obrigatório"
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
 						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
 						<f:selectItems value="#{MBReserva.listaModelosDisponiveis}"
-							var="modelo" itemLabel="#{modelo.nome}"
-							itemValue="#{modelo.id}" />
+							var="modelo" itemLabel="#{modelo.nome}" itemValue="#{modelo.id}" />
 					</p:selectOneMenu>
 
 					<h:outputText value="Data da Reserva: *" />
@@ -309,11 +312,11 @@
 						actionListener="#{MBReserva.executar}"
 						update=":frmListaReserva:tblListaReserva :msgGlobal"
 						oncomplete="PF('dlgReservaEditar').hide();">
-						<f:param name="param" value="EDITAR"/>
-						</p:commandButton>
+						<f:param name="param" value="EDITAR" />
+					</p:commandButton>
 
 					<p:commandButton value="Cancelar"
-					actionListener="#{MBReserva.limparObjetos}"
+						actionListener="#{MBReserva.limparObjetos}"
 						onclick="PF('dlgReservaEditar').hide();" />
 
 				</h:panelGrid>

@@ -88,6 +88,14 @@
 
 
 				<f:facet name="footer">
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="DEVOLUÇÃO_SINTETICO" />
+						</p:commandButton>
+
+					</h:panelGrid>
 					<p:outputLabel value="Exitem " />
 					<p:outputLabel value="#{MBDevolucao.totalDevolucoes}" />
 					<p:outputLabel value=" devoluções cadastradas." />

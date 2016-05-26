@@ -74,6 +74,16 @@
 				</p:column>
 
 				<f:facet name="footer">
+
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="CLIENTES_SINTETICO" />
+						</p:commandButton>
+
+					</h:panelGrid>
+
 					<h:outputText value="Exitem " />
 					<h:outputText value="#{MBCliente.totalClientes}" />
 					<h:outputText value=" clientes cadastrados." />

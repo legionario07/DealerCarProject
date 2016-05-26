@@ -86,7 +86,7 @@
 					sortBy="#{itemFuncionario.usuario.permissao.nivel}">
 					<h:outputText value="#{itemFuncionario.usuario.permissao.nivel}" />
 				</p:column>
-				
+
 				<p:column headerText="Ativo" width="15%"
 					style="font-size:11px; text-align:center"
 					filterBy="#{itemFuncionario.usuario.ativo}"
@@ -96,6 +96,14 @@
 
 
 				<f:facet name="footer">
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="FUNCIONARIOS_SINTETICO" />
+						</p:commandButton>
+
+					</h:panelGrid>
 					<h:outputText value="Exitem " />
 					<h:outputText value="#{MBFuncionario.totalFuncionario}" />
 					<h:outputText value=" funcionarios cadastrados." />

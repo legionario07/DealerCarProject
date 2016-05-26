@@ -74,8 +74,8 @@
 						<h:outputText value="Taxas Adicionais" />
 						<p:selectManyCheckbox id="taxasSelects"
 							value="#{MBDevolucao.selectedTaxas}" layout="grid" columns="1">
-							<f:selectItems value="#{MBDevolucao.taxasAdicionais}" var="taxa"
-								itemLabel="#{taxa}" itemValue="#{taxa}" />
+							<f:selectItems value="#{MBDevolucao.listaTaxas}" var="taxa"
+								itemLabel="#{taxa.descricao} - R$#{taxa.valor}0" itemValue="#{taxa.descricao}" />
 						</p:selectManyCheckbox>
 
 						<h:panelGrid columns="2">
@@ -84,8 +84,8 @@
 								onclick="PF('dlgDevolucaoEfetuar').show();"
 								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
 								update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal">
-								<f:param name="param" value="CONSULTAR"/>
-								</p:commandButton>
+								<f:param name="param" value="CONSULTAR" />
+							</p:commandButton>
 						</h:panelGrid>
 					</h:panelGrid>
 				</h:form>
@@ -136,11 +136,11 @@
 						actionListener="#{MBDevolucao.executar}"
 						action="/pages/devolucao.xhtml"
 						oncomplete="PF('dlgDevolucaoEfetuar').hide();">
-						<f:param name="param" value="CADASTRAR"/>
-						</p:commandButton>
-						
+						<f:param name="param" value="CADASTRAR" />
+					</p:commandButton>
+
 					<p:commandButton value="Cancelar"
-					actionListener="#{MBDevolucao.limparObjetos}"
+						actionListener="#{MBDevolucao.limparObjetos}"
 						onclick="PF('dlgDevolucaoEfetuar').hide();" />
 
 				</h:panelGrid>

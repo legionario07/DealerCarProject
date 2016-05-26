@@ -40,7 +40,6 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 	private Devolucao devolucao = new Devolucao();
 	private Cliente cliente = new Cliente();
 	private List<EntidadeDominio> listaTaxas = new ArrayList<EntidadeDominio>();
-	private List<String> taxasAdicionais;
 	private String[] selectedTaxas;
 	private List<EntidadeDominio> listaDevolucao = new ArrayList<EntidadeDominio>();
 
@@ -58,9 +57,6 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		this.selectedTaxas = selectedTaxas;
 	}
 
-	public List<String> getTaxasAdicionais() {
-		return taxasAdicionais;
-	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -70,9 +66,6 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public void setTaxasAdicionais(List<String> taxasAdicionais) {
-		this.taxasAdicionais = taxasAdicionais;
-	}
 
 	public void setDevolucao(Devolucao devolucao) {
 		this.devolucao = devolucao;
@@ -119,17 +112,11 @@ public class DevolucaoBean extends AbstractBean implements Serializable {
 
 		this.setTotalDevolucoes(listaDevolucao.size());
 
-		taxasAdicionais = new ArrayList<String>();
 
 		// recebendo todas as taxas cadastradas no BD
 		resultado = command.execute(new TaxasAdicionais());
 		if (resultado != null) {
 			listaTaxas = resultado.getEntidades();
-		}
-
-		// passando o nome das taxas para ser exibido na VIEW
-		for (int i = 0; i < listaTaxas.size(); i++) {
-			taxasAdicionais.add(((TaxasAdicionais) listaTaxas.get(i)).getDescricao());
 		}
 
 		// verifica se comando veio da view retiradas.xhtml

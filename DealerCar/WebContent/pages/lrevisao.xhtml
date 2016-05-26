@@ -100,14 +100,21 @@
 				<p:column headerText="Detalhar" width="5%" style="text-align:center">
 					<p:commandButton icon=" ui-icon-document" title="Detalhar Revisão"
 						action="/pages/detalharrevisao.xhtml">
-						<f:setPropertyActionListener
-							target="#{MBRevisao.revisao}"
+						<f:setPropertyActionListener target="#{MBRevisao.revisao}"
 							value="#{itemRevisao}" />
 					</p:commandButton>
 				</p:column>
 
 
 				<f:facet name="footer">
+					<h:panelGrid id="pnlFooter" styleClass="semBorda">
+						<p:commandButton icon="ui-icon-print" title="Exportar PDF"
+							style="float:center"
+							action="#{MBRelatorioSintetico.chamarExporter}">
+							<f:param name="relatorioEscolhido" value="REVISOES_SINTETICO" />
+						</p:commandButton>
+
+					</h:panelGrid>
 					<p:outputLabel value="Exitem " />
 					<p:outputLabel value="#{MBRevisao.totaoRevisaoRealizada}" />
 					<p:outputLabel value=" Revisões Efetuadas." />

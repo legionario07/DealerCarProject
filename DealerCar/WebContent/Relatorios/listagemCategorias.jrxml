@@ -1,45 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-05-26T15:43:06 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab156176-6c90-40be-9517-c6993832fd3f">
+<!-- 2016-05-26T16:24:44 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemCategorias" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab156176-6c90-40be-9517-c6993832fd3f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW_DATAADAPTER.xml"/>
 	<queryString>
-		<![CDATA[select dealercar.funcionarios.id, dealercar.funcionarios.nome, dealercar.funcionarios.data_nasc,
-dealercar.funcionarios.sexo, dealercar.funcionarios.telefone, dealercar.funcionarios.celular, dealercar.cargos.nome, dealercar.funcionarios.salario
-from dealercar.funcionarios
-inner join dealercar.cargos on dealercar.cargos.id = dealercar.funcionarios.id_cargo
-order by dealercar.funcionarios.id]]>
+		<![CDATA[select categorias.id, categorias.nome as NOME, categorias.descricao as DESCRICAO, categorias.vlr_diaria as VALOR, count(carros.placa) as "Total Carros"
+from carros
+inner join categorias on categorias.id = carros.id_categoria
+group by categorias.nome
+order by count(carros.placa) desc]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[Numero de Identificação - Auto Incremento da tabela.]]></fieldDescription>
 	</field>
-	<field name="nome" class="java.lang.String">
-		<fieldDescription><![CDATA[Nome do Funcionário.]]></fieldDescription>
+	<field name="NOME" class="java.lang.String">
+		<fieldDescription><![CDATA[Nome da Categoria.]]></fieldDescription>
 	</field>
-	<field name="data_nasc" class="java.sql.Date">
-		<fieldDescription><![CDATA[Data de Nascimento do Funcionário.]]></fieldDescription>
+	<field name="DESCRICAO" class="java.lang.String">
+		<fieldDescription><![CDATA[Descrição detalhada da Categoria.]]></fieldDescription>
 	</field>
-	<field name="sexo" class="java.lang.String">
-		<fieldDescription><![CDATA[Sexo do Funcionário.]]></fieldDescription>
-	</field>
-	<field name="telefone" class="java.lang.String">
-		<fieldDescription><![CDATA[Telefone do Funcionário.]]></fieldDescription>
-	</field>
-	<field name="celular" class="java.lang.String">
-		<fieldDescription><![CDATA[Celular do Funcionário.]]></fieldDescription>
-	</field>
-	<field name="COLUMN_7" class="java.lang.String"/>
-	<field name="salario" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Sálario recebido pelo Funcionário.]]></fieldDescription>
-	</field>
-	<variable name="total_retiradas" class="java.lang.Integer" calculation="Count">
+	<field name="VALOR" class="java.math.BigDecimal"/>
+	<field name="Total Carros" class="java.lang.Long"/>
+	<variable name="total_categorias" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{id}]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
-	<group name="nome">
-		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -71,7 +57,7 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[FUNCIONÁRIOS]]></text>
+				<text><![CDATA[CATEGORIAS]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="34" width="802" height="1" uuid="9d822d0c-98b0-44f9-b63d-3393ec55e142"/>
@@ -85,7 +71,7 @@ order by dealercar.funcionarios.id]]>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="50" height="20" backcolor="#F7FCFC" uuid="b7cc2229-ba25-44a1-8884-311983e50d67">
+				<reportElement mode="Opaque" x="0" y="0" width="60" height="20" backcolor="#F7FCFC" uuid="b7cc2229-ba25-44a1-8884-311983e50d67">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
@@ -100,51 +86,7 @@ order by dealercar.funcionarios.id]]>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="50" y="0" width="260" height="20" backcolor="#F7FCFC" uuid="d400d89e-de37-40f8-a475-0b54140ff26f">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nome]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="620" y="0" width="102" height="20" backcolor="#F7FCFC" uuid="264633f0-a020-44f3-ba73-dfcf6eca42e3">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cargo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="310" y="0" width="70" height="20" backcolor="#F7FCFC" uuid="9f1c56e6-edd7-4521-928d-04e3322d6ef0"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Dt Nasc]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="460" y="0" width="80" height="20" backcolor="#F7FCFC" uuid="b4fbe303-999c-4532-8ff6-5f933ae1062f">
+				<reportElement mode="Opaque" x="60" y="0" width="140" height="20" backcolor="#F7FCFC" uuid="d400d89e-de37-40f8-a475-0b54140ff26f">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
@@ -157,10 +99,12 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Telefone]]></text>
+				<text><![CDATA[Categoria]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="540" y="0" width="80" height="20" backcolor="#F7FCFC" uuid="10998c48-036a-4848-af28-f743d2d00f07"/>
+				<reportElement mode="Opaque" x="200" y="0" width="442" height="20" backcolor="#F7FCFC" uuid="9f1c56e6-edd7-4521-928d-04e3322d6ef0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -170,11 +114,27 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Celular]]></text>
+				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="380" y="0" width="80" height="20" backcolor="#F7FCFC" uuid="861eb74f-4c09-49da-be56-a6d62b3fef97">
+				<reportElement mode="Opaque" x="732" y="0" width="70" height="20" backcolor="#F7FCFC" uuid="b4fbe303-999c-4532-8ff6-5f933ae1062f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Carros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="642" y="0" width="90" height="20" backcolor="#F7FCFC" uuid="861eb74f-4c09-49da-be56-a6d62b3fef97">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -185,30 +145,14 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Sexo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="722" y="0" width="80" height="20" backcolor="#F7FCFC" uuid="6c181a38-8818-48a7-9f17-b5e3b755a834">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Salário]]></text>
+				<text><![CDATA[Valor]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="50" height="20" uuid="d0c546f8-d17f-4e2f-a8a3-ac4147e973e6">
+				<reportElement x="0" y="0" width="60" height="20" uuid="d0c546f8-d17f-4e2f-a8a3-ac4147e973e6">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<box>
@@ -223,9 +167,8 @@ order by dealercar.funcionarios.id]]>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="0" width="260" height="20" uuid="abea9475-5ef9-459e-97e4-9deff562cb9c">
+				<reportElement x="60" y="0" width="140" height="20" uuid="abea9475-5ef9-459e-97e4-9deff562cb9c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -233,14 +176,14 @@ order by dealercar.funcionarios.id]]>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 					<paragraph leftIndent="5" spacingBefore="0"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="620" y="0" width="102" height="20" uuid="142b39f4-49f6-4112-844f-ae8f7641d8eb">
+				<reportElement x="732" y="0" width="70" height="20" uuid="70d3a4dc-87c6-4baf-bee0-ad39e99de266">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box>
@@ -252,41 +195,10 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_7}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="460" y="0" width="80" height="20" uuid="70d3a4dc-87c6-4baf-bee0-ad39e99de266">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="540" y="0" width="80" height="20" uuid="244f26ae-8f2d-4009-9bba-a5797d9c2094">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Total Carros}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="310" y="0" width="70" height="20" uuid="51ce7f18-fe7e-431c-8a01-6ffa08b9375a">
+				<reportElement x="200" y="0" width="442" height="20" uuid="51ce7f18-fe7e-431c-8a01-6ffa08b9375a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -298,11 +210,12 @@ order by dealercar.funcionarios.id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{data_nasc}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{DESCRICAO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="380" y="0" width="80" height="20" uuid="414ba024-c7a0-4437-8cef-6f26a5212499">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="642" y="0" width="90" height="20" uuid="414ba024-c7a0-4437-8cef-6f26a5212499">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -313,22 +226,7 @@ order by dealercar.funcionarios.id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="722" y="0" width="80" height="20" uuid="5a9ba02a-a407-41b4-887a-3a4cb38fc2de">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["R$ " + $F{VALOR}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -365,7 +263,7 @@ order by dealercar.funcionarios.id]]>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["Total de Registros: " + $V{total_retiradas}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Total de Registros: " + $V{total_categorias}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy">
 				<reportElement x="702" y="25" width="100" height="15" uuid="40d52a61-4cc6-40e5-b12e-a0bb2a01e04f">
