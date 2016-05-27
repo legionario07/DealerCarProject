@@ -443,13 +443,13 @@ public class RevisaoDAO implements IDAO, Serializable {
 	 *            Revisao, e uma Data final
 	 * @return uma lista de Revisao
 	 */
-	public List<Revisao> pesquisarPorIntervaloData(Revisao revisao, Date dataFinal) {
+	public List<EntidadeDominio> pesquisarPorIntervaloData(Revisao revisao, Date dataFinal) {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
 		sql.append("where data_revisao between ? and ? ");
 
-		List<Revisao> lista = new ArrayList<Revisao>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		Revisao revisaoRetorno = null;
 
 		con = Conexao.getConnection();

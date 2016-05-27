@@ -3,11 +3,11 @@ package br.com.dealercar.core.builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.primefaces.model.chart.PieChartModel;
+
+import br.com.dealercar.core.util.GraficoUtil;
 
 /**
  * 
@@ -28,20 +28,11 @@ public class GraficoPizzaBuilder {
 
 		PieChartModel graficoRetorno = new PieChartModel();
 
-		// Criando uma collections com apenas os distintos
-		Set<String> reservasDistintas = new HashSet<String>(listaStringDesordenada);
-
 		// criando uma lista que ira transforrmar a collection em uma lista de
 		// String
 		List<String> listaDistintaOrdenada = new ArrayList<String>();
-
-		// tranforma a collection set em uma lista de String para ser ordenada
-		for (String s : reservasDistintas) {
-			listaDistintaOrdenada.add(s);
-		}
-
-		// classifica a lista por ordem alfabetica
-		Collections.sort(listaDistintaOrdenada);
+		
+		listaDistintaOrdenada = GraficoUtil.ordernarListaDistinta(listaStringDesordenada);
 
 		// HashMap que ira receber <Nome, qtde>
 		HashMap<String, Integer> graficoHash = new HashMap<String, Integer>();

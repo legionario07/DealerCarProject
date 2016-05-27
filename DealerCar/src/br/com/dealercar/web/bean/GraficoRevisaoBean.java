@@ -16,6 +16,7 @@ import br.com.dealercar.core.builder.GraficoPizzaBuilder;
 import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.conducao.Revisao;
 
 @ManagedBean(name = "MBRevisaoGrafico")
@@ -29,9 +30,10 @@ public class GraficoRevisaoBean implements Serializable {
 	private PieChartModel pieRevisaoPersonalizado;
 	private Revisao revisao = new Revisao();
 	private String tipoDeDadosGraficos;
-	private List<Revisao> lista = new ArrayList<Revisao>();
+	private List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 	private List<String> listaString = new ArrayList<String>();
 	private Date dataFinal;
+	private String tipoDeAnalise;
 
 	public PieChartModel getPieRevisaoPersonalizado() {
 		return pieRevisaoPersonalizado;
@@ -49,11 +51,11 @@ public class GraficoRevisaoBean implements Serializable {
 		this.revisao = revisao;
 	}
 
-	public List<Revisao> getLista() {
+	public List<EntidadeDominio> getLista() {
 		return lista;
 	}
 
-	public void setLista(List<Revisao> lista) {
+	public void setLista(List<EntidadeDominio> lista) {
 		this.lista = lista;
 	}
 
@@ -63,6 +65,14 @@ public class GraficoRevisaoBean implements Serializable {
 
 	public void setDataFinal(Date dataFinal) {
 		this.dataFinal = dataFinal;
+	}
+
+	public String getTipoDeAnalise() {
+		return tipoDeAnalise;
+	}
+
+	public void setTipoDeAnalise(String tipoDeAnalise) {
+		this.tipoDeAnalise = tipoDeAnalise;
 	}
 
 	public List<String> getListaString() {
@@ -110,23 +120,23 @@ public class GraficoRevisaoBean implements Serializable {
 		switch (tipoDeDadosGraficos) {
 		case "Categoria":
 
-			for (Revisao r : lista) {
-				listaString.add(r.getCarro().getCategoria().getNome());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Revisao) r).getCarro().getCategoria().getNome());
 			}
 
 			break;
 		case "Modelo":
 
-			for (Revisao r : lista) {
-				listaString.add(r.getCarro().getModelo().getNome());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Revisao) r).getCarro().getModelo().getNome());
 			}
 
 			break;
 
 		case "Carro":
 
-			for (Revisao r : lista) {
-				listaString.add(r.getCarro().getPlaca());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Revisao) r).getCarro().getPlaca());
 			}
 
 			break;
@@ -146,7 +156,7 @@ public class GraficoRevisaoBean implements Serializable {
 			dataFinal = null;
 			revisao = new Revisao();
 			org.primefaces.context.RequestContext.getCurrentInstance()
-			.update("pnlGrafico pnlComandos pnlTipoGrafico validadores");
+			.update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 		
@@ -155,7 +165,7 @@ public class GraficoRevisaoBean implements Serializable {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparGrafico();
 			org.primefaces.context.RequestContext.getCurrentInstance()
-					.update("pnlGrafico pnlComandos pnlTipoGrafico validadores");
+					.update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 
@@ -178,7 +188,9 @@ public class GraficoRevisaoBean implements Serializable {
 		dataFinal = null;
 		lista.clear();
 		listaString.clear();
+		tipoDeAnalise = null;
 		revisao = new Revisao();
+		tipoDeDadosGraficos = null;
 	}
 
 }

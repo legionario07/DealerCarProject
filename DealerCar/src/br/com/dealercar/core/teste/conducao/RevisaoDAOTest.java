@@ -173,7 +173,7 @@ public class RevisaoDAOTest {
 			e.printStackTrace();
 		}
 		
-		List<Revisao> lista = new ArrayList<Revisao>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		try {
 			lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao, sdf.parse(dataFinal));
 		} catch (ParseException e) {
@@ -181,8 +181,8 @@ public class RevisaoDAOTest {
 			e.printStackTrace();
 		}
 
-		for(Revisao r : lista){
-			System.out.println(r.getDataRevisao());
+		for(EntidadeDominio r : lista){
+			System.out.println(((Revisao) r).getDataRevisao());
 		}
 	}
 	

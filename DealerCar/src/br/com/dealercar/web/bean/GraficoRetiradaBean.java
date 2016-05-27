@@ -15,6 +15,7 @@ import br.com.dealercar.core.builder.GraficoPizzaBuilder;
 import br.com.dealercar.core.dao.RetiradaDAO;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
+import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.conducao.Retirada;
 
 @ManagedBean(name = "MBRetiradaGrafico")
@@ -28,8 +29,9 @@ public class GraficoRetiradaBean implements Serializable {
 	private PieChartModel pieRetiradaPersonalizado;
 	private Retirada retirada = new Retirada();
 	private String tipoDeDadosGraficos;
-	private List<Retirada> lista = new ArrayList<Retirada>();
+	private List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 	private List<String> listaString = new ArrayList<String>();
+	private String tipoDeAnalise;
 
 	public PieChartModel getPieRetiradaPersonalizado() {
 		return pieRetiradaPersonalizado;
@@ -47,11 +49,11 @@ public class GraficoRetiradaBean implements Serializable {
 		this.retirada = retirada;
 	}
 
-	public List<Retirada> getLista() {
+	public List<EntidadeDominio> getLista() {
 		return lista;
 	}
 
-	public void setLista(List<Retirada> lista) {
+	public void setLista(List<EntidadeDominio> lista) {
 		this.lista = lista;
 	}
 
@@ -63,6 +65,14 @@ public class GraficoRetiradaBean implements Serializable {
 		this.listaString = listaString;
 	}
 
+	public String getTipoDeAnalise() {
+		return tipoDeAnalise;
+	}
+
+	public void setTipoDeAnalise(String tipoDeAnalise) {
+		this.tipoDeAnalise = tipoDeAnalise;
+	}
+
 	public String getTipoDeDadosGraficos() {
 		return tipoDeDadosGraficos;
 	}
@@ -70,6 +80,7 @@ public class GraficoRetiradaBean implements Serializable {
 	public void setTipoDeDadosGraficos(String tipoDeDadosGraficos) {
 		this.tipoDeDadosGraficos = tipoDeDadosGraficos;
 	}
+
 
 	/**
 	 * Gerando o gráfico Personalizado mais locadas
@@ -100,23 +111,23 @@ public class GraficoRetiradaBean implements Serializable {
 		switch (tipoDeDadosGraficos) {
 		case "Categoria":
 
-			for (Retirada r : lista) {
-				listaString.add(r.getCarro().getCategoria().getNome());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Retirada) r).getCarro().getCategoria().getNome());
 			}
 
 			break;
 		case "Modelo":
 
-			for (Retirada r : lista) {
-				listaString.add(r.getCarro().getModelo().getNome());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Retirada) r).getCarro().getModelo().getNome());
 			}
 
 			break;
 
 		case "Carro":
 
-			for (Retirada r : lista) {
-				listaString.add(r.getCarro().getPlaca());
+			for (EntidadeDominio r : lista) {
+				listaString.add(((Retirada) r).getCarro().getPlaca());
 			}
 
 			break;
@@ -135,7 +146,7 @@ public class GraficoRetiradaBean implements Serializable {
 			pieRetiradaPersonalizado = null;
 			retirada = new Retirada();
 			org.primefaces.context.RequestContext.getCurrentInstance()
-			.update("pnlGrafico pnlComandos pnlTipoGrafico validadores");
+			.update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 		
@@ -144,7 +155,7 @@ public class GraficoRetiradaBean implements Serializable {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparGrafico();
 			org.primefaces.context.RequestContext.getCurrentInstance()
-					.update("pnlGrafico pnlComandos pnlTipoGrafico validadores");
+					.update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 
@@ -156,6 +167,7 @@ public class GraficoRetiradaBean implements Serializable {
 		pieRetiradaPersonalizado.setLegendPosition("w");
 		pieRetiradaPersonalizado.setShowDataLabels(true);
 
+		
 	}
 
 	/**
@@ -164,9 +176,11 @@ public class GraficoRetiradaBean implements Serializable {
 	public void limparGrafico() {
 
 		pieRetiradaPersonalizado = null;
+		tipoDeAnalise = null;
 		lista.clear();
 		listaString.clear();
 		retirada = new Retirada();
+		
 	}
 
 }

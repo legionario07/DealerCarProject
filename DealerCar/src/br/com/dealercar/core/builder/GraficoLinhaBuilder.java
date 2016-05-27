@@ -1,19 +1,17 @@
 package br.com.dealercar.core.builder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
-import br.com.dealercar.domain.conducao.Reserva;
+import br.com.dealercar.core.util.GraficoUtil;
 
 /**
  * 
@@ -23,75 +21,83 @@ import br.com.dealercar.domain.conducao.Reserva;
  */
 public class GraficoLinhaBuilder {
 
+	private static LineChartModel graficoRetorno = null;
 
 	/**
-	 * Metodo que recebe uma lista de String, ordena e remove os duplicados
 	 * 
-	 * @param listaString
-	 *            Desordenada e com duplicatas
-	 * @return uma LineChartModel
+	 * @param dadosTotais - Um MAP<String, List<String, Integer>> com todos os dados 
+	 * @param intervaloPesquisa - List<String>, geralmente meses para serem exibidos no eixoX
+	 * @param listaDesordenada - Uma lista desordenada e repetida, que sera ordenada e virara 
+	 * as Keys do dadosTotais
+	 * @param eixoX - Nome do eixoX
+	 * @param eixoY - Nome do eixoY
+	 * @return
 	 */
-	public static LineChartModel gerarGraficoLine(List<String> listaStringDesordenada, Reserva reserva) {
+	public static LineChartModel gerarGraficoLine(Map<String, List<Map<String, Integer>>> dadosTotais,
+			List<String> intervaloPesquisa, List<String> listaDesordenada, String eixoX, String eixoY) {
 
-		LineChartModel graficoRetorno = new LineChartModel();
+		graficoRetorno = new LineChartModel();
+		LineChartSeries lineChartSeries = null;
 
-		// Criando uma collections com apenas os distintos
-		Set<String> reservasDistintas = new HashSet<String>(listaStringDesordenada);
+		listaDesordenada = GraficoUtil.ordernarListaDistinta(listaDesordenada);
 
-		// criando uma lista que ira transforrmar a collection em uma lista de
-		// String
-		List<String> listaDistintaOrdenada = new ArrayList<String>();
+		// ira receber a maior quantidade entre todos o meses
+		int maiorQuantidade = 0;
 
-		// tranforma a collection set em uma lista de String para ser ordenada
-		for (String s : reservasDistintas) {
-			listaDistintaOrdenada.add(s);
-		}
+		// Cria as Linhas do Grafico
+		for (int j = 0; j < listaDesordenada.size(); j++) {
 
-		// classifica a lista por ordem alfabetica
-		Collections.sort(listaDistintaOrdenada);
+			List<Map<String, Integer>> listaMaps = null;
+			Map<String, Integer> map = null;
 
-		// HashMap que ira receber <Nome, qtde>
-		HashMap<String, Integer> graficoHash = new HashMap<String, Integer>();
+			lineChartSeries = new LineChartSeries();
 
-		Collections.sort(listaStringDesordenada);
-		for (int i = 0; i < listaDistintaOrdenada.size(); i++) {
-			int count = Collections.frequency(listaStringDesordenada, listaDistintaOrdenada.get(i));
-			graficoHash.put(listaDistintaOrdenada.get(i), count);
-		}
+			// coloca o nome da legenda
+			lineChartSeries.setLabel(listaDesordenada.get(j));
 
-		ChartSeries chartSeries = null;
-	/*	for (int i = 0; i < listaDistintaOrdenada.size(); i++) {
-			chartSeries = new ChartSeries();
-			int count = Collections.frequency(listaStringDesordenada, listaDistintaOrdenada.get(i));
+			// verifica todos os meses
+			for (int i = 0; i < intervaloPesquisa.size(); i++) {
 
-			// graficoRetorno.set(listaDistintaOrdenada.get(i),graficoHash.get(listaDistintaOrdenada.get(i)));
-		}
-		*/
+				listaMaps = new ArrayList<Map<String, Integer>>();
+				map = new HashMap<String, Integer>();
 
-		// Grafico recebe os dados para ser exibido
-		for (int j = 0; j < listaDistintaOrdenada.size(); j++) {
-			chartSeries = new ChartSeries();
-			for (int i = 0; i < graficoHash.size(); i++) {
-				chartSeries.set(listaDistintaOrdenada.get(i), graficoHash.get(listaDistintaOrdenada.get(i)));
+				listaMaps = dadosTotais.get(intervaloPesquisa.get(i));
+
+				// para cada mes informado sera adicionado o valor encontrado
+				for (int k = 0; k < listaMaps.size(); k++) {
+					map = listaMaps.get(k);
+					if (map.containsKey(listaDesordenada.get(j))) {
+						if (map.containsKey(lineChartSeries.getLabel())) {
+							lineChartSeries.set(intervaloPesquisa.get(i), map.get(listaDesordenada.get(j)));
+						}
+
+						// verifica o maior dado para formar o eixo y + 2
+						if (maiorQuantidade < map.get(listaDesordenada.get(j)))
+							maiorQuantidade = map.get(listaDesordenada.get(j));
+
+						// s se não encontrou dado naquele mes recebera o valor
+						// 0
+					} else {
+						lineChartSeries.set(intervaloPesquisa.get(i), 0);
+					}
+				}
+
 			}
-			graficoRetorno.addSeries(chartSeries);
+
+			graficoRetorno.addSeries(lineChartSeries);
 		}
 
-		
-		graficoRetorno.setShowPointLabels(true);
-		graficoRetorno.setZoom(true);
-		graficoRetorno.setLegendPosition("ne");
+		graficoRetorno.getAxes().put(AxisType.X, new CategoryAxis(eixoX));
 		Axis yAxis = graficoRetorno.getAxis(AxisType.Y);
-		yAxis.setLabel("Quantidade");
-		DateAxis axis = new DateAxis("Dates");
-		axis.setTickAngle(-50);
-		axis.setMin(reserva.getDataCadastroReserva());
-		axis.setMax(reserva.getDataFim());
-		axis.setTickFormat("%b %#d, %y");
-		graficoRetorno.getAxes().put(AxisType.X, axis);
-		
-		
-		
+		yAxis.setLabel(eixoY);
+		yAxis.setMin(-1);
+		yAxis.setMax(maiorQuantidade + 2);
+		yAxis.setTickFormat("%i");
+		graficoRetorno.setLegendPosition("e");
+		graficoRetorno.setShowPointLabels(true);
+		graficoRetorno.setAnimate(true);
+		graficoRetorno.setZoom(true);
+
 		return graficoRetorno;
 	}
 

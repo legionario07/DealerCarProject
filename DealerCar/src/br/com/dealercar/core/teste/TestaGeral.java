@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import br.com.dealercar.domain.automotivos.Carro;
-import br.com.dealercar.domain.enums.SituacaoType;
-
 public class TestaGeral {
 
 	/**
@@ -179,15 +176,7 @@ public class TestaGeral {
 		System.out.println(s.replace("/", "").replace(" ", "").replace(":", ""));
 		*/
 
-		Carro c = new Carro();
-		c.setSituacao(SituacaoType.Locado);
-		
-		for(SituacaoType s : SituacaoType.values()){
-			if(c.getSituacao().getDescricao().toUpperCase().equals(s.getDescricao())){
-				System.out.println("Eh igual");
-			}
-		}
-		
+
 		
 	}
 }

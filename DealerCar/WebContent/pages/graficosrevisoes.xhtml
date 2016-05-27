@@ -18,18 +18,6 @@
 			<p:tab title="Gráfico Revisões" id="tabGrafico">
 				<h:form>
 
-					<h:panelGrid id="validadores" columns="4">
-
-						<p:message for="dataInicio" />
-						<h:outputText value="#{MBRevisaoGrafico.revisao.dataRevisao}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-						<p:message for="dataFim" />
-						<h:outputText value="#{MBRevisaoGrafico.dataFinal}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</h:panelGrid>
-
 					<h:panelGrid columns="2" id="pnlTipoGrafico">
 						<p:outputLabel value="Gráfico sobre: " />
 						<p:selectOneMenu id="selectTipoDeDadosGrafico"
@@ -42,36 +30,95 @@
 							<f:selectItem itemValue="Carro" itemLabel="Carro" />
 
 						</p:selectOneMenu>
-
-						<p:outputLabel value="Data Inicio*: " />
-						<p:calendar id="dataInicio"
-							value="#{MBRevisaoGrafico.revisao.dataRevisao}"
-							pattern="dd/MM/yyyy" required="true"
-							requiredMessage="Favor informar a Data Inicio">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</p:calendar>
-						<p:outputLabel value="Data Fim*: " />
-						<p:calendar id="dataFim" value="#{MBRevisaoGrafico.dataFinal}"
-							pattern="dd/MM/yyyy" required="true"
-							requiredMessage="Favor informar a Data Final">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</p:calendar>
-
 					</h:panelGrid>
+
+					<h:panelGrid columns="1" id="pnlEscolha"
+						rendered="#{MBRevisaoGrafico.tipoDeAnalise == null}">
+						<p:outputLabel value="Intervalo de Pesquisa" />
+						<p:selectOneRadio id="selectEscolha"
+							value="#{MBRevisaoGrafico.tipoDeAnalise}" layout="grid"
+							columns="1" style="text-indent: 10px">
+							<f:selectItem itemLabel="Intervalo Personalizado"
+								itemValue="Intervalo Personalizado" />
+							<f:selectItem itemLabel="Anual" itemValue="Anual" />
+							<f:ajax render="outEscolha outDataPersonalizada outComandos" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+
+
+					<p:outputPanel id="outEscolha">
+						<h:panelGrid columns="1" id="pnlAno"
+							rendered="#{MBRevisaoGrafico.tipoDeAnalise == 'Anual'}">
+							<p:outputLabel value="Ano" />
+							<p:selectOneMenu id="selectEscolhaAno" immediate="true"
+							required="true"
+							requiredMessage="Favor escoher o ano."
+								value="#{MBRetiradaGraficoAnual.ano}" layout="grid" columns="1"
+								style="text-indent: 10px">
+								<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+								<f:selectItems value="#{MBRetiradaGraficoAnual.listaAnos}"
+									var="ano" itemLabel="#{ano}" itemValue="#{ano}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+					</p:outputPanel>
+
+					<p:outputPanel id="outDataPersonalizada">
+						<h:panelGrid columns="2" id="pnlDataPersonalizada"
+							rendered="#{MBRevisaoGrafico.tipoDeAnalise == 'Intervalo Personalizado'}">
+							<p:outputLabel value="Data Inicio*: " />
+							<p:calendar id="dataInicio"
+								value="#{MBRevisaoGrafico.revisao.dataRevisao}"
+								pattern="dd/MM/yyyy" required="true"
+								requiredMessage="Favor informar a Data Inicio">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:calendar>
+							<p:outputLabel value="Data Fim*: " />
+							<p:calendar id="dataFim" value="#{MBRevisaoGrafico.dataFinal}"
+								pattern="dd/MM/yyyy" required="true"
+								requiredMessage="Favor informar a Data Final">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:calendar>
+						</h:panelGrid>
+					</p:outputPanel>
 					<br></br>
 					<br></br>
 
-					<h:panelGrid id="pnlComandos" columns="3">
-						<p:commandButton value="Gerar"
-							actionListener="#{MBRevisaoGrafico.gerarGraficoPersonalizado}"
-							action="#{MBRevisaoGrafico.exibirGraficoPersonalizado}"
-							rendered="#{MBRevisaoGrafico.pieRevisaoPersonalizado == null}"
-							update="pnlGrafico pnlComandos :msgGlobal" />
+					<h:panelGrid id="pnlComandos" columns="4">
+						<p:outputPanel id="outComandos">
+							<p:commandButton value="Gerar"
+								actionListener="#{MBRevisaoGrafico.gerarGraficoPersonalizado}"
+								action="#{MBRevisaoGrafico.exibirGraficoPersonalizado}"
+								rendered="#{MBRevisaoGrafico.pieRevisaoPersonalizado == null and 
+								MBRevisaoGrafico.tipoDeAnalise == 'Intervalo Personalizado'}"
+								update="pnlGrafico pnlComandos :msgGlobal pnlGraficoLinha msgGlobal
+								pnlEscolha outDataPersonalizada outEscolha" />
 
-						<p:commandButton value="Limpar Gráfico"
-							action="#{MBRevisaoGrafico.limparGrafico}"
-							rendered="#{MBRevisaoGrafico.pieRevisaoPersonalizado != null}"
-							update="pnlGrafico pnlComandos pnlTipoGrafico validadores" />
+							<p:commandButton value="Gerar"
+								actionListener="#{MBRetiradaGraficoAnual.gerarGraficoPersonalizado(MBRevisaoGrafico.tipoDeDadosGraficos)}"
+								action="#{MBRetiradaGraficoAnual.exibirGraficoPersonalizado}"
+								rendered="#{MBRetiradaGraficoAnual.lineModel == null and 
+								MBRevisaoGrafico.tipoDeAnalise == 'Anual'}"
+								update="pnlGrafico pnlComandos pnlTipoGrafico  pnlGraficoLinha msgGlobal
+							pnlEscolha outDataPersonalizada outEscolha ">
+								<f:param name="tiposDados" value="REVISÃO" />
+							</p:commandButton>
+
+							<p:commandButton value="Limpar Gráfico"
+								action="#{MBRevisaoGrafico.limparGrafico}"
+								rendered="#{MBRevisaoGrafico.pieRevisaoPersonalizado != null and 
+								MBRevisaoGrafico.tipoDeAnalise == 'Intervalo Personalizado'}"
+								update="pnlGrafico pnlComandos pnlTipoGrafico 
+								pnlEscolha outDataPersonalizada outEscolha" />
+
+							<p:commandButton value="Limpar Gráfico"
+								action="#{MBRevisaoGrafico.limparGrafico}"
+								actionListener="#{MBRetiradaGraficoAnual.limparGrafico}"
+								rendered="#{MBRetiradaGraficoAnual.lineModel != null and 
+								MBRevisaoGrafico.tipoDeAnalise == 'Anual'}"
+								update="pnlGrafico pnlComandos pnlTipoGrafico  pnlGraficoLinha 
+								pnlEscolha outDataPersonalizada outEscolha" />
+						</p:outputPanel>
 					</h:panelGrid>
 					<br></br>
 					<br></br>
@@ -82,6 +129,13 @@
 							rendered="#{MBRevisaoGrafico.pieRevisaoPersonalizado != null}"
 							style="width:520px;height:420px" />
 					</h:panelGrid>
+
+					<h:panelGrid id="pnlGraficoLinha">
+						<p:chart type="line" model="#{MBRetiradaGraficoAnual.lineModel}"
+							rendered="#{MBRetiradaGraficoAnual.lineModel != null}"
+							style="width:900px;height:520px" />
+					</h:panelGrid>
+
 				</h:form>
 			</p:tab>
 		</p:tabView>

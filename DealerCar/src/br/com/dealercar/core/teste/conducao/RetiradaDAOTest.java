@@ -129,13 +129,12 @@ public class RetiradaDAOTest {
 	}
 
 	@Test
-	@Ignore
 	public void pesquisarPorIntervalo() {
 
 		Retirada retirada = new Retirada();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String dataRetirada = "01/01/2016";
-		String dataDevolucao = "22/02/2016";
+		String dataDevolucao = "31/01/2016";
 		try {
 			retirada.setDataRetirada(sdf.parse(dataRetirada));
 			retirada.setDataDevolucao(sdf.parse(dataDevolucao));
@@ -143,12 +142,11 @@ public class RetiradaDAOTest {
 			e.printStackTrace();
 		}
 
-		List<Retirada> lista = new ArrayList<Retirada>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
 
-		for (Retirada r : lista) {
-			System.out.println(r.getDataRetirada());
-			System.out.println(r.getDataDevolucao());
+		for (EntidadeDominio r : lista) {
+			System.out.println(((Retirada) r).getDataRetirada());
 		}
 
 	}

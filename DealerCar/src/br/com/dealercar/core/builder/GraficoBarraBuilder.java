@@ -3,7 +3,6 @@ package br.com.dealercar.core.builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +11,8 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
+
+import br.com.dealercar.core.util.GraficoUtil;
 
 /**
  * 
@@ -41,20 +42,9 @@ public class GraficoBarraBuilder {
 		graficoHash = new HashMap<String, Integer>();
 		graficoRetorno = new BarChartModel();
 
-		// Criando uma collections com apenas os distintos
-		Set<String> listaDistintos = new HashSet<String>(listaStringDesordenada);
-
-		// criando uma lista que ira transforrmar a collection em uma lista de
-		// String
 		List<String> listaDistintaOrdenada = new ArrayList<String>();
 
-		// tranforma a collection set em uma lista de String para ser ordenada
-		for (String s : listaDistintos) {
-			listaDistintaOrdenada.add(s);
-		}
-
-		// classifica a lista por ordem alfabetica
-		Collections.sort(listaDistintaOrdenada);
+		listaDistintaOrdenada = GraficoUtil.ordernarListaDistinta(listaStringDesordenada);
 
 		Collections.sort(listaStringDesordenada);
 		for (int i = 0; i < listaDistintaOrdenada.size(); i++) {

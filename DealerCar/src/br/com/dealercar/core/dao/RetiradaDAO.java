@@ -505,7 +505,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 	 * 
 	 * @return uma lista de Retirada
 	 */
-	public List<Retirada> pesquisarPorIntervaloData(EntidadeDominio entidade) {
+	public List<EntidadeDominio> pesquisarPorIntervaloData(EntidadeDominio entidade) {
 		
 		if(!(entidade instanceof Retirada))
 			return null;
@@ -517,7 +517,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 		sql.append("select * from retiradas ");
 		sql.append("where data_retirada between ? and ? ");
 
-		List<Retirada> lista = new ArrayList<Retirada>();
+		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 
 		con = Conexao.getConnection();
 
