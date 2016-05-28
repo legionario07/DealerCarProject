@@ -282,10 +282,12 @@ public class GraficoAnualLinhaBean extends AbstractGraficoBean implements Serial
 		lista.clear();
 		listaString.clear();
 		retirada = new Retirada();
-		dados.clear();
+		dados = new HashMap<String, Integer>();
+		seriesPesquisada.clear();
 		tipoDeDadosGraficos = null;
 		ano = null;
 		tipoDados = null;
+		dadosTotais.clear();
 		
 	}
 

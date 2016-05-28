@@ -42,6 +42,7 @@ public class ReservaBean extends AbstractBean {
 	private List<EntidadeDominio> listaModelosDisponiveis = new ArrayList<EntidadeDominio>();
 
 	private PieChartModel pieReserva;
+	private String avisoEstoque;
 
 	private int totalReservas;
 
@@ -67,6 +68,14 @@ public class ReservaBean extends AbstractBean {
 
 	public void setPieReserva(PieChartModel pieReserva) {
 		this.pieReserva = pieReserva;
+	}
+
+	public String getAvisoEstoque() {
+		return avisoEstoque;
+	}
+
+	public void setAvisoEstoque(String avisoEstoque) {
+		this.avisoEstoque = avisoEstoque;
 	}
 
 	public List<EntidadeDominio> getListaModelosDisponiveis() {
@@ -127,6 +136,7 @@ public class ReservaBean extends AbstractBean {
 		listaProdutos.add(new PastilhaFreio());
 		listaProdutos.add(new VelasIgnicao());
 		
+		avisoEstoque = null;
 		for (ProdutoRevisao p : listaProdutos) {
 			resultado = command.execute(p);
 			for(EntidadeDominio produto : resultado.getEntidades()){
@@ -140,6 +150,7 @@ public class ReservaBean extends AbstractBean {
 					retorno.append(" esta com seu estoque em ");
 					retorno.append(((ProdutoRevisao) produto).getQuantidade());
 					JSFUtil.adicionarMensagemErro(retorno.toString());
+					avisoEstoque = "HÁ PRODUTOS COM ESTOQUE ACABANDO!";
 				}
 			}
 			

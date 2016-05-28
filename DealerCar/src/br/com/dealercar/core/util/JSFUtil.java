@@ -35,5 +35,7 @@ public class JSFUtil {
 		FacesContext contexto = FacesContext.getCurrentInstance();
 		contexto.addMessage(null, msg);
 	}
+	
+
 
 }

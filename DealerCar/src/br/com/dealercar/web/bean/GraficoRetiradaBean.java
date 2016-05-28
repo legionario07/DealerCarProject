@@ -180,6 +180,7 @@ public class GraficoRetiradaBean implements Serializable {
 		lista.clear();
 		listaString.clear();
 		retirada = new Retirada();
+		tipoDeDadosGraficos = null;
 		
 	}
 
