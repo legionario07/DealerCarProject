@@ -1,47 +1,51 @@
 package br.com.dealercar.core.teste.selenium;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AnaliseLinhaTEST extends TEST{
+/**
+ * Classe que realiza um teste na view de uma analiza, gerando um gráfico de linhas
+ * @author Paulinho
+ *
+ */
+public class AnaliseLinhaTEST extends TEST {
 
 	private static WebDriver driver = null;
-	
-	public static void main(String[] args) {
-		
+	private static WebDriverWait wait = null;
+
+	@Test
+	public void executarAnalise() {
+
 		// efetuando login
 		driver = LoginTEST.efetuarLogin();
+
+		wait = new WebDriverWait(driver, 30);
+		wait.ignoring(NoSuchElementException.class);
+        wait.ignoring(StaleElementReferenceException.class);
 		
+		// realiza um refesh e abra a pagina de graficos
 		driver.navigate().refresh();
 		driver.get("http://localhost:8080/DealerCar/faces/pages/graficosretiradas.xhtml");
-		
-		pegarElementos();
-		
-	}
-	
-	private static void pegarElementos(){
-		WebElement checkBox = driver.findElement(By.id("tabViewGrafico:j_idt89:selectEscolha"));
-		System.out.println(checkBox.getAttribute("id"));
-		List<WebElement> elementos = new ArrayList<WebElement>();
-		elementos = checkBox.findElements(By.xpath("//*"));
-		for(WebElement w : elementos){
-			System.out.println(w.getAttribute("id"));
-		}
-		
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);  
-		
-		WebElement escolha = checkBox.findElement(By.id("tabViewGrafico:j_idt89:selectEscolha:1"));
-		escolha.click();
 
+		driver.findElement(By.xpath("//table[@id='tabViewGrafico:j_idt89:selectEscolha']/tbody/tr[2]/td/div/div[2]/span")).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
+		//clica para abir menu de anos
+		driver.findElement(By.id("tabViewGrafico:j_idt89:selectEscolhaAno_label")).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
+		//seleciona o ano
+		driver.findElement(By.id("tabViewGrafico:j_idt89:selectEscolhaAno_2")).click();
+		
+		//clica em gerar Grafico
+		driver.findElement(By.id("tabViewGrafico:j_idt89:btnGerar")).click();
+
 	}
 
-
-	
 }

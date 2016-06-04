@@ -2,16 +2,24 @@ package br.com.dealercar.core.teste.selenium;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginTEST extends TEST{
 
 	public static WebDriver efetuarLogin() {
 		WebDriver driver = null;
+		WebDriverWait wait = null;
+		
 		driver = TEST.retornarDriverSeleniumChrome();
 		driver.get("http://localhost:8080/DealerCar/faces/pages/cliente.xhtml");
 		
+		wait = new WebDriverWait(driver, 30);
+		wait.ignoring(NoSuchElementException.class);
+        wait.ignoring(StaleElementReferenceException.class);
 
 		// Capturando os elementos de email e senha pelo atributo name
 		WebElement txtUsuario = driver.findElement(By.id("frmLogin:inpUsuario"));

@@ -127,13 +127,13 @@
 							update="frmClienteCadastrar:pnlClienteCadastrar" />
 
 
-						<p:commandButton value="Editar"
+						<p:commandButton value="Editar" id="btnEditar"
 							rendered="#{MBCliente.ehCadastrado == true and MBCliente.cliente.id != 0}"
 							actionListener="#{MBCliente.atualizarCidades}"
 							onclick="PF('dlgClienteEditar').show();"
 							update="frmClienteEditar:pnlClienteEditar" />
 
-						<p:commandButton value="Excluir"
+						<p:commandButton value="Excluir" id="btnExcluir"
 							actionListener="#{MBCliente.executar}"
 							rendered="#{MBCliente.ehCadastrado == true and MBCliente.cliente.id != 0}"
 							update="frmConsultaCliente: frmConsultaCliente:pnlClienteDados :msgGlobal">
@@ -143,7 +143,7 @@
 						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Sim" type="button"
+							<p:commandButton value="Sim" type="button" id="confirmaExclusao"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 							<p:commandButton value="Não" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -163,7 +163,7 @@
 		</p:tabView>
 
 		<!-- Caixa de Dialogo Editar -->
-		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630"
+		<p:dialog widgetVar="dlgClienteEditar" closable="false" width="630" id="dlgEditar"
 			height="450" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)" header="Cliente - Editar">
 
@@ -220,7 +220,7 @@
 						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="Celular: " />
-					<p:inputMask value="#{MBCliente.cliente.celular}" size="15"
+					<p:inputMask value="#{MBCliente.cliente.celular}" size="15" id="txtCelular"
 						mask="(99)99999-9999" />
 
 					<p:outputLabel value="Email: " />
@@ -237,7 +237,7 @@
 
 					<p:outputLabel value="Número: *" maxlength="10" />
 					<p:inputText size="10" value="#{MBCliente.cliente.endereco.numero}"
-						required="true"
+						required="true" id="txtNumero"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="10" />
@@ -290,7 +290,7 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
+					<p:commandButton value="Salvar" id="btnEditarSalvar"
 						actionListener="#{MBCliente.executar}"
 						update=":tabViewConsultar:frmConsultaCliente :msgGlobal"
 						onsuccess="PF('dlgClienteEditar').hide();">
