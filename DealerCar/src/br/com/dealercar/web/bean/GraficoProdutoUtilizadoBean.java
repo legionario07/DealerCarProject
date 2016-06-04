@@ -12,8 +12,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.BarChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoBarraBuilder;
-import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
@@ -29,6 +29,7 @@ import br.com.dealercar.domain.produtosrevisao.PastilhaFreio;
 import br.com.dealercar.domain.produtosrevisao.Pneu;
 import br.com.dealercar.domain.produtosrevisao.ProdutoRevisao;
 import br.com.dealercar.domain.produtosrevisao.VelasIgnicao;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBProdutoUtilizadoGrafico")
 @ViewScoped
@@ -51,7 +52,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 
 	private Modelo modelo = new Modelo();
 
-	private Amortecedor amortecedor = new Amortecedor();
 
 	public GraficoProdutoUtilizadoBean() {
 
@@ -131,9 +131,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		this.produtoEscolhido = produtoEscolhido;
 	}
 
-	public Amortecedor getAmortecedor() {
-		return amortecedor;
-	}
 
 	public Map<String, String> getCriterio() {
 		return criterio;
@@ -143,9 +140,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		this.criterio = criterio;
 	}
 
-	public void setAmortecedor(Amortecedor amortecedor) {
-		this.amortecedor = amortecedor;
-	}
 
 	public Modelo getModelo() {
 		return modelo;
@@ -176,11 +170,22 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 
 	public void gerarGraficoProduto() {
 
-		lista = new RevisaoDAO().pesquisarPorProdutoUtilizado(criterio.get(produtoEscolhido));
+		// Recebe os dados de acordo com o criterio buscado
+		ICommand command = mapCommands.get("CONSULTAR");
+		Resultado resultado = new Resultado();
+
+		revisao.setDescricao(criterio.get(produtoEscolhido));
+		
+		resultado = command.execute(revisao);
+		if (resultado != null) {
+			lista = resultado.getEntidades();
+		} else {
+			lista = null;
+		}
+
 		for (EntidadeDominio r : lista) {
 			listaString.add(((Revisao) r).getCarro().getModelo().getNome());
 		}
-
 
 		for (EntidadeDominio e : lista) {
 			if (e instanceof Revisao) {
@@ -214,7 +219,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 			graficoBarras = null;
 			produtoEscolhido = null;
 			produtosUtilizados.clear();
-			amortecedor = new Amortecedor();
 			revisao = new Revisao();
 			JSFUtil.adicionarMensagemErro("Não há dados para ser Exibido");
 			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
@@ -231,12 +235,12 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 
 		List<String> produtos = new ArrayList<String>();
 		produtos.add(produtoEscolhido);
-		
+
 		// Criando uma collections com apenas os distintos
 		Set<String> chaves = produtosUtilizados.keySet();
 		listaString.clear();
-		for(String s : chaves){
-			for(int i = 0; i< produtosUtilizados.get(s); i++){
+		for (String s : chaves) {
+			for (int i = 0; i < produtosUtilizados.get(s); i++) {
 				listaString.add(s);
 			}
 		}
@@ -257,7 +261,6 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 		listaString.clear();
 		revisao = new Revisao();
 		produtosUtilizados.clear();
-		amortecedor = new Amortecedor();
 
 	}
 

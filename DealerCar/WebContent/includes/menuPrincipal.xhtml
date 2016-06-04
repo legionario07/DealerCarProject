@@ -9,17 +9,17 @@
 	<h:form id="frmMenuPrincipal">
 		<p:menubar>
 
-			<p:submenu label="Cadastros"
+			<p:submenu label="Cadastros" id="menuCadastros"
 				rendered="#{MBlogin.funcionario.usuario.permissao.id != 3}">
-				<p:submenu label="Clientes">
-					<p:menuitem value="Pesquisar" outcome="/pages/cliente.xhtml" />
-					<p:menuitem value="Listar Clientes"
+				<p:submenu label="Clientes" id="menuClientes">
+					<p:menuitem value="Pesquisar" id="clientesPesquisar" outcome="/pages/cliente.xhtml" />
+					<p:menuitem value="Listar Clientes" id="clientesListar" 
 						outcome="/pages/lclientes.xhtml" />
 				</p:submenu>
 
-				<p:submenu label="Carros">
-					<p:menuitem value="Pesquisar" outcome="/pages/carro.xhtml" />
-					<p:menuitem value="Listar Carros" outcome="/pages/lcarros.xhtml" />
+				<p:submenu label="Carros" id="menuCarros">
+					<p:menuitem value="Pesquisar"  id="carrosPesquisar" outcome="/pages/carro.xhtml" />
+					<p:menuitem value="Listar Carros" id="carrosListar" outcome="/pages/lcarros.xhtml" />
 				</p:submenu>
 
 				<p:menuitem value="Categorias" outcome="/pages/categoria.xhtml"

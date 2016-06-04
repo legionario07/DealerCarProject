@@ -11,16 +11,17 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
-import br.com.dealercar.core.dao.RetiradaDAO;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.conducao.Retirada;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRetiradaGrafico")
 @ViewScoped
-public class GraficoRetiradaBean implements Serializable {
+public class GraficoRetiradaBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
@@ -81,7 +82,6 @@ public class GraficoRetiradaBean implements Serializable {
 		this.tipoDeDadosGraficos = tipoDeDadosGraficos;
 	}
 
-
 	/**
 	 * Gerando o gráfico Personalizado mais locadas
 	 */
@@ -103,9 +103,19 @@ public class GraficoRetiradaBean implements Serializable {
 			return;
 		}
 
+		// Recebe os dados de acordo com o criterio buscado
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(retirada);
+		if (resultado != null) {
+			lista = resultado.getEntidades();
+		} else {
+			lista = null;
+		}
+
 		pieRetiradaPersonalizado = new PieChartModel();
 
-		lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
 		// Verificando qual foi o dado relacionado ao grafico que o usuario
 		// deseja verificar
 		switch (tipoDeDadosGraficos) {
@@ -145,17 +155,15 @@ public class GraficoRetiradaBean implements Serializable {
 		if (lista == null) {
 			pieRetiradaPersonalizado = null;
 			retirada = new Retirada();
-			org.primefaces.context.RequestContext.getCurrentInstance()
-			.update("pnlGrafico pnlComandos pnlTipoGrafico");
+			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
-		
+
 		// Não houve dados disponiveis para gerar o gráfico
 		if (lista.isEmpty()) {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparGrafico();
-			org.primefaces.context.RequestContext.getCurrentInstance()
-					.update("pnlGrafico pnlComandos pnlTipoGrafico");
+			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 
@@ -167,7 +175,6 @@ public class GraficoRetiradaBean implements Serializable {
 		pieRetiradaPersonalizado.setLegendPosition("w");
 		pieRetiradaPersonalizado.setShowDataLabels(true);
 
-		
 	}
 
 	/**
@@ -181,6 +188,21 @@ public class GraficoRetiradaBean implements Serializable {
 		listaString.clear();
 		retirada = new Retirada();
 		tipoDeDadosGraficos = null;
+
+	}
+
+	@Override
+	public void carregarListagem() {
+		
+	}
+
+	@Override
+	public void executar() {
+		
+	}
+
+	@Override
+	public void limparObjetos() {
 		
 	}
 

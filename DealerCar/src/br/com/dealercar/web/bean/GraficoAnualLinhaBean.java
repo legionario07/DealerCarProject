@@ -15,13 +15,14 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.chart.LineChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoLinhaBuilder;
-import br.com.dealercar.core.dao.RetiradaDAO;
-import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
 import br.com.dealercar.domain.conducao.Retirada;
 import br.com.dealercar.domain.conducao.Revisao;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRetiradaGraficoAnual")
 @ViewScoped
@@ -155,9 +156,22 @@ public class GraficoAnualLinhaBean extends AbstractGraficoBean implements Serial
 			case "REVISÃO":
 
 				revisao.setDataRevisao(dataInicio);
+				
+				Devolucao dev = new Devolucao();
+				dev.setDataDevolucao(dataFinal);
+				revisao.setDevolucao(dev);
 
-				// recebe as retiradas relacionado ao mes pesquisado
-				lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao, dataFinal);
+				// Recebe os dados de acordo com o criterio buscado
+				ICommand command = mapCommands.get("LISTAR");
+				Resultado resultado = new Resultado();
+
+				resultado = command.execute(revisao);
+				if (resultado != null) {
+					lista = resultado.getEntidades();
+				} else {
+					lista = null;
+				}
+				
 
 				for (EntidadeDominio r : lista) {
 					revisao = new Revisao();
@@ -171,7 +185,16 @@ public class GraficoAnualLinhaBean extends AbstractGraficoBean implements Serial
 				retirada.setDataRetirada(dataInicio);
 				retirada.setDataDevolucao(dataFinal);
 				// recebe as retiradas relacionado ao mes pesquisado
-				lista = new RetiradaDAO().pesquisarPorIntervaloData(retirada);
+				// Recebe os dados de acordo com o criterio buscado
+				command = mapCommands.get("LISTAR");
+				resultado = new Resultado();
+
+				resultado = command.execute(retirada);
+				if (resultado != null) {
+					lista = resultado.getEntidades();
+				} else {
+					lista = null;
+				}
 				
 				for (EntidadeDominio r : lista) {
 					retirada = new Retirada();

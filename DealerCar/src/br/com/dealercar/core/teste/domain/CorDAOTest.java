@@ -55,10 +55,9 @@ public class CorDAOTest {
 	}
 
 	@Test
-	@Ignore
 	public void cadastrar() {
 		Cor cor = new Cor();
-		cor.setNome("verde claro");
+		cor.setNome("Test9 claro");
 
 		CorDAO corDao = new CorDAO();
 		corDao.cadastrar(cor);

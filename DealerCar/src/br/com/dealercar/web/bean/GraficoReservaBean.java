@@ -9,22 +9,21 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
-import br.com.dealercar.core.dao.ReservaDAO;
-import br.com.dealercar.core.dao.automotivos.ModeloDAO;
 import br.com.dealercar.core.util.DataMenu;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.conducao.Reserva;
-import br.com.dealercar.domain.enums.SituacaoReserva;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBReservaGrafico")
 @ViewScoped
-public class GraficoReservaBean implements Serializable {
+public class GraficoReservaBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
@@ -32,34 +31,17 @@ public class GraficoReservaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private PieChartModel pieReservaPersonalizado;
-	private LineChartModel lineReservaAvancado;
 
 	private Reserva reserva = new Reserva();
 	private String tipoDeDadosGraficos;
-	private String mesSelecionado;
-	private String anoSelecionado;
-	private String situacao;
-	private String strModelo;
 
 	private List<EntidadeDominio> listaModelo = new ArrayList<EntidadeDominio>();
 	private List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 	private List<String> listaString = new ArrayList<String>();
 	private List<DataMenu> listaData = new ArrayList<DataMenu>();
-	private List<String> listaStringClientes = new ArrayList<String>();
-	private List<String> listaStringModelos = new ArrayList<String>();
 	private List<String> listaStringSituacao = new ArrayList<String>();
 	
-	private boolean modeloIsSelecionado = false;
-	private boolean situacaoIsSelecionado = false;
-	private boolean cpfIsSelecionado = false;
 
-	public String getStrModelo() {
-		return strModelo;
-	}
-
-	public void setStrModelo(String strModelo) {
-		this.strModelo = strModelo;
-	}
 
 	public PieChartModel getPieReservaPersonalizado() {
 		return pieReservaPersonalizado;
@@ -69,13 +51,6 @@ public class GraficoReservaBean implements Serializable {
 		this.pieReservaPersonalizado = pieReservaPersonalizado;
 	}
 
-	public LineChartModel getLineReservaAvancado() {
-		return lineReservaAvancado;
-	}
-
-	public void setLineReservaAvancado(LineChartModel lineReservaAvancado) {
-		this.lineReservaAvancado = lineReservaAvancado;
-	}
 
 	public Reserva getReserva() {
 		return reserva;
@@ -93,30 +68,6 @@ public class GraficoReservaBean implements Serializable {
 		this.reserva = reserva;
 	}
 
-	public String getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
-
-	public List<String> getListaClientes() {
-		return listaStringClientes;
-	}
-
-	public void setListaClientes(List<String> listaClientes) {
-		this.listaStringClientes = listaClientes;
-	}
-
-	public List<String> getListaStringModelos() {
-		return listaStringModelos;
-	}
-
-	public void setListaStringModelos(List<String> listaStringModelos) {
-		this.listaStringModelos = listaStringModelos;
-	}
-
 	public List<String> getListaSituacao() {
 		return listaStringSituacao;
 	}
@@ -125,45 +76,6 @@ public class GraficoReservaBean implements Serializable {
 		this.listaStringSituacao = listaSituacao;
 	}
 
-	public String getMesSelecionado() {
-		return mesSelecionado;
-	}
-
-	public void setMesSelecionado(String mesSelecionado) {
-		this.mesSelecionado = mesSelecionado;
-	}
-
-	public String getAnoSelecionado() {
-		return anoSelecionado;
-	}
-
-	public boolean isModeloIsSelecionado() {
-		return modeloIsSelecionado;
-	}
-
-	public void setModeloIsSelecionado(boolean modeloIsSelecionado) {
-		this.modeloIsSelecionado = modeloIsSelecionado;
-	}
-
-	public boolean isSituacaoIsSelecionado() {
-		return situacaoIsSelecionado;
-	}
-
-	public void setSituacaoIsSelecionado(boolean situacaoIsSelecionado) {
-		this.situacaoIsSelecionado = situacaoIsSelecionado;
-	}
-
-	public boolean isCpfIsSelecionado() {
-		return cpfIsSelecionado;
-	}
-
-	public void setCpfIsSelecionado(boolean cpfIsSelecionado) {
-		this.cpfIsSelecionado = cpfIsSelecionado;
-	}
-
-	public void setAnoSelecionado(String anoSelecionado) {
-		this.anoSelecionado = anoSelecionado;
-	}
 
 	public List<EntidadeDominio> getLista() {
 		return lista;
@@ -199,7 +111,17 @@ public class GraficoReservaBean implements Serializable {
 
 	public void carregarListagem() {
 
-		listaModelo = new ModeloDAO().listarTodos();
+		// Recebe os dados de acordo com o criterio buscado
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(new Modelo());
+		if (resultado != null) {
+			listaModelo = resultado.getEntidades();
+		} else {
+			listaModelo = null;
+		}
+		
 		int ano = Calendar.getInstance().get(Calendar.YEAR);
 		reserva.setDataCadastroReserva(null);
 		reserva.setDataFim(null);
@@ -245,7 +167,17 @@ public class GraficoReservaBean implements Serializable {
 
 		pieReservaPersonalizado = new PieChartModel();
 
-		lista = new ReservaDAO().pesquisarPorIntervaloData(reserva);
+		// Recebe os dados de acordo com o criterio buscado
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(reserva);
+		if (resultado != null) {
+			lista = resultado.getEntidades();
+		} else {
+			lista = null;
+		}
+		
 		// Verificando qual foi o dado relacionado ao grafico que o usuario
 		// deseja verificar
 		switch (tipoDeDadosGraficos) {
@@ -299,71 +231,6 @@ public class GraficoReservaBean implements Serializable {
 
 	}
 
-	/**
-	 * Gera o grafico Avançado com os dados da View
-	 */
-	public void gerarGraficoAvancado() {
-
-		lineReservaAvancado = new LineChartModel();
-
-		String diaSelecionado = "01";
-		reserva.setDataCadastroReserva(
-				DataUtil.getPrimeiroDiaDoMesAtual(anoSelecionado, mesSelecionado, diaSelecionado));
-		reserva.setDataFim(DataUtil.getUltimoDiaDoMesAtual(anoSelecionado, mesSelecionado, diaSelecionado));
-
-		StringBuffer sqlCriterios = new StringBuffer();
-		// List<String> listaDistintaModelo = new ArrayList<String>();
-		// List<String> listaDistintaSituacao = new ArrayList<String>();
-		// <String> listaDistintaClientes = new ArrayList<String>();
-
-		if (!strModelo.equals("Todos")) {
-			sqlCriterios.append("and reservas.id_modelo = ? ");
-			reserva.getModelo().setId(Integer.parseInt(strModelo));
-			modeloIsSelecionado = true;
-		}
-		if (!reserva.getCliente().getCPF().equals("")) {
-			sqlCriterios.append("and clientes.cpf = ? ");
-			cpfIsSelecionado = true;
-		}
-		if (!situacao.equals("Todos")) {
-			sqlCriterios.append("and reservas.situacao = ? ");
-			reserva.setSituacao(SituacaoReserva.valueOf(situacao));
-			situacaoIsSelecionado = true;
-		} else {
-			reserva.setSituacao(SituacaoReserva.ATIVO);
-			situacaoIsSelecionado = false;
-		}
-
-		lista = new ReservaDAO().pesquisarPorIntervaloECriterios(reserva, sqlCriterios.toString(), modeloIsSelecionado,
-				cpfIsSelecionado, situacaoIsSelecionado);
-
-		System.out.println(lista.size());
-		
-
-		for (EntidadeDominio r : lista) {
-			listaStringModelos.add(((Reserva) r).getModelo().getNome());
-		}
-
-		
-		if (modeloIsSelecionado) {
-			for (EntidadeDominio r : lista) {
-				listaStringModelos.add(((Reserva) r).getModelo().getNome());
-			}
-		}
-		if (cpfIsSelecionado) {
-			for (EntidadeDominio r : lista) {
-				listaStringClientes.add(((Reserva) r).getCliente().getCPF());
-			}
-		}
-		if (situacaoIsSelecionado) {
-			for (EntidadeDominio r : lista) {
-				listaStringSituacao.add(((Reserva) r).getSituacao().getDescricao());
-			}
-		}
-
-		// limpando os atributos
-		sqlCriterios = new StringBuffer();
-	}
 
 	/**
 	 * Limpa o Grafico Personalizado da VIew
@@ -374,6 +241,18 @@ public class GraficoReservaBean implements Serializable {
 		lista.clear();
 		listaString.clear();
 		reserva = new Reserva();
+	}
+
+	@Override
+	public void executar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void limparObjetos() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

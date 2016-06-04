@@ -14,7 +14,6 @@ import org.primefaces.model.chart.BarChartModel;
 
 import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoBarraBuilder;
-import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
 import br.com.dealercar.domain.automotivos.Modelo;
@@ -183,7 +182,18 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 		// carrega a SQL com os criterios antes chamar o DAO
 		carregarSql();
 
-		lista = new RevisaoDAO().pesquisarPorProdutoUtilizado(sqlCriterios.toString());
+		command = mapCommands.get("CONSULTAR");
+		resultado = new Resultado();
+
+		revisao.setDescricao(sqlCriterios.toString());
+		
+		resultado = command.execute(revisao);
+		if (resultado != null) {
+			lista = resultado.getEntidades();
+		} else {
+			lista = null;
+		}
+		
 
 		for (EntidadeDominio e : lista) {
 			if (e instanceof Revisao) {

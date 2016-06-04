@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.dealercar.core.autenticacao.Funcionario;
@@ -194,7 +193,6 @@ public class RevisaoDAO implements IDAO, Serializable {
 				Pneu estepe = new Pneu(rSet.getString("estepe"));
 				estepe.setPosicaoPneu(PosicaoPneu.ESTEPE);
 				componentes.add(estepe);
-
 
 				revisaoRetorno.setComponentes(componentes);
 
@@ -440,10 +438,16 @@ public class RevisaoDAO implements IDAO, Serializable {
 	 * data
 	 * 
 	 * @param uma
-	 *            Revisao, e uma Data final
+	 *            Revisao
 	 * @return uma lista de Revisao
 	 */
-	public List<EntidadeDominio> pesquisarPorIntervaloData(Revisao revisao, Date dataFinal) {
+	public List<EntidadeDominio> pesquisarPorIntervaloData(EntidadeDominio entidade) {
+
+		if (!(entidade instanceof Revisao))
+			return null;
+
+		Revisao revisao = new Revisao();
+		revisao = (Revisao) entidade;
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");
@@ -460,7 +464,7 @@ public class RevisaoDAO implements IDAO, Serializable {
 			// colocando formato string para buscar no banco de dados
 			SimpleDateFormat stf = new SimpleDateFormat("yyyy/MM/dd");
 			String dataRevisao = stf.format(revisao.getDataRevisao());
-			String strDataFinal = stf.format(dataFinal);
+			String strDataFinal = stf.format(revisao.getDevolucao().getDataDevolucao());
 
 			pstm.setString(++i, dataRevisao);
 			pstm.setString(++i, strDataFinal);
@@ -667,7 +671,12 @@ public class RevisaoDAO implements IDAO, Serializable {
 
 	}
 
-	public List<EntidadeDominio> pesquisarPorProdutoUtilizado(String criterio) {
+	public List<EntidadeDominio> pesquisarPorProdutoUtilizado(Object entidade) {
+
+		String criterio = null;
+		Revisao rev = new Revisao();
+		rev = (Revisao) entidade;
+		criterio = rev.getDescricao();
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from revisao ");

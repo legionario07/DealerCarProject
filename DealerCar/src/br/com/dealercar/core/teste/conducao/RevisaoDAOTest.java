@@ -167,6 +167,7 @@ public class RevisaoDAOTest {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String dataRevisao = "01/01/2016";
 		String dataFinal = "22/02/2016";
+		Devolucao dev = new Devolucao();
 		try {
 			revisao.setDataRevisao(sdf.parse(dataRevisao));
 		} catch (ParseException e) {
@@ -175,7 +176,10 @@ public class RevisaoDAOTest {
 		
 		List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 		try {
-			lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao, sdf.parse(dataFinal));
+			dev.setDataDevolucao(sdf.parse(dataFinal));
+			revisao.setDevolucao(dev);
+			
+			lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -31,7 +31,7 @@
 
 							<h:outputLabel value="Digite o CPF para Localizar"
 								rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
-							<p:inputMask mask="999.999.999-99"
+							<p:inputMask mask="999.999.999-99" id="inpCPF"
 								value="#{MBCliente.cliente.CPF}"
 								rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
 
@@ -116,12 +116,12 @@
 
 					<h:panelGrid id="pnlComandos" columns="5">
 						<p:commandButton action="#{MBCliente.pesquisarPorCPF}"
-							value="Pesquisar"
+							id="btnPesquisar" value="Pesquisar"
 							update="tabViewConsultar:frmConsultaCliente:pnlClientes 
 							tabViewConsultar:frmConsultaCliente:pnlComandos :msgGlobal"
 							rendered="#{MBCliente.cliente.nome == '' or MBCliente.cliente.nome == null}" />
 
-						<p:commandButton value="Novo"
+						<p:commandButton value="Novo" id="btnNovo"
 							onclick="PF('dlgClienteCadastrar').show();"
 							rendered="#{MBCliente.jaPesquisei == true}"
 							update="frmClienteCadastrar:pnlClienteCadastrar" />
@@ -306,8 +306,8 @@
 
 		<!-- Caixa de Dialogo Cadastrar -->
 		<p:dialog widgetVar="dlgClienteCadastrar" closable="false" width="630"
-			height="450" draggable="false" resizable="false" modal="true"
-			appendTo="@(body)" header="Cliente - Cadastrar">
+			id="dlgCadastrar" height="450" draggable="false" resizable="false"
+			modal="true" appendTo="@(body)" header="Cliente - Cadastrar">
 
 			<h:form id="frmClienteCadastrar">
 				<h:panelGrid id="validadores" columns="4">
@@ -321,6 +321,7 @@
 				<h:panelGrid id="pnlClienteCadastrar" columns="2">
 					<p:outputLabel value="Nome: *" />
 					<p:inputText value="#{MBCliente.cliente.nome}" size="70"
+					id="txtNome"
 						required="true"
 						requiredMessage="Favor informar o Nome do cliente. Campo de preenchimento obrigatório" />
 
@@ -332,11 +333,13 @@
 
 					<p:outputLabel value="Nome da Mãe: " />
 					<p:inputText value="#{MBCliente.cliente.nomeMae}" size="45"
+					id="txtNomeMae"
 						required="true"
 						requiredMessage="Favor informar o nome da Mãe. Campo de preenchimento obrigatório" />
 
 					<h:outputText value="Sexo: " maxlength="45" />
 					<p:selectOneMenu value="#{MBCliente.cliente.sexo}" rendered="true"
+					id="txtSexo"
 						required="true"
 						requiredMessage="Favor informar o Sexo. Campo de preenchimento obrigatório">
 
@@ -345,7 +348,7 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="RG: " />
-					<p:inputText value="#{MBCliente.cliente.RG}" size="20" />
+					<p:inputText value="#{MBCliente.cliente.RG}" size="20" id="txtRG"/>
 
 					<p:outputLabel value="CPF: *" />
 					<p:inputMask value="#{MBCliente.cliente.CPF}" size="20" id="cpf"
@@ -358,39 +361,41 @@
 
 					<p:outputLabel value="Telefone: *" />
 					<p:inputMask value="#{MBCliente.cliente.telefone}" size="15"
+					id="txtTelefone"
 						mask="(99)9999-9999" required="true"
 						requiredMessage="Favor informar o Telefone. Campo de preenchimento obrigatório" />
 
 					<p:outputLabel value="Celular: " />
 					<p:inputMask value="#{MBCliente.cliente.celular}" size="15"
+					id="txtCelular"
 						mask="(99)99999-9999" />
 
 					<p:outputLabel value="Email: " />
-					<p:inputText value="#{MBCliente.cliente.email}" size="55">
+					<p:inputText value="#{MBCliente.cliente.email}" size="55" id="txtEmail">
 						<f:validator validatorId="EmailValidator" />
 					</p:inputText>
 
 					<p:outputLabel value="Rua *" maxlength="50" />
 					<p:inputText size="50" value="#{MBCliente.cliente.endereco.rua}"
-						required="true"
+						required="true" id="txtRua"
 						requiredMessage="Favor informar o Rua do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="50" />
 
 					<p:outputLabel value="Número: *" maxlength="10" />
 					<p:inputText size="10" value="#{MBCliente.cliente.endereco.numero}"
-						required="true"
+						required="true" id="txtNumero"
 						requiredMessage="Favor informar o Número do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="10" />
 
 					<p:outputLabel value="Complemento: " maxlength="50" />
-					<p:inputText size="50"
+					<p:inputText size="50" id="txtComplemento"
 						value="#{MBCliente.cliente.endereco.complemento}" maxlength="50" />
 
 					<p:outputLabel value="Bairro: *" maxlength="20" />
 					<p:inputText size="20" value="#{MBCliente.cliente.endereco.bairro}"
-						required="true"
+						required="true" id="txtBairro"
 						requiredMessage="Favor informar o Bairro do cliente. 
 							Campo de preenchimento obrigatório"
 						maxlength="20" />
@@ -404,9 +409,9 @@
 						panelStyle="width:180px" effect="fade" style="width:160px"
 						filter="true" filterMatchMode="startsWith">
 
-						<f:selectItem itemLabel="Selecione o Estado"
+						<f:selectItem itemLabel="Selecione o Estado" 
 							noSelectionOption="true" />
-						<f:selectItems value="#{MBCliente.listaEstados}" var="estado"
+						<f:selectItems value="#{MBCliente.listaEstados}" var="estado" id="itemUF"
 							itemLabel="#{estado.uf}" itemValue="#{estado.id}" />
 
 						<p:ajax update="cidade" listener="#{MBCliente.atualizarCidades}" />
@@ -423,7 +428,7 @@
 
 						<f:selectItem itemLabel="Selecione uma Cidade"
 							noSelectionOption="true" />
-						<f:selectItems value="#{MBCliente.listaCidades}" var="cidade"
+						<f:selectItems value="#{MBCliente.listaCidades}" var="cidade" id="itemCidade"
 							itemLabel="#{cidade.nome}" itemValue="#{cidade.id}" />
 
 					</p:selectOneMenu>
@@ -432,15 +437,14 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
+					<p:commandButton value="Salvar" id="btnSALVAR"
 						actionListener="#{MBCliente.executar}"
 						update=":tabViewConsultar:frmConsultaCliente :msgGlobal"
 						oncomplete="PF('dlgClienteCadastrar').hide();">
 						<f:param name="param" value="CADASTRAR" />
 					</p:commandButton>
 
-					<p:commandButton value="Cancelar"
-					 immediate="true"
+					<p:commandButton value="Cancelar" immediate="true"
 						actionListener="#{MBCliente.limparObjetos}"
 						update=":tabViewConsultar:frmConsultaCliente"
 						onclick="PF('dlgClienteCadastrar').hide();" />

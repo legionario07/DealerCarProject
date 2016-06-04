@@ -17,7 +17,9 @@ import br.com.dealercar.core.dao.EstadoDAO;
 import br.com.dealercar.core.dao.FuncionarioDAO;
 import br.com.dealercar.core.dao.IDAO;
 import br.com.dealercar.core.dao.PermissaoDAO;
+import br.com.dealercar.core.dao.ReservaDAO;
 import br.com.dealercar.core.dao.RetiradaDAO;
+import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.dao.automotivos.CarroDAO;
 import br.com.dealercar.core.dao.automotivos.CategoriaDAO;
 import br.com.dealercar.core.dao.automotivos.FabricanteDAO;
@@ -72,7 +74,9 @@ import br.com.dealercar.domain.automotivos.Cor;
 import br.com.dealercar.domain.automotivos.Fabricante;
 import br.com.dealercar.domain.automotivos.Modelo;
 import br.com.dealercar.domain.conducao.Devolucao;
+import br.com.dealercar.domain.conducao.Reserva;
 import br.com.dealercar.domain.conducao.Retirada;
+import br.com.dealercar.domain.conducao.Revisao;
 import br.com.dealercar.domain.itensopcionais.BebeConforto;
 import br.com.dealercar.domain.itensopcionais.CadeirinhaBebe;
 import br.com.dealercar.domain.itensopcionais.Gps;
@@ -94,8 +98,7 @@ import br.com.dealercar.domain.taxasadicionais.TaxasAdicionais;
 
 /**
  * 
- * @author Paulinho
- * Fachada Responsavel pelos CRUD
+ * @author Paulinho Fachada Responsavel pelos CRUD
  */
 public class Fachada implements IFachada {
 
@@ -153,6 +156,8 @@ public class Fachada implements IFachada {
 		EstadoDAO estadoDAO = new EstadoDAO();
 		CarroDAO carroDAO = new CarroDAO();
 		CargoDAO cargoDAO = new CargoDAO();
+		RevisaoDAO revisaoDAO = new RevisaoDAO();
+		ReservaDAO reservaDAO = new ReservaDAO();
 
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		mapDaos.put(Categoria.class.getName(), categoriaDAO);
@@ -186,6 +191,8 @@ public class Fachada implements IFachada {
 		mapDaos.put(Retirada.class.getName(), retiradaDAO);
 		mapDaos.put(Devolucao.class.getName(), devolucaoDAO);
 		mapDaos.put(Cargo.class.getName(), cargoDAO);
+		mapDaos.put(Revisao.class.getName(), revisaoDAO);
+		mapDaos.put(Reserva.class.getName(), reservaDAO);
 
 		/* Criando instâncias de regras de negócio a serem utilizados */
 		ValidaCategoria validaCategoria = new ValidaCategoria();
@@ -259,7 +266,7 @@ public class Fachada implements IFachada {
 		// Carro
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarCarro = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarCarro.add(validaCarro);
-		//Cargo
+		// Cargo
 		List<IValidacaoStrategy> regrasDeNegocioCadastrarCargo = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioCadastrarCargo.add(validaCargo);
 
@@ -314,10 +321,9 @@ public class Fachada implements IFachada {
 		// Carro
 		List<IValidacaoStrategy> regrasDeNegocioEditarCarro = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarCarro.add(validaCarro);
-		//Cargo
+		// Cargo
 		List<IValidacaoStrategy> regrasDeNegocioEditarCargo = new ArrayList<IValidacaoStrategy>();
 		regrasDeNegocioEditarCargo.add(validaCargo);
-		
 
 		// Todas regras de Negocio
 		// Categoria
@@ -376,16 +382,14 @@ public class Fachada implements IFachada {
 		Map<String, List<IValidacaoStrategy>> regrasDeNegocioEstado = new HashMap<String, List<IValidacaoStrategy>>();
 		regrasDeNegocioEstado.put("EDITAR", regrasDeNegocioEditarEstado);
 		regrasDeNegocioEstado.put("CADASTRAR", regrasDeNegocioCadastrarEstado);
-		//Carro
+		// Carro
 		Map<String, List<IValidacaoStrategy>> regrasDeNegocioCarro = new HashMap<String, List<IValidacaoStrategy>>();
 		regrasDeNegocioCarro.put("EDITAR", regrasDeNegocioEditarCarro);
 		regrasDeNegocioCarro.put("CADASTRAR", regrasDeNegocioCadastrarCarro);
-		//Cargo
+		// Cargo
 		Map<String, List<IValidacaoStrategy>> regrasDeNegocioCargo = new HashMap<String, List<IValidacaoStrategy>>();
 		regrasDeNegocioCargo.put("EDITAR", regrasDeNegocioEditarCargo);
 		regrasDeNegocioCargo.put("CADASTRAR", regrasDeNegocioCadastrarCargo);
-		
-		
 
 		mapRegrasDeNegocios.put(Categoria.class.getName(), regrasDeNegocioCategoria);
 		mapRegrasDeNegocios.put(Cor.class.getName(), regrasDeNegocioCor);
@@ -514,15 +518,16 @@ public class Fachada implements IFachada {
 			resultado = new Resultado();
 
 			IDAO dao = mapDaos.get(nomeClasse);
+			List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 			if (nomeClasse == Cliente.class.getName()) {
 				entidade = new ClienteDAO().pesquisarPorCPF(entidade);
-			} else if (nomeClasse == Carro.class.getName()){
+			} else if (nomeClasse == Carro.class.getName()) {
 				entidade = new CarroDAO().pesquisarPorPlaca(entidade);
-			}
-			else {
+			} else if (nomeClasse == Revisao.class.getName()) {
+				entidades = new RevisaoDAO().pesquisarPorProdutoUtilizado(entidade);
+			} else {
 				entidade = dao.pesquisarPorID(entidade);
 			}
-			List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 			entidades.add(entidade);
 			resultado.setEntidades(entidades);
 
@@ -548,12 +553,20 @@ public class Fachada implements IFachada {
 			List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 			if (nomeClasse == Cidade.class.getName()) {
 				entidades = new CidadeDAO().listarTodos(entidade);
+			} else if (nomeClasse == Retirada.class.getName()) {
+				entidades = new RetiradaDAO().pesquisarPorIntervaloData(entidade);
+			} else if (nomeClasse == Revisao.class.getName()) {
+				entidades = new RevisaoDAO().pesquisarPorIntervaloData(entidade);
+			} else if (nomeClasse == Reserva.class.getName()) {
+				entidades = new ReservaDAO().pesquisarPorIntervaloData(entidade);
 			} else {
 				entidades = dao.listarTodos();
 			}
 			resultado.setEntidades(entidades);
 
-		} else {
+		} else
+
+		{
 			JSFUtil.adicionarMensagemErro("Não foi possivel listar " + nomeClasse);
 		}
 

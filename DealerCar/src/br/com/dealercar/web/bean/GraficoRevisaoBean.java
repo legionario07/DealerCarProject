@@ -12,16 +12,18 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.dealercar.core.aplicacao.Resultado;
 import br.com.dealercar.core.builder.GraficoPizzaBuilder;
-import br.com.dealercar.core.dao.RevisaoDAO;
 import br.com.dealercar.core.util.DataUtil;
 import br.com.dealercar.core.util.JSFUtil;
 import br.com.dealercar.domain.EntidadeDominio;
+import br.com.dealercar.domain.conducao.Devolucao;
 import br.com.dealercar.domain.conducao.Revisao;
+import br.com.dealercar.web.command.ICommand;
 
 @ManagedBean(name = "MBRevisaoGrafico")
 @ViewScoped
-public class GraficoRevisaoBean implements Serializable {
+public class GraficoRevisaoBean extends AbstractBean implements Serializable {
 
 	/**
 	 * 
@@ -30,10 +32,10 @@ public class GraficoRevisaoBean implements Serializable {
 	private PieChartModel pieRevisaoPersonalizado;
 	private Revisao revisao = new Revisao();
 	private String tipoDeDadosGraficos;
+	private String tipoDeAnalise;
 	private List<EntidadeDominio> lista = new ArrayList<EntidadeDominio>();
 	private List<String> listaString = new ArrayList<String>();
 	private Date dataFinal;
-	private String tipoDeAnalise;
 
 	public PieChartModel getPieRevisaoPersonalizado() {
 		return pieRevisaoPersonalizado;
@@ -67,13 +69,6 @@ public class GraficoRevisaoBean implements Serializable {
 		this.dataFinal = dataFinal;
 	}
 
-	public String getTipoDeAnalise() {
-		return tipoDeAnalise;
-	}
-
-	public void setTipoDeAnalise(String tipoDeAnalise) {
-		this.tipoDeAnalise = tipoDeAnalise;
-	}
 
 	public List<String> getListaString() {
 		return listaString;
@@ -81,6 +76,14 @@ public class GraficoRevisaoBean implements Serializable {
 
 	public void setListaString(List<String> listaString) {
 		this.listaString = listaString;
+	}
+
+	public String getTipoDeAnalise() {
+		return tipoDeAnalise;
+	}
+
+	public void setTipoDeAnalise(String tipoDeAnalise) {
+		this.tipoDeAnalise = tipoDeAnalise;
 	}
 
 	public String getTipoDeDadosGraficos() {
@@ -113,8 +116,22 @@ public class GraficoRevisaoBean implements Serializable {
 		}
 
 		pieRevisaoPersonalizado = new PieChartModel();
+		
+		Devolucao dev = new Devolucao();
+		dev.setDataDevolucao(dataFinal);
+		revisao.setDevolucao(dev);
+		
+		// Recebe os dados de acordo com o criterio buscado
+		ICommand command = mapCommands.get("LISTAR");
+		Resultado resultado = new Resultado();
 
-		lista = new RevisaoDAO().pesquisarPorIntervaloData(revisao, dataFinal);
+		resultado = command.execute(revisao);
+		if (resultado != null) {
+			lista = resultado.getEntidades();
+		} else {
+			lista = null;
+		}
+		
 		// Verificando qual foi o dado relacionado ao grafico que o usuario
 		// deseja verificar
 		switch (tipoDeDadosGraficos) {
@@ -186,11 +203,29 @@ public class GraficoRevisaoBean implements Serializable {
 
 		pieRevisaoPersonalizado = null;
 		dataFinal = null;
+		tipoDeAnalise = null;
 		lista.clear();
 		listaString.clear();
-		tipoDeAnalise = null;
 		revisao = new Revisao();
 		tipoDeDadosGraficos = null;
+	}
+
+	@Override
+	public void carregarListagem() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void executar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void limparObjetos() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

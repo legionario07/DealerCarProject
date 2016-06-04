@@ -40,7 +40,7 @@
 							columns="1" style="text-indent: 10px">
 							<f:selectItem itemLabel="Intervalo Personalizado"
 								itemValue="Intervalo Personalizado" />
-							<f:selectItem itemLabel="Anual" itemValue="Anual" />
+							<f:selectItem itemLabel="Anual" itemValue="Anual" id="checkAnual"/>
 							<f:ajax render="outEscolha outDataPersonalizada outComandos" />
 						</p:selectOneRadio>
 					</h:panelGrid>
@@ -97,7 +97,7 @@
 								update="pnlGrafico pnlComandos pnlTipoGrafico  pnlGraficoLinha msgGlobal
 							pnlEscolha outDataPersonalizada outEscolha" />
 							
-							<p:commandButton value="Gerar"
+							<p:commandButton value="Gerar" id="btnGerar"
 								actionListener="#{MBRetiradaGraficoAnual.gerarGraficoPersonalizado(MBRetiradaGrafico.tipoDeDadosGraficos)}"
 								action="#{MBRetiradaGraficoAnual.exibirGraficoPersonalizado}"
 								rendered="#{MBRetiradaGraficoAnual.lineModel == null and 
@@ -115,7 +115,7 @@
 								update="pnlGrafico pnlComandos pnlTipoGrafico  pnlGraficoLinha 
 							pnlEscolha outDataPersonalizada outEscolha" />
 
-							<p:commandButton value="Limpar Gráfico"
+							<p:commandButton value="Limpar Gráfico" id="btnLimpar"
 								action="#{MBRetiradaGrafico.limparGrafico}"
 								actionListener="#{MBRetiradaGraficoAnual.limparGrafico}"
 								rendered="#{MBRetiradaGraficoAnual.lineModel != null and 
