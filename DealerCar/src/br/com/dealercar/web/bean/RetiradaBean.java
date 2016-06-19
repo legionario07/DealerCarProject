@@ -81,6 +81,31 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	private String tipoDeDadosGraficos;
 	private Retirada retiradaImpressao;
 
+	public RetiradaBean() {
+		// escolhe o Command corretamente de acordo com a operacao
+		ICommand command = mapConducaoCommands.get("LISTAR");
+
+		Resultado resultado = new Resultado();
+
+		resultado = command.execute(new Reserva());
+		if (resultado != null) {
+			listaReservas = resultado.getEntidades();
+		}
+
+		resultado = command.execute(new Seguro());
+		if (resultado != null) {
+			listaSeguros = resultado.getEntidades();
+		}
+		
+		
+		command = mapCommands.get("LISTAR");
+
+		resultado = command.execute(new TipoSeguro());
+		if (resultado != null) {
+			listaTipoSeguros = resultado.getEntidades();
+		}
+	}
+
 	public Retirada getRetirada() {
 		return retirada;
 	}
@@ -148,7 +173,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	public boolean isSelectGps() {
 		return selectGps;
 	}
-
 
 	public void setSelectGps(boolean selectGps) {
 		this.selectGps = selectGps;
@@ -311,30 +335,18 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			listaRetirada = resultado.getEntidades();
 		}
 
-		resultado = command.execute(new Reserva());
-		if (resultado != null) {
-			listaReservas = resultado.getEntidades();
-		}
 
 		resultado = command.execute(new Modelo());
 		if (resultado != null) {
 			listaModelosDisponiveis = resultado.getEntidades();
 		}
 
-		resultado = command.execute(new Seguro());
-		if (resultado != null) {
-			listaSeguros = resultado.getEntidades();
-		}
 
 		command = mapCommands.get("LISTAR");
 
 		resultado = command.execute(new Cliente());
 		if (resultado != null) {
 			listaClientes = resultado.getEntidades();
-		}
-		resultado = command.execute(new TipoSeguro());
-		if (resultado != null) {
-			listaTipoSeguros = resultado.getEntidades();
 		}
 
 		setTotalRetiradas(listaRetirada.size());
@@ -401,7 +413,6 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 	 * Efetua a retirada validando os itens selecionados na VIEW
 	 */
 	public void executar() {
-		
 
 		// recebe a operacao a ser realizada
 		String operacao = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("param");
@@ -409,45 +420,45 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		// escolhe o Command corretamente de acordo com a operacao
 		ICommand command = mapConducaoCommands.get("CONSULTAR");
 		Resultado resultado = new Resultado();
-		
-		if (bebeConforto.getCodigo()==0)
+
+		if (bebeConforto.getCodigo() == 0)
 			bebeConforto.setCodigo(99);
 
-		if (cadeirinhaBebe.getCodigo()==0)
+		if (cadeirinhaBebe.getCodigo() == 0)
 			cadeirinhaBebe.setCodigo(99);
-		
+
 		if (gps.getCodigo() == 0)
 			gps.setCodigo(99);
-		
-		if (radioPlayer.getCodigo() == 0 )
+
+		if (radioPlayer.getCodigo() == 0)
 			radioPlayer.setCodigo(99);
-		
+
 		this.retirada.getOpcional().getItens().add(bebeConforto);
 		this.retirada.getOpcional().getItens().add(cadeirinhaBebe);
 		this.retirada.getOpcional().getItens().add(gps);
 		this.retirada.getOpcional().getItens().add(radioPlayer);
-		
+
 		resultado = command.execute(this.retirada.getOpcional().getSeguro());
-		//pesquisando o seguro e o tipo de seguro escolhido
+		// pesquisando o seguro e o tipo de seguro escolhido
 		this.retirada.getOpcional().setSeguro((Seguro) resultado.getEntidades().get(0));
-		//localizando o ultimo Opcional Cadastrado e setando na Retirada
-		
+		// localizando o ultimo Opcional Cadastrado e setando na Retirada
+
 		command = mapConducaoCommands.get(operacao);
 		resultado = command.execute(this.retirada.getOpcional());
-		
+
 		command = mapConducaoCommands.get("LISTAR");
 		resultado = command.execute(new Opcional());
-		
-		this.retirada.setOpcional((Opcional) resultado.getEntidades().get(resultado.getEntidades().size()-1));
-		
-		//Recebendo o funcionario Logado
+
+		this.retirada.setOpcional((Opcional) resultado.getEntidades().get(resultado.getEntidades().size() - 1));
+
+		// Recebendo o funcionario Logado
 		Funcionario funcionario = new Funcionario();
-		funcionario  = (Funcionario) SessionUtil.getParam("usuarioLogado");
+		funcionario = (Funcionario) SessionUtil.getParam("usuarioLogado");
 		this.retirada.setFuncionario(funcionario);
 
 		// Pegando a data atual da Retirada
 		this.retirada.setDataRetirada(DataUtil.pegarDataAtualDoSistema());
-		
+
 		// setando retirada como ativa
 		this.retirada.setEhAtivo(true);
 
@@ -456,30 +467,29 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 
 		command = mapConducaoCommands.get("LISTAR");
 		resultado = command.execute(new Retirada());
-		
+
 		List<EntidadeDominio> retiradas = new ArrayList<EntidadeDominio>();
-		if(resultado!= null) {
+		if (resultado != null) {
 			retiradas = resultado.getEntidades();
-			//pega a ultima retirada cadastrada no BD, limpa a Lista e armazena apenas a ultima
-			this.retirada = (Retirada) retiradas.get(retiradas.size()-1);
-			//retiradas.clear();
-			//retiradas.add(retirada);
+			// pega a ultima retirada cadastrada no BD, limpa a Lista e armazena
+			// apenas a ultima
+			this.retirada = (Retirada) retiradas.get(retiradas.size() - 1);
+			// retiradas.clear();
+			// retiradas.add(retirada);
 		}
-		
-		File jasper = new File(
-				FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Relatorios/relatorioRetirada.jasper"));
+
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/Relatorios/relatorioRetirada.jasper"));
 		SessionUtil.remove("objetoRelatorio");
 		SessionUtil.setParam("objetoRelatorio", this.retirada);
 		SessionUtil.setParam("url", jasper);
-
 
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("imprimerelatorio.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	/**
@@ -492,17 +502,17 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 		ICommand command = mapConducaoCommands.get("CONSULTAR");
 		Resultado resultado = new Resultado();
 
-		//retorna uma lista com todos os clientes com locação no mommento
+		// retorna uma lista com todos os clientes com locação no mommento
 		resultado = command.execute(this.retirada.getCliente());
 		if (resultado.getEntidades().get(0) != null) {
 			retiradaRetorno = (Retirada) resultado.getEntidades().get(0);
 		}
 
-		//Verifica se o CPF digitado na view tem alguma locação
-			if (this.retirada.getCliente().getCPF().equals(retiradaRetorno.getCliente().getCPF())) {
-				JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
-				return;
-			}
+		// Verifica se o CPF digitado na view tem alguma locação
+		if (this.retirada.getCliente().getCPF().equals(retiradaRetorno.getCliente().getCPF())) {
+			JSFUtil.adicionarMensagemErro("Este cliente já tem uma Locação Ativa!");
+			return;
+		}
 
 		// Se o cliente não tem pendencia abre o <p:Dialog>
 		org.primefaces.context.RequestContext.getCurrentInstance().execute("PF('dlgEfetuarRetirada').show();");
@@ -532,7 +542,7 @@ public class RetiradaBean extends AbstractBean implements Serializable {
 			return;
 		} else {
 			this.retirada.setCliente(new Cliente());
-			JSFUtil.adicionarMensagemErro("Este Cliente não esta Cadastrado");	
+			JSFUtil.adicionarMensagemErro("Este Cliente não esta Cadastrado");
 		}
 
 	}

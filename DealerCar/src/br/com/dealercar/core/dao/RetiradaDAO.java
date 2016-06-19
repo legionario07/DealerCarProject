@@ -38,7 +38,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 	 * Cadastra um Objeto Retirada no Banco de Dados
 	 */
 	@Override
-	public void cadastrar(EntidadeDominio entidade) {
+	public synchronized void cadastrar(EntidadeDominio entidade) {
 		
 		if(!(entidade instanceof Retirada))
 			return;
@@ -123,7 +123,7 @@ public class RetiradaDAO implements IDAO, Serializable {
 	 * carro ainda nao foi devolvido False = O carro já foi deolvido
 	 */
 	@Override
-	public void editar(EntidadeDominio entidade) {
+	public synchronized void editar(EntidadeDominio entidade) {
 		
 		if(!(entidade instanceof Retirada))
 			return;

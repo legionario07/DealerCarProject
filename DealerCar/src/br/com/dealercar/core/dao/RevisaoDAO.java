@@ -49,7 +49,7 @@ public class RevisaoDAO implements IDAO, Serializable {
 	 * Cadastra uma revisao no BD
 	 */
 	@Override
-	public void cadastrar(EntidadeDominio entidade) {
+	public synchronized void cadastrar(EntidadeDominio entidade) {
 
 		if (!(entidade instanceof Revisao))
 			return;

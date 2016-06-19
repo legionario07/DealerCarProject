@@ -40,7 +40,7 @@ public class ReservaDAO extends AbstractPesquisaDAO implements Serializable {
 	 *            Recebe um reserva e cadastra no Banco de Dados
 	 * 
 	 */
-	public void cadastrar(EntidadeDominio entidade) {
+	public synchronized void cadastrar(EntidadeDominio entidade) {
 
 		if(!(entidade instanceof Reserva))
 			return;

@@ -37,10 +37,10 @@ public class ValidaDevolucao implements IValidacaoStrategy {
 				return retorno.toString();
 			}
 
-			if (devolucao.getRetirada().getCarro().getPlaca().equals("")) {
-				retorno.append("O Carro deve ser Preenchido");
-				return retorno.toString();
-			}
+//			if (devolucao.getRetirada().getCarro().getPlaca().equals("")) {
+//				retorno.append("O Carro deve ser Preenchido");
+//				return retorno.toString();
+//			}
 
 		} else {
 			return null;

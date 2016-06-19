@@ -79,7 +79,7 @@
 						</p:selectManyCheckbox>
 
 						<h:panelGrid columns="2">
-							<p:commandButton value="Efetuar Devolução"
+							<p:commandButton value="Efetuar Devolução" id="btnEfetuarDevolucao"
 								actionListener="#{MBDevolucao.prepararDevolucao}"
 								onclick="PF('dlgDevolucaoEfetuar').show();"
 								rendered="#{MBDevolucao.devolucao.retirada.id >0}"
@@ -93,7 +93,7 @@
 		</p:tabView>
 
 		<!-- Caixa de Dialogo Efetuar Devolução-->
-		<p:dialog widgetVar="dlgDevolucaoEfetuar" closable="false"
+		<p:dialog widgetVar="dlgDevolucaoEfetuar" closable="false" id="dlgDevolucao"
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Efetuar Devolução">
 
@@ -106,6 +106,7 @@
 
 					<h:outputText value="Quilometragem*: " />
 					<p:inputMask value="#{MBDevolucao.devolucao.quilometragem}"
+					id="txtQuilometragem"
 						required="true" mask="999999"
 						requiredMessage="A quilometragem deve ser preenchida.">
 						<f:validateLength minimum="1" maximum="7" />
@@ -131,7 +132,7 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
+					<p:commandButton value="Salvar" id="btnSalvar"
 						update=":fmrDevolucao :novaDevolucao:frmDevolucaoEfetuar :msgGlobal"
 						actionListener="#{MBDevolucao.executar}"
 						action="/pages/devolucao.xhtml"

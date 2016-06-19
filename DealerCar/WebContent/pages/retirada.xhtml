@@ -31,7 +31,7 @@
 
 						<h:outputLabel value="Digite o CPF para Localizar o Cliente "
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
-						<p:inputMask mask="999.999.999-99"
+						<p:inputMask mask="999.999.999-99" id="inpCPF"
 							value="#{MBRetirada.retirada.cliente.CPF}"
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}" />
 					</h:panelGrid>
@@ -117,14 +117,14 @@
 						<p:commandButton actionListener="#{MBRetirada.pesquisarPorCPF}"
 							update="frmConsultaRetirada :msgGlobal"
 							rendered="#{MBRetirada.retirada.cliente.CPF == null}"
-							value="Pesquisar" />
+							value="Pesquisar" id="btnPesquisar"/>
 
-						<p:commandButton value="Efetuar Retirada"
+						<p:commandButton value="Efetuar Retirada" id="btnEfetuarRetirada"
 							rendered="#{MBRetirada.ehCadastrado == true}"
 							actionListener="#{MBRetirada.verificaPendenciaCliente}"
 							update="frmConsultaRetirada :frmEfetuarRetirada:pnlEfetuarRetirada :msgGlobal" />
 
-						<p:commandButton value="Limpar Pesquisa"
+						<p:commandButton value="Limpar Pesquisa" id="btnLimpar"
 							actionListener="#{MBRetirada.limparPesquisa}"
 							rendered="#{MBRetirada.ehCadastrado == true}"
 							update="frmConsultaRetirada: frmConsultaRetirada:pnlClienteDados" />
@@ -135,7 +135,7 @@
 
 
 		<!-- Caixa de Dialogo Efetuar Retirada -->
-		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="650"
+		<p:dialog widgetVar="dlgEfetuarRetirada" closable="false" width="650" id="dlgRetirada"
 			height="520" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)" header="Efetuar Retirada">
 
@@ -176,7 +176,7 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Quilometragem: *" />
-					<p:inputMask value="#{MBRetirada.retirada.quilometragem}" size="15"
+					<p:inputMask value="#{MBRetirada.retirada.quilometragem}" size="15" id="txtQuilometragem"
 						mask="999999" required="true"
 						requiredMessage="Favor informar a Quilometragem. Campo de preenchimento obrigatório">
 						<f:validateLength minimum="1" maximum="7" />
@@ -327,14 +327,14 @@
 				<br></br>
 
 				<h:panelGrid id="pnlComandosRetirada" columns="3">
-					<p:commandButton value="Efetuar Retirada"
+					<p:commandButton value="Efetuar Retirada" id="btnConfirmarRetirada"
 						actionListener="#{MBRetirada.executar}"
 						update="tabViewConsultar:frmConsultaRetirada:pnlComandos :msgGlobal"
 						oncomplete="PF('dlgEfetuarRetirada').hide();">
 						<f:param name="param" value="CADASTRAR"/>
 					</p:commandButton>
 
-					<p:commandButton value="Voltar"
+					<p:commandButton value="Voltar" id="btnVoltar"
 					actionListener="#{MBRetirada.limparObjetos}"
 						onclick="PF('dlgEfetuarRetirada').hide();" />
 				</h:panelGrid>
