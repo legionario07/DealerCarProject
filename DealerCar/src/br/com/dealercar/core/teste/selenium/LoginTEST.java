@@ -1,5 +1,7 @@
 package br.com.dealercar.core.teste.selenium;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,10 +19,11 @@ public class LoginTEST extends TEST{
 		driver = TEST.retornarDriverSeleniumChrome();
 		driver.get("http://localhost:8080/DealerCar/faces/pages/cliente.xhtml");
 		
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, 5000);
 		wait.ignoring(NoSuchElementException.class);
         wait.ignoring(StaleElementReferenceException.class);
 
+        driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
 		// Capturando os elementos de email e senha pelo atributo name
 		WebElement txtUsuario = driver.findElement(By.id("frmLogin:inpUsuario"));
 		WebElement txtSenha = driver.findElement(By.id("frmLogin:inpSenha"));

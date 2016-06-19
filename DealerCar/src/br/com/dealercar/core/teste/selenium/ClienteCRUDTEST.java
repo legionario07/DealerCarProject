@@ -8,7 +8,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -159,43 +158,18 @@ public class ClienteCRUDTEST extends TEST {
 
 		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
 		By element = By.id("frmClienteCadastrar:cidade_label");
-		clickButton(element);
+		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
+		clickButton(element, driver);
 
 		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
 
 		By element2 = By.id("frmClienteCadastrar:cidade_5");
-		clickButton(element2);
+		clickButton(element2, driver);
 
 		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
 		driver.findElement(By.id("frmClienteCadastrar:btnSALVAR")).click();
 
 	}
 
-	public static void clickButton(By element) {
-		wait = new WebDriverWait(driver,30); // espera por dez sengundos
-		wait.until(ExpectedConditions.visibilityOfElementLocated(element));
-		wait.until(ExpectedConditions.elementToBeClickable(element));
-		driver.findElement(element).click();
-	}
-	
-//	public static void editarCliente() {
-//
-//		WebElement dialogCadastrar = driver.findElement(By.id("dlgEditar"));
-//		System.out.println("Tamanho Dialogo EDITAR");
-//		System.out.println(dialogCadastrar.getSize());
-//
-//		driver.switchTo().activeElement();
-//		
-//		WebElement txtCelular = driver.findElement(By.id("frmClienteEditar:txtCelular"));
-//		wait = new WebDriverWait(driver,10); // espera por 5 sengundos
-//		
-//		txtCelular.sendKeys("");
-//		txtCelular.sendKeys("(11)99999-9999");
-//		
-//		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-//		
-//		driver.findElement(By.id("frmClienteEditar:btnEditarSalvar")).click();
-//	}
-	
 
 }
