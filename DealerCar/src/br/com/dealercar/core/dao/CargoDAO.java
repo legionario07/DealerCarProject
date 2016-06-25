@@ -52,6 +52,12 @@ public class CargoDAO implements IDAO, Serializable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -85,6 +91,12 @@ public class CargoDAO implements IDAO, Serializable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -120,6 +132,13 @@ public class CargoDAO implements IDAO, Serializable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -155,7 +174,7 @@ public class CargoDAO implements IDAO, Serializable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
+		} 
 
 		return listaCargoes;
 	}
@@ -198,8 +217,7 @@ public class CargoDAO implements IDAO, Serializable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
-
+		} 
 		return cargoRetorno;
 	}
 

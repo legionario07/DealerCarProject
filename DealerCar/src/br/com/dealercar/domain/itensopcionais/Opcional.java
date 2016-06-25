@@ -17,10 +17,12 @@ public class Opcional extends EntidadeDominio {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<Itens> itens = new ArrayList<Itens>();
-	private Seguro seguro = new Seguro();
+	private List<Itens> itens = null;
+	private Seguro seguro = null;
 
 	public Opcional() {
+		itens = new ArrayList<Itens>();
+		seguro = new Seguro();
 	}
 
 	public Opcional(int id) {

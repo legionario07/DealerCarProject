@@ -220,16 +220,14 @@ public class GraficoProdutoUtilizadoBean extends AbstractBean implements Seriali
 			produtoEscolhido = null;
 			produtosUtilizados.clear();
 			revisao = new Revisao();
-			JSFUtil.adicionarMensagemErro("Não há dados para ser Exibido");
 			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 
 		// Não houve dados disponiveis para gerar o gráfico
-		if (lista.isEmpty()) {
+		if (lista.isEmpty()||lista.size()==1) {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparObjetos();
-			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 

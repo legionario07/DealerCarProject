@@ -43,7 +43,7 @@
 							actionListener="#{MBProdutoRevisaoGrafico.gerarGraficoProduto}"
 							action="#{MBProdutoRevisaoGrafico.exibirGraficoProduto}"
 							rendered="#{MBProdutoRevisaoGrafico.graficoBarras == null}"
-							update="pnlGrafico pnlComandos :msgGlobal" />
+							update="pnlGrafico pnlComandos pnlTipoGrafico :msgGlobal" />
 
 						<p:commandButton value="Limpar Gráfico"
 							action="#{MBProdutoRevisaoGrafico.limparObjetos}"

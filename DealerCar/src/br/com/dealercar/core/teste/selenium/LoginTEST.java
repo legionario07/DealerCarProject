@@ -17,7 +17,7 @@ public class LoginTEST extends TEST{
 		WebDriverWait wait = null;
 		
 		driver = TEST.retornarDriverSeleniumChrome();
-		driver.get("http://localhost:8080/DealerCar/faces/pages/cliente.xhtml");
+		driver.get("http://localhost:8080/DealerCar/faces/pages/login.xhtml");
 		
 		wait = new WebDriverWait(driver, 5000);
 		wait.ignoring(NoSuchElementException.class);

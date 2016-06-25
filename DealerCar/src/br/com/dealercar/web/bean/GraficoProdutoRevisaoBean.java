@@ -221,21 +221,20 @@ public class GraficoProdutoRevisaoBean extends AbstractBean implements Serializa
 	 */
 	public void exibirGraficoProduto() {
 
+		
 		// Gerou erro no ActionListener
 		if (lista == null) {
 			graficoBarras = null;
 			dataFinal = null;
 			revisao = new Revisao();
 			JSFUtil.adicionarMensagemErro("Não há dados para ser Exibido");
-			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 
 		// Não houve dados disponiveis para gerar o gráficos
-		if (lista.isEmpty()) {
+		if (lista.isEmpty()||lista.size()==1) {
 			JSFUtil.adicionarMensagemErro("Não houve há Dados disponiveis para o Intervalo solicitado");
 			limparObjetos();
-			org.primefaces.context.RequestContext.getCurrentInstance().update("pnlGrafico pnlComandos pnlTipoGrafico");
 			return;
 		}
 

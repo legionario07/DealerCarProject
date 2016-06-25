@@ -109,6 +109,12 @@ public class DevolucaoDAO extends AbstractPesquisaDAO implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -207,6 +213,12 @@ public class DevolucaoDAO extends AbstractPesquisaDAO implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return lista;
@@ -415,6 +427,12 @@ public class DevolucaoDAO extends AbstractPesquisaDAO implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return lista;
