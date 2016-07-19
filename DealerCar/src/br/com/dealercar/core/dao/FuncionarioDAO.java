@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.dealercar.core.autenticacao.Funcionario;
-import br.com.dealercar.core.autenticacao.Permissao;
 import br.com.dealercar.core.autenticacao.Usuario;
 import br.com.dealercar.core.factory.Conexao;
 import br.com.dealercar.core.util.JSFUtil;
@@ -52,8 +51,8 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into funcionarios ");
 		sql.append("(nome, data_nasc, sexo, rua, numero, complemento, bairro, telefone, celular, ");
-		sql.append("id_cidade, id_cargo, salario, login, senha, id_permissao, ativo) ");
-		sql.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?), ?, ?)");
+		sql.append("id_cidade, id_cargo, salario, id_usuario, ativo) ");
+		sql.append("values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		con = Conexao.getConnection();
 
@@ -78,9 +77,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 			pstm.setInt(++i, funcionario.getEndereco().getCidade().getId());
 			pstm.setInt(++i, funcionario.getCargo().getId());
 			pstm.setDouble(++i, funcionario.getSalario());
-			pstm.setString(++i, funcionario.getUsuario().getLogin());
-			pstm.setString(++i, funcionario.getUsuario().getSenha());
-			pstm.setInt(++i, funcionario.getUsuario().getPermissao().getId());
+			pstm.setInt(++i, funcionario.getUsuario().getId());
 			pstm.setString(++i, funcionario.getUsuario().getAtivo());
 
 			pstm.executeUpdate();
@@ -111,7 +108,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		sql.append("nome = ?, data_nasc = ?, sexo = ?, ");
 		sql.append("rua = ?, numero = ?, complemento = ?, bairro = ?, ");
 		sql.append("telefone = ?, celular = ?, id_cargo = ?, salario = ?, ");
-		sql.append("id_cidade = ?, login = ?, senha = md5(?), id_permissao = ?, ativo = ? where id = ?");
+		sql.append("id_cidade = ?, id_usuario = ?, ativo = ? where id = ?");
 
 		con = Conexao.getConnection();
 
@@ -136,9 +133,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 			pstm.setInt(++i, funcionario.getCargo().getId());
 			pstm.setDouble(++i, funcionario.getSalario());
 			pstm.setInt(++i, funcionario.getEndereco().getCidade().getId());
-			pstm.setString(++i, funcionario.getUsuario().getLogin());
-			pstm.setString(++i, funcionario.getUsuario().getSenha());
-			pstm.setInt(++i, funcionario.getUsuario().getPermissao().getId());
+			pstm.setInt(++i, funcionario.getUsuario().getId());
 			pstm.setString(++i, funcionario.getUsuario().getAtivo());
 			pstm.setInt(++i, funcionario.getId());
 
@@ -233,14 +228,10 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
-				usuario.setLogin(rSet.getString("login"));
-				usuario.setSenha(rSet.getString("senha"));
+				usuario.setId(rSet.getInt("id_usuario"));
 				usuario.setAtivo(rSet.getString("ativo"));
+				usuario = new UsuarioDAO().pesquisarPorID(usuario);
 				
-				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
-				permissao = new PermissaoDAO().pesquisarPorID(permissao);
-				usuario.setPermissao(permissao);
-
 				funcionarioRetorno.setUsuario(usuario);
 
 				funcionarios.add(funcionarioRetorno);
@@ -315,13 +306,9 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
-				usuario.setLogin(rSet.getString("login"));
-				usuario.setSenha(rSet.getString("senha"));
+				usuario.setId(rSet.getInt("id_usuario"));
 				usuario.setAtivo(rSet.getString("ativo"));
-				
-				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
-				permissao = new PermissaoDAO().pesquisarPorID(permissao);
-				usuario.setPermissao(permissao);
+				usuario = new UsuarioDAO().pesquisarPorID(usuario);
 
 				funcionarioRetorno.setUsuario(usuario);
 
@@ -399,13 +386,9 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
 				Usuario usuario = new Usuario();
-				usuario.setLogin(rSet.getString("login"));
-				usuario.setSenha(rSet.getString("senha"));
+				usuario.setId(rSet.getInt("id_usuario"));
 				usuario.setAtivo(rSet.getString("ativo"));
-				
-				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
-				permissao = new PermissaoDAO().pesquisarPorID(permissao);
-				usuario.setPermissao(permissao);
+				usuario = new UsuarioDAO().pesquisarPorID(usuario);
 
 				funcionarioRetorno.setUsuario(usuario);
 
@@ -431,6 +414,7 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from funcionarios ");
+		sql.append("inner join usuarios on usuarios.id = funcionarios.id_usuario ");
 		sql.append("where login = ?");
 
 		Funcionario funcionarioRetorno = null;
@@ -475,16 +459,13 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
-				Usuario usuarioRetorno = new Usuario();
-				usuarioRetorno.setLogin(rSet.getString("login"));
-				usuarioRetorno.setSenha(rSet.getString("senha"));
-				usuarioRetorno.setAtivo(rSet.getString("ativo"));
+				Usuario usuario = new Usuario();
+				usuario.setId(rSet.getInt("id_usuario"));
+				usuario.setAtivo(rSet.getString("ativo"));
+				usuario = new UsuarioDAO().pesquisarPorID(usuario);
 				
-				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
-				permissao = new PermissaoDAO().pesquisarPorID(permissao);
-				usuarioRetorno.setPermissao(permissao);
 				
-				funcionarioRetorno.setUsuario(usuarioRetorno);
+				funcionarioRetorno.setUsuario(usuario);
 
 			}
 
@@ -507,7 +488,8 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from funcionarios ");
-		sql.append("where login = ? and senha = md5(?) and ativo = 'SIM'");
+		sql.append("inner join usuarios on usuarios.id = funcionarios.id_usuario ");
+		sql.append("where login = ? and senha = md5(?) and ativo = 'SIM'"); 
 
 
 		Funcionario funcionarioRetorno = null;
@@ -553,16 +535,12 @@ public class FuncionarioDAO extends AbstractPesquisaDAO implements Serializable 
 				
 				funcionarioRetorno.setSalario(rSet.getDouble("salario"));
 
-				Usuario usuarioRetorno = new Usuario();
-				usuarioRetorno.setLogin(rSet.getString("login"));
-				usuarioRetorno.setSenha(rSet.getString("senha"));
-				usuarioRetorno.setAtivo(rSet.getString("ativo"));
+				Usuario usuario = new Usuario();
+				usuario.setId(rSet.getInt("id_usuario"));
+				usuario.setAtivo(rSet.getString("ativo"));
+				usuario = new UsuarioDAO().pesquisarPorID(usuario);
 				
-				Permissao permissao = new Permissao(rSet.getInt("id_permissao"));
-				permissao = new PermissaoDAO().pesquisarPorID(permissao);
-				usuarioRetorno.setPermissao(permissao);
-				
-				funcionarioRetorno.setUsuario(usuarioRetorno);
+				funcionarioRetorno.setUsuario(usuario);
 
 			}
 
